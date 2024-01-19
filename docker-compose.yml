@@ -23,8 +23,8 @@ services:
       - ./docker/conf/php/php.ini:/usr/local/etc/php/php.ini
       - ./docker/conf/php/apache2.conf:/etc/apache2/apache2.conf
       - ./docker/conf/php/000-default.conf:/etc/apache2/sites-available/000-default.conf
-      - /etc/letsencrypt/archive/alfredo.kr:/etc/letsencrypt/archive/alfredo.kr
-      - /etc/letsencrypt/live/alfredo.kr:/etc/letsencrypt/live/alfredo.kr
+#      - /etc/letsencrypt/archive/alfredo.kr:/etc/letsencrypt/archive/alfredo.kr
+#      - /etc/letsencrypt/live/alfredo.kr:/etc/letsencrypt/live/alfredo.kr
     links:
       - db:mariadb
 #      - mongo:mongodb
