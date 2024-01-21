@@ -26,11 +26,9 @@
             @foreach(range(1, 7) as $key)
             <div class="card">
                 <div class="card-body">
-                    <div>
-                        <a href="{{ route('campaigns.show', 1) }}">
-                            <div class="aspect-square bg-gray-50 rounded"></div>
-                        </a>
-                    </div>
+                    <a href="{{ route('campaigns.show', 1) }}">
+                        <div class="aspect-square bg-gray-50 rounded"></div>
+                    </a>
                     <div class="my-3 flex">
                         <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
                         <div class="ml-2 font-bold">3일 남음</div>

@@ -30,11 +30,11 @@ Route::get('/brandzone/{brandzone}', function($brandzone){
 })->name('brandzone.show');
 
 Route::get('/category', function($category){
-    return  $category;
+    return view('campaign.index');
 })->name('category.index');
 
 Route::get('/category/{category}', function($category){
-   return  $category;
+   return view('campaign.index');
 })->name('category.show');
 
 Route::get('/community/free', function(){
