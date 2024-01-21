@@ -18,12 +18,12 @@ Route::get('/', function () {
 })->name('index');
 
 Route::get('/campaigns/{campaign}', function($campaign){
-    return $campaign;
+    return view('campaign.show');
 })->name('campaigns.show');
 
-Route::get('/campaigns/{campaign}/apply', function($campaign){
-    return $campaign.'/apply';
-})->name('campaigns.apply');
+Route::get('/campaigns/{campaign}/applicants', function($campaign){
+    return view('campaign.applicants');
+})->name('campaigns.applicants');
 
 Route::get('/brandzone/{brandzone}', function($brandzone){
     return $brandzone;

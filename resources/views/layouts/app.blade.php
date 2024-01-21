@@ -21,8 +21,7 @@
         <x-banner />
 
         <div class="flex flex-col min-h-screen min-h-screen">
-
-            <header class="p-5 flex container mx-auto justify-between items-baseline">
+            <header class="p-6 flex container mx-auto justify-between items-baseline">
                 <div class="flex content-center items-baseline">
                     <a href="/" class="mr-5 font-bold">REMON</a>
                     <form action="{{ route('index') }}">
@@ -97,7 +96,7 @@
                 @endif
             </header>
             <div class="border-b">
-                <div class="container mx-auto p-5">
+                <div class="container mx-auto p-6">
                     <nav>
                         <ul class="flex gap-5">
                             <li class="font-bold"><a href="{{ route('category.index') }}">전체 카테고리</a></li>
@@ -118,7 +117,7 @@
                 {{ $slot }}
             </main>
 
-            <footer class="border-t py-6">
+            <footer class="border-t px-6">
                 <div class="container mx-auto p-6">
                     <div class="md:flex md:justify-between md:items-center">
                         <div class="mr-6">
@@ -149,7 +148,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="border-t pt-6">
+                <div class="border-t p-6">
                     <div class="container mx-auto px-6">
                         <div class="lg:flex gap-6">
                             <div>
