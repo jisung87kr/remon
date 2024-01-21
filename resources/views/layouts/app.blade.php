@@ -20,7 +20,7 @@
     <body class="font-sans antialiased" x-data>
         <x-banner />
 
-        <div class="flex flex-col min-h-screen min-h-screen bg-gray-100">
+        <div class="flex flex-col min-h-screen min-h-screen">
 
             <header class="p-5 flex container mx-auto justify-between items-baseline">
                 <div class="flex content-center items-baseline">
@@ -118,8 +118,65 @@
                 {{ $slot }}
             </main>
 
-            <footer>
-                footer
+            <footer class="border-t py-6">
+                <div class="container mx-auto p-6">
+                    <div class="md:flex md:justify-between md:items-center">
+                        <div class="mr-6">
+                            <a href="" class="text-[20px] text-gray-500">REMON</a>
+                            <div class="text-gray-500 text-sm">
+                                <div>
+                                    <span>레몬</span><span class="mx-2">|</span><span>대표이사 : 홍길동</span><span class="mx-2">|</span><span>개인정보 보호 최고책임자 : 홍길동</span>
+                                </div>
+                                <div>
+                                    <span>사업자등록번호: 000-00-00000</span><span class="mx-2">|</span><span>통신판매신고업번호 제0000-서울강남-00000호</span>
+                                </div>
+                                <div>
+                                    <span>주소: 강원도 춘천시 0000000</span>
+                                </div>
+                                <div>
+                                    <span>메일: help@remon.com</span><span class="mx-2">|</span><span>전화: 0000-0000</span><span class="mx-2">|</span><span>팩스: 00-000-0000</span>
+                                </div>
+                            </div>
+                            <div class="mt-6 font-bold">
+                                @REMON. All Rights Reserved.
+                            </div>
+                        </div>
+                        <div class="text-right mt-3 md:mt-0">
+                            <div>
+                                <a href="" class="text-gray-800 font-bold text-[28px]">0000-0000</a>
+                            </div>
+                            <small>월-금 09:00-18:00 / 주말,공휴일 제외</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t pt-6">
+                    <div class="container mx-auto px-6">
+                        <div class="lg:flex gap-6">
+                            <div>
+                                <a href="" class="pr-2 text-gray-500">레몬소개</a>
+                                <a href="" class="pr-2 text-gray-500">이용약관</a>
+                                <a href="" class="pr-2 text-gray-500 font-bold">개인정보처리방침</a>
+                                <a href="" class="pr-2 text-gray-500">위치기반서비스이용약관</a>
+                                <a href="" class="pr-2 text-gray-500">운영정책</a>
+                            </div>
+                            <span class="hidden lg:block text-gray-300">|</span>
+                            <div class="mt-6 lg:mt-0 lg:flex gap-6">
+                                <div class="flex gap-3">
+                                    <div class="text-gray-500">Influencer</div>
+                                    <div class="font-bold">1,000,000</div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="text-gray-500">Campaign</div>
+                                    <div class="font-bold">1,000,000</div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="text-gray-500">Contents</div>
+                                    <div class="font-bold">1,000,000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </footer>
         </div>
 
