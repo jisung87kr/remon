@@ -26,9 +26,17 @@
             @foreach(range(1, 7) as $key)
             <div class="card">
                 <div class="card-body">
-                    <a href="{{ route('campaigns.show', 1) }}">
-                        <div class="aspect-square bg-gray-50 rounded"></div>
-                    </a>
+                    <div class="relative">
+                        <a href="{{ route('campaigns.show', 1) }}" class="overflow-hidden rounded block">
+                            <img src="https://placeholder.co/300x300" alt="">
+                        </a>
+                        <button class="absolute right-3 top-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+                            </svg>
+                        </button>
+                    </div>
                     <div class="my-3 flex">
                         <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
                         <div class="ml-2 font-bold">3일 남음</div>
@@ -62,8 +70,16 @@
                     <div class="mt-10">
                         @foreach(range(1, 3) as $key2)
                             <a href="{{ route('campaigns.show', 1) }}" class="flex my-3">
-                                <div class="shrink-0 mr-3">
-                                    <div class="aspect-square bg-gray-50 w-[90px]"></div>
+                                <div class="shrink-0 mr-3 w-[100px]">
+                                    <div class="relative">
+                                        <img src="https://placeholder.co/300x300" alt="" class="w-full overflow-hidden rounded block">
+                                        <button class="absolute right-2 top-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div>
                                     <div class="mb-2 flex">
@@ -109,6 +125,12 @@
                                 <div class="relative">
                                     <div class="absolute left-0 top-0 bg-gray-900 opacity-75 w-full h-full"></div>
                                     <img src="https://files.weble.net/campaign/data/868930/thumb200.jpg?bust=1705817017068" alt="">
+                                    <button class="absolute right-3 top-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+                                        </svg>
+                                    </button>
                                 </div>
                                 <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0">
                                     <div>미리찝하고</div>

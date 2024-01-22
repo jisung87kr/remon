@@ -28,7 +28,7 @@
                         <div class="relative">
                             <input type="text"
                                    name="search"
-                                   class="block w-full p-4 pe-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                                   class="block w-[260px] p-4 pe-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                                    placeholder="원하는 캠페인을 검색해보세요" value="{{ request()->input('search') }}">
                             <div class="absolute inset-y-0 end-0 flex items-center pe-3">
                                 <button type="submit">
@@ -70,7 +70,19 @@
                                 </div>
 
                                 <x-dropdown-link href="{{ route('mypage.campaigns') }}">
-                                    {{ __('마이페이지') }}
+                                    {{ __('나의 캠페인') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link href="{{ route('mypage.favorites') }}">
+                                    {{ __('관심 캠페인') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link href="{{ route('mypage.point') }}">
+                                    {{ __('나의 포인트') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link href="{{ route('mypage.media') }}">
+                                    {{ __('미디어 연결') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link href="{{ route('mypage.profile') }}">
+                                    {{ __('내 정보') }}
                                 </x-dropdown-link>
 
 
@@ -99,14 +111,14 @@
                 <div class="container mx-auto p-6">
                     <nav>
                         <ul class="flex gap-5">
-                            <li class="font-bold"><a href="{{ route('category.index') }}">전체 카테고리</a></li>
-                            <li class="font-bold"><a href="{{ route('category.index') }}">오늘오픈</a></li>
-                            <li class="font-bold"><a href="{{ route('category.index') }}">제품별</a></li>
-                            <li class="font-bold"><a href="{{ route('category.index') }}">지역별</a></li>
-                            <li class="font-bold"><a href="{{ route('event') }}">이벤트</a></li>
-                            <li class="font-bold"><a href="{{ route('community.free') }}">커뮤니티</a></li>
-                            <li class="font-bold"><a href="{{ route('help.faq') }}">고객센터</a></li>
-                            <li class="font-bold"><a href="{{ route('help.contact') }}">광고문의</a></li>
+                            <li class="font-bold"><a href="{{ route('category.show', '전체') }}" class="{{ request()->routeIs('category.index') ? 'text-indigo-500' : '' }}">전체 카테고리</a></li>
+                            <li class="font-bold"><a href="{{ route('category.show', '오늘오픈') }}" class="{{ request()->routeIs('category.index') ? 'text-indigo-500' : '' }}">오늘오픈</a></li>
+                            <li class="font-bold"><a href="{{ route('category.show', '제품별') }}" class="{{ request()->routeIs('category.index') ? 'text-indigo-500' : '' }}">제품별</a></li>
+                            <li class="font-bold"><a href="{{ route('category.show', '지역별') }}" class="{{ request()->routeIs('category.index') ? 'text-indigo-500' : '' }}">지역별</a></li>
+                            <li class="font-bold"><a href="{{ route('event') }}" class="{{ request()->routeIs('event') ? 'text-indigo-500' : '' }}">이벤트</a></li>
+                            <li class="font-bold"><a href="{{ route('community.free') }}" class="{{ request()->routeIs('community.free') ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
+                            <li class="font-bold"><a href="{{ route('help.inquiry') }}" class="{{ request()->routeIs('help.inquiry') ? 'text-indigo-500' : '' }}">고객센터</a></li>
+                            <li class="font-bold"><a href="{{ route('help.contact') }}" class="{{ request()->routeIs('help.contact') ? 'text-indigo-500' : '' }}">광고문의</a></li>
                         </ul>
                     </nav>
                 </div>

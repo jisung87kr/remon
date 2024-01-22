@@ -1,20 +1,13 @@
 <x-app-layout>
+    <section id="hero" class="bg-red-50 flex items-center mb-10" style="height: 400px">
+        <div class="container mx-auto  p-6">
+            <div class="text-[32px] font-bold mb-6">베베숲</div>
+            <div>아기 피부를 위한 초고의 선택, 베베숲</div>
+        </div>
+    </section>
     <section id="popular_campaign" class="container mx-auto p-6">
-        <h1 class="text-2xl font-bold mb-3">제품 캠페인</h1>
-
+        <h1 class="text-2xl font-bold mb-3">베베숲의 캠페인</h1>
         <form action="">
-            <div class="my-10 border-b flex">
-                <a href="{{ route("category.show", '전체') }}" class="block px-4 py-2 border-b-2 border-indigo-400">전체</a>
-                <a href="{{ route("category.show", '서비스') }}" class="block px-4 py-2">서비스</a>
-                <a href="{{ route("category.show", '유아동') }}" class="block px-4 py-2">유아동</a>
-                <a href="{{ route("category.show", '디지털') }}" class="block px-4 py-2">디지털</a>
-                <a href="{{ route("category.show", '뷰티') }}" class="block px-4 py-2">뷰티</a>
-                <a href="{{ route("category.show", '패션') }}" class="block px-4 py-2">패션</a>
-                <a href="{{ route("category.show", '도서') }}" class="block px-4 py-2">도서</a>
-                <a href="{{ route("category.show", '식품') }}" class="block px-4 py-2">식품</a>
-                <a href="{{ route("category.show", '반려동물') }}" class="block px-4 py-2">반려동물</a>
-            </div>
-
             <div class="flex gap-3 mb-6 justify-end">
                 <a href="" class="border rounded-2xl px-3 py-1 text-sm">블로그</a>
                 <a href="" class="border rounded-2xl px-3 py-1 text-sm">인스타그램</a>
@@ -102,6 +95,32 @@
                     </div>
                 </div>
             </div>
+            @endforeach
+        </div>
+    </section>
+
+    <section id="best_campaign" class="container mx-auto my-12 p-6">
+        <h1 class="text-2xl font-bold mb-3">베베숲의 콘텐츠</h1>
+        <div class="grid grid-cols-3 xl:grid-cols-5 gap-6">
+            @foreach(range(1, 5) as $key)
+                <a href="">
+                    <div class="rounded overflow-hidden">
+                        <img src="https://placehold.co/400x300" alt="">
+                    </div>
+                    <div class="my-3">
+                        <div class="mb-2">기분 좋은 사색으로의 여행</div>
+                        <div class="text-xs text-gray-500">[경주] 사색공간 풀빌라</div>
+                    </div>
+                    <div class="flex items-center border-t mt-6 py-3">
+                        <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="" class="w-[20px]">
+                        <div class="flex items-center">
+                            <div class="mx-3 border-l pl-3">
+                                <img src="https://placeholder.co/20x20" alt="" class="rounded-full">
+                            </div>
+                            <div class="text-xs">부르르르르</div>
+                        </div>
+                    </div>
+                </a>
             @endforeach
         </div>
     </section>

@@ -26,7 +26,7 @@ Route::get('/campaigns/{campaign}/applicants', function($campaign){
 })->name('campaigns.applicants');
 
 Route::get('/brandzone/{brandzone}', function($brandzone){
-    return $brandzone;
+    return view('campaign.brandzone');
 })->name('brandzone.show');
 
 Route::get('/category', function($category){
@@ -64,10 +64,6 @@ Route::get('/help/inquiry', function(){
 Route::get('/help/guide', function(){
     return view('help.guide');
 })->name('help.guide');
-
-Route::get('/help/faq', function(){
-    return view('help.faq');
-})->name('help.faq');
 
 Route::get('/help/contact', function(){
     return view('help.contact');
