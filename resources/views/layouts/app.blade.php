@@ -69,7 +69,7 @@
                                     {{ __('Manage Account') }}
                                 </div>
 
-                                <x-dropdown-link href="{{ route('mypage') }}">
+                                <x-dropdown-link href="{{ route('mypage.campaigns') }}">
                                     {{ __('마이페이지') }}
                                 </x-dropdown-link>
 

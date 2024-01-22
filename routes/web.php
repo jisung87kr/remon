@@ -61,6 +61,10 @@ Route::get('/help/inquiry', function(){
     return 'help/inquiry';
 })->name('help.inquiry');
 
+Route::get('/help/guide', function(){
+    return 'help/guide';
+})->name('help.guide');
+
 Route::get('/help/faq', function(){
     return 'help.faq';
 })->name('help.faq');
@@ -69,37 +73,41 @@ Route::get('/help/contact', function(){
     return 'help.contact';
 })->name('help.contact');
 
-Route::prefix('/mypage')->name('maypage.')->group(function(){
+Route::prefix('/mypage')->name('mypage.')->group(function(){
     Route::get('/campaigns', function(){
-        return '/maypage/campaigns';
+        return view('mypage.campaigns');
     })->name('campaigns');
 
+    Route::get('/favorites', function(){
+        return view('mypage.favorites');
+    })->name('favorites');
+
     Route::get('/reviews', function(){
-       return '/mypage/reviews';
+        return view('mypage.reviews');
     })->name('reviews');
 
     Route::get('/messages', function(){
-        return '/mypage/messages';
+        return view('mypage.messages');
     })->name('messages');
 
     Route::get('/profile', function(){
-        return '/mypage/profile';
+        return view('mypage.profile');
     })->name('profile');
 
     Route::get('/profile/information', function(){
-        return '/mypage/profile/information';
+        return view('mypage.profile-information');
     })->name('profile.information');
 
     Route::get('/media', function(){
-        return '/mypage/media';
+        return view('mypage.media');
     })->name('media');
 
     Route::get('/penalty', function(){
-        return '/mypage/penalty';
+        return view('mypage.panalty');
     })->name('penalty');
 
     Route::get('/point', function(){
-        return '/mypage/point';
+        return view('mypage.point');
     })->name('point');
 });
 
