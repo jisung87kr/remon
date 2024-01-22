@@ -33,7 +33,7 @@ Route::get('/category', function($category){
     return view('campaign.index');
 })->name('category.index');
 
-Route::get('/category/{category}', function($category){
+Route::get('/category/{name:name}', function(\App\Models\Category $name){
    return view('campaign.index');
 })->name('category.show');
 
