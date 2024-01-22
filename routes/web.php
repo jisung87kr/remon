@@ -38,23 +38,23 @@ Route::get('/category/{category}', function($category){
 })->name('category.show');
 
 Route::get('/community/free', function(){
-    return 'community/free';
+    return view('community.free');
 })->name('community.free');
 
 Route::get('/community/guide', function(){
-    return 'community/guide';
+    return view('community.guide');
 })->name('community.guide');
 
 Route::get('/community/neighbor', function(){
-    return 'community/neighbor';
+    return view('community.neighbor');
 })->name('community.neighbor');
 
 Route::get('/event', function(){
-   return 'event';
+    return view('community.event');
 })->name('event');
 
 Route::get('/help/notice', function(){
-    return 'help/notice';
+    return view('help.notice');
 })->name('help.notice');
 
 Route::get('/help/inquiry', function(){
@@ -62,15 +62,15 @@ Route::get('/help/inquiry', function(){
 })->name('help.inquiry');
 
 Route::get('/help/guide', function(){
-    return 'help/guide';
+    return view('help.guide');
 })->name('help.guide');
 
 Route::get('/help/faq', function(){
-    return 'help.faq';
+    return view('help.faq');
 })->name('help.faq');
 
 Route::get('/help/contact', function(){
-    return 'help.contact';
+    return view('help.contact');
 })->name('help.contact');
 
 Route::prefix('/mypage')->name('mypage.')->group(function(){
