@@ -58,7 +58,7 @@ Route::get('/help/notice', function(){
 })->name('help.notice');
 
 Route::get('/help/inquiry', function(){
-    return 'help/inquiry';
+    return view('help.inquiry');
 })->name('help.inquiry');
 
 Route::get('/help/guide', function(){
