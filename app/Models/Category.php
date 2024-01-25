@@ -21,6 +21,11 @@ class Category extends Model
         return $this->belongsTo(Category::class, 'parent_id', 'id');
     }
 
+    public function campagins()
+    {
+        return $this->morphedByMany(Campaign::class, 'categoryable');
+    }
+
     public function getRouteKey()
     {
         return $this->name;
