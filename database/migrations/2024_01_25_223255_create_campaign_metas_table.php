@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('campagin_metas', function (Blueprint $table) {
+        Schema::create('campaign_metas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('campaign_id')->constrained()->onDelete('cascade');
             $table->string('meta_key');
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('campagin_metas');
+        Schema::dropIfExists('campaign_metas');
     }
 };

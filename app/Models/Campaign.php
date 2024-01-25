@@ -60,11 +60,11 @@ class Campaign extends Model
 
     public function media()
     {
-        return $this->hasMany(CampaginMeta::class)->where("meta_key", Meta::MEDIA)->from('campagin_metas');
+        return $this->hasMany(CampaignMeta::class)->where("meta_key", Meta::MEDIA)->from('campaign_metas');
     }
 
     public function metas()
     {
-        return $this->hasMany(CampaginMeta::class);
+        return $this->hasMany(CampaignMeta::class);
     }
 }
