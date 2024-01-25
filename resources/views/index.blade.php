@@ -23,11 +23,11 @@
     <section id="popular_campaign" class="container mx-auto p-6">
         <h1 class="text-2xl font-bold mb-3">지금 인기 캠페인</h1>
         <div class="grid grid-cols-3 gap-6 xl:grid-cols-7">
-            @foreach(range(1, 7) as $key)
+            @foreach($bestCampaigns as $key => $campaign)
             <div class="card">
                 <div class="card-body">
                     <div class="relative">
-                        <a href="{{ route('campaigns.show', 1) }}" class="overflow-hidden rounded block">
+                        <a href="{{ route('campaigns.show', $campaign) }}" class="overflow-hidden rounded block">
                             <img src="https://placeholder.co/300x300" alt="">
                         </a>
                         <button class="absolute right-3 top-3">
@@ -39,14 +39,14 @@
                     </div>
                     <div class="my-3 flex">
                         <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
-                        <div class="ml-2 font-bold">3일 남음</div>
+                        <div class="ml-2 font-bold">{{ $campaign->application_end_at->diffForHumans() }} 마감</div>
                     </div>
                     <div>
-                        <div>[전국] 명륜진사갈비</div>
-                        <small class="text-gray-500">4만원 이용권</small>
+                        <div>[전국] {{ $campaign->product_name }}</div>
+                        <small class="text-gray-500 line-clamp-2">{{ $campaign->benefit }}</small>
                     </div>
                     <div class="my-2">
-                        <small>신청 3,000</small><small class="text-gray-500"> / </small><small class="text-gray-500">100명</small>
+                        <small>신청 3,000</small><small class="text-gray-500"> / </small><small class="text-gray-500">{{ number_format($campaign->application_limit) }}명</small>
                     </div>
                     <div class="flex gap-1">
                         <div class="p-1 text-xs border text-gray-600">예약없음</div>

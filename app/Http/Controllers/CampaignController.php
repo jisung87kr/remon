@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Campaign;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CampaignController extends Controller
@@ -36,7 +37,8 @@ class CampaignController extends Controller
      */
     public function show(Campaign $campaign)
     {
-        //
+//        dd($campaign->attributes);
+        return view('campaign.show', compact('campaign'));
     }
 
     /**

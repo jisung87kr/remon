@@ -27,7 +27,8 @@ return new class extends Migration
             $table->dateTime('registration_start_date_at')->comment('콘텐츠 등록기간 시작일');
             $table->dateTime('registration_end_date_at')->comment('콘텐츠 등록기간 마감일');
             $table->dateTime('result_announcement_date_at')->comment('캠페인 결과발표일');
-            $table->string('status')->default('DRAFT')->comment('캠페인 상');
+            $table->string('status')->default('DRAFT')->comment('캠페인 상태');
+            $table->integer('application_limit')->default(0)->comment('모집인원');
             $table->timestamps();
         });
     }

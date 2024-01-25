@@ -42,6 +42,7 @@ class CampaignFactory extends Factory
             'registration_end_date_at' => $registrationEndDateAt,
             'result_announcement_date_at' => $resultAnnouncementDateAt,
             'status' => $status[$randomKey],
+            'application_limit' => mt_rand(10, 100),
         ];
     }
 }
