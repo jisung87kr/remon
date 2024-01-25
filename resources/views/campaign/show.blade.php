@@ -3,17 +3,32 @@
         <div class="grid grid-cols-8 gap-6 relative">
             <div class="col-span-8 lg:col-span-6 lg:border-r lg:pr-6">
                 <div>
-                    <h1 class="font-bold text-[32px] my-3">[전국] 명륜진사갈비</h1>
-                    <div class="font-bold text-gray-500">확-달라진 명륜진사갈비 NEW버전을 소개해주세요!</div>
+                    <h1 class="font-bold text-[32px] my-3">[{{ $campaign->locations[0]->name }}] {{ $campaign->product_name }}</h1>
+                    <div class="font-bold text-gray-500">{{ $campaign->title }}</div>
                     <div class="flex gap-3 mt-3">
-                        <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
-                        <div class="p-1 text-xs border text-gray-600">예약없음</div>
+                        @foreach($campaign->media as $media)
+                            @switch($media->meta_value)
+                                @case(App\Enums\Campaign\Media::NAVER_BLOG->value)
+                                    <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
+                                    @break
+                                @case(App\Enums\Campaign\Media::INSTAGRAM->value)
+                                    <img src="{{ Vite::asset('resources/images/media/instagram.svg') }}" alt="">
+                                    @break
+                                @case(App\Enums\Campaign\Media::YOUTUBE->value)
+                                    <img src="{{ Vite::asset('resources/images/media/youtube.svg') }}" alt="">
+                                    @break
+                            @endswitch
+                        @endforeach
+
+                        @foreach($campaign->options as $option)
+                        <div class="p-1 text-xs border text-gray-600">{{ $option->name }}</div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="mt-6 border-b mb-6 flex">
                     <a href="{{ route('campaigns.show', 1) }}" class="block px-5 py-3 border-b-2 border-indigo-400 font-bold">캠페인 정보</a>
                     <a href="{{ route('campaigns.applicants', 1) }}" class="block px-5 py-3 text-gray-500">
-                        <span>신청자 </span><span class="font-bold">4,000</span><span>/</span><span>100</span>
+                        <span>신청자 </span><span class="font-bold">4,000</span><span>/</span><span>{{ number_format($campaign->application_limit) }}</span>
                     </a>
                 </div>
                 <div>
@@ -30,25 +45,32 @@
                         </svg>
                     </button>
                     <div>
-                        <div class="flex py-6">
+                        <div class="flex py-6" id="benefit">
                             <div class="shrink-0 w-[160px] font-bold mr-3">제공 내역</div>
-                            <div class="w-full border-b pb-6">내용 ~</div>
+                            <div class="w-full border-b pb-6">{{ $campaign->benefit }}</div>
                         </div>
-                        <div class="flex py-6">
+                        <div class="flex py-6" id="visit_instruction">
                             <div class="shrink-0 w-[160px] font-bold mr-3">방문 및 예약안내</div>
-                            <div class="w-full border-b pb-6">내용 ~</div>
+                            <div class="w-full border-b pb-6">{{ $campaign->visit_instruction }}</div>
                         </div>
-                        <div class="flex py-6">
+                        <div class="flex py-6" id="mission">
                             <div class="shrink-0 w-[160px] font-bold mr-3">캠페인 미션</div>
-                            <div class="w-full border-b pb-6">내용 ~</div>
+                            <div class="w-full border-b pb-6">
+                                <ul class="flex gap-x-3 mb-3">
+                                    @foreach($campaign->missions as $mission)
+                                    <li>{{ $mission->name }}</li>
+                                    @endforeach
+                                </ul>
+                                <div>{{ $campaign->mission }}</div>
+                            </div>
                         </div>
-                        <div class="flex py-6">
+                        <div class="flex py-6" id="keyword">
                             <div class="shrink-0 w-[160px] font-bold mr-3">키워드</div>
                             <div class="w-full border-b pb-6">내용 ~</div>
                         </div>
-                        <div class="flex py-6">
+                        <div class="flex py-6" id="extra_information">
                             <div class="shrink-0 w-[160px] font-bold mr-3">추가 안내사항</div>
-                            <div class="w-full pb-6">내용 ~</div>
+                            <div class="w-full pb-6">{{ $campaign->extra_information }}</div>
                         </div>
                     </div>
                 </div>
@@ -58,35 +80,35 @@
                     <div class="py-6 border-b">
                         <div class="flex font-bold my-2">
                             <div class="shrink-0 w-[110px] mr-1">캠페인 신청기간</div>
-                            <div>01.16 ~ 01.23</div>
+                            <div>{{ $campaign->application_start_at->format('m.d') }} ~ {{ $campaign->application_end_at->format('m.d') }}</div>
                         </div>
                         <div class="flex text-gray-500 my-2">
                             <div class="shrink-0 w-[110px] mr-1">인플루언서 발표</div>
-                            <div>01.16 ~ 01.23</div>
+                            <div>{{ $campaign->announcement_at->format('m.d') }}</div>
                         </div>
                         <div class="flex text-gray-500 my-2">
                             <div class="shrink-0 w-[110px] mr-1">콘텐츠 등록기간</div>
-                            <div>01.16 ~ 01.23</div>
+                            <div>{{ $campaign->registration_start_date_at->format('m.d') }} ~ {{ $campaign->registration_end_date_at->format('m.d') }}</div>
                         </div>
                         <div class="flex text-gray-500 my-2">
                             <div class="shrink-0 w-[110px] mr-1">콘텐츠 결과발표</div>
-                            <div>01.16 ~ 01.23</div>
+                            <div>{{ $campaign->result_announcement_date_at->format('m.d') }}</div>
                         </div>
                     </div>
                     <div class="hidden lg:block py-6 border-b">
-                        <a href="" class="text-gray-800">제공 내역</a>
+                        <a href="#benefit" class="text-gray-800">제공 내역</a>
                     </div>
                     <div class="hidden lg:block py-6 border-b">
-                        <a href="" class="text-gray-800">방문 및 예약안내</a>
+                        <a href="#visit_instruction" class="text-gray-800">방문 및 예약안내</a>
                     </div>
                     <div class="hidden lg:block py-6 border-b">
-                        <a href="" class="text-gray-800">캠페인 미션</a>
+                        <a href="#mission" class="text-gray-800">캠페인 미션</a>
                     </div>
                     <div class="hidden lg:block py-6 border-b">
-                        <a href="" class="text-gray-800">키워드</a>
+                        <a href="#keyword" class="text-gray-800">키워드</a>
                     </div>
                     <div class="hidden lg:block py-6 border-b">
-                        <a href="" class="text-gray-800">추가 안내사항</a>
+                        <a href="#extra_information" class="text-gray-800">추가 안내사항</a>
                     </div>
                     <div class="py-6">
                         <a href="" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">캠페인 신청하기</a>

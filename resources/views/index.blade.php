@@ -38,19 +38,32 @@
                         </button>
                     </div>
                     <div class="my-3 flex">
-                        <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
+                        @foreach($campaign->media as $media)
+                            @switch($media->meta_value)
+                                @case(App\Enums\Campaign\Media::NAVER_BLOG->value)
+                                    <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
+                                    @break
+                                @case(App\Enums\Campaign\Media::INSTAGRAM->value)
+                                    <img src="{{ Vite::asset('resources/images/media/instagram.svg') }}" alt="">
+                                    @break
+                                @case(App\Enums\Campaign\Media::YOUTUBE->value)
+                                    <img src="{{ Vite::asset('resources/images/media/youtube.svg') }}" alt="">
+                                    @break
+                            @endswitch
+                        @endforeach
                         <div class="ml-2 font-bold">{{ $campaign->application_end_at->diffForHumans() }} 마감</div>
                     </div>
                     <div>
-                        <div>[전국] {{ $campaign->product_name }}</div>
+                        <div>[{{ $campaign->locations[0]->name }}] {{ $campaign->product_name }}</div>
                         <small class="text-gray-500 line-clamp-2">{{ $campaign->benefit }}</small>
                     </div>
                     <div class="my-2">
                         <small>신청 3,000</small><small class="text-gray-500"> / </small><small class="text-gray-500">{{ number_format($campaign->application_limit) }}명</small>
                     </div>
                     <div class="flex gap-1">
-                        <div class="p-1 text-xs border text-gray-600">예약없음</div>
-                        <div class="p-1 text-xs border text-gray-600">재함여 가능</div>
+                        @foreach($campaign->options as $option)
+                        <div class="p-1 text-xs border text-gray-600">{{ $option->name }}</div>
+                        @endforeach
                     </div>
                 </div>
             </div>

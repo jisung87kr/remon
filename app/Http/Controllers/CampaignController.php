@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Campaign;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Enums\Campaign\Meta;
+use App\Enums\Campaign\Media;
 
 class CampaignController extends Controller
 {
@@ -37,7 +39,10 @@ class CampaignController extends Controller
      */
     public function show(Campaign $campaign)
     {
-//        dd($campaign->attributes);
+//        $campaign->metas()->create([
+//            'meta_key' => Meta::MEDIA,
+//            'meta_value' => Media::INSTAGRAM,
+//        ]);
         return view('campaign.show', compact('campaign'));
     }
 
