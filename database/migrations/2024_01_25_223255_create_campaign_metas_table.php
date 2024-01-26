@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('meta_key');
             $table->string('meta_value')->nullable();
             $table->timestamps();
+            $table->unique(['campaign_id', 'meta_key', 'meta_value']);
         });
     }
 
