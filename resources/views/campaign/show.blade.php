@@ -28,7 +28,7 @@
                 <div class="mt-6 border-b mb-6 flex">
                     <a href="{{ route('campaigns.show', 1) }}" class="block px-5 py-3 border-b-2 border-indigo-400 font-bold">캠페인 정보</a>
                     <a href="{{ route('campaigns.applicants', 1) }}" class="block px-5 py-3 text-gray-500">
-                        <span>신청자 </span><span class="font-bold">4,000</span><span>/</span><span>{{ number_format($campaign->application_limit) }}</span>
+                        <span>신청자 </span><span class="font-bold">4,000</span><span>/</span><span>{{ number_format($campaign->applicant_limit) }}</span>
                     </a>
                 </div>
                 <div>
@@ -77,6 +77,7 @@
                         <div class="flex py-6" id="keyword">
                             <div class="shrink-0 w-[160px] font-bold mr-3">키워드</div>
                             <div class="w-full border-b pb-6">
+                                @isset($campaign->titleKeyword[0])
                                 <div>
                                     <div class="font-bold mb-3">제목 키워드</div>
                                     <div>{{ $campaign->titleKeyword[0]->meta_value }}</div>
@@ -85,14 +86,17 @@
                                         <p>- 키워드가 지켜지지 않으면 수정요청이 있을 수 있습니다.</p>
                                     </div>
                                 </div>
+                                @endisset
+                                @isset($campaign->contentKeyword[0])
                                 <hr class="my-6">
                                 <div>
                                     <div class="font-bold mb-3">본문 키워드</div>
-                                    <div>{{ $campaign->titleKeyword[0]->meta_value }}</div>
+                                    <div>{{ $campaign->contentKeyword[0]->meta_value }}</div>
                                     <div class="text-sm text-gray-500 mt-6">
                                         <p>- 안내드린 본문키워드 중 1개 이상을 선택하여 총 5회 이상 본문에 언급해 주세요.</p>
                                     </div>
                                 </div>
+                                @endisset
                             </div>
                         </div>
                         <div class="flex py-6" id="extra_information">
@@ -118,14 +122,13 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="col-span-8 lg:col-span-2">
                 <div class="lg:sticky lg:top-0">
                     <div class="py-6 border-b">
                         <div class="flex font-bold my-2">
                             <div class="shrink-0 w-[110px] mr-1">캠페인 신청기간</div>
-                            <div>{{ $campaign->application_start_at->format('m.d') }} ~ {{ $campaign->application_end_at->format('m.d') }}</div>
+                            <div>{{ $campaign->applicant_start_at->format('m.d') }} ~ {{ $campaign->applicant_end_at->format('m.d') }}</div>
                         </div>
                         <div class="flex text-gray-500 my-2">
                             <div class="shrink-0 w-[110px] mr-1">인플루언서 발표</div>

@@ -14,8 +14,8 @@ class Campaign extends Model
 
     protected $guarded = [];
     protected $casts = [
-        'application_start_at' => 'datetime',
-        'application_end_at' => 'datetime',
+        'applicant_start_at' => 'datetime',
+        'applicant_end_at' => 'datetime',
         'announcement_at' => 'datetime',
         'registration_start_date_at' => 'datetime',
         'registration_end_date_at' => 'datetime',

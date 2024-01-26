@@ -21,14 +21,14 @@ return new class extends Migration
             $table->string('address')->nullable()->comment('주소');
             $table->text('mission')->comment('미션');
             $table->text('extra_information')->nullable()->comment('추가사항');
-            $table->dateTime('application_start_at')->comment('캠페인 신청 시작일');
-            $table->dateTime('application_end_at')->comment('캠페인 신청 마감일');
+            $table->dateTime('applicant_start_at')->comment('캠페인 신청 시작일');
+            $table->dateTime('applicant_end_at')->comment('캠페인 신청 마감일');
             $table->dateTime('announcement_at')->comment('선정결과 발표일');
             $table->dateTime('registration_start_date_at')->comment('콘텐츠 등록기간 시작일');
             $table->dateTime('registration_end_date_at')->comment('콘텐츠 등록기간 마감일');
             $table->dateTime('result_announcement_date_at')->comment('캠페인 결과발표일');
             $table->string('status')->default('DRAFT')->comment('캠페인 상태');
-            $table->integer('application_limit')->default(0)->comment('모집인원');
+            $table->integer('applicant_limit')->default(0)->comment('모집인원');
             $table->timestamps();
         });
     }

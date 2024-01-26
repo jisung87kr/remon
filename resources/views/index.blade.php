@@ -51,14 +51,14 @@
                                     @break
                             @endswitch
                         @endforeach
-                        <div class="ml-2 font-bold">{{ $campaign->application_end_at->diffForHumans() }} 마감</div>
+                        <div class="ml-2 font-bold">{{ $campaign->applicant_end_at->diffForHumans() }} 마감</div>
                     </div>
                     <div>
                         <div>[{{ $campaign->locations[0]->name }}] {{ $campaign->product_name }}</div>
                         <small class="text-gray-500 line-clamp-2">{{ $campaign->benefit }}</small>
                     </div>
                     <div class="my-2">
-                        <small>신청 3,000</small><small class="text-gray-500"> / </small><small class="text-gray-500">{{ number_format($campaign->application_limit) }}명</small>
+                        <small>신청 3,000</small><small class="text-gray-500"> / </small><small class="text-gray-500">{{ number_format($campaign->applicant_limit) }}명</small>
                     </div>
                     <div class="flex gap-1">
                         @foreach($campaign->options as $option)
