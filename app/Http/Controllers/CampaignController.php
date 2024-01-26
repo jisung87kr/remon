@@ -39,10 +39,6 @@ class CampaignController extends Controller
      */
     public function show(Campaign $campaign)
     {
-//        $campaign->metas()->create([
-//            'meta_key' => Meta::MEDIA,
-//            'meta_value' => Media::INSTAGRAM,
-//        ]);
         return view('campaign.show', compact('campaign'));
     }
 

@@ -47,7 +47,12 @@
                     <div>
                         <div class="flex py-6" id="benefit">
                             <div class="shrink-0 w-[160px] font-bold mr-3">제공 내역</div>
-                            <div class="w-full border-b pb-6">{{ $campaign->benefit }}</div>
+                            <div class="w-full border-b pb-6">
+                                {{ $campaign->benefit }}
+                                <div class="text-sm text-red-500 mt-6">
+                                    ※ 옵션 오기재로 인한 교환/취소 불가하며, 해당 사유 발생 시 관련 페널티 부과 및 배송비, 제품가 환불 요청 등이 이루어질 수 있습니다. 이 점 유의하시어 반드시 정확하게 기재 바랍니다.
+                                </div>
+                            </div>
                         </div>
                         <div class="flex py-6" id="visit_instruction">
                             <div class="shrink-0 w-[160px] font-bold mr-3">방문 및 예약안내</div>
@@ -61,12 +66,51 @@
                                     <li>{{ $mission->name }}</li>
                                     @endforeach
                                 </ul>
+                                <hr class="my-6">
                                 <div>{{ $campaign->mission }}</div>
+
+                                <div class="text-sm text-gray-500 mt-6">
+                                    <p>- 캠페인 미션이 지켜지지 않을 시 수정 요청이 있을 수 있습니다.</p>
+                                </div>
                             </div>
                         </div>
                         <div class="flex py-6" id="keyword">
                             <div class="shrink-0 w-[160px] font-bold mr-3">키워드</div>
-                            <div class="w-full border-b pb-6">내용 ~</div>
+                            <div class="w-full border-b pb-6">
+                                <div>
+                                    <div class="font-bold mb-3">제목 키워드</div>
+                                    <div>{{ $campaign->titleKeyword[0]->meta_value }}</div>
+                                    <div class="text-sm text-gray-500 mt-6">
+                                        <p>- 안내드린 제목 키워드를 콘텐츠 제목에 꼭 넣어주세요. #태그에도 넣어주시면 더욱 좋아요.</p>
+                                        <p>- 키워드가 지켜지지 않으면 수정요청이 있을 수 있습니다.</p>
+                                    </div>
+                                </div>
+                                <hr class="my-6">
+                                <div>
+                                    <div class="font-bold mb-3">본문 키워드</div>
+                                    <div>{{ $campaign->titleKeyword[0]->meta_value }}</div>
+                                    <div class="text-sm text-gray-500 mt-6">
+                                        <p>- 안내드린 본문키워드 중 1개 이상을 선택하여 총 5회 이상 본문에 언급해 주세요.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex py-6" id="extra_information">
+                            <div class="shrink-0 w-[160px] font-bold mr-3">링크</div>
+                            <div class="w-full pb-6">
+                                <div>
+                                    <ul>
+                                        @foreach($campaign->links as $link)
+                                        <li>
+                                            <a href="{{ $link->meta_value }}">{{ $link->meta_value }}</a>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <div class="text-sm text-gray-500 mt-6">
+                                    <p>- 안내드린 링크를 본문에 포함해주세요.</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="flex py-6" id="extra_information">
                             <div class="shrink-0 w-[160px] font-bold mr-3">추가 안내사항</div>
@@ -74,6 +118,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="col-span-8 lg:col-span-2">
                 <div class="lg:sticky lg:top-0">

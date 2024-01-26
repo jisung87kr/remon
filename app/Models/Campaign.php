@@ -63,6 +63,21 @@ class Campaign extends Model
         return $this->hasMany(CampaignMeta::class)->where("meta_key", Meta::MEDIA)->from('campaign_metas');
     }
 
+    public function titleKeyword()
+    {
+        return $this->hasMany(CampaignMeta::class)->where("meta_key", Meta::TITLE_KEYWORD)->from('campaign_metas');
+    }
+
+    public function contentKeyword()
+    {
+        return $this->hasMany(CampaignMeta::class)->where("meta_key", Meta::CONTENT_KEYWORD)->from('campaign_metas');
+    }
+
+    public function links()
+    {
+        return $this->hasMany(CampaignMeta::class)->where("meta_key", Meta::LINK)->from('campaign_metas');
+    }
+
     public function metas()
     {
         return $this->hasMany(CampaignMeta::class);
