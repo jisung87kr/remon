@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Campaign;
 use App\Models\Category;
+use App\Models\MissionOption;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -18,10 +19,16 @@ class CampaignSeeder extends Seeder
             $location = Category::where('parent_id', '11')->inRandomOrder()->first();
             $campaignAttributes = Category::where('parent_id', '75')->inRandomOrder()->limit(rand(1, 2))->get()->pluck('id')->toArray();
             $campaignMissions = Category::where('parent_id', '63')->inRandomOrder()->limit(rand(2, 4))->get()->pluck('id')->toArray();
+            $missionOptions = MissionOption::inRandomOrder()->limit(rand(4, 8))->get()->pluck('id')->toArray();
 
             $campaign->categories()->attach([$location->id]);
             $campaign->categories()->attach($campaignAttributes);
             $campaign->categories()->attach($campaignMissions);
+
+            foreach ($missionOptions as $index => $missionOption) {
+                $campaign->missionOptions()->attach($missionOption);
+                $option = $campaign->missionOptions()->where('mission_option_id', $missionOption)->first();
+            }
         });
     }
 }

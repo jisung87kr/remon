@@ -15,4 +15,9 @@ class MissionOption extends Model
     {
         return $this->belongsTo(Mission::class);
     }
+
+    public function campaign()
+    {
+        return $this->belongsToMany(Campaign::class, 'campaign_mission_option', 'mission_option_id', 'campaign_id');
+    }
 }

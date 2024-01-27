@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
 
          $this->call([
             CategorySeeder::class,
+            MissionSeeder::class,
             CampaignTypeSeeder::class,
             CampaignSeeder::class,
-            MissionSeeder::class,
          ]);
     }
 }

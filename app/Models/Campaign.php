@@ -21,21 +21,11 @@ class Campaign extends Model
         'registration_end_date_at' => 'datetime',
         'result_announcement_date_at' => 'datetime',
     ];
-    protected $with = ['options', 'locations', 'missions', 'media'];
+    protected $with = [];
 
     public function categories()
     {
         return $this->morphToMany(Category::class, 'categoryable');
-    }
-
-    public function options()
-    {
-        $categoryModel = new Category();
-        $categoryIds = $categoryModel->getChildIds(75);
-
-        return $this->morphToMany(Category::class, 'categoryable')
-            ->whereIn('category_id', $categoryIds)
-            ->from('categories');
     }
 
     public function type()
@@ -43,48 +33,8 @@ class Campaign extends Model
         return $this->belongsTo(CampaignType::class, 'campaign_type_id', 'id');
     }
 
-    public function locations()
+    public function missionOptions()
     {
-        $categoryModel = new Category();
-        $categoryIds = $categoryModel->getChildIds(11);
-
-        return $this->morphToMany(Category::class, 'categoryable')
-            ->whereIn('category_id', $categoryIds)
-            ->from('categories');
-    }
-
-    public function missions()
-    {
-        $categoryModel = new Category();
-        $categoryIds = $categoryModel->getChildIds(63);
-
-        return $this->morphToMany(Category::class, 'categoryable')
-            ->whereIn('category_id', $categoryIds)
-            ->from('categories');
-    }
-
-    public function media()
-    {
-        return $this->hasMany(CampaignMeta::class)->where("meta_key", Meta::MEDIA)->from('campaign_metas');
-    }
-
-    public function titleKeyword()
-    {
-        return $this->hasMany(CampaignMeta::class)->where("meta_key", Meta::TITLE_KEYWORD)->from('campaign_metas');
-    }
-
-    public function contentKeyword()
-    {
-        return $this->hasMany(CampaignMeta::class)->where("meta_key", Meta::CONTENT_KEYWORD)->from('campaign_metas');
-    }
-
-    public function links()
-    {
-        return $this->hasMany(CampaignMeta::class)->where("meta_key", Meta::LINK)->from('campaign_metas');
-    }
-
-    public function metas()
-    {
-        return $this->hasMany(CampaignMeta::class);
+        return $this->belongsToMany(MissionOption::class, 'campaign_mission_option', 'campaign_id', 'mission_option_id');
     }
 }
