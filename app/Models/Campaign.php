@@ -21,7 +21,7 @@ class Campaign extends Model
         'registration_end_date_at' => 'datetime',
         'result_announcement_date_at' => 'datetime',
     ];
-    protected $with = ['locations'];
+    protected $with = ['locations', 'options'];
 
     public function categories()
     {
@@ -42,6 +42,21 @@ class Campaign extends Model
     {
         $categoryModel = new Category();
         $categoryIds = $categoryModel->getChildIds(11);
+
+        return $this->morphToMany(Category::class, 'categoryable')
+            ->whereIn('category_id', $categoryIds)
+            ->from('categories');
+    }
+
+    public function media()
+    {
+        return $this->hasMany(CampaignMedia::class);
+    }
+
+    public function options()
+    {
+        $categoryModel = new Category();
+        $categoryIds = $categoryModel->getChildIds(63);
 
         return $this->morphToMany(Category::class, 'categoryable')
             ->whereIn('category_id', $categoryIds)

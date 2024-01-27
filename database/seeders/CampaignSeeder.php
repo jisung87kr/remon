@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Campaign;
+use App\Models\CampaignMedia;
 use App\Models\CampaignMissionOption;
 use App\Models\CampaignMissionOptionItem;
 use App\Models\Category;
@@ -26,6 +27,9 @@ class CampaignSeeder extends Seeder
             $campaign->categories()->attach([$location->id]);
             $campaign->categories()->attach($campaignAttributes);
             $campaign->categories()->attach($campaignMissions);
+            CampaignMedia::factory(rand(1,3))->create([
+               'campaign_id' => $campaign->id,
+            ]);
 
             foreach ($missionOptions as $index => $missionOption) {
                 $campaign->missionOptions()->attach($missionOption);
