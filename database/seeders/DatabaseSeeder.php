@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Campaign;
+use App\Models\CampaignType;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
 
          $this->call([
             CategorySeeder::class,
+            CampaignTypeSeeder::class,
             CampaignSeeder::class,
             MissionSeeder::class,
          ]);

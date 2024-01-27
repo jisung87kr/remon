@@ -38,6 +38,11 @@ class Campaign extends Model
             ->from('categories');
     }
 
+    public function type()
+    {
+        return $this->belongsTo(CampaignType::class, 'campaign_type_id', 'id');
+    }
+
     public function locations()
     {
         $categoryModel = new Category();

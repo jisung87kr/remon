@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\CampaignType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -26,8 +27,11 @@ class CampaignFactory extends Factory
         $registrationEndDateAt = $this->faker->dateTimeBetween('+29 days', '+35 days');
         $resultAnnouncementDateAt = $this->faker->dateTimeBetween('+36 days', '+42 days');
 
+        $campaignType = CampaignType::inRandomOrder()->first();
+
         return [
             'product_name' => $this->faker->word,
+            'campaign_type_id' => $campaignType,
             'title' => $this->faker->sentence,
             'benefit' => $this->faker->paragraph,
             'benefit_point' => $this->faker->randomDigit(),
