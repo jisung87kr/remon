@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Campaign;
+use App\Models\CampaignMissionOption;
+use App\Models\CampaignMissionOptionItem;
 use App\Models\Category;
 use App\Models\MissionOption;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -27,7 +29,14 @@ class CampaignSeeder extends Seeder
 
             foreach ($missionOptions as $index => $missionOption) {
                 $campaign->missionOptions()->attach($missionOption);
-                $option = $campaign->missionOptions()->where('mission_option_id', $missionOption)->first();
+                $option = CampaignMissionOption::where('campaign_id', $campaign->id)
+                    ->where('mission_option_id',$missionOption)
+                    ->latest()
+                    ->first();
+
+                CampaignMissionOptionItem::factory(rand(1, 3))->create([
+                    'campaign_mission_option_id' => $option->id
+                ]);
             }
         });
     }

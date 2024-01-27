@@ -18,6 +18,11 @@ class MissionOption extends Model
 
     public function campaign()
     {
-        return $this->belongsToMany(Campaign::class, 'campaign_mission_option', 'mission_option_id', 'campaign_id');
+        return $this->belongsToMany(Campaign::class, 'campaign_mission_option', 'mission_option_id', 'campaign_id')->withPivot('id');;
+    }
+
+    public function campaignMissionOptions()
+    {
+        return $this->hasMany(CampaignMissionOption::class, 'mission_option_id', 'id');
     }
 }

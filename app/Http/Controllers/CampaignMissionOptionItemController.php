@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Campaign;
-use App\Models\CampaignMissionOption;
-use App\Models\Category;
+use App\Models\CampaignMissionOptionItem;
 use Illuminate\Http\Request;
-use App\Enums\Campaign\Meta;
-use App\Enums\Campaign\Media;
-use Illuminate\Support\Facades\DB;
 
-class CampaignController extends Controller
+class CampaignMissionOptionItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -39,15 +34,15 @@ class CampaignController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Campaign $campaign)
+    public function show(CampaignMissionOptionItem $campaignMissionOptionItem)
     {
-        return view('campaign.show', compact('campaign'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Campaign $campaign)
+    public function edit(CampaignMissionOptionItem $campaignMissionOptionItem)
     {
         //
     }
@@ -55,7 +50,7 @@ class CampaignController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Campaign $campaign)
+    public function update(Request $request, CampaignMissionOptionItem $campaignMissionOptionItem)
     {
         //
     }
@@ -63,7 +58,7 @@ class CampaignController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Campaign $campaign)
+    public function destroy(CampaignMissionOptionItem $campaignMissionOptionItem)
     {
         //
     }

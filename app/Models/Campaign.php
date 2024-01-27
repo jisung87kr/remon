@@ -21,7 +21,7 @@ class Campaign extends Model
         'registration_end_date_at' => 'datetime',
         'result_announcement_date_at' => 'datetime',
     ];
-    protected $with = [];
+    protected $with = ['locations'];
 
     public function categories()
     {
@@ -35,6 +35,16 @@ class Campaign extends Model
 
     public function missionOptions()
     {
-        return $this->belongsToMany(MissionOption::class, 'campaign_mission_option', 'campaign_id', 'mission_option_id');
+        return $this->belongsToMany(MissionOption::class, 'campaign_mission_option', 'campaign_id', 'mission_option_id')->withPivot('id');
+    }
+
+    public function locations()
+    {
+        $categoryModel = new Category();
+        $categoryIds = $categoryModel->getChildIds(11);
+
+        return $this->morphToMany(Category::class, 'categoryable')
+            ->whereIn('category_id', $categoryIds)
+            ->from('categories');
     }
 }
