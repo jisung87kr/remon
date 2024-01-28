@@ -7,7 +7,7 @@
                     <div class="font-bold text-gray-500">{{ $campaign->title }}</div>
                     <div class="flex gap-3 mt-3">
                         @foreach($campaign->media as $media)
-                            @switch($media->meta_value)
+                            @switch($media->media)
                                 @case(App\Enums\Campaign\Media::NAVER_BLOG->value)
                                     <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
                                     @break

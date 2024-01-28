@@ -50,7 +50,7 @@ class Campaign extends Model
 
     public function media()
     {
-        return $this->hasMany(CampaignMedia::class);
+        return $this->hasMany(CampaignMedia::class)->orderBy('media');
     }
 
     public function options()

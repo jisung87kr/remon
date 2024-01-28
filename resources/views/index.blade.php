@@ -7,17 +7,47 @@
         </div>
     </section>
     <section id="category" class="container mx-auto p-6 my-12">
-        <div class="grid grid-cols-5 gap-6 xl:grid-cols-10 xl:gap-12">
-            <div class="text-center">
-                <div class="bg-gray-50 rounded-2xl aspect-square"></div>
-                <div class="mt-4">이용가이드</div>
-            </div>
-            @foreach(range(1, 9) as $key)
-                <a href="{{ route('category.show', 1) }}" class="text-center">
-                    <div class="bg-gray-50 rounded-2xl aspect-square"></div>
-                    <div class="mt-4">카테고리{{$key}}</div>
-                </a>
-            @endforeach
+        <div class="grid grid-cols-10 gap-6 xl:grid-cols-10 xl:gap-12">
+            <a href="{{ route('help.guide') }}" class="text-center">
+                <img src="{{ Vite::asset('resources/images/category/category-guide.png') }}" alt="">
+                <div class="mt-2">이용가이드</div>
+            </a>
+            <a href="{{ route('category.show', '맛집') }}" class="text-center">
+                <img src="{{ Vite::asset('resources/images/category/category-restaurant.png') }}" alt="">
+                <div class="mt-2">맛집</div>
+            </a>
+            <a href="{{ route('category.show', '뷰티') }}" class="text-center">
+                <img src="{{ Vite::asset('resources/images/category/category-beauty.png') }}" alt="">
+                <div class="mt-2">뷰티</div>
+            </a>
+            <a href="{{ route('category.show', '여행') }}" class="text-center">
+                <img src="{{ Vite::asset('resources/images/category/category-travel.png') }}" alt="">
+                <div class="mt-2">여행</div>
+            </a>
+            <a href="{{ route('category.show', '문화') }}" class="text-center">
+                <img src="{{ Vite::asset('resources/images/category/category-culture.png') }}" alt="">
+                <div class="mt-2">문화</div>
+            </a>
+            <a href="{{ route('category.show', '식품') }}" class="text-center">
+                <img src="{{ Vite::asset('resources/images/category/category-food.png') }}" alt="">
+                <div class="mt-2">식품</div>
+            </a>
+            <a href="{{ route('category.show', '생활') }}" class="text-center">
+                <img src="{{ Vite::asset('resources/images/category/category-life.png') }}" alt="">
+                <div class="mt-2">생활</div>
+            </a>
+            <a href="{{ route('category.show', '디지털') }}" class="text-center">
+                <img src="{{ Vite::asset('resources/images/category/category-digital.png') }}" alt="">
+                <div class="mt-2">디지털</div>
+            </a>
+            <a href="{{ route('category.show', '커뮤니티') }}" class="text-center">
+                <img src="{{ Vite::asset('resources/images/category/category-community.png') }}" alt="">
+                <div class="mt-2">커뮤니티</div>
+            </a>
+            <a href="{{ route('help.contact') }}" class="text-center">
+                <img src="{{ Vite::asset('resources/images/category/category-ad.png') }}" alt="">
+                <div class="mt-2">광고문의</div>
+            </a>
         </div>
     </section>
     <section id="popular_campaign" class="container mx-auto p-6">
@@ -28,7 +58,7 @@
                 <div class="card-body">
                     <div class="relative">
                         <a href="{{ route('campaigns.show', $campaign) }}" class="overflow-hidden rounded block">
-                            <img src="https://placeholder.co/300x300" alt="">
+                            <img src="https://placeholder.co/300x300" alt="" class="w-full">
                         </a>
                         <button class="absolute right-3 top-3">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -37,9 +67,9 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="my-3 flex">
+                    <div class="my-3 flex gap-x-2">
                         @foreach($campaign->media as $media)
-                            @switch($media->meta_value)
+                            @switch($media->media)
                                 @case(App\Enums\Campaign\Media::NAVER_BLOG->value)
                                     <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
                                     @break
