@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'nick_name', 'sex', 'birthdate', 'phone', 'phone_verified_at', 'status', 'level', 'point', 'agree_email', 'agree_sms', 'agree_push',
     ];
 
     /**
@@ -58,4 +58,29 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function points()
+    {
+        return $this->hasMany(UserPoint::class);
+    }
+
+    public function shippingAddresses()
+    {
+        return $this->hasMany(UserShippingAddress::class);
+    }
+
+    public function medias()
+    {
+        return $this->hasMany(UserMedia::class);
+    }
+
+    public function metas()
+    {
+        return $this->hasMany(UserMeta::class);
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(UserMessage::class);
+    }
 }

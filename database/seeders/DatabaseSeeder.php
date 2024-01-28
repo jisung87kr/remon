@@ -14,13 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-         \App\Models\User::factory(10)->create();
-         \App\Models\User::factory()->create([
-             'name' => '유지성',
-             'email' => 'jisung87kr@gmail.com',
-         ]);
-
          $this->call([
+            PenaltySeeder::class,
+            UserSeeder::class,
             CategorySeeder::class,
             MissionSeeder::class,
             CampaignTypeSeeder::class,

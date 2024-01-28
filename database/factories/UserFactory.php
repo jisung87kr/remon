@@ -2,11 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Helper\CommonHelper;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
+use App\Enums\User\StatusEnum;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -20,6 +22,8 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $status = CommonHelper::getRandomEnumCase(StatusEnum::cases());
+
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
@@ -30,6 +34,17 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
+            'nick_name' => $this->faker->word,
+            'phone' => $this->faker->phoneNumber,
+            'phone_verified_at' => $this->faker->dateTime,
+            'sex' => ['man', 'woman'][rand(0, 1)],
+            'birthdate' => $this->faker->dateTimeBetween('1970-01-01', '2010-12-31')->format('Y-m-d'),
+            'level' => rand(0, 5),
+            'agree_email' => $this->faker->boolean,
+            'agree_sms' => $this->faker->boolean,
+            'agree_push' => $this->faker->boolean,
+            'point' => $this->faker->randomDigit(),
+            'status' => $status
         ];
     }
 
