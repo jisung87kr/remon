@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Enums\Campaign\ImageType;
+use App\Enums\Campaign\ImageTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use App\Enums\Campaign\Media;
-use App\Enums\Campaign\Meta;
+use App\Enums\Campaign\MediaEnum;
+use App\Enums\Campaign\MetaEnum;
 
 class Campaign extends Model
 {
@@ -83,12 +83,12 @@ class Campaign extends Model
 
     public function thumbnails()
     {
-        return $this->hasMany(CampaignImage::class)->where('type', ImageType::THUMBNAIL)->orderBy('order_seq')->get();
+        return $this->hasMany(CampaignImage::class)->where('type', ImageTypeEnum::THUMBNAIL)->orderBy('order_seq')->get();
     }
 
     public function detailimages()
     {
-        return $this->hasMany(CampaignImage::class)->where('type', ImageType::DETAIL)->orderBy('order_seq')->get();
+        return $this->hasMany(CampaignImage::class)->where('type', ImageTypeEnum::DETAIL)->orderBy('order_seq')->get();
     }
 
     public function images()
