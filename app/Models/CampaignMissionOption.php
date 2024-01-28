@@ -8,6 +8,11 @@ class CampaignMissionOption extends Pivot
 {
     protected $guarded = [];
 
+    public function missionOption()
+    {
+        return $this->belongsTo(MissionOption::class);
+    }
+
     public function items()
     {
         return $this->hasMany(CampaignMissionOptionItem::class, 'campaign_mission_option_id', 'id');

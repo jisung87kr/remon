@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('mission_options', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mission_id')->constrained()->onDelete('cascade');
-            $table->string('option_name')->nullable()->comment('옵션명');
+            $table->string('option_name')->comment('옵션명');
             $table->string('option_value')->nullable()->comment('옵션값');
             $table->string('additional_price')->comment('옵션금액');
             $table->string('extra_name1')->nullable()->comment('여분필드1');

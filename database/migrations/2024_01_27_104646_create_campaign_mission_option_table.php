@@ -15,6 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('campaign_id')->constrained()->onDelete('cascade');
             $table->foreignId('mission_option_id')->comment('미션 옵션 아이디');
+            $table->text('content');
+            $table->text('sub_content')->nullable();
+            $table->text('extra_content1')->nullable();
+            $table->text('extra_content2')->nullable();
+            $table->text('extra_content3')->nullable();
             $table->timestamps();
         });
     }

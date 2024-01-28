@@ -4,12 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Campaign;
 use App\Models\CampaignMedia;
-use App\Models\CampaignMissionOption;
-use App\Models\CampaignMissionOptionItem;
 use App\Models\Category;
 use App\Models\MissionOption;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Faker\Factory;
 
 class CampaignSeeder extends Seeder
 {
@@ -18,7 +17,9 @@ class CampaignSeeder extends Seeder
      */
     public function run(): void
     {
-        Campaign::factory(100)->create()->each(function($campaign){
+        $faker = Factory::create();
+
+        Campaign::factory(100)->create()->each(function($campaign) use($faker){
             $location = Category::where('parent_id', '11')->inRandomOrder()->first();
             $campaignAttributes = Category::where('parent_id', '75')->inRandomOrder()->limit(rand(1, 2))->get()->pluck('id')->toArray();
             $campaignMissions = Category::where('parent_id', '63')->inRandomOrder()->limit(rand(2, 4))->get()->pluck('id')->toArray();
@@ -32,14 +33,9 @@ class CampaignSeeder extends Seeder
             ]);
 
             foreach ($missionOptions as $index => $missionOption) {
-                $campaign->missionOptions()->attach($missionOption);
-                $option = CampaignMissionOption::where('campaign_id', $campaign->id)
-                    ->where('mission_option_id',$missionOption)
-                    ->latest()
-                    ->first();
-
-                CampaignMissionOptionItem::factory(rand(1, 3))->create([
-                    'campaign_mission_option_id' => $option->id
+                $campaign->missionOptions()->attach($missionOption, [
+                    'content' => $faker->sentence,
+                    'sub_content' => $faker->sentence,
                 ]);
             }
         });

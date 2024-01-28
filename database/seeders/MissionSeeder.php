@@ -97,7 +97,7 @@ class MissionSeeder extends Seeder
             if(empty($item)){
                 $mission->options()->create([
                     'mission_id'       => $mission->id,
-                    'option_name'      => null,
+                    'option_name'      => $mission->name,
                     'option_value'     => null,
                     'additional_price' => $mission->price,
                 ]);

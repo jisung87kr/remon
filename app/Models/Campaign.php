@@ -62,4 +62,21 @@ class Campaign extends Model
             ->whereIn('category_id', $categoryIds)
             ->from('categories');
     }
+
+    public function campaginMissionOptions()
+    {
+        return $this->hasMany(CampaignMissionOption::class);
+    }
+
+    public function keywords()
+    {
+        $keywordMissionId = Mission::where('name', '키워드')->first()->options->pluck('id')->toArray();
+        return $this->hasMany(CampaignMissionOption::class)->whereIn('mission_option_id', $keywordMissionId);
+    }
+
+    public function links()
+    {
+        $keywordMissionId = Mission::where('name', '링크삽입')->first()->options->pluck('id')->toArray();
+        return $this->hasMany(CampaignMissionOption::class)->whereIn('mission_option_id', $keywordMissionId);
+    }
 }

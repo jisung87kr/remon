@@ -62,8 +62,8 @@
                             <div class="shrink-0 w-[160px] font-bold mr-3">캠페인 미션</div>
                             <div class="w-full border-b pb-6">
                                 <ul class="flex gap-x-3 mb-3">
-                                    @foreach($campaign->missions as $mission)
-                                    <li>{{ $mission->name }}</li>
+                                    @foreach($campaign->missionOptions as $missionOption)
+                                    <li>{{ $missionOption->mission->name }}</li>
                                     @endforeach
                                 </ul>
                                 <hr class="my-6">
@@ -74,31 +74,30 @@
                                 </div>
                             </div>
                         </div>
+                        @if(count($campaign->keywords) > 0)
                         <div class="flex py-6" id="keyword">
                             <div class="shrink-0 w-[160px] font-bold mr-3">키워드</div>
                             <div class="w-full border-b pb-6">
-                                @isset($campaign->titleKeyword[0])
+                                @foreach($campaign->keywords as $keyword)
+                                @if($loop->index > 0)
+                                <hr class="my-6">
+                                @endif
                                 <div>
-                                    <div class="font-bold mb-3">제목 키워드</div>
-                                    <div>{{ $campaign->titleKeyword[0]->meta_value }}</div>
+                                    <div class="font-bold mb-3">{{ $keyword->missionOption->option_value }}</div>
+                                    <div>{{ $keyword->content }}</div>
                                     <div class="text-sm text-gray-500 mt-6">
                                         <p>- 안내드린 제목 키워드를 콘텐츠 제목에 꼭 넣어주세요. #태그에도 넣어주시면 더욱 좋아요.</p>
                                         <p>- 키워드가 지켜지지 않으면 수정요청이 있을 수 있습니다.</p>
+                                        @if($keyword->missionOption->extra_value1 && $keyword->missionOption->extra_value2)
+                                        <p>- 안내드린 {{ $keyword->missionOption->option_value }} 중 {{$keyword->missionOption->extra_value1 }}개 이상을 선택하여 총 {{$keyword->missionOption->extra_value2}}회 이상 본문에 언급해 주세요.</p>
+                                        @endif
                                     </div>
                                 </div>
-                                @endisset
-                                @isset($campaign->contentKeyword[0])
-                                <hr class="my-6">
-                                <div>
-                                    <div class="font-bold mb-3">본문 키워드</div>
-                                    <div>{{ $campaign->contentKeyword[0]->meta_value }}</div>
-                                    <div class="text-sm text-gray-500 mt-6">
-                                        <p>- 안내드린 본문키워드 중 1개 이상을 선택하여 총 5회 이상 본문에 언급해 주세요.</p>
-                                    </div>
-                                </div>
-                                @endisset
+                                @endforeach
                             </div>
                         </div>
+                        @endif
+                        @if(count($campaign->links) > 0)
                         <div class="flex py-6" id="extra_information">
                             <div class="shrink-0 w-[160px] font-bold mr-3">링크</div>
                             <div class="w-full pb-6">
@@ -106,7 +105,7 @@
                                     <ul>
                                         @foreach($campaign->links as $link)
                                         <li>
-                                            <a href="{{ $link->meta_value }}">{{ $link->meta_value }}</a>
+                                            <a href="{{ $link->content }}" target="_blank">{{ $link->content }}</a>
                                         </li>
                                         @endforeach
                                     </ul>
@@ -116,6 +115,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                         <div class="flex py-6" id="extra_information">
                             <div class="shrink-0 w-[160px] font-bold mr-3">추가 안내사항</div>
                             <div class="w-full pb-6">{{ $campaign->extra_information }}</div>
