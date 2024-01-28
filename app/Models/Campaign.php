@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Campaign\ImageType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -78,5 +79,20 @@ class Campaign extends Model
     {
         $keywordMissionId = Mission::where('name', '링크삽입')->first()->options->pluck('id')->toArray();
         return $this->hasMany(CampaignMissionOption::class)->whereIn('mission_option_id', $keywordMissionId);
+    }
+
+    public function thumbnails()
+    {
+        return $this->hasMany(CampaignImage::class)->where('type', ImageType::THUMBNAIL)->orderBy('order_seq')->get();
+    }
+
+    public function detailimages()
+    {
+        return $this->hasMany(CampaignImage::class)->where('type', ImageType::DETAIL)->orderBy('order_seq')->get();
+    }
+
+    public function images()
+    {
+        return $this->hasMany(CampaignImage::class)->orderBy('order_seq');
     }
 }

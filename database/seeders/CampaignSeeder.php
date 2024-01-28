@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Campaign;
+use App\Models\CampaignImage;
 use App\Models\CampaignMedia;
 use App\Models\Category;
 use App\Models\MissionOption;
@@ -19,7 +20,7 @@ class CampaignSeeder extends Seeder
     {
         $faker = Factory::create();
 
-        Campaign::factory(100)->create()->each(function($campaign) use($faker){
+        Campaign::factory(10)->create()->each(function($campaign) use($faker){
             $location = Category::where('parent_id', '11')->inRandomOrder()->first();
             $campaignAttributes = Category::where('parent_id', '75')->inRandomOrder()->limit(rand(1, 2))->get()->pluck('id')->toArray();
             $campaignMissions = Category::where('parent_id', '63')->inRandomOrder()->limit(rand(2, 4))->get()->pluck('id')->toArray();
@@ -30,6 +31,10 @@ class CampaignSeeder extends Seeder
             $campaign->categories()->attach($campaignMissions);
             CampaignMedia::factory(rand(1,3))->create([
                'campaign_id' => $campaign->id,
+            ]);
+
+            CampaignImage::factory(5)->create([
+                'campaign_id' => $campaign->id,
             ]);
 
             foreach ($missionOptions as $index => $missionOption) {
