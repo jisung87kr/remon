@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('campaign_mission_options');
+        Schema::dropIfExists('campaign_mission_option');
     }
 };
