@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Campaign;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Enums\Campaign\ImageType;
+use App\Enums\Campaign\ImageTypeEnum;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CampaignImage>
@@ -18,16 +18,16 @@ class CampaignImageFactory extends Factory
      */
     public function definition(): array
     {
-        $maxSize = count(ImageType::cases()) - 1;
-        $type = ImageType::cases()[rand(0, $maxSize)]->value;
+        $maxSize = count(ImageTypeEnum::cases()) - 1;
+        $type = ImageTypeEnum::cases()[rand(0, $maxSize)]->value;
         $path = storage_path('app/public/dummy');
 
-        if($type == ImageType::THUMBNAIL->value){
+        if($type == ImageTypeEnum::THUMBNAIL->value){
             //$filePath = $this->faker->image($path, 400, 400, null, false);
             $filePath = 'thumbnail.png';
         }
 
-        if($type == ImageType::DETAIL->value){
+        if($type == ImageTypeEnum::DETAIL->value){
             //$filePath = $this->faker->image($path, 1200, 600, null, false);
             $filePath = '1.png';
         }

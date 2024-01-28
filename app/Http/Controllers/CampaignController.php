@@ -8,8 +8,9 @@ use App\Models\CampaignMissionOption;
 use App\Models\Category;
 use Faker\Factory;
 use Illuminate\Http\Request;
-use App\Enums\Campaign\Meta;
-use App\Enums\Campaign\Media;
+use App\Enums\Campaign\MetaEnum;
+use App\Enums\Campaign\MediaEnum;
+use App\Enums\User\MetaEnum AS UserMeta;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -44,14 +45,6 @@ class CampaignController extends Controller
      */
     public function show(Campaign $campaign)
     {
-//        $faker = Factory::create();
-//        $path = storage_path('app/public/dummy');
-//        $filePath = $faker->image($path, 400, 400, null, false);
-//        $fileUrl = Storage::disk('public')->url('dummy/1.png');
-//        dd($fileUrl);
-
-//        $result = CampaignImage::factory(1)->create();
-        dd($campaign->detailimages());
         return view('campaign.show', compact('campaign'));
     }
 

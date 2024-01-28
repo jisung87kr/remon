@@ -1,6 +1,6 @@
 <?php
 namespace App\Enums\Campaign;
-enum Media: string
+enum MediaEnum: string
 {
     case NAVER_BLOG = 'NAVER_BLOG';
     case INSTAGRAM = 'INSTAGRAM';
@@ -9,9 +9,9 @@ enum Media: string
     public function label(): string
     {
         return match($this) {
-            Media::NAVER_BLOG => '블로그',
-            Media::INSTAGRAM => '인스타그램',
-            Media::YOUTUBE => '유튜브',
+            MediaEnum::NAVER_BLOG => '블로그',
+            MediaEnum::INSTAGRAM => '인스타그램',
+            MediaEnum::YOUTUBE => '유튜브',
         };
     }
 }

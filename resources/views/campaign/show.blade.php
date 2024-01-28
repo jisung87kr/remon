@@ -3,32 +3,35 @@
         <div class="grid grid-cols-8 gap-6 relative">
             <div class="col-span-8 lg:col-span-6 lg:border-r lg:pr-6">
                 <div>
-                    <h1 class="font-bold text-[32px] my-3">[{{ $campaign->locations[0]->name }}] {{ $campaign->product_name }}</h1>
+                    <h1 class="font-bold text-[32px] my-3">[{{ $campaign->locations[0]->name }}
+                        ] {{ $campaign->product_name }}</h1>
                     <div class="font-bold text-gray-500">{{ $campaign->title }}</div>
                     <div class="flex gap-3 mt-3">
                         @foreach($campaign->media as $media)
                             @switch($media->media)
-                                @case(App\Enums\Campaign\Media::NAVER_BLOG->value)
+                                @case(App\Enums\Campaign\MediaEnum::NAVER_BLOG->value)
                                     <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
                                     @break
-                                @case(App\Enums\Campaign\Media::INSTAGRAM->value)
+                                @case(App\Enums\Campaign\MediaEnum::INSTAGRAM->value)
                                     <img src="{{ Vite::asset('resources/images/media/instagram.svg') }}" alt="">
                                     @break
-                                @case(App\Enums\Campaign\Media::YOUTUBE->value)
+                                @case(App\Enums\Campaign\MediaEnum::YOUTUBE->value)
                                     <img src="{{ Vite::asset('resources/images/media/youtube.svg') }}" alt="">
                                     @break
                             @endswitch
                         @endforeach
 
                         @foreach($campaign->options as $option)
-                        <div class="p-1 text-xs border text-gray-600">{{ $option->name }}</div>
+                            <div class="p-1 text-xs border text-gray-600">{{ $option->name }}</div>
                         @endforeach
                     </div>
                 </div>
                 <div class="mt-6 border-b mb-6 flex">
-                    <a href="{{ route('campaigns.show', 1) }}" class="block px-5 py-3 border-b-2 border-indigo-400 font-bold">캠페인 정보</a>
+                    <a href="{{ route('campaigns.show', 1) }}"
+                       class="block px-5 py-3 border-b-2 border-indigo-400 font-bold">캠페인 정보</a>
                     <a href="{{ route('campaigns.applicants', 1) }}" class="block px-5 py-3 text-gray-500">
-                        <span>신청자 </span><span class="font-bold">4,000</span><span>/</span><span>{{ number_format($campaign->applicant_limit) }}</span>
+                        <span>신청자 </span><span
+                                class="font-bold">4,000</span><span>/</span><span>{{ number_format($campaign->applicant_limit) }}</span>
                     </a>
                 </div>
                 <div>
@@ -37,11 +40,14 @@
                         <img src="https://placeholder.co/1200x600" alt="">
                         <img src="https://placeholder.co/1200x600" alt="">
                     </div>
-                    <button class="p-3 text-center border-y my-3 text-gray-500 font-bold block w-full flex justify-center items-center" @click.prevent="showMore = true" x-show="!showMore">
+                    <button class="p-3 text-center border-y my-3 text-gray-500 font-bold block w-full flex justify-center items-center"
+                            @click.prevent="showMore = true" x-show="!showMore">
                         <span class="mr-2">상세이미지 더보기</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
+                             width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none"
+                             stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M6 9l6 6l6 -6" />
+                            <path d="M6 9l6 6l6 -6"/>
                         </svg>
                     </button>
                     <div>
@@ -50,7 +56,8 @@
                             <div class="w-full border-b pb-6">
                                 {{ $campaign->benefit }}
                                 <div class="text-sm text-red-500 mt-6">
-                                    ※ 옵션 오기재로 인한 교환/취소 불가하며, 해당 사유 발생 시 관련 페널티 부과 및 배송비, 제품가 환불 요청 등이 이루어질 수 있습니다. 이 점 유의하시어 반드시 정확하게 기재 바랍니다.
+                                    ※ 옵션 오기재로 인한 교환/취소 불가하며, 해당 사유 발생 시 관련 페널티 부과 및 배송비, 제품가 환불 요청 등이 이루어질 수 있습니다. 이 점
+                                    유의하시어 반드시 정확하게 기재 바랍니다.
                                 </div>
                             </div>
                         </div>
@@ -63,7 +70,7 @@
                             <div class="w-full border-b pb-6">
                                 <ul class="flex gap-x-3 mb-3">
                                     @foreach($campaign->missionOptions as $missionOption)
-                                    <li>{{ $missionOption->mission->name }}</li>
+                                        <li>{{ $missionOption->mission->name }}</li>
                                     @endforeach
                                 </ul>
                                 <hr class="my-6">
@@ -75,46 +82,49 @@
                             </div>
                         </div>
                         @if(count($campaign->keywords) > 0)
-                        <div class="flex py-6" id="keyword">
-                            <div class="shrink-0 w-[160px] font-bold mr-3">키워드</div>
-                            <div class="w-full border-b pb-6">
-                                @foreach($campaign->keywords as $keyword)
-                                @if($loop->index > 0)
-                                <hr class="my-6">
-                                @endif
-                                <div>
-                                    <div class="font-bold mb-3">{{ $keyword->missionOption->option_value }}</div>
-                                    <div>{{ $keyword->content }}</div>
-                                    <div class="text-sm text-gray-500 mt-6">
-                                        <p>- 안내드린 제목 키워드를 콘텐츠 제목에 꼭 넣어주세요. #태그에도 넣어주시면 더욱 좋아요.</p>
-                                        <p>- 키워드가 지켜지지 않으면 수정요청이 있을 수 있습니다.</p>
-                                        @if($keyword->missionOption->extra_value1 && $keyword->missionOption->extra_value2)
-                                        <p>- 안내드린 {{ $keyword->missionOption->option_value }} 중 {{$keyword->missionOption->extra_value1 }}개 이상을 선택하여 총 {{$keyword->missionOption->extra_value2}}회 이상 본문에 언급해 주세요.</p>
+                            <div class="flex py-6" id="keyword">
+                                <div class="shrink-0 w-[160px] font-bold mr-3">키워드</div>
+                                <div class="w-full border-b pb-6">
+                                    @foreach($campaign->keywords as $keyword)
+                                        @if($loop->index > 0)
+                                            <hr class="my-6">
                                         @endif
-                                    </div>
+                                        <div>
+                                            <div class="font-bold mb-3">{{ $keyword->missionOption->option_value }}</div>
+                                            <div>{{ $keyword->content }}</div>
+                                            <div class="text-sm text-gray-500 mt-6">
+                                                <p>- 안내드린 제목 키워드를 콘텐츠 제목에 꼭 넣어주세요. #태그에도 넣어주시면 더욱 좋아요.</p>
+                                                <p>- 키워드가 지켜지지 않으면 수정요청이 있을 수 있습니다.</p>
+                                                @if($keyword->missionOption->extra_value1 && $keyword->missionOption->extra_value2)
+                                                    <p>- 안내드린 {{ $keyword->missionOption->option_value }}
+                                                        중 {{$keyword->missionOption->extra_value1 }}개 이상을 선택하여
+                                                        총 {{$keyword->missionOption->extra_value2}}회 이상 본문에 언급해 주세요.</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
-                                @endforeach
                             </div>
-                        </div>
                         @endif
                         @if(count($campaign->links) > 0)
-                        <div class="flex py-6" id="extra_information">
-                            <div class="shrink-0 w-[160px] font-bold mr-3">링크</div>
-                            <div class="w-full pb-6">
-                                <div>
-                                    <ul>
-                                        @foreach($campaign->links as $link)
-                                        <li>
-                                            <a href="{{ $link->content }}" target="_blank">{{ $link->content }}</a>
-                                        </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                                <div class="text-sm text-gray-500 mt-6">
-                                    <p>- 안내드린 링크를 본문에 포함해주세요.</p>
+                            <div class="flex py-6" id="extra_information">
+                                <div class="shrink-0 w-[160px] font-bold mr-3">링크</div>
+                                <div class="w-full pb-6">
+                                    <div>
+                                        <ul>
+                                            @foreach($campaign->links as $link)
+                                                <li>
+                                                    <a href="{{ $link->content }}"
+                                                       target="_blank">{{ $link->content }}</a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    <div class="text-sm text-gray-500 mt-6">
+                                        <p>- 안내드린 링크를 본문에 포함해주세요.</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endif
                         <div class="flex py-6" id="extra_information">
                             <div class="shrink-0 w-[160px] font-bold mr-3">추가 안내사항</div>
@@ -128,7 +138,8 @@
                     <div class="py-6 border-b">
                         <div class="flex font-bold my-2">
                             <div class="shrink-0 w-[110px] mr-1">캠페인 신청기간</div>
-                            <div>{{ $campaign->applicant_start_at->format('m.d') }} ~ {{ $campaign->applicant_end_at->format('m.d') }}</div>
+                            <div>{{ $campaign->applicant_start_at->format('m.d') }}
+                                ~ {{ $campaign->applicant_end_at->format('m.d') }}</div>
                         </div>
                         <div class="flex text-gray-500 my-2">
                             <div class="shrink-0 w-[110px] mr-1">인플루언서 발표</div>
@@ -136,7 +147,8 @@
                         </div>
                         <div class="flex text-gray-500 my-2">
                             <div class="shrink-0 w-[110px] mr-1">콘텐츠 등록기간</div>
-                            <div>{{ $campaign->registration_start_date_at->format('m.d') }} ~ {{ $campaign->registration_end_date_at->format('m.d') }}</div>
+                            <div>{{ $campaign->registration_start_date_at->format('m.d') }}
+                                ~ {{ $campaign->registration_end_date_at->format('m.d') }}</div>
                         </div>
                         <div class="flex text-gray-500 my-2">
                             <div class="shrink-0 w-[110px] mr-1">콘텐츠 결과발표</div>
@@ -168,7 +180,7 @@
     <script>
       const campaignData = {
         showMore: false,
-        clickTabHandle(name){
+        clickTabHandle(name) {
           this.currentTab = name;
         }
       }
