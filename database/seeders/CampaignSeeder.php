@@ -2,11 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Campaign\ApplicantStatus;
+use App\Helper\CommonHelper;
 use App\Models\Campaign;
 use App\Models\CampaignImage;
 use App\Models\CampaignMedia;
 use App\Models\Category;
 use App\Models\MissionOption;
+use App\Models\User;
+use Database\Factories\CampaignApplicantFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory;
@@ -43,6 +47,16 @@ class CampaignSeeder extends Seeder
                     'sub_content' => $faker->sentence,
                 ]);
             }
+
+            $users = User::inRandomOrder()->limit(3)->get()->pluck('id')->toArray();
+            $status = CommonHelper::getRandomEnumCase(ApplicantStatus::cases());
+            $campaign->applicants()->attach($users, [
+                'name' => $faker->name,
+                'birthdate'=> $faker->dateTimeBetween('1970-01-01', '2014-12-31')->format('Y-m-d'),
+                'sex' => ['man', 'woman'][rand(0, 1)],
+                'phone' => $faker->phoneNumber,
+                'status' => $status->name,
+            ]);
         });
     }
 }

@@ -83,4 +83,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserMessage::class);
     }
+
+    public function campaigns()
+    {
+        return $this->belongsToMany(Campaign::class, 'campaign_applicants', 'user_id', 'campaign_id');
+    }
 }

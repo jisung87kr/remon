@@ -39,6 +39,11 @@ class Campaign extends Model
         return $this->belongsToMany(MissionOption::class, 'campaign_mission_option', 'campaign_id', 'mission_option_id')->withPivot('id');
     }
 
+    public function applicants()
+    {
+        return $this->belongsToMany(User::class, 'campaign_applicants', 'campaign_id', 'user_id');
+    }
+
     public function locations()
     {
         $categoryModel = new Category();

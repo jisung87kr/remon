@@ -4,21 +4,21 @@ namespace App\Enums\User;
 
 enum MetaEnum: string
 {
-    case SELFINTRODUCTION = 'selfIntroduction';
+    case SELFINTRODUCTION = 'self_introduction';
     case INTERESTS = 'interests';
     case LOCATION = 'location';
-    case CAMERATYPE = 'cameraType';
-    case IS_FACE_VISIBLE = 'isFaceVisible';
-    case HAS_SHARED_BLOG = 'hasSharedBlog';
-    case TOP_SIZE = 'topSize';
-    case BOTTOM_SIZE = 'bottomSize';
-    case SHOES_SIZE = 'shoezeSize';
+    case CAMERATYPE = 'camera_type';
+    case IS_FACE_VISIBLE = 'is_face_visible';
+    case HAS_SHARED_BLOG = 'has_shared_blog';
+    case TOP_SIZE = 'top_size';
+    case BOTTOM_SIZE = 'bottom_size';
+    case SHOES_SIZE = 'shoeze_size';
     case HEIGHT = 'height';
-    case SKIN_TYPE = 'skinType';
-    case IS_MARRIED = 'isMarried';
-    case HAS_CHILDREN = 'hasChildren';
+    case SKIN_TYPE = 'skin_type';
+    case IS_MARRIED = 'is_married';
+    case HAS_CHILDREN = 'has_children';
     case JOB = 'job';
-    case HAS_PET = 'hasPet';
+    case HAS_PET = 'has_pet';
 
     public function label(): string
     {
