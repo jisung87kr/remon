@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use App\Enums\Campaign\ApplicantStatus;
 use App\Helper\CommonHelper;
 use App\Models\Campaign;
+use App\Models\CampaignApplicant;
 use App\Models\CampaignApplicationField;
+use App\Models\CampaignApplicationValue;
 use App\Models\CampaignImage;
 use App\Models\CampaignMedia;
 use App\Models\Category;
@@ -49,19 +51,29 @@ class CampaignSeeder extends Seeder
                 ]);
             }
 
-            CampaignApplicationField::factory(5)->create([
+            $applicationFields = CampaignApplicationField::factory(5)->create([
                 'campaign_id' => $campaign->id
             ]);
 
-            $users = User::inRandomOrder()->limit(3)->get()->pluck('id')->toArray();
+            $users = User::inRandomOrder()->limit(3)->get();
             $status = CommonHelper::getRandomEnumCase(ApplicantStatus::cases());
-            $campaign->applicants()->attach($users, [
+            $campaign->applicants()->attach($users->pluck('id')->toArray(), [
                 'name' => $faker->name,
                 'birthdate'=> $faker->dateTimeBetween('1970-01-01', '2014-12-31')->format('Y-m-d'),
                 'sex' => ['man', 'woman'][rand(0, 1)],
                 'phone' => $faker->phoneNumber,
                 'status' => $status->name,
             ]);
+
+            foreach ($users as $user) {
+                $campaignApplicant = CampaignApplicant::where('campaign_id', $campaign->id)->where('user_id', $user->id)->first();
+                foreach ($applicationFields as $index => $applicationField) {
+                    CampaignApplicationValue::factory()->create([
+                        'campaign_applicant_id' => $campaignApplicant->id,
+                        'campaign_application_field_id' => $applicationField->id
+                    ]);
+                }
+            }
         });
     }
 }
