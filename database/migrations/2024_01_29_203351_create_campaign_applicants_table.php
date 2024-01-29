@@ -21,6 +21,8 @@ return new class extends Migration
             $table->enum('sex', ['man', 'woman'])->comment('신청자 성별');
             $table->string('phone')->comment('신청자 연락처');
             $table->string('status')->default(ApplicantStatus::APPLIED->name)->comment('신청상태');
+            $table->boolean('portrait_right_consent')->default(0)->comment('초상권 활용 동의');
+            $table->boolean('base_right_consent')->default(0)->comment('캠페인 유의사항, 개인정보 및 콘텐츠 제3자 제공, 저작물이용 동의');
             $table->timestamps();
         });
     }
