@@ -44,6 +44,11 @@ class Campaign extends Model
         return $this->belongsToMany(User::class, 'campaign_applicants', 'campaign_id', 'user_id');
     }
 
+    public function applicationFields()
+    {
+        return $this->hasMany(CampaignApplicationField::class);
+    }
+
     public function locations()
     {
         $categoryModel = new Category();

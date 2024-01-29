@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\Campaign\ApplicantStatus;
 use App\Helper\CommonHelper;
 use App\Models\Campaign;
+use App\Models\CampaignApplicationField;
 use App\Models\CampaignImage;
 use App\Models\CampaignMedia;
 use App\Models\Category;
@@ -47,6 +48,10 @@ class CampaignSeeder extends Seeder
                     'sub_content' => $faker->sentence,
                 ]);
             }
+
+            CampaignApplicationField::factory(5)->create([
+                'campaign_id' => $campaign->id
+            ]);
 
             $users = User::inRandomOrder()->limit(3)->get()->pluck('id')->toArray();
             $status = CommonHelper::getRandomEnumCase(ApplicantStatus::cases());
