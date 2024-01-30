@@ -17,7 +17,7 @@ use App\Http\Controllers\CampaignController;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
-Route::get('/campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
+Route::resource('/campaigns', CampaignController::class);
 
 Route::get('/campaigns/{campaign}/applicants', function($campaign){
     return view('campaign.applicants');
@@ -32,7 +32,9 @@ Route::get('/category', function($category){
 })->name('category.index');
 
 Route::get('/category/{name:name}', function(\App\Models\Category $name){
-   return view('campaign.index');
+    $campaigns = [];
+    $category = $name;
+   return view('campaign.index', compact('campaigns', 'category'));
 })->name('category.show');
 
 Route::get('/community/free', function(){

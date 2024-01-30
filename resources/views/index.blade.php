@@ -53,7 +53,7 @@
     <section id="popular_campaign" class="container mx-auto p-6">
         <h1 class="text-2xl font-bold mb-3">지금 인기 캠페인</h1>
         <div class="grid grid-cols-3 gap-6 xl:grid-cols-7">
-            @foreach($bestCampaigns as $key => $campaign)
+            @forelse($bestCampaigns as $key => $campaign)
                 <div class="card">
                     <div class="card-body">
                         <div class="relative">
@@ -90,7 +90,7 @@
                             <small class="text-gray-500 line-clamp-2">{{ $campaign->benefit }}</small>
                         </div>
                         <div class="my-2">
-                            <small>신청 3,000</small><small class="text-gray-500"> / </small><small
+                            <small>신청 {{ number_format($campaign->applicants()->count()) }}</small><small class="text-gray-500"> / </small><small
                                     class="text-gray-500">{{ number_format($campaign->applicant_limit) }}명</small>
                         </div>
                         <div class="flex gap-1">
@@ -100,7 +100,11 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="card col-span-3 xl:col-span-7">
+                    준비된 캠페인이 없습니다.
+                </div>
+            @endforelse
         </div>
     </section>
     <section id="remon_pick" class="container mx-auto p-6">

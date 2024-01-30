@@ -29,7 +29,8 @@ class CampaignController extends Controller
      */
     public function create()
     {
-        //
+        $campaign = new Campaign();
+        return view('campaign.create', compact('campaign'));
     }
 
     /**

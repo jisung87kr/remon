@@ -6,7 +6,7 @@
                     <h1 class="font-bold text-[32px] my-3">[{{ $campaign->locations[0]->name }}
                         ] {{ $campaign->product_name }}</h1>
                     <div class="font-bold text-gray-500">{{ $campaign->title }}</div>
-                    <div class="flex gap-3 mt-3">
+                    <div class="flex gap-1 mt-3">
                         @foreach($campaign->media as $media)
                             @switch($media->media)
                                 @case(App\Enums\Campaign\MediaEnum::NAVER_BLOG->value)
@@ -31,7 +31,7 @@
                        class="block px-5 py-3 border-b-2 border-indigo-400 font-bold">캠페인 정보</a>
                     <a href="{{ route('campaigns.applicants', 1) }}" class="block px-5 py-3 text-gray-500">
                         <span>신청자 </span><span
-                                class="font-bold">4,000</span><span>/</span><span>{{ number_format($campaign->applicant_limit) }}</span>
+                                class="font-bold">{{ number_format($campaign->applicants()->count()) }}</span><span>/</span><span>{{ number_format($campaign->applicant_limit) }}</span>
                     </a>
                 </div>
                 <div>
