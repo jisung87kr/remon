@@ -1,0 +1,63 @@
+.alert {
+  @apply p-4 text-sm rounded-lg;
+
+  &.alert-info {
+    @apply text-blue-800 bg-blue-50;
+
+    &.alert-border{
+      @apply border border-blue-300;
+    }
+
+    &.alert-accent{
+      @apply border-t-4 border-blue-300 rounded-none;
+    }
+  }
+
+  &.alert-danger {
+    @apply text-red-800 bg-red-50;
+
+    &.alert-border{
+      @apply border border-red-300;
+    }
+
+    &.alert-accent{
+      @apply border-t-4 border-red-300 rounded-none;
+    }
+  }
+
+  &.alert-success {
+    @apply text-green-800 bg-green-50;
+
+    &.alert-border{
+      @apply border border-green-300;
+    }
+
+    &.alert-accent{
+      @apply border-t-4 border-green-300 rounded-none;
+    }
+  }
+
+  &.alert-warning {
+    @apply text-yellow-800 bg-yellow-50;
+
+    &.alert-border{
+      @apply border border-yellow-300;
+    }
+
+    &.alert-accent{
+      @apply border-t-4 border-yellow-300 rounded-none;
+    }
+  }
+
+  &.alert-dark {
+    @apply text-gray-800 bg-gray-50;
+
+    &.alert-border{
+      @apply border border-gray-300;
+    }
+
+    &.alert-accent{
+      @apply border-t-4 border-gray-300 rounded-none;
+    }
+  }
+}
