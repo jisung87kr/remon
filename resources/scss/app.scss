@@ -42,7 +42,7 @@
 }
 
 .label{
-  @apply block mb-2 text-sm font-medium text-gray-900;
+  @apply block text-sm font-medium text-gray-900;
 
   &.label-dark{
    @apply dark:text-white

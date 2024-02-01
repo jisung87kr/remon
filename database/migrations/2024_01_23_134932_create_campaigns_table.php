@@ -18,8 +18,12 @@ return new class extends Migration
             $table->text('benefit')->nullable()->comment('제공내역');
             $table->integer('benefit_point')->nullable()->comment('제공포인트');
             $table->text('visit_instruction')->nullable()->comment('방문 및 예약안내');
-            $table->string('address')->nullable()->comment('주소');
-            $table->text('mission')->comment('미션');
+            $table->string('address_zipcode')->nullable()->comment('우편번호');
+            $table->string('address_first')->nullable()->comment('주소');
+            $table->string('address_last')->nullable()->comment('주소 상세');
+            $table->string('lat')->nullable()->comment('위도');
+            $table->string('long')->nullable()->comment('경도');
+            $table->text('mission')->comment('미션 설명');
             $table->text('extra_information')->nullable()->comment('추가사항');
             $table->dateTime('applicant_start_at')->comment('캠페인 신청 시작일');
             $table->dateTime('applicant_end_at')->comment('캠페인 신청 마감일');
