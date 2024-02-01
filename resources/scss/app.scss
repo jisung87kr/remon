@@ -2,7 +2,116 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 @import "component/alert";
+@import "component/badge";
+@import "component/button";
 
 [x-cloak] {
   display: none;
+}
+
+.table{
+  @apply w-full text-sm text-left rtl:text-right text-gray-500;
+
+  &table-dark{
+    @apply dark:text-gray-400;
+
+    thead{
+      @apply dark:bg-gray-700 dark:text-gray-400;
+    }
+
+    tbody{
+      tr{
+        @apply dark:bg-gray-800 dark:border-gray-700;
+      }
+    }
+  }
+
+  thead{
+    @apply text-xs text-gray-700 uppercase bg-gray-50;
+  }
+
+  tbody{
+    tr{
+      @apply bg-white border-b;
+    }
+  }
+
+  th,td{
+    @apply px-6 py-3;
+  }
+}
+
+.label{
+  @apply block mb-2 text-sm font-medium text-gray-900;
+
+  &.label-dark{
+   @apply dark:text-white
+  }
+}
+
+.form-control{
+  @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
+
+  &.form-control-dark{
+    @apply dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+  }
+}
+
+.form-select{
+  @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
+
+  &.form-select-dark{
+    @apply dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+  }
+}
+
+.form-check{
+  @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500;
+
+  &.form-check-dark{
+   @apply  dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600;
+  }
+}
+
+.form-radio{
+  @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500;
+  &.form-radio-dark{
+    @apply  dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600;
+  }
+}
+
+.h1{
+  @apply text-5xl font-extrabold;
+}
+
+.h2{
+  @apply text-4xl font-bold;
+}
+
+.h3{
+  @apply text-3xl font-bold;
+}
+
+.h4{
+  @apply text-2xl font-bold;
+}
+
+.h5{
+  @apply text-xl font-bold;
+}
+
+.h6{
+  @apply text-lg font-bold;
+}
+
+p{
+  @apply text-gray-500;
+}
+
+ul, ol{
+  @apply list-none list-inside;
+}
+
+a{
+  @apply text-blue-600 dark:text-blue-500 hover:underline;
 }
