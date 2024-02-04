@@ -247,26 +247,9 @@
                         </div>
                         <div class="col-span-2 py-6">
                             <label for="" class="label mb-2">상품옵션</label>
-                            <template x-for="(item, index) in customOptions">
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 py-1">
-                                    <input type="text" name="custom_option[][name]" id="" class="form-control" placeholder="옵션명" x-model="item.name">
-                                    <div class="flex gap-3">
-                                        <input type="text" name="custom_option[][value]" id="" class="form-control" placeholder="예)빨강, 노랑" x-model="item.value">
-                                        <template x-if="customOptions.length > 1">
-                                            <button type="button" class="button button-gray-outline shrink-0" @click="removeCustomOption(index)">삭제</button>
-                                        </template>
-                                    </div>
-                                </div>
-                            </template>
-                            <div class="text-center mt-3">
-                                <button type="button" @click.prevent="addCustomOption">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-rounded-plus" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#9e9e9e" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                        <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" />
-                                        <path d="M15 12h-6" />
-                                        <path d="M12 9v6" />
-                                    </svg>
-                                </button>
+                            <div class="grid grid-cols-2 gap-3">
+                                <input type="text" id="" class="form-control" name="" placeholder="옵션명">
+                                <input type="text" id="" class="form-control" name="" placeholder="예)빨강, 노랑">
                             </div>
                         </div>
                     </div>
