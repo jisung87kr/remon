@@ -7,6 +7,7 @@ use App\Models\CampaignImage;
 use App\Models\CampaignMissionOption;
 use App\Models\CampaignType;
 use App\Models\Category;
+use App\Models\Mission;
 use Faker\Factory;
 use Illuminate\Http\Request;
 use App\Enums\Campaign\MetaEnum;
@@ -36,9 +37,11 @@ class CampaignController extends Controller
     {
         $campaign = new Campaign();
         $campaignTypes = CampaignType::all();
+        $typeCategory = Category::filter(['name' => '유형'])->first();
         $productCategory = Category::filter(['name' => '제품'])->first();
         $locationCategory = Category::filter(['name' => '지역'])->first();
-        return view('campaign.create', compact('campaign', 'campaignTypes', 'productCategory', 'locationCategory'));
+        $missions = Mission::all();
+        return view('campaign.create', compact('campaign', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions'));
     }
 
     /**
