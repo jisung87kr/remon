@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -55,5 +56,17 @@ class Category extends Model
     public function getRouteKey()
     {
         return $this->name;
+    }
+
+    public function scopeFilter(Builder $query, $filter)
+    {
+
+        $query->when($filter['id'] ?? false, function($query, $id){
+            $query->where('id', $id);
+        });
+
+        $query->when($filter['name'] ?? false, function($query, $name){
+            $query->where('name', $name);
+        });
     }
 }

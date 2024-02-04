@@ -16,11 +16,12 @@ return new class extends Migration
             $table->string('product_name')->comment('상품명');
             $table->string('title')->comment('제목');
             $table->text('benefit')->nullable()->comment('제공내역');
+            $table->boolean('use_benefit_point')->default(false)->comment('포인트 제공 여부');
             $table->integer('benefit_point')->nullable()->comment('제공포인트');
             $table->text('visit_instruction')->nullable()->comment('방문 및 예약안내');
-            $table->string('address_zipcode')->nullable()->comment('우편번호');
-            $table->string('address_first')->nullable()->comment('주소');
-            $table->string('address_last')->nullable()->comment('주소 상세');
+            $table->string('address_postcode')->nullable()->comment('우편번호');
+            $table->string('address')->nullable()->comment('주소');
+            $table->string('address_detail')->nullable()->comment('주소 상세');
             $table->string('lat')->nullable()->comment('위도');
             $table->string('long')->nullable()->comment('경도');
             $table->text('mission')->comment('미션 설명');

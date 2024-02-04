@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Campaign;
 use App\Models\CampaignImage;
 use App\Models\CampaignMissionOption;
+use App\Models\CampaignType;
 use App\Models\Category;
 use Faker\Factory;
 use Illuminate\Http\Request;
@@ -16,6 +17,10 @@ use Illuminate\Support\Facades\Storage;
 
 class CampaignController extends Controller
 {
+    public function __construct(Category $category)
+    {
+        $this->category = $category;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -30,7 +35,10 @@ class CampaignController extends Controller
     public function create()
     {
         $campaign = new Campaign();
-        return view('campaign.create', compact('campaign'));
+        $campaignTypes = CampaignType::all();
+        $productCategory = Category::filter(['name' => '제품'])->first();
+        $locationCategory = Category::filter(['name' => '지역'])->first();
+        return view('campaign.create', compact('campaign', 'campaignTypes', 'productCategory', 'locationCategory'));
     }
 
     /**

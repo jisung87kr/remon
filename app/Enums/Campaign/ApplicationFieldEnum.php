@@ -6,9 +6,9 @@ enum ApplicationFieldEnum:string
     case APPLY_REASON = 'apply_reason';
     case CUSTOM_OPTION = 'custom_option';
     case CAMERA_TYPE = 'camera_type';
-    case SHIPPING_ADDRESS_ZIPCODE = 'shipping_address_zipcode';
-    case SHIPPING_ADDRESS_FIRST = 'shipping_address_first';
-    case SHIPPING_ADDRESS_LAST = 'shipping_address_last';
+    case SHIPPING_ADDRESS_POSTCODE = 'shipping_address_postcode';
+    case SHIPPING_ADDRESS = 'shipping_address';
+    case SHIPPING_ADDRESS_DETAIL = 'shipping_address_detail';
     case RECIPIENT_NAME = 'recipient_name';
     case RECIPIENT_PHONE = 'recipient_phone';
     case IS_FACE_VISIBLE = 'is_face_visible';
@@ -29,9 +29,9 @@ enum ApplicationFieldEnum:string
             ApplicationFieldEnum::APPLY_REASON => '지원사유',
             ApplicationFieldEnum::CUSTOM_OPTION => '사용자 정의 옵션',
             ApplicationFieldEnum::CAMERA_TYPE => '어떤 카메라를 사용하시나요?',
-            ApplicationFieldEnum::SHIPPING_ADDRESS_ZIPCODE => '배송지 우편번호',
-            ApplicationFieldEnum::SHIPPING_ADDRESS_FIRST => '배송지 주소',
-            ApplicationFieldEnum::SHIPPING_ADDRESS_LAST => '배송지 상세',
+            ApplicationFieldEnum::SHIPPING_ADDRESS_POSTCODE => '배송지 우편번호',
+            ApplicationFieldEnum::SHIPPING_ADDRESS => '배송지 주소',
+            ApplicationFieldEnum::SHIPPING_ADDRESS_DETAIL => '배송지 상세',
             ApplicationFieldEnum::RECIPIENT_NAME => '받는분',
             ApplicationFieldEnum::RECIPIENT_PHONE => '받는분 연락처',
             ApplicationFieldEnum::IS_FACE_VISIBLE => '얼굴 노출 가능 여부',

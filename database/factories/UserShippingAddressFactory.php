@@ -21,9 +21,9 @@ class UserShippingAddressFactory extends Factory
             'title' => $this->faker->word,
             'name' => $this->faker->name,
             'phone' => $this->faker->phoneNumber,
-            'address_zipcode' => $this->faker->randomDigit(),
-            'address_first' => $this->faker->address,
-            'address_last' => $this->faker->streetAddress,
+            'address_postcode' => $this->faker->randomDigit(),
+            'address' => $this->faker->address,
+            'address_detail' => $this->faker->streetAddress,
         ];
     }
 }

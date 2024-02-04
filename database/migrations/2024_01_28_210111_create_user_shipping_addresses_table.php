@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('title')->comment('배송지 제목');
             $table->string('name')->comment('받는 사람');
             $table->string('phone')->comment('받는 사람 연락처');
-            $table->string('address_zipcode')->comment('우편번호');
-            $table->string('address_first')->comment('주소');
-            $table->string('address_last')->comment('주소 상세');
+            $table->string('address_postcode')->comment('우편번호');
+            $table->string('address')->comment('주소');
+            $table->string('address_detail')->comment('주소 상세');
             $table->timestamps();
         });
     }
