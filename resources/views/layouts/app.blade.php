@@ -130,7 +130,7 @@
             </main>
 
             <footer class="border-t px-6">
-                <div class="container mx-auto p-6">
+                <div class="container mx-auto py-6">
                     <div class="md:flex md:justify-between md:items-center">
                         <div class="mr-6">
                             <a href="" class="text-[20px] text-gray-500">REMON</a>
@@ -160,10 +160,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="border-t p-6">
-                    <div class="container mx-auto px-6">
+                <div class="border-t py-6">
+                    <div class="container mx-auto py-6">
                         <div class="lg:flex gap-6">
-                            <div>
+                            <div class="break-keep">
                                 <a href="" class="pr-2 text-gray-500">레몬소개</a>
                                 <a href="" class="pr-2 text-gray-500">이용약관</a>
                                 <a href="" class="pr-2 text-gray-500 font-bold">개인정보처리방침</a>
