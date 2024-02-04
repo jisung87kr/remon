@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="container mx-auto p-6" x-data="campaignData">
-        <form action="" method="POST">
+        <form action="{{ route('campaigns.store') }}" method="POST">
             @csrf
             <section class="mb-16">
                 <h1 class="h3 mb-6">캠페인 설정</h1>
@@ -175,14 +175,18 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-span-2 py-6" x-show="showInput(1)">
+                        <template x-if="showInput(1)">
+                        <div class="col-span-2 py-6">
                             <label for="title_keyword" class="label mb-2">제목키워드</label>
                             <input type="text" id="title_keyword" class="form-control" name="mission_options[1][content]">
                         </div>
-                        <div class="col-span-2 py-6"  x-show="showInput(2)">
+                        </template>
+                        <template x-if="showInput(2)">
+                        <div class="col-span-2 py-6">
                             <label for="content_keyword" class="label mb-2">본문키워드</label>
                             <input type="text" id="content_keyword" class="form-control" name="mission_options[2][content]">
                         </div>
+                        </template>
                         <template x-if="showInput(11)">
                             <div class="col-span-2 py-6">
                                 <label for="hashtag" class="label mb-2">해시태그</label>
@@ -247,10 +251,26 @@
                         </div>
                         <div class="col-span-2 py-6">
                             <label for="" class="label mb-2">상품옵션</label>
-                            <div class="grid grid-cols-2 gap-3">
-                                <input type="text" id="" class="form-control" name="" placeholder="옵션명">
-                                <input type="text" id="" class="form-control" name="" placeholder="예)빨강, 노랑">
-                            </div>
+                            <template x-for="(item, index) in customOptions">
+                                <div class="grid grid-cols-2 gap-3 py-1">
+                                    <input type="text" :name="`custom_option[${index}][name]`" id="" class="form-control" placeholder="옵션명" x-model="item.name">
+                                    <div class="flex gap-3">
+                                        <input type="text" :name="`custom_option[${index}][value]`" id="" class="form-control" placeholder="예)빨강, 노랑" x-model="item.value">
+                                        <template x-if="customOptions.length > 1">
+                                            <button type="button" class="button button-gray-outline shrink-0" @click="removeCustomOption(index)">삭제</button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                            <div class="text-center mt-3">
+                            <button type="button" @click.prevent="addCustomOption">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-rounded-plus" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#9e9e9e" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" />
+                                    <path d="M15 12h-6" />
+                                    <path d="M12 9v6" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -258,7 +278,7 @@
 
             <div class="text-center">
                 <button class="button button-light">취소</button>
-                <button class="button button-default">등록</button>
+                <button type="submit" class="button button-default">등록</button>
             </div>
         </form>
     </div>
