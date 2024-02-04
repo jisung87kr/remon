@@ -15,6 +15,7 @@ use App\Enums\Campaign\MediaEnum;
 use App\Enums\User\MetaEnum AS UserMeta;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Enums\Campaign\ApplicationFieldEnum;
 
 class CampaignController extends Controller
 {
@@ -41,7 +42,19 @@ class CampaignController extends Controller
         $productCategory = Category::filter(['name' => '제품'])->first();
         $locationCategory = Category::filter(['name' => '지역'])->first();
         $missions = Mission::all();
-        return view('campaign.create', compact('campaign', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions'));
+        $customOptions = array_filter(ApplicationFieldEnum::cases(), function($item){
+            if(!in_array($item->name, [
+                ApplicationFieldEnum::SHIPPING_ADDRESS_POSTCODE->name,
+                ApplicationFieldEnum::SHIPPING_ADDRESS->name,
+                ApplicationFieldEnum::SHIPPING_ADDRESS_DETAIL->name,
+                ApplicationFieldEnum::RECIPIENT_NAME->name,
+                ApplicationFieldEnum::RECIPIENT_PHONE->name,
+            ])){
+                return $item;
+            }
+        });
+
+        return view('campaign.create', compact('campaign', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions', 'customOptions'));
     }
 
     /**
@@ -49,7 +62,28 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'type'                       => 'required',
+            'product_category'           => 'required|array',
+            'type_category'              => 'required|array',
+            'location_category'          => 'required|array',
+            'title'                      => 'required',
+            'product_name'               => 'required',
+            'product_url'                => 'nullable',
+            'use_benefit_point'          => "required|string",
+            'benefit'                    => 'required',
+            'point'                      => 'nullable|digits',
+            'address_postcode'           => 'nullable',
+            'address'                    => 'nullable',
+            'address_detail'             => 'nullable',
+            'visit_instructions'         => 'nullable',
+            'extra_information'          => 'nullable',
+            'mission_options'            => 'required|array',
+            'mission_options.1.content'  => 'nullable',
+            'mission_options.2.content'  => 'nullable',
+            'mission_options.11.content' => 'nullable',
+        ]);
+        dd($request->all());
     }
 
     /**

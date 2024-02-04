@@ -49,6 +49,26 @@ class Campaign extends Model
         return $this->hasMany(CampaignApplicationField::class);
     }
 
+    public function productCategories()
+    {
+        $categoryModel = new Category();
+        $categoryIds = $categoryModel->getChildIds(1);
+
+        return $this->morphToMany(Category::class, 'categoryable')
+            ->whereIn('category_id', $categoryIds)
+            ->from('categories');
+    }
+
+    public function typeCategories()
+    {
+        $categoryModel = new Category();
+        $categoryIds = $categoryModel->getChildIds(56);
+
+        return $this->morphToMany(Category::class, 'categoryable')
+            ->whereIn('category_id', $categoryIds)
+            ->from('categories');
+    }
+
     public function locations()
     {
         $categoryModel = new Category();

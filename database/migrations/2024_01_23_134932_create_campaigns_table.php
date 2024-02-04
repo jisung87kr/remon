@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
             $table->string('product_name')->comment('상품명');
+            $table->string('product_url')->nullable()->comment('상품 url');
             $table->string('title')->comment('제목');
             $table->text('benefit')->nullable()->comment('제공내역');
             $table->boolean('use_benefit_point')->default(false)->comment('포인트 제공 여부');

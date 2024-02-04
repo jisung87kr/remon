@@ -4,37 +4,58 @@
             @csrf
             <section class="mb-16">
                 <h1 class="h3 mb-6">캠페인 설정</h1>
+                <button type="submit" class="button button-default">save</button>
                 <div class="border-t border-stone-900 py-3">
                     <div class="grid md:grid-cols-2 divide-y">
+                        <div class="col-span-2 py-6">
+                            <label class="label mb-2 text-base">상태</label>
+                            <select name="status" id="status" class="form-select">
+                                @foreach(App\Enums\Campaign\StatusEnum::cases() as $status)
+                                <option value="{{ $status->name }}" @selected($status->name == old('status', $campaign->status))>{{ $status->label() }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="col-span-2 py-6">
                             <label class="label mb-2 text-base">유형</label>
                             <ul class="flex gap-3">
                                 @foreach($campaignTypes as $campaignType)
                                 <li>
-                                    <x-radio-button id="type_{{$campaignType->id}}" name="type" :value="$campaignType->id" required="true">{{ $campaignType->name }}</x-radio-button>
+                                    <x-radio-button id="type_{{$campaignType->id}}"
+                                                    name="type"
+                                                    :value="$campaignType->id"
+                                                    xmodel="type">{{ $campaignType->name }}</x-radio-button>
                                 </li>
                                 @endforeach
                             </ul>
+                            <x-input-error for="type" class="mt-1"></x-input-error>
                         </div>
                         <div class="col-span-2 py-6">
                             <label class="label mb-2 text-base">제품 카테고리</label>
                             <ul class="flex flex-wrap gap-3">
                                 @foreach($productCategory->categories as $category)
                                 <li>
-                                    <x-checkbox-button id="product_category_{{$category->id}}" name="product_category[]" :value="$category->id">{{ $category->name }}</x-checkbox-button>
+                                    <x-checkbox-button id="product_category_{{$category->id}}"
+                                                       name="product_category[]"
+                                                       :value="$category->id"
+                                                       :checked="in_array($category->id, old('product_category', $campaign->productCategories->pluck('id')->toArray()))">{{ $category->name }}</x-checkbox-button>
                                 </li>
                                 @endforeach
                             </ul>
+                            <x-input-error for="product_category" class="mt-1"></x-input-error>
                         </div>
                         <div class="col-span-2 py-6">
                             <label class="label mb-2 text-base">제퓸 유형</label>
                             <ul class="flex flex-wrap gap-3">
                                 @foreach($typeCategory->categories as $category)
                                     <li>
-                                        <x-checkbox-button id="product_category_{{$category->id}}" name="product_category[]" :value="$category->id">{{ $category->name }}</x-checkbox-button>
+                                        <x-checkbox-button id="product_category_{{$category->id}}"
+                                                           name="type_category[]"
+                                                           :value="$category->id"
+                                                           :checked="in_array($category->id, old('type_category', $campaign->typeCategories->pluck('id')->toArray()))">{{ $category->name }}</x-checkbox-button>
                                     </li>
                                 @endforeach
                             </ul>
+                            <x-input-error for="type_category" class="mt-1"></x-input-error>
                         </div>
                         <div class="col-span-2 py-6">
                             <label class="label mb-4">지역 카테고리</label>
@@ -45,12 +66,16 @@
                                     <ul class="flex flex-wrap gap-3">
                                         @foreach($category->categories as $location)
                                         <li>
-                                            <x-checkbox-button id="location_category_{{$location->id}}" name="location_category[]" :value="$location->id">{{ $location->name }}</x-checkbox-button>
+                                            <x-checkbox-button id="location_category_{{$location->id}}"
+                                                               name="location_category[]"
+                                                               :value="$location->id"
+                                                               :checked="in_array($category->id, old('location_category', $campaign->locations->pluck('id')->toArray()))">{{ $location->name }}</x-checkbox-button>
                                         </li>
                                         @endforeach
                                     </ul>
                                 </div>
                                 @endforeach
+                                <x-input-error for="location_category" class="mt-1"></x-input-error>
                             </div>
                         </div>
                     </div>
@@ -63,10 +88,12 @@
                         <div class="col-span-2 py-6">
                             <label class="label mb-2 text-base">대표이미지</label>
                             <input type="file" name="thumbnails" class="form-control" multiple>
+                            <x-input-error for="thumbnails" class="mt-1"></x-input-error>
                         </div>
                         <div class="col-span-2 py-6">
                             <label class="label mb-2 text-base">상세이미지</label>
                             <input type="file" name="detail_images" class="form-control" multiple>
+                            <x-input-error for="detail_images" class="mt-1"></x-input-error>
                         </div>
                     </div>
                 </div>
@@ -74,67 +101,138 @@
             <section class="mb-16">
                 <h1 class="h3 mb-6">캠페인 정보</h1>
                 <div class="border-t border-stone-900 py-3">
-                    <div class="grid md:grid-cols-2 divide-y">
+                    <div class="grid md:grid-cols-2 divide-y gap-x-3">
                         <div class="col-span-2 py-6">
                             <label for="title" class="label mb-2">캠페인 제목</label>
-                            <input type="text" id="title" class="form-control" name="title">
+                            <input type="text" id="title" class="form-control" name="title" value="{{old('title', $campaign['title'])}}">
+                            <x-input-error for="title" class="mt-1"></x-input-error>
                         </div>
                         <div class="col-span-2 py-6">
                             <label for="product_name" class="label mb-2">상품명</label>
-                            <input type="text" id="product_name" class="form-control" name="product_name">
+                            <input type="text" id="product_name" class="form-control" name="product_name" value="{{ old('product_name', $campaign['product_name']) }}">
+                            <x-input-error for="product_name" class="mt-1"></x-input-error>
+                        </div>
+                        <div class="col-span-2 py-6">
+                            <label for="product_url" class="label mb-2">상품주소</label>
+                            <input type="text" id="product_url" class="form-control" name="product_url" value="{{ old('product_url', $campaign['product_url']) }}">
+                            <x-input-error for="product_name" class="mt-1"></x-input-error>
                         </div>
                         <div class="col-span-2 py-6">
                             <label for="benefit" class="label mb-2">제공내역</label>
-                            <textarea id="benefit" name="benefit" class="form-control" cols="30" rows="10"></textarea>
+                            <textarea id="benefit" name="benefit" class="form-control" cols="30" rows="10">{{ old('benefit', $campaign['benefit']) }}</textarea>
+                            <x-input-error for="benefit" class="mt-1"></x-input-error>
+                        </div>
+                        <div class="col-span-2 py-6">
+                            <label for="applicant_limit" class="label mb-2">모집인원</label>
+                            <input type="number" id="applicant_limit" class="form-control" name="applicant_limit" value="{{ old('applicant_limit', $campaign['applicant_limit']) }}">
+                            <x-input-error for="product_name" class="mt-1"></x-input-error>
+                        </div>
+                        <div class="col-span-2 py-6 flex gap-3">
+                            <div class="w-1/2">
+                                <label for="applicant_start_at" class="label mb-2">신청 시작일</label>
+                                <input type="text" id="applicant_start_at" class="form-control" name="applicant_start_at" value="{{ old('applicant_start_at', $campaign['applicant_start_at']) }}">
+                                <x-input-error for="applicant_start_at" class="mt-1"></x-input-error>
+                            </div>
+                            <div class="w-1/2">
+                                <label for="applicant_end_at" class="label mb-2">신청 종료일</label>
+                                <input type="text" id="applicant_end_at" class="form-control" name="applicant_end_at" value="{{ old('applicant_end_at', $campaign['applicant_end_at']) }}">
+                                <x-input-error for="applicant_end_at" class="mt-1"></x-input-error>
+                            </div>
+                        </div>
+                        <div class="col-span-2 py-6 flex gap-3">
+                            <div class="w-1/2">
+                                <label for="announcement_at" class="label mb-2">선정결과 발표일</label>
+                                <input type="text" id="announcement_at" class="form-control" name="announcement_at" value="{{ old('announcement_at', $campaign['announcement_at']) }}">
+                                <x-input-error for="announcement_at" class="mt-1"></x-input-error>
+                            </div>
+                            <div class="w-1/2">
+                                <label for="result_announcement_date_at" class="label mb-2">캠페인 결과 발표일</label>
+                                <input type="text" id="result_announcement_date_at" class="form-control" name="result_announcement_date_at" value="{{ old('result_announcement_date_at', $campaign['result_announcement_date_at']) }}">
+                                <x-input-error for="result_announcement_date_at" class="mt-1"></x-input-error>
+                            </div>
+                        </div>
+                        <div class="col-span-2 py-6 flex gap-3">
+                            <div class="w-1/2">
+                                <label for="registration_start_date_at" class="label mb-2">콘텐츠 등록 시작일</label>
+                                <input type="text" id="registration_start_date_at" class="form-control" name="registration_start_date_at" value="{{ old('registration_start_date_at', $campaign['registration_start_date_at']) }}">
+                                <x-input-error for="registration_start_date_at" class="mt-1"></x-input-error>
+                            </div>
+                            <div class="w-1/2">
+                                <label for="registration_end_date_at" class="label mb-2">콘텐츠 등록 마감일</label>
+                                <input type="text" id="registration_end_date_at" class="form-control" name="registration_end_date_at" value="{{ old('registration_end_date_at', $campaign['registration_end_date_at']) }}">
+                                <x-input-error for="registration_end_date_at" class="mt-1"></x-input-error>
+                            </div>
                         </div>
                         <div class="col-span-2 py-6">
                             <label for="point" class="label mb-2">제공포인트</label>
                             <div class="flex gap-x-3">
                                 <div class="flex items-center ps-4 border border-gray-200 rounded">
-                                    <input type="radio" value="n" name="use-benefit-point" id="use-benefit-point-false" class="form-radio" x-model="useBenefitPoint">
+                                    <input type="radio" value="n" name="use_benefit_point" id="use-benefit-point-false" class="form-radio" x-model="useBenefitPoint">
                                     <label for="use-benefit-point-false" class="w-full p-4 text-sm font-medium">미제공</label>
                                 </div>
                                 <div class="flex items-center ps-4 border border-gray-200 rounded">
-                                    <input type="radio" value="y" name="use-benefit-point" id="use-benefit-point-true" class="form-radio" x-model="useBenefitPoint">
+                                    <input type="radio" value="y" name="use_benefit_point" id="use-benefit-point-true" class="form-radio" x-model="useBenefitPoint">
                                     <label for="use-benefit-point-true" class="w-full p-4 text-sm font-medium">제공</label>
                                 </div>
+                                <x-input-error for="use_benefit_point" class="mt-1"></x-input-error>
                             </div>
-                            <input type="number" name="point" id="point" class="form-control mt-3" x-show="useBenefitPoint === 'y'">
-                        </div>
-                        <div class="col-span-2 py-6">
-                            <div class="grid grid-cols-12 gap-6">
-                                <div class="col-span-3">
-                                    <label for="address_postcode" class="label mb-2">우편번호</label>
-                                    <input id="address_postcode" class="form-control" name="address_postcode" readonly x-model="addressPostcode" @click="execDaumPostcode">
+                            <template x-if="useBenefitPoint === 'y'">
+                                <div>
+                                    <input type="number" name="point" id="point" class="form-control mt-3" value="{{ old('point', $campaign['point']) }}">
+                                    <x-input-error for="point" class="mt-1"></x-input-error>
                                 </div>
-                                <div class="col-span-9">
-                                    <label for="address" class="label mb-2">주소</label>
-                                    <div class="flex gap-3">
-                                        <input id="address" class="form-control w-full" name="address" readonly x-model="address" @click="execDaumPostcode">
-                                        <button type="button" class="button button-gray shrink-0 !m-0" @click.prevent="execDaumPostcode">주소찾기</button>
+                            </template>
+                        </div>
+                        <template x-if="type == 2">
+                            <div class="col-span-2 py-6">
+                                <div class="grid grid-cols-12 gap-6">
+                                    <div class="col-span-3">
+                                        <label for="address_postcode" class="label mb-2">우편번호</label>
+                                        <input id="address_postcode"
+                                               class="form-control"
+                                               name="address_postcode"
+                                               readonly
+                                               x-model="addressPostcode"
+                                               @click="execDaumPostcode">
+                                        <x-input-error for="address_postcode" class="mt-1"></x-input-error>
+                                    </div>
+                                    <div class="col-span-9">
+                                        <label for="address" class="label mb-2">주소</label>
+                                        <div class="flex gap-3">
+                                            <input id="address" class="form-control w-full" name="address" readonly x-model="address" @click="execDaumPostcode">
+                                            <button type="button" class="button button-gray shrink-0 !m-0" @click.prevent="execDaumPostcode">주소찾기</button>
+                                        </div>
+                                        <x-input-error for="address" class="mt-1"></x-input-error>
+                                    </div>
+                                    <div class="col-span-12 relative border pt-6" x-show="findAddress">
+                                        <div x-ref="search_address_element">
+                                            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" @click="findAddress=false" alt="접기 버튼">
+                                        </div>
+                                    </div>
+                                    <div class="col-span-12">
+                                        <label for="address_detail" class="label mb-2">주소상세</label>
+                                        <input id="address_detail" class="form-control" name="address_detail" x-ref="address_detail">
+                                        <x-input-error for="address_detail" class="mt-1"></x-input-error>
+                                    </div>
+                                    <div class="col-span-12 bg-red-50 h-[300px] rounded-lg flex items-center justify-center" x-show="mapObject">
+                                        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=509c2656c00fa9af4782197a888763f6&libraries=services,clusterer,drawing"></script>
+                                        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+                                        <div id="map" x-ref="map" class="w-full h-[300px]"></div>
+                                        <input type="hidden" name="lat" value="" x-model="lat">
+                                        <input type="hidden" name="long" value="" x-model="long">
                                     </div>
                                 </div>
-                                <div class="col-span-12 relative border pt-6" x-show="findAddress">
-                                    <div x-ref="search_address_element">
-                                        <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" @click="findAddress=false" alt="접기 버튼">
-                                    </div>
-                                </div>
-                                <div class="col-span-12">
-                                    <label for="address_detail" class="label mb-2">주소상세</label>
-                                    <input id="address_detail" class="form-control" name="address_detail" x-ref="address_detail">
-                                </div>
-                                <div class="col-span-12 bg-red-50 h-[300px] rounded-lg flex items-center justify-center" x-show="mapObject">
-                                    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=509c2656c00fa9af4782197a888763f6&libraries=services,clusterer,drawing"></script>
-                                    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-                                    <div id="map" x-ref="map" class="w-full h-[300px]"></div>
-                                    <input type="hidden" name="address_latitude" value="" x-model="lat">
-                                    <input type="hidden" name="address_longitude" value="" x-model="long">
-                                </div>
                             </div>
-                        </div>
+                            <div class="col-span-2 py-6">
+                                <label for="visit_instructions" class="label mb-2">방문 및 예약안내</label>
+                                <textarea name="visit_instructions" id="visit_instructions" class="form-control" cols="30" rows="10"></textarea>
+                                <x-input-error for="visit_instructions" class="mt-1"></x-input-error>
+                            </div>
+                        </template>
                         <div class="col-span-2 py-6">
-                            <label for="visit_instructions" class="label mb-2">방문 및 예약안내</label>
-                            <textarea name="visit_instructions" id="visit_instructions" class="form-control" cols="30" rows="10"></textarea>
+                            <label for="extra_information" class="label mb-2">추가안내사항</label>
+                            <textarea name="extra_information" id="extra_information" class="form-control" cols="30" rows="10"></textarea>
+                            <x-input-error for="extra_information" class="mt-1"></x-input-error>
                         </div>
                     </div>
                 </div>
@@ -153,7 +251,10 @@
                                             <ul class="flex gap-3 flex-wrap">
                                                 @foreach($mission->options as $option)
                                                 <li>
-                                                    <x-checkbox-button id="mission_option_{{$option->id}}" name="mission_options[{{$option->id}}][id]" :value="$option->id" xmodel="missionOptions">{{ $option->option_value }}</x-checkbox-button>
+                                                    <x-checkbox-button id="mission_option_{{$option->id}}"
+                                                                       name="mission_options[{{$option->id}}][id]"
+                                                                       :value="$option->id"
+                                                                       xmodel="missionOptions">{{ $option->option_value }}</x-checkbox-button>
                                                 </li>
                                                 @endforeach
                                             </ul>
@@ -167,35 +268,43 @@
                                         @foreach($missions as $mission)
                                             @if($mission->options[0]->option_value === null)
                                             <li>
-                                                <x-checkbox-button id="mission_option_{{$mission->options[0]->id}}" name="mission_options[{{$mission->options[0]->id}}]['id']" :value="$mission->options[0]->id" xmodel="missionOptions">{{ $mission->options[0]->option_name }}</x-checkbox-button>
+                                                <x-checkbox-button id="mission_option_{{$mission->options[0]->id}}"
+                                                                   name="mission_options[{{$mission->options[0]->id}}]['id']"
+                                                                   :value="$mission->options[0]->id"
+                                                                   xmodel="missionOptions">{{ $mission->options[0]->option_name }}</x-checkbox-button>
                                             </li>
                                             @endif
                                         @endforeach
                                     </ul>
                                 </li>
                             </ul>
+                            <x-input-error for="mission_options" class="mt-1"></x-input-error>
                         </div>
                         <template x-if="showInput(1)">
                         <div class="col-span-2 py-6">
                             <label for="title_keyword" class="label mb-2">제목키워드</label>
-                            <input type="text" id="title_keyword" class="form-control" name="mission_options[1][content]">
+                            <input type="text" id="title_keyword" class="form-control" name="mission_options[1][content]" value="{{ old('mission_options.1.content') }}">
+                            <x-input-error for="mission_options.1.content" class="mt-1"></x-input-error>
                         </div>
                         </template>
                         <template x-if="showInput(2)">
                         <div class="col-span-2 py-6">
                             <label for="content_keyword" class="label mb-2">본문키워드</label>
-                            <input type="text" id="content_keyword" class="form-control" name="mission_options[2][content]">
+                            <input type="text" id="content_keyword" class="form-control" name="mission_options[2][content]" value="{{ old('mission_options.2.content') }}">
+                            <x-input-error for="mission_options.2.content" class="mt-1"></x-input-error>
                         </div>
                         </template>
                         <template x-if="showInput(11)">
                             <div class="col-span-2 py-6">
                                 <label for="hashtag" class="label mb-2">해시태그</label>
-                                <input type="text" id="hashtag" class="form-control" name="mission_options[11][content]">
+                                <input type="text" id="hashtag" class="form-control" name="mission_options[11][content]" value="{{ old('mission_options.11.content') }}">
+                                <x-input-error for="mission_options.11.content" class="mt-1"></x-input-error>
                             </div>
                         </template>
                         <div class="col-span-2 py-6">
                             <label for="mission" class="label mb-2">미션설명</label>
-                            <textarea id="mission" name="mission" class="form-control" cols="30" rows="10"></textarea>
+                            <textarea id="mission" name="mission" class="form-control" cols="30" rows="10">{{old('mission', $campaign->mission)}}</textarea>
+                            <x-input-error for="mission" class="mt-1"></x-input-error>
                         </div>
                     </div>
                 </div>
@@ -208,46 +317,16 @@
                         <div class="col-span-2 py-6">
                             <label class="label mb-2 text-base">입력항목 선택</label>
                             <ul class="flex flex-wrap gap-3">
+                                @foreach($customOptions as $customOption)
                                 <li>
-                                    <x-checkbox-button id="application_field_{{App\Enums\Campaign\ApplicationFieldEnum::APPLY_REASON->value}}" name="application_field[]" value="{{App\Enums\Campaign\ApplicationFieldEnum::APPLY_REASON->name}}" checked="true" readonly="true" @click.prevent="alert('필수값입니다.')">{{ App\Enums\Campaign\ApplicationFieldEnum::APPLY_REASON->label() }}</x-checkbox-button>
+                                    <x-checkbox-button id="application_field_{{$customOption->value}}"
+                                                       name="application_field[]"
+                                                       value="{{$customOption->name}}"
+                                                       :checked="in_array($customOption->name, old('application_field', $campaign->applicationFields->pluck('field_category')->toArray()))">{{ $customOption->label() }}</x-checkbox-button>
                                 </li>
-                                <li>
-                                    <x-checkbox-button id="application_field_{{App\Enums\Campaign\ApplicationFieldEnum::CAMERA_TYPE->value}}" name="application_field[]" value="{{App\Enums\Campaign\ApplicationFieldEnum::CAMERA_TYPE->name}}">{{ App\Enums\Campaign\ApplicationFieldEnum::CAMERA_TYPE->label() }}</x-checkbox-button>
-                                </li>
-                                <li>
-                                    <x-checkbox-button id="application_field_{{App\Enums\Campaign\ApplicationFieldEnum::IS_FACE_VISIBLE->value}}" name="application_field[]" value="{{App\Enums\Campaign\ApplicationFieldEnum::IS_FACE_VISIBLE->name}}">{{ App\Enums\Campaign\ApplicationFieldEnum::IS_FACE_VISIBLE->label() }}</x-checkbox-button>
-                                </li>
-                                <li>
-                                    <x-checkbox-button id="application_field_{{App\Enums\Campaign\ApplicationFieldEnum::HAS_SHARED_BLOG->value}}" name="application_field[]" value="{{App\Enums\Campaign\ApplicationFieldEnum::HAS_SHARED_BLOG->name}}">{{ App\Enums\Campaign\ApplicationFieldEnum::HAS_SHARED_BLOG->label() }}</x-checkbox-button>
-                                </li>
-                                <li>
-                                    <x-checkbox-button id="application_field_{{App\Enums\Campaign\ApplicationFieldEnum::TOP_SIZE->value}}" name="application_field[]" value="{{App\Enums\Campaign\ApplicationFieldEnum::TOP_SIZE->name}}">{{ App\Enums\Campaign\ApplicationFieldEnum::TOP_SIZE->label() }}</x-checkbox-button>
-                                </li>
-                                <li>
-                                    <x-checkbox-button id="application_field_{{App\Enums\Campaign\ApplicationFieldEnum::BOTTOM_SIZE->value}}" name="application_field[]" value="{{App\Enums\Campaign\ApplicationFieldEnum::BOTTOM_SIZE->name}}">{{ App\Enums\Campaign\ApplicationFieldEnum::BOTTOM_SIZE->label() }}</x-checkbox-button>
-                                </li>
-                                <li>
-                                    <x-checkbox-button id="application_field_{{App\Enums\Campaign\ApplicationFieldEnum::SHOES_SIZE->value}}" name="application_field[]" value="{{App\Enums\Campaign\ApplicationFieldEnum::SHOES_SIZE->name}}">{{ App\Enums\Campaign\ApplicationFieldEnum::SHOES_SIZE->label() }}</x-checkbox-button>
-                                </li>
-                                <li>
-                                    <x-checkbox-button id="application_field_{{App\Enums\Campaign\ApplicationFieldEnum::HEIGHT->value}}" name="application_field[]" value="{{App\Enums\Campaign\ApplicationFieldEnum::HEIGHT->name}}">{{ App\Enums\Campaign\ApplicationFieldEnum::HEIGHT->label() }}</x-checkbox-button>
-                                </li>
-                                <li>
-                                    <x-checkbox-button id="application_field_{{App\Enums\Campaign\ApplicationFieldEnum::SKIN_TYPE->value}}" name="application_field[]" value="{{App\Enums\Campaign\ApplicationFieldEnum::SKIN_TYPE->name}}">{{ App\Enums\Campaign\ApplicationFieldEnum::SKIN_TYPE->label() }}</x-checkbox-button>
-                                </li>
-                                <li>
-                                    <x-checkbox-button id="application_field_{{App\Enums\Campaign\ApplicationFieldEnum::IS_MARRIED->value}}" name="application_field[]" value="{{App\Enums\Campaign\ApplicationFieldEnum::IS_MARRIED->name}}">{{ App\Enums\Campaign\ApplicationFieldEnum::IS_MARRIED->label() }}</x-checkbox-button>
-                                </li>
-                                <li>
-                                    <x-checkbox-button id="application_field_{{App\Enums\Campaign\ApplicationFieldEnum::HAS_CHILDREN->value}}" name="application_field[]" value="{{App\Enums\Campaign\ApplicationFieldEnum::HAS_CHILDREN->name}}">{{ App\Enums\Campaign\ApplicationFieldEnum::HAS_CHILDREN->label() }}</x-checkbox-button>
-                                </li>
-                                <li>
-                                    <x-checkbox-button id="application_field_{{App\Enums\Campaign\ApplicationFieldEnum::JOB->value}}" name="application_field[]" value="{{App\Enums\Campaign\ApplicationFieldEnum::JOB->name}}">{{ App\Enums\Campaign\ApplicationFieldEnum::JOB->label() }}</x-checkbox-button>
-                                </li>
-                                <li>
-                                    <x-checkbox-button id="application_field_{{App\Enums\Campaign\ApplicationFieldEnum::HAS_PET->value}}" name="application_field[]" value="{{App\Enums\Campaign\ApplicationFieldEnum::HAS_PET->name}}">{{ App\Enums\Campaign\ApplicationFieldEnum::HAS_PET->label() }}</x-checkbox-button>
-                                </li>
+                                @endforeach
                             </ul>
+                            <x-input-error for="application_field" class="mt-1"></x-input-error>
                         </div>
                         <div class="col-span-2 py-6">
                             <label for="" class="label mb-2">상품옵션</label>
@@ -273,6 +352,7 @@
                             </button>
                         </div>
                     </div>
+                    </div>
                 </div>
             </section>
 
@@ -284,20 +364,21 @@
     </div>
     <script>
         const campaignData = {
-          useBenefitPoint: 'n',
-          addressPostcode: '',
-          address: '',
-          addressDetail: '',
+          type: '{{old('type', $campaign['campaign_type_id'] ? $campaign['campaign_type_id'] : 1)}}',
+          useBenefitPoint: '{{ old('use_benefit_point', $campaign['use_benefit_point'] ?? 'n' ) }}',
+          addressPostcode: '{{ old('address_postcode', $campaign['address_postcode']) }}',
+          address: '{{ old('address', $campaign['address']) }}',
+          addressDetail: '{{ old('address_detail', $campaign['address_detail']) }}',
           addressExtra: '',
           searchAddressElement: '',
           findAddress: false,
           mapElement: '',
           mapObject: null,
           showMap: true,
-          lat: null,
-          long: null,
+          lat: '{{ old('lat', $campaign['lat']) }}',
+          long: '{{ old('long', $campaign['long']) }}',
           marker: null,
-          missionOptions: [],
+          missionOptions: {{ json_encode(old('missionOptions', $campaign->missionOptions->pluck('id')->toArray())) }},
           customOptions: [],
           customOption: {
             id: null,
