@@ -47,4 +47,18 @@ enum ApplicationFieldEnum:string
             ApplicationFieldEnum::HAS_PET => '반려동물을 키우시나요?',
         };
     }
+
+    static public function toArray($type='name')
+    {
+        return array_map(function($item) use ($type){
+            if($type === 'value'){
+                return $item->value;
+            } elseif($type === 'label'){
+                return $item->label();
+            }
+
+            return $item->name;
+
+        }, self::cases());
+    }
 }

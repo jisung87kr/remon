@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Campaign\StatusEnum;
 use App\Models\Campaign;
 use App\Models\CampaignImage;
 use App\Models\CampaignMissionOption;
@@ -16,7 +17,7 @@ use App\Enums\User\MetaEnum AS UserMeta;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Enums\Campaign\ApplicationFieldEnum;
-
+use Illuminate\Validation\Rule;
 class CampaignController extends Controller
 {
     public function __construct(Category $category)
@@ -62,28 +63,53 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'type'                       => 'required',
-            'product_category'           => 'required|array',
-            'type_category'              => 'required|array',
-            'location_category'          => 'required|array',
-            'title'                      => 'required',
-            'product_name'               => 'required',
-            'product_url'                => 'nullable',
-            'use_benefit_point'          => "required|string",
-            'benefit'                    => 'required',
-            'point'                      => 'nullable|digits',
-            'address_postcode'           => 'nullable',
-            'address'                    => 'nullable',
-            'address_detail'             => 'nullable',
-            'visit_instructions'         => 'nullable',
-            'extra_information'          => 'nullable',
-            'mission_options'            => 'required|array',
-            'mission_options.1.content'  => 'nullable',
-            'mission_options.2.content'  => 'nullable',
-            'mission_options.11.content' => 'nullable',
+        $validated = $request->validate([
+            'status'                      => [Rule::enum(StatusEnum::class)],
+            'type'                        => 'required',
+            'product_category'            => 'required|array',
+            'type_category'               => 'required|array',
+            'location_category'           => 'required|array',
+            'title'                       => 'required',
+            'product_name'                => 'required',
+            'product_url'                 => 'nullable',
+            'use_benefit_point'           => Rule::in(['y', 'n']),
+            'benefit'                     => 'required',
+            'point'                       => 'nullable|digits',
+            'address_postcode'            => 'nullable',
+            'address'                     => 'nullable',
+            'address_detail'              => 'nullable',
+            'visit_instructions'          => 'nullable',
+            'extra_information'           => 'nullable',
+            'applicant_start_at'          => 'required|date',
+            'applicant_end_at'            => 'required|datetime',
+            'announcement_at'             => 'required|datetime',
+            'registration_start_date_at'  => 'required|datetime',
+            'registration_end_date_at'    => 'required|datetime',
+            'result_announcement_date_at' => 'required|datetime',
+            'mission_options'             => 'required|array',
+            'mission_options.1.content'   => 'nullable',
+            'mission_options.2.content'   => 'nullable',
+            'mission_options.8.content'   => 'nullable',
+            'mission_options.11.content'  => 'nullable',
+            'application_field'           => ['array', Rule::in(ApplicationFieldEnum::toArray('name'))],
+            'custom_option'               => 'array',
+            'user_custom_option'          => Rule::in(['y', 'n']),
         ]);
-        dd($request->all());
+
+        DB::beginTransaction();
+
+        try {
+            $campaign = Campaign::create([
+                'campaign_type_id' => $validated['type'],
+                'product_name' => $validated['product_name'],
+                'product_url' => $validated['product_url'],
+            ]);
+            DB::rollBack();
+        } catch (\Exception $e){
+            DB::rollBack();
+            throw new \Exception($e->getMessage());
+        }
+        dd($request->all(), $validated, $campaign);
     }
 
     /**
