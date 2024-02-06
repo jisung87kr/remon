@@ -70,7 +70,7 @@
                                             <x-checkbox-button id="location_category_{{$location->id}}"
                                                                name="location_category[]"
                                                                :value="$location->id"
-                                                               :checked="in_array($category->id, old('location_category', $campaign->locations->pluck('id')->toArray()))">{{ $location->name }}</x-checkbox-button>
+                                                               :checked="in_array($location->id, old('location_category', $campaign->locations->pluck('id')->toArray()))">{{ $location->name }}</x-checkbox-button>
                                         </li>
                                         @endforeach
                                     </ul>
@@ -165,7 +165,7 @@
                             </div>
                         </div>
                         <div class="col-span-2 py-6">
-                            <label for="point" class="label mb-2">제공포인트</label>
+                            <label for="benefit_point" class="label mb-2">제공포인트</label>
                             <div class="flex gap-x-3">
                                 <div class="flex items-center ps-4 border border-gray-200 rounded">
                                     <input type="radio" value="n" name="use_benefit_point" id="use-benefit-point-false" class="form-radio" x-model="useBenefitPoint">
@@ -179,8 +179,8 @@
                             </div>
                             <template x-if="useBenefitPoint === 'y'">
                                 <div>
-                                    <input type="number" name="point" id="point" class="form-control mt-3" value="{{ old('point', $campaign['point']) }}">
-                                    <x-input-error for="point" class="mt-1"></x-input-error>
+                                    <input type="number" name="benefit_point" id="benefit_point" class="form-control mt-3" value="{{ old('point', $campaign['point']) }}">
+                                    <x-input-error for="benefit_point" class="mt-1"></x-input-error>
                                 </div>
                             </template>
                         </div>
@@ -225,9 +225,9 @@
                                 </div>
                             </div>
                             <div class="col-span-2 py-6">
-                                <label for="visit_instructions" class="label mb-2">방문 및 예약안내</label>
-                                <textarea name="visit_instructions" id="visit_instructions" class="form-control" cols="30" rows="10"></textarea>
-                                <x-input-error for="visit_instructions" class="mt-1"></x-input-error>
+                                <label for="visit_instruction" class="label mb-2">방문 및 예약안내</label>
+                                <textarea name="visit_instruction" id="visit_instruction" class="form-control" cols="30" rows="10"></textarea>
+                                <x-input-error for="visit_instruction" class="mt-1"></x-input-error>
                             </div>
                         </template>
                         <div class="col-span-2 py-6">
@@ -253,7 +253,7 @@
                                                 @foreach($mission->options as $option)
                                                 <li>
                                                     <x-checkbox-button id="mission_option_{{$option->id}}"
-                                                                       name="mission_options[{{$option->id}}][id]"
+                                                                       name="mission_options[]"
                                                                        :value="$option->id"
                                                                        xmodel="missionOptions">{{ $option->option_value }}</x-checkbox-button>
                                                 </li>
@@ -270,7 +270,7 @@
                                             @if($mission->options[0]->option_value === null)
                                             <li>
                                                 <x-checkbox-button id="mission_option_{{$mission->options[0]->id}}"
-                                                                   name="mission_options[{{$mission->options[0]->id}}]['id']"
+                                                                   name="mission_options[]"
                                                                    :value="$mission->options[0]->id"
                                                                    xmodel="missionOptions">{{ $mission->options[0]->option_name }}</x-checkbox-button>
                                             </li>
@@ -281,32 +281,48 @@
                             </ul>
                             <x-input-error for="mission_options" class="mt-1"></x-input-error>
                         </div>
-                        <template x-if="showInput(1)">
+                        <template x-if="showInput(missionOptionId.titleKeyword)">
                         <div class="col-span-2 py-6">
-                            <label for="title_keyword" class="label mb-2">제목키워드</label>
-                            <input type="text" id="title_keyword" class="form-control" name="mission_options[1][content]" value="{{ old('mission_options.1.content') }}">
-                            <x-input-error for="mission_options.1.content" class="mt-1"></x-input-error>
+                            <label for="mission_option_title_keyword" class="label mb-2">제목키워드</label>
+                            <input type="text"
+                                   id="mission_option_title_keyword"
+                                   class="form-control"
+                                   name="mission_option_title_keyword"
+                                   value="{{ old('mission_option_title_keyword', $campaign->titleKeyword->first() ? $campaign->titleKeyword->first()->content : null) }}">
+                            <x-input-error for="mission_option_title_keyword" class="mt-1"></x-input-error>
                         </div>
                         </template>
-                        <template x-if="showInput(2)">
+                        <template x-if="showInput(missionOptionId.contentKeyword)">
                         <div class="col-span-2 py-6">
-                            <label for="content_keyword" class="label mb-2">본문키워드</label>
-                            <input type="text" id="content_keyword" class="form-control" name="mission_options[2][content]" value="{{ old('mission_options.2.content') }}">
-                            <x-input-error for="mission_options.2.content" class="mt-1"></x-input-error>
+                            <label for="mission_option_content_keyword" class="label mb-2">본문키워드</label>
+                            <input type="text"
+                                   id="mission_option_content_keyword"
+                                   class="form-control"
+                                   name="mission_option_content_keyword"
+                                   value="{{ old('mission_option_content_keyword', $campaign->contentKeyword->first() ? $campaign->contentKeyword->first()->content : null) }}">
+                            <x-input-error for="mission_option_content_keyword" class="mt-1"></x-input-error>
                         </div>
                         </template>
-                        <template x-if="showInput(8)">
+                        <template x-if="showInput(missionOptionId.link)">
                             <div class="col-span-2 py-6">
-                                <label for="hashtag" class="label mb-2">링크삽입</label>
-                                <input type="text" id="hashtag" class="form-control" name="mission_options[8][content]" value="{{ old('mission_options.8.content') }}">
-                                <x-input-error for="mission_options.8.content" class="mt-1"></x-input-error>
+                                <label for="mission_option_link" class="label mb-2">링크삽입</label>
+                                <input type="text"
+                                       id="mission_option_link"
+                                       class="form-control"
+                                       name="mission_option_link"
+                                       value="{{ old('mission_option_link', $campaign->link->first() ? $campaign->link->first()->content : null) }}">
+                                <x-input-error for="mission_option_link" class="mt-1"></x-input-error>
                             </div>
                         </template>
-                        <template x-if="showInput(11)">
+                        <template x-if="showInput(missionOptionId.hashtag)">
                             <div class="col-span-2 py-6">
-                                <label for="hashtag" class="label mb-2">해시태그</label>
-                                <input type="text" id="hashtag" class="form-control" name="mission_options[11][content]" value="{{ old('mission_options.11.content') }}">
-                                <x-input-error for="mission_options.11.content" class="mt-1"></x-input-error>
+                                <label for="mission_option_hashtag" class="label mb-2">해시태그</label>
+                                <input type="text"
+                                       id="mission_option_hashtag"
+                                       class="form-control"
+                                       name="mission_option_hashtag"
+                                       value="{{ old('mission_option_hashtag', $campaign->hashtag->first() ? $campaign->hashtag->first()->content : null) }}">
+                                <x-input-error for="mission_option_hashtag" class="mt-1"></x-input-error>
                             </div>
                         </template>
                         <div class="col-span-2 py-6">
@@ -330,26 +346,15 @@
                                     <x-checkbox-button id="application_field_{{$customOption->value}}"
                                                        name="application_field[]"
                                                        value="{{$customOption->name}}"
-                                                       :checked="in_array($customOption->name, old('application_field', $campaign->applicationFields->pluck('field_category')->toArray()))">{{ $customOption->label() }}</x-checkbox-button>
+                                                       xmodel="application_field">{{ $customOption->label()['label'] }}</x-checkbox-button>
                                 </li>
                                 @endforeach
                             </ul>
                             <x-input-error for="application_field" class="mt-1"></x-input-error>
                         </div>
-                        <div class="col-span-2 py-6">
-                            <label for="" class="label mb-2">상품옵션</label>
-                            <div class="flex gap-x-3 mb-3">
-                                <div class="flex items-center ps-4 border border-gray-200 rounded">
-                                    <input type="radio" value="n" name="user_custom_option" id="user_custom_option-false" class="form-radio" x-model="useCustomOption">
-                                    <label for="user_custom_option-false" class="w-full p-4 text-sm font-medium">미사용</label>
-                                </div>
-                                <div class="flex items-center ps-4 border border-gray-200 rounded">
-                                    <input type="radio" value="y" name="user_custom_option" id="user_custom_option-true" class="form-radio" x-model="useCustomOption">
-                                    <label for="user_custom_option-true" class="w-full p-4 text-sm font-medium">사용</label>
-                                </div>
-                            </div>
-                            <x-input-error for="user_custom_option" class="mt-1"></x-input-error>
-                            <template x-if="useCustomOption === 'y'">
+                        <template x-if="application_field.includes('CUSTOM_OPTION')">
+                            <div class="col-span-2 py-6">
+                                <label for="" class="label mb-2">상품옵션</label>
                                 <div>
                                     <template x-for="(item, index) in customOptions">
                                         <div class="grid grid-cols-2 gap-3 py-1">
@@ -374,8 +379,8 @@
                                         </button>
                                     </div>
                                 </div>
-                            </template>
-                        </div>
+                            </div>
+                        </template>
                     </div>
                 </div>
             </section>
@@ -388,7 +393,7 @@
     </div>
     <script>
         const campaignData = {
-          type: '{{old('type', $campaign['campaign_type_id'] ? $campaign['campaign_type_id'] : 1)}}',
+          type: '{{old('type', $campaign['campaign_type_id'] ?? 1 )}}',
           useBenefitPoint: '{{ old('use_benefit_point', $campaign['use_benefit_point'] ?? 'n' ) }}',
           addressPostcode: '{{ old('address_postcode', $campaign['address_postcode']) }}',
           address: '{{ old('address', $campaign['address']) }}',
@@ -402,13 +407,19 @@
           lat: '{{ old('lat', $campaign['lat']) }}',
           long: '{{ old('long', $campaign['long']) }}',
           marker: null,
-          missionOptions: @json(old('missionOptions', $campaign->missionOptions->pluck('id')->toArray())),
-          useCustomOption: '{{ old('user_custom_option', 'n') }}',
+          missionOptions: @json(old('mission_options', $campaign->missionOptions->pluck('id')->toArray())),
+          application_field: @json(old('application_field', $campaign->applicationFields->pluck('field_category')->toArray())),
           customOptions: @json(old('custom_option', [])),
           customOption: {
             id: null,
             name: null,
             value: null,
+          },
+          missionOptionId: {
+            titleKeyword: '{{ App\Enums\Campaign\MissionOptionEnum::TITLE_KEYWORD_ID_OF_MISSION_OPTION->value }}',
+            contentKeyword: '{{ App\Enums\Campaign\MissionOptionEnum::CONTENT_KEYWORD_ID_OF_MISSION_OPTION->value }}',
+            link: '{{ App\Enums\Campaign\MissionOptionEnum::LINK_ID_OF_MISSION_OPTION->value }}',
+            hashtag: '{{ App\Enums\Campaign\MissionOptionEnum::HASHTAG_ID_OF_MISSION_OPTION->value }}',
           },
           init(){
             this.searchAddressElement = this.$refs.search_address_element;

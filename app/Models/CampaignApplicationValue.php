@@ -16,7 +16,7 @@ class CampaignApplicationValue extends Model
         return $this->belongsTo(CampaignApplicant::class, 'campaign_applicant_id', 'id');
     }
 
-    public function campaginApplicationFiled()
+    public function campaginApplicationField()
     {
         return $this->belongsTo(CampaignApplicationField::class);
     }

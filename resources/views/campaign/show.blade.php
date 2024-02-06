@@ -106,7 +106,7 @@
                                 </div>
                             </div>
                         @endif
-                        @if(count($campaign->links) > 0)
+                        @if(count($campaign->link) > 0)
                             <div class="flex py-6" id="extra_information">
                                 <div class="shrink-0 w-[160px] font-bold mr-3">링크</div>
                                 <div class="w-full pb-6">
@@ -122,6 +122,17 @@
                                     </div>
                                     <div class="text-sm text-gray-500 mt-6">
                                         <p>- 안내드린 링크를 본문에 포함해주세요.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        @if($campaign->hashtag)
+                            <div class="flex py-6" id="extra_information">
+                                <div class="shrink-0 w-[160px] font-bold mr-3">해시태그</div>
+                                <div class="w-full pb-6">
+                                    <div>{{ $campaign->hashtag }}</div>
+                                    <div class="text-sm text-gray-500 mt-6">
+                                        <p>- 안내드린 해시태그를 본문에 포함해주세요.</p>
                                     </div>
                                 </div>
                             </div>

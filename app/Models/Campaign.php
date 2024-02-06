@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Campaign\ImageTypeEnum;
+use App\Enums\Campaign\MissionOptionEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -103,6 +104,26 @@ class Campaign extends Model
     {
         $keywordMissionId = Mission::where('name', '키워드')->first()->options->pluck('id')->toArray();
         return $this->hasMany(CampaignMissionOption::class)->whereIn('mission_option_id', $keywordMissionId);
+    }
+
+    public function titleKeyword()
+    {
+        return $this->hasMany(CampaignMissionOption::class)->where('mission_option_id', MissionOptionEnum::TITLE_KEYWORD_ID_OF_MISSION_OPTION->value);
+    }
+
+    public function contentKeyword()
+    {
+        return $this->hasMany(CampaignMissionOption::class)->where('mission_option_id', MissionOptionEnum::CONTENT_KEYWORD_ID_OF_MISSION_OPTION->value);
+    }
+
+    public function link()
+    {
+        return $this->hasMany(CampaignMissionOption::class)->where('mission_option_id', MissionOptionEnum::LINK_ID_OF_MISSION_OPTION->value);
+    }
+
+    public function hashtag()
+    {
+        return $this->hasMany(CampaignMissionOption::class)->where('mission_option_id', MissionOptionEnum::HASHTAG_ID_OF_MISSION_OPTION->value);
     }
 
     public function links()
