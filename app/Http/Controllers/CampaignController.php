@@ -101,11 +101,15 @@ class CampaignController extends Controller
             'custom_option'                  => 'nullable|array',
         ]);
 
-//        DB::beginTransaction();
-//
-//        try {
+        DB::beginTransaction();
+
+        try {
+            $campaignType = CampaignType::find($validated['type']);
+
             $campaign = Campaign::create([
                 'campaign_type_id'            => $validated['type'],
+                'campaign_type_name'          => $campaignType->name,
+                'campaign_type_price'         => $campaignType->price,
                 'title'                       => $validated['title'],
                 'product_name'                => $validated['product_name'],
                 'product_url'                 => $validated['product_url'],
@@ -155,13 +159,11 @@ class CampaignController extends Controller
             }
 
             $campaign->applicationFields()->attach($validated['application_field']);
-
-
-//            DB::rollBack();
-//        } catch (\Exception $e){
-//            DB::rollBack();
-//            throw new \Exception($e->getMessage());
-//        }
+            DB::commit();
+        } catch (\Exception $e){
+            DB::rollBack();
+            throw new \Exception($e->getMessage());
+        }
         dd($request->all(), $validated, $campaign);
     }
 

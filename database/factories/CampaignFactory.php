@@ -32,6 +32,8 @@ class CampaignFactory extends Factory
         return [
             'product_name' => $this->faker->word,
             'campaign_type_id' => $campaignType,
+            'campaign_type_name' => $campaignType->name,
+            'campaign_type_price' => $campaignType->price,
             'title' => $this->faker->sentence,
             'benefit' => $this->faker->paragraph,
             'benefit_point' => $this->faker->randomDigit(),
