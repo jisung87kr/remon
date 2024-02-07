@@ -23,9 +23,10 @@ class CampaignApplicationFieldFactory extends Factory
         $type = CommonHelper::getRandomEnumCase(ApplicationFieldTypeEnum::cases());
         return [
             'field_category' => $category->name,
-            'field_type' => $type->name,
-            'field_name' => $this->faker->word,
-            'field_options' => $this->faker->word,
+            'type' => $type->name,
+            'name' => $this->faker->word,
+            'label' => $this->faker->word,
+            'option' => $this->faker->word,
             'is_required' => $this->faker->boolean,
         ];
     }

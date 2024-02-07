@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('campaign_id');
             $table->string('field_category')->nullable()->comment('필드 카테고리');
-            $table->string('field_type')->comment('데이터 타입');
-            $table->string('field_name')->comment('필드명');
-            $table->string('field_options')->nullable()->comment('필드옵션');
+            $table->string('name')->comment('필드명(enum 클래스 value 값)');
+            $table->string('type')->comment('필드유형(select, radio ...)');
+            $table->string('label')->comment('필드 레이블');
+            $table->string('option')->nullable()->comment('필드 항목, 시리얼라이즈로 입력(예:셀렉트박스 옵션값)');
             $table->boolean('is_required')->default(0)->comment('필수여부');
             $table->timestamps();
             $table->comment('신청 정보 필드');
