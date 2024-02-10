@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="container mx-auto p-6" x-data="campaignData">
-        <form action="{{ route('campaigns.store') }}" method="POST">
+        <form action="{{ route('campaigns.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <section class="mb-16">
                 <h1 class="h3 mb-6">캠페인 설정</h1>
@@ -88,12 +88,12 @@
                     <div class="grid md:grid-cols-2 divide-y">
                         <div class="col-span-2 py-6">
                             <label class="label mb-2 text-base">대표이미지</label>
-                            <input type="file" name="thumbnails" class="form-control" multiple>
+                            <input type="file" name="thumbnails[]" class="form-control" multiple>
                             <x-input-error for="thumbnails" class="mt-1"></x-input-error>
                         </div>
                         <div class="col-span-2 py-6">
                             <label class="label mb-2 text-base">상세이미지</label>
-                            <input type="file" name="detail_images" class="form-control" multiple>
+                            <input type="file" name="detail_images[]" class="form-control" multiple>
                             <x-input-error for="detail_images" class="mt-1"></x-input-error>
                         </div>
                     </div>

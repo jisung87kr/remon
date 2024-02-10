@@ -36,115 +36,115 @@ enum ApplicationFieldEnum:string
                 'category' => ApplicationFieldCategoryEnum::OPTION->name,
                 'label' => '지원사유',
                 'type' => 'text',
-                'name' => ApplicationFieldEnum::APPLY_REASON->value,
+                'name' => ApplicationFieldEnum::APPLY_REASON->name,
             ],
             ApplicationFieldEnum::CUSTOM_OPTION => [
                 'category' => ApplicationFieldCategoryEnum::OPTION->name,
                 'label' => '사용자 정의 옵션',
                 'type' => 'text',
-                'name' => ApplicationFieldEnum::CUSTOM_OPTION->value,
+                'name' => ApplicationFieldEnum::CUSTOM_OPTION->name,
             ],
             ApplicationFieldEnum::CAMERA_TYPE => [
                 'category' => ApplicationFieldCategoryEnum::INFORMATION->name,
                 'label' => '어떤 카메라를 사용하시나요?',
-                'type' => 'select',
-                'name' => ApplicationFieldEnum::CAMERA_TYPE->value,
-                'options' => CameraTypeEnum::cases(),
+                'type' => 'selectbox',
+                'name' => ApplicationFieldEnum::CAMERA_TYPE->name,
+                'option' => CameraTypeEnum::cases(),
             ],
             ApplicationFieldEnum::SHIPPING_ADDRESS_POSTCODE => [
                 'category' => ApplicationFieldCategoryEnum::SHIPPING_ADDRESS->name,
                 'label' => '배송지 우편번호',
                 'type' => 'text',
-                'name' => ApplicationFieldEnum::SHIPPING_ADDRESS_POSTCODE->value,
+                'name' => ApplicationFieldEnum::SHIPPING_ADDRESS_POSTCODE->name,
             ],
             ApplicationFieldEnum::SHIPPING_ADDRESS => [
                 'category' => ApplicationFieldCategoryEnum::SHIPPING_ADDRESS->name,
                 'label' => '배송지 주소',
                 'type' => 'text',
-                'name' => ApplicationFieldEnum::SHIPPING_ADDRESS->value,
+                'name' => ApplicationFieldEnum::SHIPPING_ADDRESS->name,
             ],
             ApplicationFieldEnum::SHIPPING_ADDRESS_DETAIL => [
                 'category' => ApplicationFieldCategoryEnum::SHIPPING_ADDRESS->name,
                 'label' => '배송지 상세',
                 'type' => 'text',
-                'name' => ApplicationFieldEnum::SHIPPING_ADDRESS_DETAIL->value,
+                'name' => ApplicationFieldEnum::SHIPPING_ADDRESS_DETAIL->name,
             ],
             ApplicationFieldEnum::RECIPIENT_NAME => [
                 'category' => ApplicationFieldCategoryEnum::SHIPPING_ADDRESS->name,
                 'label' => '받는분',
                 'type' => 'text',
-                'name' => ApplicationFieldEnum::RECIPIENT_NAME->value,
+                'name' => ApplicationFieldEnum::RECIPIENT_NAME->name,
             ],
             ApplicationFieldEnum::IS_FACE_VISIBLE => [
                 'category' => ApplicationFieldCategoryEnum::INFORMATION->name,
                 'label' => '얼굴 노출 가능 여부',
                 'type' => 'radio',
-                'name' => ApplicationFieldEnum::IS_FACE_VISIBLE->value,
+                'name' => ApplicationFieldEnum::IS_FACE_VISIBLE->name,
             ],
             ApplicationFieldEnum::HAS_SHARED_BLOG => [
                 'category' => ApplicationFieldCategoryEnum::INFORMATION->name,
                 'label' => '공동으로 운영하는 블로그가 있으신가요?',
                 'type' => 'radio',
-                'name' => ApplicationFieldEnum::HAS_SHARED_BLOG->value,
+                'name' => ApplicationFieldEnum::HAS_SHARED_BLOG->name,
             ],
             ApplicationFieldEnum::TOP_SIZE => [
                 'category' => ApplicationFieldCategoryEnum::INFORMATION->name,
                 'label' => '상의 사이즈',
-                'type' => 'select',
-                'name' => ApplicationFieldEnum::TOP_SIZE->value,
-                'options' => TopSizeEnum::cases(),
+                'type' => 'selectbox',
+                'name' => ApplicationFieldEnum::TOP_SIZE->name,
+                'option' => TopSizeEnum::cases(),
             ],
             ApplicationFieldEnum::BOTTOM_SIZE => [
                 'category' => ApplicationFieldCategoryEnum::INFORMATION->name,
                 'label' => '하의 사이즈',
-                'type' => 'select',
-                'name' => ApplicationFieldEnum::BOTTOM_SIZE->value,
-                'options' => BottomSizeEnum::cases(),
+                'type' => 'selectbox',
+                'name' => ApplicationFieldEnum::BOTTOM_SIZE->name,
+                'option' => BottomSizeEnum::cases(),
             ],
             ApplicationFieldEnum::SHOES_SIZE => [
                 'category' => ApplicationFieldCategoryEnum::INFORMATION->name,
                 'label' => '신발 사이즈',
-                'type' => 'select',
-                'name' => ApplicationFieldEnum::SHOES_SIZE->value,
-                'options' => ShoesSizeEnum::cases(),
+                'type' => 'selectbox',
+                'name' => ApplicationFieldEnum::SHOES_SIZE->name,
+                'option' => ShoesSizeEnum::cases(),
             ],
             ApplicationFieldEnum::HEIGHT => [
                 'category' => ApplicationFieldCategoryEnum::INFORMATION->name,
                 'label' => '키',
-                'type' => 'select',
-                'name' => ApplicationFieldEnum::HEIGHT->value,
-                'options' => HeightEnum::cases(),
+                'type' => 'selectbox',
+                'name' => ApplicationFieldEnum::HEIGHT->name,
+                'option' => HeightEnum::cases(),
             ],
             ApplicationFieldEnum::SKIN_TYPE => [
                 'category' => ApplicationFieldCategoryEnum::INFORMATION->name,
                 'label' => '피부타입',
-                'type' => 'select',
-                'name' => ApplicationFieldEnum::SKIN_TYPE->value,
-                'options' => SkinTypeEnum::cases(),
+                'type' => 'selectbox',
+                'name' => ApplicationFieldEnum::SKIN_TYPE->name,
+                'option' => SkinTypeEnum::cases(),
             ],
             ApplicationFieldEnum::IS_MARRIED => [
                 'category' => ApplicationFieldCategoryEnum::INFORMATION->name,
                 'label' => '결혼여부',
                 'type' => 'radio',
-                'name' => ApplicationFieldEnum::IS_MARRIED->value,
+                'name' => ApplicationFieldEnum::IS_MARRIED->name,
             ],
             ApplicationFieldEnum::HAS_CHILDREN => [
                 'category' => ApplicationFieldCategoryEnum::INFORMATION->name,
                 'label' => '자녀가 있나요?',
                 'type' => 'radio',
-                'name' => ApplicationFieldEnum::HAS_CHILDREN->value,
+                'name' => ApplicationFieldEnum::HAS_CHILDREN->name,
             ],
             ApplicationFieldEnum::JOB => [
                 'category' => ApplicationFieldCategoryEnum::INFORMATION->name,
                 'label' => '직업',
                 'type' => 'text',
-                'name' => ApplicationFieldEnum::JOB->value,
+                'name' => ApplicationFieldEnum::JOB->name,
             ],
             ApplicationFieldEnum::HAS_PET => [
                 'category' => ApplicationFieldCategoryEnum::INFORMATION->name,
                 'label' => '반려동물을 키우시나요?',
                 'type' => 'radio',
-                'name' => ApplicationFieldEnum::HAS_PET->value,
+                'name' => ApplicationFieldEnum::HAS_PET->name,
             ],
         };
     }
@@ -161,5 +161,13 @@ enum ApplicationFieldEnum:string
             return $item->name;
 
         }, self::cases());
+    }
+
+    static public function findByName($name){
+        foreach (self::cases() as $index => $case) {
+            if($case->name === $name){
+                return $case;
+            }
+        }
     }
 }
