@@ -6,6 +6,7 @@ use App\Enums\Campaign\MissionOptionEnum;
 use App\Enums\Campaign\StatusEnum;
 use App\Helper\CommonHelper;
 use App\Models\Campaign;
+use App\Models\CampaignMedia;
 use App\Models\CampaignType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -27,6 +28,7 @@ class CampaignService{
             'product_category'               => 'required|array',
             'type_category'                  => 'required|array',
             'location_category'              => 'required|array',
+            'media'                          => 'required|array',
             'title'                          => 'required',
             'product_name'                   => 'required',
             'product_url'                    => 'nullable',
@@ -99,6 +101,21 @@ class CampaignService{
             $mergedCategories = array_unique($mergedCategories);
             $campaign->categories()->sync($mergedCategories);
 
+            // 미디어 등록
+            foreach ($validated['media'] as $index => $media) {
+                $campaign->media()->updateOrCreate(['media' => $media], ['media' => $media]);
+            }
+
+            $mediaArray = $campaign->media;
+            $recordsToDelete = [];
+            foreach ($mediaArray as $index => $item) {
+                if(!in_array($item->media, $validated['media'])){
+                    $recordsToDelete[] = $item->id;
+                }
+            }
+            $campaign->media()->whereIn('id', $recordsToDelete)->delete();
+
+
             // 미션 등록
             $missionOptionsData = [];
             foreach ($validated['mission_options'] as $index => $mission_option) {
@@ -144,7 +161,7 @@ class CampaignService{
                     }
                 } else {
                     $applicationFields[] = [
-                        'id' => $campaign->applicationFields()->where('name', $fieldName)->where('field_category', $enumLabel['category'])->first()['id'],
+                        'id' => $campaign->applicationFields()->where('name', $fieldName)->where('field_category', $enumLabel['category'])->first()['id'] ?? null,
                         'campaign_id' => $campaign->id,
                         'field_category' => $enumLabel['category'],
                         'name' => $fieldName,
@@ -154,6 +171,7 @@ class CampaignService{
                     ];
                 }
             }
+
 
             $existingApplicationFields = $campaign->applicationFields()->get();
             $existingIds = $existingApplicationFields->pluck('id')->all();

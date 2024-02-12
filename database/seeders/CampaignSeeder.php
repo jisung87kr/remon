@@ -36,7 +36,7 @@ class CampaignSeeder extends Seeder
             $campaign->categories()->attach([$location->id]);
             $campaign->categories()->attach($campaignAttributes);
             $campaign->categories()->attach($campaignMissions);
-            CampaignMedia::factory(rand(1,3))->create([
+            CampaignMedia::factory()->create([
                'campaign_id' => $campaign->id,
             ]);
 

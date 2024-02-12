@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('campaign_id')->constrained()->onDelete('cascade');
             $table->string('media')->comment('미디어(네이버블로그, 인스타, 유튜브 등)');
             $table->timestamps();
+            $table->unique(['campaign_id', 'media']);
         });
     }
 

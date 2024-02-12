@@ -5,7 +5,6 @@
         <input type="hidden" name="id" value="{{ $campaign->id }}">
         <section class="mb-16">
             <h1 class="h3 mb-6">캠페인 설정</h1>
-            <button type="submit" class="button button-default">save</button>
             <div class="border-t border-stone-900 py-3">
                 <div class="grid md:grid-cols-2 divide-y">
                     <div class="col-span-2 py-6">
@@ -105,6 +104,21 @@
             <div class="border-t border-stone-900 py-3">
                 <div class="grid md:grid-cols-2 divide-y gap-x-3">
                     <div class="col-span-2 py-6">
+                        <label for="media" class="label mb-2">미디어</label>
+                        <ul class="flex flex-wrap gap-3">
+                        @foreach(\App\Enums\Campaign\MediaEnum::cases() as $index => $media)
+                            <li>
+                                <x-checkbox-button id="media_{{$index}}"
+                                                   name="media[]"
+                                                   :value="$media->name"
+                                                   :checked="in_array($media->name, old('media', $campaign->media->pluck('media')->toArray()))">{{ $media->label() }}</x-checkbox-button>
+                            </li>
+                        @endforeach
+                        </ul>
+                        <x-input-error for="media" class="mt-1"></x-input-error>
+                    </div>
+
+                    <div class="col-span-2 py-6">
                         <label for="title" class="label mb-2">캠페인 제목</label>
                         <input type="text" id="title" class="form-control" name="title" value="{{old('title', $campaign['title'])}}">
                         <x-input-error for="title" class="mt-1"></x-input-error>
@@ -132,36 +146,36 @@
                     <div class="col-span-2 py-6 flex gap-3">
                         <div class="w-1/2">
                             <label for="applicant_start_at" class="label mb-2">신청 시작일</label>
-                            <input type="date" id="applicant_start_at" class="form-control" name="applicant_start_at" value="{{ old('applicant_start_at', $campaign['applicant_start_at']->format('Y-m-d')) }}">
+                            <input type="date" id="applicant_start_at" class="form-control" name="applicant_start_at" value="{{ old('applicant_start_at', $campaign['applicant_start_at'] ? $campaign['applicant_start_at']->format('Y-m-d') : null) }}">
                             <x-input-error for="applicant_start_at" class="mt-1"></x-input-error>
                         </div>
                         <div class="w-1/2">
                             <label for="applicant_end_at" class="label mb-2">신청 종료일</label>
-                            <input type="date" id="applicant_end_at" class="form-control" name="applicant_end_at" value="{{ old('applicant_end_at', $campaign['applicant_end_at']->format('Y-m-d')) }}">
+                            <input type="date" id="applicant_end_at" class="form-control" name="applicant_end_at" value="{{ old('applicant_end_at', $campaign['applicant_end_at'] ? $campaign['applicant_end_at']->format('Y-m-d') : null) }}">
                             <x-input-error for="applicant_end_at" class="mt-1"></x-input-error>
                         </div>
                     </div>
                     <div class="col-span-2 py-6 flex gap-3">
                         <div class="w-1/2">
                             <label for="announcement_at" class="label mb-2">선정결과 발표일</label>
-                            <input type="date" id="announcement_at" class="form-control" name="announcement_at" value="{{ old('announcement_at', $campaign['announcement_at']->format('Y-m-d')) }}">
+                            <input type="date" id="announcement_at" class="form-control" name="announcement_at" value="{{ old('announcement_at', $campaign['announcement_at'] ? $campaign['announcement_at']->format('Y-m-d') : null) }}">
                             <x-input-error for="announcement_at" class="mt-1"></x-input-error>
                         </div>
                         <div class="w-1/2">
                             <label for="result_announcement_date_at" class="label mb-2">캠페인 결과 발표일</label>
-                            <input type="date" id="result_announcement_date_at" class="form-control" name="result_announcement_date_at" value="{{ old('result_announcement_date_at', $campaign['result_announcement_date_at']->format('Y-m-d')) }}">
+                            <input type="date" id="result_announcement_date_at" class="form-control" name="result_announcement_date_at" value="{{ old('result_announcement_date_at', $campaign['result_announcement_date_at'] ? $campaign['result_announcement_date_at']->format('Y-m-d') : null) }}">
                             <x-input-error for="result_announcement_date_at" class="mt-1"></x-input-error>
                         </div>
                     </div>
                     <div class="col-span-2 py-6 flex gap-3">
                         <div class="w-1/2">
                             <label for="registration_start_date_at" class="label mb-2">콘텐츠 등록 시작일</label>
-                            <input type="date" id="registration_start_date_at" class="form-control" name="registration_start_date_at" value="{{ old('registration_start_date_at', $campaign['registration_start_date_at']->format('Y-m-d')) }}">
+                            <input type="date" id="registration_start_date_at" class="form-control" name="registration_start_date_at" value="{{ old('registration_start_date_at', $campaign['registration_start_date_at'] ? $campaign['registration_start_date_at']->format('Y-m-d') : null) }}">
                             <x-input-error for="registration_start_date_at" class="mt-1"></x-input-error>
                         </div>
                         <div class="w-1/2">
                             <label for="registration_end_date_at" class="label mb-2">콘텐츠 등록 마감일</label>
-                            <input type="date" id="registration_end_date_at" class="form-control" name="registration_end_date_at" value="{{ old('registration_end_date_at', $campaign['registration_end_date_at']->format('Y-m-d')) }}">
+                            <input type="date" id="registration_end_date_at" class="form-control" name="registration_end_date_at" value="{{ old('registration_end_date_at', $campaign['registration_end_date_at'] ? $campaign['registration_end_date_at']->format('Y-m-d') : null) }}">
                             <x-input-error for="registration_end_date_at" class="mt-1"></x-input-error>
                         </div>
                     </div>
@@ -398,7 +412,7 @@
     type: '{{old('type', $campaign['campaign_type_id'] ?? 1 )}}',
     useBenefitPoint: '{{ old('use_benefit_point', ($campaign['use_benefit_point'] ? 'y' : 'n') ?? 'n' ) }}',
     addressPostcode: '{{ old('address_postcode', $campaign['address_postcode']) }}',
-    address: '{{ old('address', $campaign['address']) }}',
+    address: '{{ old('address', str_replace("\n", '', $campaign['address'])) }}',
     addressDetail: '{{ old('address_detail', $campaign['address_detail']) }}',
     addressExtra: '',
     searchAddressElement: '',
