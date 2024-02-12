@@ -9,7 +9,6 @@ use App\Models\Campaign;
 use App\Models\CampaignType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 class CampaignService{
@@ -19,9 +18,46 @@ class CampaignService{
     {
         $this->request = $request;
     }
-    public function upsert($params)
+    public function upsert()
     {
-        $validated = $this->validate($params);
+        $validated = $this->request->validate([
+            'id'                             => 'nullable',
+            'status'                         => [Rule::enum(StatusEnum::class)],
+            'type'                           => 'required',
+            'product_category'               => 'required|array',
+            'type_category'                  => 'required|array',
+            'location_category'              => 'required|array',
+            'title'                          => 'required',
+            'product_name'                   => 'required',
+            'product_url'                    => 'nullable',
+            'use_benefit_point'              => Rule::in(['y', 'n']),
+            'benefit'                        => 'required',
+            'benefit_point'                  => 'nullable|digits',
+            'address_postcode'               => 'nullable',
+            'address'                        => 'nullable',
+            'address_detail'                 => 'nullable',
+            'lat'                            => 'nullable',
+            'long'                           => 'nullable',
+            'visit_instructions'             => 'nullable',
+            'extra_information'              => 'nullable',
+            'applicant_start_at'             => 'required|date',
+            'applicant_end_at'               => 'required|date',
+            'announcement_at'                => 'required|date',
+            'registration_start_date_at'     => 'required|date',
+            'registration_end_date_at'       => 'required|date',
+            'result_announcement_date_at'    => 'required|date',
+            'mission'                        => 'required|string',
+            'mission_options'                => 'required|array',
+            'mission_option_title_keyword'   => 'nullable|string',
+            'mission_option_content_keyword' => 'nullable|string',
+            'mission_option_link'            => 'nullable|string',
+            'mission_option_hashtag'         => 'nullable|string',
+            'application_field'              => ['array', Rule::in(ApplicationFieldEnum::toArray('name'))],
+            'custom_option'                  => 'nullable|array',
+            'thumbnails.*'                   => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'detail_images.*'                => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'delete_images'                  => 'nullable|array',
+        ]);
 
         DB::beginTransaction();
         try {
@@ -162,49 +198,6 @@ class CampaignService{
             throw new \Exception($e->getMessage());
 
         }
-    }
-
-    public function validate($params){
-        $validated = Validator::make($params, [
-            'id'                             => 'nullable',
-            'status'                         => [Rule::enum(StatusEnum::class)],
-            'type'                           => 'required',
-            'product_category'               => 'required|array',
-            'type_category'                  => 'required|array',
-            'location_category'              => 'required|array',
-            'title'                          => 'required',
-            'product_name'                   => 'required',
-            'product_url'                    => 'nullable',
-            'use_benefit_point'              => Rule::in(['y', 'n']),
-            'benefit'                        => 'required',
-            'benefit_point'                  => 'nullable|digits',
-            'address_postcode'               => 'nullable',
-            'address'                        => 'nullable',
-            'address_detail'                 => 'nullable',
-            'lat'                            => 'nullable',
-            'long'                           => 'nullable',
-            'visit_instructions'             => 'nullable',
-            'extra_information'              => 'nullable',
-            'applicant_start_at'             => 'required|date',
-            'applicant_end_at'               => 'required|date',
-            'announcement_at'                => 'required|date',
-            'registration_start_date_at'     => 'required|date',
-            'registration_end_date_at'       => 'required|date',
-            'result_announcement_date_at'    => 'required|date',
-            'mission'                        => 'required|string',
-            'mission_options'                => 'required|array',
-            'mission_option_title_keyword'   => 'nullable|string',
-            'mission_option_content_keyword' => 'nullable|string',
-            'mission_option_link'            => 'nullable|string',
-            'mission_option_hashtag'         => 'nullable|string',
-            'application_field'              => ['array', Rule::in(ApplicationFieldEnum::toArray('name'))],
-            'custom_option'                  => 'nullable|array',
-            'thumbnails.*'                   => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'detail_images.*'                => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'delete_images'                  => 'nullable|array',
-        ]);
-
-        return $validated->attributes();
     }
 
     public function getApplicationFields()
