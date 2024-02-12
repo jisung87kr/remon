@@ -58,7 +58,7 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
-        $campaign = $this->campaignService->upsert($request->all());
+        $campaign = $this->campaignService->upsert();
         return $campaign;
     }
 
@@ -75,7 +75,13 @@ class CampaignController extends Controller
      */
     public function edit(Campaign $campaign)
     {
-        //
+        $campaignTypes = CampaignType::all();
+        $typeCategory = Category::filter(['name' => '유형'])->first();
+        $productCategory = Category::filter(['name' => '제품'])->first();
+        $locationCategory = Category::filter(['name' => '지역'])->first();
+        $missions = Mission::all();
+        $customOptions = $this->campaignService->getApplicationFields();
+        return view('campaign.edit', compact('campaign', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions', 'customOptions'));
     }
 
     /**
@@ -83,7 +89,8 @@ class CampaignController extends Controller
      */
     public function update(Request $request, Campaign $campaign)
     {
-        //
+        $this->campaignService->upsert();
+        return redirect()->route('campaigns.show', $campaign);
     }
 
     /**

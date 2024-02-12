@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('is_required')->default(0)->comment('필수여부');
             $table->timestamps();
             $table->comment('신청 정보 필드');
+            $table->unique(['campaign_id', 'field_category', 'name', 'type', 'label'], 'campaign_application_fields_unique');
         });
     }
 

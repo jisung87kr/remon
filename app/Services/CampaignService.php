@@ -92,10 +92,15 @@ class CampaignService{
             ]);
 
             // 카테고리 등록
-            $campaign->categories()->sync($validated['product_category']);
-            $campaign->categories()->sync($validated['location_category']);
+            $mergedCategories = [];
+            $mergedCategories = array_merge($mergedCategories, $validated['product_category']);
+            $mergedCategories = array_merge($mergedCategories, $validated['type_category']);
+            $mergedCategories = array_merge($mergedCategories, $validated['location_category']);
+            $mergedCategories = array_unique($mergedCategories);
+            $campaign->categories()->sync($mergedCategories);
 
             // 미션 등록
+            $missionOptionsData = [];
             foreach ($validated['mission_options'] as $index => $mission_option) {
                 $content = null;
 
@@ -114,10 +119,9 @@ class CampaignService{
                         break;
                 }
 
-                $campaign->missionOptions()->sync([
-                    $mission_option => ['content' => $content],
-                ]);
+                $missionOptionsData[$mission_option] = ['content' => $content];
             }
+            $campaign->missionOptions()->sync($missionOptionsData);
 
             // 지원사항 필드 등록
             $applicationFields = [];
@@ -129,6 +133,7 @@ class CampaignService{
                 if($enumLabel['name'] === ApplicationFieldEnum::CUSTOM_OPTION->name){
                     foreach ($validated['custom_option'] as $key => $value) {
                         $applicationFields[] = [
+                            'id' => $value['id'],
                             'campaign_id' => $campaign->id,
                             'field_category' => $enumLabel['category'],
                             'name' => $fieldName,
@@ -139,6 +144,7 @@ class CampaignService{
                     }
                 } else {
                     $applicationFields[] = [
+                        'id' => $campaign->applicationFields()->where('name', $fieldName)->where('field_category', $enumLabel['category'])->first()['id'],
                         'campaign_id' => $campaign->id,
                         'field_category' => $enumLabel['category'],
                         'name' => $fieldName,
@@ -149,13 +155,18 @@ class CampaignService{
                 }
             }
 
+            $existingApplicationFields = $campaign->applicationFields()->get();
+            $existingIds = $existingApplicationFields->pluck('id')->all();
+            $recordsToDelete = $existingIds;
+
+            foreach ($applicationFields as $key => $field) {
+                if (($index = array_search($field['id'], $recordsToDelete)) !== false) {
+                    unset($recordsToDelete[$index]);
+                }
+            }
+
+            $campaign->applicationFields()->whereIn('id', $recordsToDelete)->delete();
             $campaign->applicationFields()->upsert($applicationFields, ['campaign_id', 'field_category', 'name', 'type', 'label']);
-            $campaign->applicationFields()
-                ->whereNotIn('field_category', collect($applicationFields)->pluck('field_category'))
-                ->whereNotIn('name', collect($applicationFields)->pluck('name'))
-                ->whereNotIn('type', collect($applicationFields)->pluck('type'))
-                ->whereNotIn('label', collect($applicationFields)->pluck('label'))
-                ->delete();
 
 
             // 이미지 업로드

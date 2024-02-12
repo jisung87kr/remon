@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Campaign\ApplicationFieldEnum;
 use App\Enums\Campaign\ImageTypeEnum;
 use App\Enums\Campaign\MissionOptionEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -48,6 +49,11 @@ class Campaign extends Model
     public function applicationFields()
     {
         return $this->hasMany(CampaignApplicationField::class);
+    }
+
+    public function customOptions()
+    {
+        return $this->hasMany(CampaignApplicationField::class)->where('name', ApplicationFieldEnum::CUSTOM_OPTION);
     }
 
     public function productCategories()

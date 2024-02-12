@@ -22,4 +22,18 @@ class CommonHelper{
 
         return $result;
     }
+
+    static public function makeCustomOptionByModel($customOptions)
+    {
+        $result = [];
+        foreach ($customOptions as $index => $customOption) {
+            $result[] = [
+              'id' => $customOption['id'],
+              'name' => $customOption['label'],
+              'value' => $customOption['option'],
+            ];
+        }
+
+        return $result;
+    }
 }
