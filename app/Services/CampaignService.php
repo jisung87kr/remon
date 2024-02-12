@@ -8,6 +8,7 @@ use App\Helper\CommonHelper;
 use App\Models\Campaign;
 use App\Models\CampaignType;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
@@ -144,6 +145,14 @@ class CampaignService{
                 }
             }
 
+            if (!empty($validated['delete_images'])) {
+                $images = $campaign->images()->whereIn('id', $validated['delete_images'])->get();
+                foreach ($images as $image) {
+                    $image->delete();
+                    Storage::disk('public')->delete($image->file_path);
+                }
+            }
+
             DB::commit();
             return $campaign;
 
@@ -192,6 +201,7 @@ class CampaignService{
             'custom_option'                  => 'nullable|array',
             'thumbnails.*'                   => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'detail_images.*'                => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'delete_images'                  => 'nullable|array',
         ]);
 
         return $validated->attributes();
