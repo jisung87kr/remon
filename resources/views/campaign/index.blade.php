@@ -1,10 +1,11 @@
 <x-app-layout>
     <section id="popular_campaign" class="container mx-auto p-6">
-        <h1 class="text-2xl font-bold mb-3">제품 캠페인</h1>
-
+        <h1 class="text-2xl font-bold mb-3">{{ $category->name }} 캠페인</h1>
         <form action="">
+            @if($category->name)
             <div class="my-10 border-b flex">
                 <a href="{{ route("category.show", '전체') }}" class="block px-4 py-2 {{ $category->name == '전체' ? 'border-b-2 border-indigo-400' : '' }}">전체</a>
+                <a href="{{ route("category.show", '생활') }}" class="block px-4 py-2 {{ $category->name == '생활' ? 'border-b-2 border-indigo-400' : '' }}">생활</a>
                 <a href="{{ route("category.show", '서비스') }}" class="block px-4 py-2 {{ $category->name == '서비스' ? 'border-b-2 border-indigo-400' : '' }}">서비스</a>
                 <a href="{{ route("category.show", '유아동') }}" class="block px-4 py-2 {{ $category->name == '유아동' ? 'border-b-2 border-indigo-400' : '' }}">유아동</a>
                 <a href="{{ route("category.show", '디지털') }}" class="block px-4 py-2 {{ $category->name == '디지털' ? 'border-b-2 border-indigo-400' : '' }}">디지털</a>
@@ -14,11 +15,89 @@
                 <a href="{{ route("category.show", '식품') }}" class="block px-4 py-2 {{ $category->name == '식품' ? 'border-b-2 border-indigo-400' : '' }}">식품</a>
                 <a href="{{ route("category.show", '반려동물') }}" class="block px-4 py-2 {{ $category->name == '반려동물' ? 'border-b-2 border-indigo-400' : '' }}">반려동물</a>
             </div>
+            @endif
+
+            <div class="border px-6 rounded-lg my-6 flex flex-col divide-y">
+                <div class="md:flex py-3 items-center">
+                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">검색어</div>
+                    <div class="md:grow">
+                        <x-input name="keyword" :value="request()->input('keyword')" class="w-full"></x-input>
+                    </div>
+                </div>
+                <div class="md:flex py-3 items-center">
+                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">캠페인 타입</div>
+                    <div class="md:grow">
+                        <ul class="flex flex-wrap gap-3">
+                            @foreach($campaignTypes as $type)
+                            <li class="">
+                                <x-checkbox-button id="campaign_type_{{$type->id}}"
+                                                   name="campaign_type[]"
+                                                   value="{{$type->name}}"
+                                                   :checked="in_array($type->name, request()->input('campaign_type', []))">{{ $type->name }}</x-checkbox-button>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <div class="md:flex py-3 items-center">
+                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">유형별</div>
+                    <div class="md:grow">
+                        <ul class="flex flex-wrap gap-3">
+                            @foreach($typeCategory->categories as $category)
+                                <li class="">
+                                    <x-checkbox-button id="type_{{$category->id}}"
+                                                       name="type[]"
+                                                       value="{{$category->name}}"
+                                                       :checked="in_array($category->name, request()->input('type', []))">{{ $category->name }}</x-checkbox-button>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <div class="md:flex py-3 items-center">
+                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">제품별</div>
+                    <div class="md:grow">
+                        <ul class="flex flex-wrap gap-3">
+                            @foreach($productCategory->categories as $category)
+                                <li class="">
+                                    <x-checkbox-button id="product_{{$category->id}}"
+                                                       name="product[]"
+                                                       value="{{$category->name}}"
+                                                       :checked="in_array($category->name, request()->input('product', []))">{{ $category->name }}</x-checkbox-button>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <div class="md:flex py-3 items-center">
+                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">지역별</div>
+                    <div class="md:grow">
+                        <ul class="flex flex-wrap gap-3">
+                            @foreach($locationCategory->categories as $category)
+                                <li class="">
+                                    <x-checkbox-button id="location_{{$category->id}}"
+                                                       name="location[]"
+                                                       value="{{$category->name}}"
+                                                       :checked="in_array($category->name, request()->input('location', []))">{{ $category->name }}</x-checkbox-button>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mb-12">
+                <a href="{{ route('campaigns.index') }}" class="button button-gray">초기화</a>
+                <button class="button button-default">검색</button>
+            </div>
 
             <div class="flex gap-3 mb-6 justify-end">
-                <a href="" class="border rounded-2xl px-3 py-1 text-sm">블로그</a>
-                <a href="" class="border rounded-2xl px-3 py-1 text-sm">인스타그램</a>
-                <a href="" class="border rounded-2xl px-3 py-1 text-sm">유튜브</a>
+                <a href="{{ route('campaigns.index', array_merge(request()->query(), ['media' => \App\Enums\Campaign\MediaEnum::NAVER_BLOG])) }}"
+                   class="border rounded-2xl px-3 py-1 text-sm {{ request()->input('media') == \App\Enums\Campaign\MediaEnum::NAVER_BLOG->name ? 'border-indigo-400' : '' }}">블로그</a>
+                <a href="{{ route('campaigns.index', array_merge(request()->query(), ['media' => \App\Enums\Campaign\MediaEnum::INSTAGRAM])) }}"
+                   class="border rounded-2xl px-3 py-1 text-sm {{ request()->input('media') == \App\Enums\Campaign\MediaEnum::INSTAGRAM->name ? 'border-indigo-400' : '' }}">인스타그램</a>
+                <a href="{{ route('campaigns.index', array_merge(request()->query(), ['media' => \App\Enums\Campaign\MediaEnum::YOUTUBE])) }}"
+                   class="border rounded-2xl px-3 py-1 text-sm {{ request()->input('media') == \App\Enums\Campaign\MediaEnum::YOUTUBE->name ? 'border-indigo-400' : '' }}">유튜부</a>
                 <div class="relative border rounded-2xl px-3 py-1 text-sm">
                     <x-dropdown align="right">
                         <x-slot name="trigger">
@@ -104,7 +183,7 @@
                             <div class="ml-2 font-bold">{{ $campaign->applicant_end_at->diffForHumans() }} 마감</div>
                         </div>
                         <div>
-                            <div>[{{ $campaign->locations[0]->name }}] {{ $campaign->product_name }}</div>
+                            <div>[{{ $campaign->locationCategories[0]->name }}] {{ $campaign->product_name }}</div>
                             <small class="text-gray-500 line-clamp-2">{{ $campaign->benefit }}</small>
                         </div>
                         <div class="my-2">
@@ -124,5 +203,9 @@
                 </div>
             @endforelse
         </div>
+
+        @if($campaigns)
+            {{ $campaigns->links() }}
+        @endif
     </section>
 </x-app-layout>

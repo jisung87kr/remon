@@ -24,7 +24,7 @@
             <header class="p-6 flex container mx-auto justify-between items-baseline">
                 <div class="flex content-center items-baseline">
                     <a href="/" class="mr-5 font-bold">REMON</a>
-                    <form action="{{ route('index') }}">
+                    <form action="{{ route('campaigns.index') }}">
                         <div class="relative">
                             <input type="text"
                                    name="search"
@@ -111,10 +111,9 @@
                 <div class="container mx-auto p-6">
                     <nav>
                         <ul class="flex gap-5">
-                            <li class="font-bold"><a href="{{ route('category.show', '전체') }}" class="{{ request()->routeIs('category.index') ? 'text-indigo-500' : '' }}">전체 카테고리</a></li>
-                            <li class="font-bold"><a href="{{ route('category.show', '오늘오픈') }}" class="{{ request()->routeIs('category.index') ? 'text-indigo-500' : '' }}">오늘오픈</a></li>
-                            <li class="font-bold"><a href="{{ route('category.show', '제품별') }}" class="{{ request()->routeIs('category.index') ? 'text-indigo-500' : '' }}">제품별</a></li>
-                            <li class="font-bold"><a href="{{ route('category.show', '지역별') }}" class="{{ request()->routeIs('category.index') ? 'text-indigo-500' : '' }}">지역별</a></li>
+                            <li class="font-bold"><a href="{{ route('campaigns.index') }}" class="{{ request()->routeIs('campaigns.index') ? 'text-indigo-500' : '' }}">전체 캠페인</a></li>
+                            <li class="font-bold"><a href="{{ route('category.show', '제품') }}" class="{{ request()->routeIs('category.index') ? 'text-indigo-500' : '' }}">제품별</a></li>
+                            <li class="font-bold"><a href="{{ route('category.show', '유형') }}" class="{{ request()->routeIs('category.index') ? 'text-indigo-500' : '' }}">유형별</a></li>
                             <li class="font-bold"><a href="{{ route('event') }}" class="{{ request()->routeIs('event') ? 'text-indigo-500' : '' }}">이벤트</a></li>
                             <li class="font-bold"><a href="{{ route('community.free') }}" class="{{ request()->routeIs('community.free') ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
                             <li class="font-bold"><a href="{{ route('help.inquiry') }}" class="{{ request()->routeIs('help.inquiry') ? 'text-indigo-500' : '' }}">고객센터</a></li>

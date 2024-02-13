@@ -86,7 +86,7 @@
                             <div class="ml-2 font-bold">{{ $campaign->applicant_end_at->diffForHumans() }} 마감</div>
                         </div>
                         <div>
-                            <div>[{{ $campaign->locations[0]->name }}] {{ $campaign->product_name }}</div>
+                            <div>[{{ $campaign->locationCategories[0]->name }}] {{ $campaign->product_name }}</div>
                             <small class="text-gray-500 line-clamp-2">{{ $campaign->benefit }}</small>
                         </div>
                         <div class="my-2">

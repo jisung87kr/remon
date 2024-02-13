@@ -32,6 +32,13 @@ Route::get('/category', function($category){
     return view('campaign.index');
 })->name('category.index');
 
+Route::get('/category/오늘오픈', function(){
+    $campaigns = [];
+    $category = new \App\Models\Category();
+    $category->name = '오늘오픈';
+    return view('campaign.index', compact('campaigns', 'category'));
+})->name('category.show');
+
 Route::get('/category/{name:name}', function(\App\Models\Category $name){
     $campaigns = [];
     $category = $name;

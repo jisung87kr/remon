@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Campaign\ApplicationFieldEnum;
 use App\Enums\Campaign\ImageTypeEnum;
 use App\Enums\Campaign\MissionOptionEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,7 @@ class Campaign extends Model
         'registration_end_date_at' => 'datetime',
         'result_announcement_date_at' => 'datetime',
     ];
-    protected $with = ['locations', 'options'];
+    protected $with = ['locationCategories', 'options'];
 
     public function categories()
     {
@@ -76,7 +77,7 @@ class Campaign extends Model
             ->from('categories');
     }
 
-    public function locations()
+    public function locationCategories()
     {
         $categoryModel = new Category();
         $categoryIds = $categoryModel->getChildIds(11);
@@ -151,5 +152,79 @@ class Campaign extends Model
     public function images()
     {
         return $this->hasMany(CampaignImage::class)->orderBy('order_seq');
+    }
+
+    public function campaignType()
+    {
+        return $this->belongsTo(CampaignType::class);
+    }
+
+    public function scopeFilter(Builder $query, $filter)
+    {
+        $query->when($filter['title'] ?? false, function($query, $id){
+            $query->where('title', $id);
+        });
+
+        $query->when($filter['keyword'] ?? false, function($query, $keyword){
+            $query->where('title', 'LIKE', "%{$keyword}%")
+                ->orWhere('product_name', 'LIKE', "%{$keyword}%");
+        });
+
+        $query->when($filter['campaign_type'] ?? false, function($query, $campaignType){
+            $query->whereHas('campaignType', function($query) use ($campaignType){
+                $query->where('name', $campaignType);
+            });
+        });
+
+        $query->when($filter['type'] ?? false, function($query, $type){
+            $query->whereHas('typeCategories', function($query) use ($type){
+                $query->whereIn('categories.id', function ($query) use ($type) {
+                    $query->select('id')
+                        ->from('categories')
+                        ->whereIn('name', $type)
+                        ->orWhereIn('parent_id', function($query) use ($type) {
+                            $query->select('id')
+                                ->from('categories')
+                                ->whereIn('name', $type);
+                        });
+                });
+            });
+        });
+
+        $query->when($filter['product'] ?? false, function($query, $product){
+            $query->whereHas('productCategories', function($query) use ($product){
+                $query->whereIn('categories.id', function ($query) use ($product) {
+                    $query->select('id')
+                        ->from('categories')
+                        ->whereIn('name', $product)
+                        ->orWhereIn('parent_id', function($query) use ($product) {
+                            $query->select('id')
+                                ->from('categories')
+                                ->whereIn('name', $product);
+                        });
+                });
+            });
+        });
+
+        $query->when($filter['location'] ?? false, function($query, $location){
+            $query->whereHas('locationCategories', function($query) use ($location){
+                $query->whereIn('categories.id', function ($query) use ($location) {
+                    $query->select('id')
+                        ->from('categories')
+                        ->whereIn('name', $location)
+                        ->orWhereIn('parent_id', function($query) use ($location) {
+                            $query->select('id')
+                                ->from('categories')
+                                ->whereIn('name', $location);
+                        });
+                });
+            });
+        });
+
+        $query->when($filter['media'] ?? false, function($query, $media){
+            $query->whereHas('media', function($mediaQuery) use ($media){
+                $mediaQuery->where('media', $media);
+            });
+        });
     }
 }

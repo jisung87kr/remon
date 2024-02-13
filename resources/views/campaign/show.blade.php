@@ -3,7 +3,7 @@
         <div class="grid grid-cols-8 gap-6 relative">
             <div class="col-span-8 lg:col-span-6 lg:border-r lg:pr-6">
                 <div>
-                    <h1 class="font-bold text-[32px] my-3">[{{ $campaign->locations[0]->name }}
+                    <h1 class="font-bold text-[32px] my-3">[{{ $campaign->locationCategories[0]->name }}
                         ] {{ $campaign->product_name }}</h1>
                     <div class="font-bold text-gray-500">{{ $campaign->title }}</div>
                     <div class="flex gap-1 mt-3">

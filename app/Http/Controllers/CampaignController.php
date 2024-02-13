@@ -2,25 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Campaign\MissionOptionEnum;
-use App\Enums\Campaign\StatusEnum;
-use App\Helper\CommonHelper;
 use App\Models\Campaign;
-use App\Models\CampaignApplicationField;
-use App\Models\CampaignImage;
-use App\Models\CampaignMissionOption;
 use App\Models\CampaignType;
 use App\Models\Category;
 use App\Models\Mission;
-use Faker\Factory;
 use Illuminate\Http\Request;
-use App\Enums\Campaign\MetaEnum;
-use App\Enums\Campaign\MediaEnum;
-use App\Enums\User\MetaEnum AS UserMeta;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use App\Enums\Campaign\ApplicationFieldEnum;
-use Illuminate\Validation\Rule;
 use App\Services\CampaignService;
 class CampaignController extends Controller
 {
@@ -33,9 +19,24 @@ class CampaignController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $filter = [
+            'media'         => $request->input('media'),
+            'keyword'       => $request->input('keyword'),
+            'campaign_type' => $request->input('campaign_type'),
+            'type'          => $request->input('type'),
+            'product'       => $request->input('product'),
+            'location'      => $request->input('location'),
+        ];
+        $campaigns = Campaign::filter($filter)->paginate(60);
+        $category = new Category;
+        $campaignTypes = CampaignType::all();
+        $typeCategory = Category::filter(['name' => '유형'])->first();
+        $productCategory = Category::filter(['name' => '제품'])->first();
+        $locationCategory = Category::filter(['name' => '지역'])->first();
+        $missions = Mission::all();
+        return view('campaign.index', compact('campaigns', 'category', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions'));
     }
 
     /**

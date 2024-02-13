@@ -70,7 +70,7 @@
                                                 <x-checkbox-button id="location_category_{{$location->id}}"
                                                                    name="location_category[]"
                                                                    :value="$location->id"
-                                                                   :checked="in_array($location->id, old('location_category', $campaign->locations->pluck('id')->toArray()))">{{ $location->name }}</x-checkbox-button>
+                                                                   :checked="in_array($location->id, old('location_category', $campaign->locationCategories->pluck('id')->toArray()))">{{ $location->name }}</x-checkbox-button>
                                             </li>
                                         @endforeach
                                     </ul>
