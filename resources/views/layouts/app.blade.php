@@ -112,8 +112,6 @@
                     <nav>
                         <ul class="flex gap-5">
                             <li class="font-bold"><a href="{{ route('campaigns.index') }}" class="{{ request()->routeIs('campaigns.index') ? 'text-indigo-500' : '' }}">전체 캠페인</a></li>
-                            <li class="font-bold"><a href="{{ route('category.show', '제품') }}" class="{{ request()->routeIs('category.index') ? 'text-indigo-500' : '' }}">제품별</a></li>
-                            <li class="font-bold"><a href="{{ route('category.show', '유형') }}" class="{{ request()->routeIs('category.index') ? 'text-indigo-500' : '' }}">유형별</a></li>
                             <li class="font-bold"><a href="{{ route('event') }}" class="{{ request()->routeIs('event') ? 'text-indigo-500' : '' }}">이벤트</a></li>
                             <li class="font-bold"><a href="{{ route('community.free') }}" class="{{ request()->routeIs('community.free') ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
                             <li class="font-bold"><a href="{{ route('help.inquiry') }}" class="{{ request()->routeIs('help.inquiry') ? 'text-indigo-500' : '' }}">고객센터</a></li>

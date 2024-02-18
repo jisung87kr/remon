@@ -16,7 +16,7 @@
                 </button>
                 <div class="absolute left-0 top-10 w-full lg:w-3/5 bg-white border rounded-lg p-6 shadow z-50" x-show="open">
                     <div>
-                        <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), ['location' => '전체'])) }}" class="text-lg @if(request()->input('location') == '전체') text-indigo-700 @endif">전체지역</a>
+                        <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), [$category, 'location' => '전체'])) }}" class="text-lg @if(request()->input('location') == '전체') text-indigo-700 @endif">전체지역</a>
                     </div>
                     @foreach($locationCategory->categories as $location)
                         <div class="flex mt-6 pt-6 border-t" @click.away="open = false">
@@ -25,11 +25,11 @@
                             </div>
                             <div class="w-full grid grid-cols-4 gap-3 text-gray-500 text-sm">
                                 <div>
-                                    <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), ['location' => $location->name])) }}" class="@if(request()->input('location') == $location->name) text-indigo-700 @endif">전체</a>
+                                    <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), [$category, 'location' => $location->name])) }}" class="@if(request()->input('location') == $location->name) text-indigo-700 @endif">전체</a>
                                 </div>
                                 @foreach($location->categories as $locationChild)
                                     <div>
-                                        <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), ['location' => $locationChild->name])) }}" class="@if(request()->input('location') == $locationChild->name) text-indigo-700 @endif">{{ $locationChild->name }}</a>
+                                        <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), [$category, 'location' => $locationChild->name])) }}" class="@if(request()->input('location') == $locationChild->name) text-indigo-700 @endif">{{ $locationChild->name }}</a>
                                     </div>
                                 @endforeach
                             </div>
@@ -41,16 +41,10 @@
         <form action="">
             @if($category->name)
             <div class="my-10 border-b flex">
-                <a href="{{ route("category.show", '전체') }}" class="block px-4 py-2 {{ $category->name == '전체' ? 'border-b-2 border-indigo-400' : '' }}">전체</a>
-                <a href="{{ route("category.show", '생활') }}" class="block px-4 py-2 {{ $category->name == '생활' ? 'border-b-2 border-indigo-400' : '' }}">생활</a>
-                <a href="{{ route("category.show", '서비스') }}" class="block px-4 py-2 {{ $category->name == '서비스' ? 'border-b-2 border-indigo-400' : '' }}">서비스</a>
-                <a href="{{ route("category.show", '유아동') }}" class="block px-4 py-2 {{ $category->name == '유아동' ? 'border-b-2 border-indigo-400' : '' }}">유아동</a>
-                <a href="{{ route("category.show", '디지털') }}" class="block px-4 py-2 {{ $category->name == '디지털' ? 'border-b-2 border-indigo-400' : '' }}">디지털</a>
-                <a href="{{ route("category.show", '뷰티') }}" class="block px-4 py-2 {{ $category->name == '뷰티' ? 'border-b-2 border-indigo-400' : '' }}">뷰티</a>
-                <a href="{{ route("category.show", '패션') }}" class="block px-4 py-2 {{ $category->name == '패션' ? 'border-b-2 border-indigo-400' : '' }}">패션</a>
-                <a href="{{ route("category.show", '도서') }}" class="block px-4 py-2 {{ $category->name == '도서' ? 'border-b-2 border-indigo-400' : '' }}">도서</a>
-                <a href="{{ route("category.show", '식품') }}" class="block px-4 py-2 {{ $category->name == '식품' ? 'border-b-2 border-indigo-400' : '' }}">식품</a>
-                <a href="{{ route("category.show", '반려동물') }}" class="block px-4 py-2 {{ $category->name == '반려동물' ? 'border-b-2 border-indigo-400' : '' }}">반려동물</a>
+                <a href="{{ route("category.show", $category->name) }}" class="block px-4 py-2 {{ $category->name == '전체' ? 'border-b-2 border-indigo-400' : '' }}">전체</a>
+                @foreach($category->categories as $child)
+                    <a href="{{ route("category.show", $child->name) }}" class="block px-4 py-2 {{ $child->name == $category->name ? 'border-b-2 border-indigo-400' : '' }}">{{ $child->name }}</a>
+                @endforeach
             </div>
             @else
                 <div class="border px-6 rounded-lg my-6 flex flex-col divide-y">
@@ -79,12 +73,12 @@
                         <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">유형별</div>
                         <div class="md:grow">
                             <ul class="flex flex-wrap gap-3">
-                                @foreach($typeCategory->categories as $category)
+                                @foreach($typeCategory->categories as $category2)
                                     <li class="">
-                                        <x-checkbox-button id="type_{{$category->id}}"
+                                        <x-checkbox-button id="type_{{$category2->id}}"
                                                            name="type[]"
-                                                           value="{{$category->name}}"
-                                                           :checked="in_array($category->name, request()->input('type', []))">{{ $category->name }}</x-checkbox-button>
+                                                           value="{{$category2->name}}"
+                                                           :checked="in_array($category2->name, request()->input('type', []))">{{ $category2->name }}</x-checkbox-button>
                                     </li>
                                 @endforeach
                             </ul>
@@ -94,12 +88,12 @@
                         <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">제품별</div>
                         <div class="md:grow">
                             <ul class="flex flex-wrap gap-3">
-                                @foreach($productCategory->categories as $category)
+                                @foreach($productCategory->categories as $category2)
                                     <li class="">
-                                        <x-checkbox-button id="product_{{$category->id}}"
+                                        <x-checkbox-button id="product_{{$category2->id}}"
                                                            name="product[]"
-                                                           value="{{$category->name}}"
-                                                           :checked="in_array($category->name, request()->input('product', []))">{{ $category->name }}</x-checkbox-button>
+                                                           value="{{$category2->name}}"
+                                                           :checked="in_array($category2->name, request()->input('product', []))">{{ $category2->name }}</x-checkbox-button>
                                     </li>
                                 @endforeach
                             </ul>
@@ -114,32 +108,14 @@
             @endif
 
             <div class="flex gap-3 mb-6 justify-end">
-                @php
-                    function toggleMedia($mediaName) {
-                        $currentMedia = request()->input('media', []);
-
-                        // 미디어가 이미 선택되어 있는 경우 해당 미디어를 제거하고, 그렇지 않은 경우 해당 미디어를 추가
-                        if (in_array($mediaName, $currentMedia)) {
-                            $currentMedia = array_diff($currentMedia, [$mediaName]);
-                        } else {
-                            $currentMedia[] = $mediaName;
-                        }
-
-                        // 쿼리 문자열 업데이트
-                        return route(request()->route()->getName(), array_merge(request()->query(), ['media' => $currentMedia]));
-                    }
-                @endphp
-
-                <a href="{{ toggleMedia(\App\Enums\Campaign\MediaEnum::NAVER_BLOG->name) }}"
+                <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), [$category, 'media' => \App\Helper\CommonHelper::toggleArrayQueryString('media', \App\Enums\Campaign\MediaEnum::NAVER_BLOG->name)])) }}"
                    class="border rounded-2xl px-3 py-1 text-sm {{ in_array(\App\Enums\Campaign\MediaEnum::NAVER_BLOG->name, request()->input('media', [])) ? 'border-indigo-400' : '' }}">블로그</a>
 
-                <a href="{{ toggleMedia(\App\Enums\Campaign\MediaEnum::INSTAGRAM->name) }}"
+                <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), [$category, 'media' => \App\Helper\CommonHelper::toggleArrayQueryString('media', \App\Enums\Campaign\MediaEnum::INSTAGRAM->name)])) }}"
                    class="border rounded-2xl px-3 py-1 text-sm {{ in_array(\App\Enums\Campaign\MediaEnum::INSTAGRAM->name, request()->input('media', [])) ? 'border-indigo-400' : '' }}">인스타그램</a>
 
-                <a href="{{ toggleMedia(\App\Enums\Campaign\MediaEnum::YOUTUBE->name) }}"
+                <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), [$category, 'media' => \App\Helper\CommonHelper::toggleArrayQueryString('media', \App\Enums\Campaign\MediaEnum::YOUTUBE->name)])) }}"
                    class="border rounded-2xl px-3 py-1 text-sm {{ in_array(\App\Enums\Campaign\MediaEnum::YOUTUBE->name, request()->input('media', [])) ? 'border-indigo-400' : '' }}">유튜부</a>
-
-
 
 
                 <div class="relative border rounded-2xl px-3 py-1 text-sm">
@@ -161,7 +137,7 @@
                             </div>
                         </x-slot>
                         <x-slot name="content">
-                            <x-dropdown-link :href="route(request()->route()->getName(), array_merge(request()->query(), ['sort' => 'latest']))" :class="request()->input('sort') == 'latest' ? '!text-indigo-700' : ''">
+                            <x-dropdown-link :href="route(request()->route()->getName(), array_merge(request()->query(), [$category, 'sort' => 'latest']))" :class="request()->input('sort') == 'latest' ? '!text-indigo-700' : ''">
                                 <div class="flex items-center">
                                     <div class="border rounded-full p-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="10" height="10" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -172,7 +148,7 @@
                                     <span class="ml-2">최신순</span>
                                 </div>
                             </x-dropdown-link>
-                            <x-dropdown-link :href="route(request()->route()->getName(), array_merge(request()->query(), ['sort' => 'popular']))" :class="request()->input('sort') == 'popular' ? '!text-indigo-700' : ''">
+                            <x-dropdown-link :href="route(request()->route()->getName(), array_merge(request()->query(), [$category, 'sort' => 'popular']))" :class="request()->input('sort') == 'popular' ? '!text-indigo-700' : ''">
                                 <div class="flex items-center">
                                     <div class="border rounded-full p-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="10" height="10" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -183,7 +159,7 @@
                                     <span class="ml-2">인기순</span>
                                 </div>
                             </x-dropdown-link>
-                            <x-dropdown-link :href="route(request()->route()->getName(), array_merge(request()->query(), ['sort' => 'deadline']))" :class="request()->input('sort') == 'deadline' ? '!text-indigo-700' : ''">
+                            <x-dropdown-link :href="route(request()->route()->getName(), array_merge(request()->query(), [$category, 'sort' => 'deadline']))" :class="request()->input('sort') == 'deadline' ? '!text-indigo-700' : ''">
                                 <div class="flex items-center">
                                     <div class="border rounded-full p-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="10" height="10" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">

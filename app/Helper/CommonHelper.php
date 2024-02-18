@@ -36,4 +36,16 @@ class CommonHelper{
 
         return $result;
     }
+
+    static public function toggleArrayQueryString($key, $value)
+    {
+        $currentMedia = request()->input($key, []);
+
+        if (in_array($value, $currentMedia)) {
+            $currentMedia = array_diff($currentMedia, [$value]);
+        } else {
+            $currentMedia[] = $value;
+        }
+        return $currentMedia;
+    }
 }

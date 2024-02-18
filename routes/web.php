@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
@@ -36,13 +37,8 @@ Route::get('/category/오늘오픈', function(){
     $campaigns = [];
     $category = new \App\Models\Category();
     $category->name = '오늘오픈';
-    return view('campaign.index', compact('campaigns', 'category'));
-})->name('category.show');
-
-Route::get('/category/{name:name}', function(\App\Models\Category $name){
-    $campaigns = [];
-    $category = $name;
-   return view('campaign.index', compact('campaigns', 'category'));
+    $locationCategory = Category::filter(['name' => '지역'])->first();
+    return view('campaign.index', compact('campaigns', 'category', 'locationCategory'));
 })->name('category.show');
 
 Route::get('/community/free', function(){
