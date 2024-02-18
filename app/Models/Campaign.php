@@ -209,14 +209,22 @@ class Campaign extends Model
         $query->when($filter['location'] ?? false, function($query, $location){
             $query->whereHas('locationCategories', function($query) use ($location){
                 $query->whereIn('categories.id', function ($query) use ($location) {
-                    $query->select('id')
-                        ->from('categories')
-                        ->whereIn('name', $location)
-                        ->orWhereIn('parent_id', function($query) use ($location) {
-                            $query->select('id')
-                                ->from('categories')
-                                ->whereIn('name', $location);
-                        });
+                    if($location == '전체'){
+                        $categoryModel = new Category();
+                        $locationIds = $categoryModel->getChildIds(11);;
+                        $query->select('id')
+                            ->from('categories')
+                            ->whereIn('id', $locationIds);
+                    } else {
+                        $query->select('id')
+                            ->from('categories')
+                            ->where('name', $location)
+                            ->orWhereIn('parent_id', function($query) use ($location) {
+                                $query->select('id')
+                                    ->from('categories')
+                                    ->where('name', $location);
+                            });
+                    }
                 });
             });
         });
@@ -225,6 +233,19 @@ class Campaign extends Model
             $query->whereHas('media', function($mediaQuery) use ($media){
                 $mediaQuery->where('media', $media);
             });
+        });
+    }
+
+    public function scopeSort(Builder $query, $sort)
+    {
+        $query->when($sort ?? false, function($query, $sort){
+            if($sort == 'latest'){
+                $query->orderBy('id', 'desc');
+            } elseif($sort == 'popular'){
+                $query->orderBy('id', 'desc');
+            } elseif($sort == 'deadline'){
+                $query->orderBy('applicant_end_at', 'asc');
+            }
         });
     }
 }

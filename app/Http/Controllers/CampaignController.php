@@ -29,7 +29,7 @@ class CampaignController extends Controller
             'product'       => $request->input('product'),
             'location'      => $request->input('location'),
         ];
-        $campaigns = Campaign::filter($filter)->paginate(60);
+        $campaigns = Campaign::filter($filter)->sort($request->input('sort'))->paginate(60);
         $category = new Category;
         $campaignTypes = CampaignType::all();
         $typeCategory = Category::filter(['name' => '유형'])->first();

@@ -21,7 +21,7 @@
         <x-banner />
 
         <div class="flex flex-col min-h-screen min-h-screen">
-            <header class="p-6 flex container mx-auto justify-between items-baseline">
+            <header class="p-6 flex container mx-auto justify-between items-center">
                 <div class="flex content-center items-baseline">
                     <a href="/" class="mr-5 font-bold">REMON</a>
                     <form action="{{ route('campaigns.index') }}">
