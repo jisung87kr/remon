@@ -73,44 +73,6 @@ Route::get('/help/contact', function(){
     return view('help.contact');
 })->name('help.contact');
 
-Route::prefix('/mypage')->name('mypage.')->group(function(){
-    Route::get('/campaigns', function(){
-        return view('mypage.campaigns');
-    })->name('campaigns');
-
-    Route::get('/favorites', function(){
-        return view('mypage.favorites');
-    })->name('favorites');
-
-    Route::get('/reviews', function(){
-        return view('mypage.reviews');
-    })->name('reviews');
-
-    Route::get('/messages', function(){
-        return view('mypage.messages');
-    })->name('messages');
-
-    Route::get('/profile', function(){
-        return view('mypage.profile');
-    })->name('profile');
-
-    Route::get('/profile/information', function(){
-        return view('mypage.profile-information');
-    })->name('profile.information');
-
-    Route::get('/media', function(){
-        return view('mypage.media');
-    })->name('media');
-
-    Route::get('/penalty', function(){
-        return view('mypage.panalty');
-    })->name('penalty');
-
-    Route::get('/point', function(){
-        return view('mypage.point');
-    })->name('point');
-});
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -119,4 +81,48 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::prefix('/mypage')->name('mypage.')->group(function(){
+        Route::get('/campaigns', function(){
+            return view('mypage.campaigns');
+        })->name('campaigns');
+
+        Route::get('/favorites', function(){
+            return view('mypage.favorites');
+        })->name('favorites');
+
+        Route::get('/reviews', function(){
+            return view('mypage.reviews');
+        })->name('reviews');
+
+        Route::get('/messages', function(){
+            return view('mypage.messages');
+        })->name('messages');
+
+        Route::get('/profile', function(){
+            return view('mypage.profile');
+        })->name('profile');
+
+        Route::get('/profile/information', function(){
+            return view('mypage.profile-information');
+        })->name('profile.information');
+
+        Route::get('/media', function(){
+            return view('mypage.media');
+        })->name('media');
+
+        Route::get('/penalty', function(){
+            return view('mypage.panalty');
+        })->name('penalty');
+
+        Route::get('/point', function(){
+            return view('mypage.point');
+        })->name('point');
+    });
+
+    Route::prefix('/admin')->name('admin.')->group(function(){
+        Route::get('/', function(){
+            return view('admin.index');
+        })->name('admin');
+    });
 });

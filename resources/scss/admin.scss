@@ -1,0 +1,73 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "component/alert";
+@import "component/badge";
+@import "component/button";
+@import "app";
+
+.nav{
+  .nav-title{
+    @apply text-sm;
+  }
+
+  .nav-item, .nav-label, .nav-title{
+    @apply p-3 rounded-lg;
+  }
+
+  .nav-label{
+    @apply cursor-pointer;
+  }
+
+  .nav-item,
+  .nav-label{
+    &.active{
+      @apply bg-slate-50;
+    }
+  }
+
+  .nav-item:hover,
+  .nav-label:hover{
+    @apply bg-slate-50;
+  }
+}
+
+#content-wrap{
+  #aside{
+    @apply w-[250px] bg-white py-6 px-3 shadow fixed left-[-250px] top-0 bottom-0 overflow-auto z-50;
+  }
+
+  &.active{
+    #aside{
+      @apply left-0;
+    }
+
+    &:after{
+      content: '';
+      display: block;
+      position: fixed;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.1);
+      z-index: 30;
+    }
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  #content-wrap{
+    @apply pl-[250px];
+
+    #aside{
+      @apply left-0;
+    }
+
+    &.active{
+      &:after{
+        display: none;
+      }
+    }
+  }
+}
