@@ -36,7 +36,8 @@ class CampaignController extends Controller
         $productCategory = Category::filter(['name' => '제품'])->first();
         $locationCategory = Category::filter(['name' => '지역'])->first();
         $missions = Mission::all();
-        return view('campaign.index', compact('campaigns', 'category', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions'));
+        $viewName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaign.index' : 'campaign.index';
+        return view($viewName, compact('campaigns', 'category', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions'));
     }
 
     /**
@@ -51,7 +52,8 @@ class CampaignController extends Controller
         $locationCategory = Category::filter(['name' => '지역'])->first();
         $missions = Mission::all();
         $customOptions = $this->campaignService->getApplicationFields();
-        return view('campaign.create', compact('campaign', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions', 'customOptions'));
+        $viewName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaign.create' : 'campaign.create';
+        return view($viewName, compact('campaign', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions', 'customOptions'));
     }
 
     /**
@@ -60,7 +62,8 @@ class CampaignController extends Controller
     public function store(Request $request)
     {
         $campaign = $this->campaignService->upsert();
-        return $campaign;
+        $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaigns.show' : 'campaigns.show';
+        return redirect()->route($routeName, $campaign);
     }
 
     /**
@@ -68,7 +71,8 @@ class CampaignController extends Controller
      */
     public function show(Campaign $campaign)
     {
-        return view('campaign.show', compact('campaign'));
+        $viewName = request()->route()->getPrefix() === 'admin/' ? 'campaign.show' : 'campaign.show';
+        return view($viewName, compact('campaign'));
     }
 
     /**
@@ -82,7 +86,8 @@ class CampaignController extends Controller
         $locationCategory = Category::filter(['name' => '지역'])->first();
         $missions = Mission::all();
         $customOptions = $this->campaignService->getApplicationFields();
-        return view('campaign.edit', compact('campaign', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions', 'customOptions'));
+        $viewName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaign.edit' : 'campaign.edit';
+        return view($viewName, compact('campaign', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions', 'customOptions'));
     }
 
     /**
@@ -91,7 +96,8 @@ class CampaignController extends Controller
     public function update(Request $request, Campaign $campaign)
     {
         $this->campaignService->upsert();
-        return redirect()->route('campaigns.show', $campaign);
+        $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaigns.edit' : 'campaigns.show';
+        return redirect()->route($routeName, $campaign);
     }
 
     /**
@@ -100,6 +106,7 @@ class CampaignController extends Controller
     public function destroy(Campaign $campaign)
     {
         $campaign->delete();
-        return redirect()->route('index');
+        $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaigns.index' : 'campaigns.index';
+        return redirect()->route($routeName);
     }
 }

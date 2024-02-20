@@ -84,6 +84,9 @@
                                 <x-dropdown-link href="{{ route('mypage.profile') }}">
                                     {{ __('내 정보') }}
                                 </x-dropdown-link>
+                                <x-dropdown-link href="{{ route('admin.index') }}">
+                                    {{ __('관리자 사이트') }}
+                                </x-dropdown-link>
 
 
                                 <div class="border-t border-gray-200"></div>

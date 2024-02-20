@@ -19,7 +19,8 @@ use App\Http\Controllers\CampaignController;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
-Route::resource('/campaigns', CampaignController::class);
+Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaigns.index');
+Route::get('/campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
 
 Route::get('/campaigns/{campaign}/applicants', function($campaign){
     return view('campaign.applicants');
@@ -123,6 +124,8 @@ Route::middleware([
     Route::prefix('/admin')->name('admin.')->group(function(){
         Route::get('/', function(){
             return view('admin.index');
-        })->name('admin');
+        })->name('index');
+
+        Route::resource('/campaigns', CampaignController::class);
     });
 });

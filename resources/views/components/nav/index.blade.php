@@ -1,4 +1,5 @@
-<li class="nav-group" x-data="{ expanded: false }">
+@props(['active' => false ])
+<li class="nav-group" x-data="{ expanded: {{ $active ? 'true' : 'false' }} }">
     {{ $slot }}
     @isset($label)
     {{ $label }}

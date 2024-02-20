@@ -12,7 +12,7 @@
   }
 
   .nav-item, .nav-label, .nav-title{
-    @apply p-3 rounded-lg;
+    @apply p-3 rounded-lg mb-1;
   }
 
   .nav-label{
@@ -70,4 +70,8 @@
       }
     }
   }
+}
+
+.card{
+  @apply p-6 bg-white rounded-lg shadow;
 }
