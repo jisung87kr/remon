@@ -70,7 +70,7 @@ class Campaign extends Model
     public function typeCategories()
     {
         $categoryModel = new Category();
-        $categoryIds = $categoryModel->getChildIds(56);
+        $categoryIds = $categoryModel->getChildIds(54);
 
         return $this->morphToMany(Category::class, 'categoryable')
             ->whereIn('category_id', $categoryIds)
@@ -95,7 +95,7 @@ class Campaign extends Model
     public function options()
     {
         $categoryModel = new Category();
-        $categoryIds = $categoryModel->getChildIds(63);
+        $categoryIds = $categoryModel->getChildIds(62);
 
         return $this->morphToMany(Category::class, 'categoryable')
             ->whereIn('category_id', $categoryIds)
