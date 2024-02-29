@@ -11,6 +11,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
+//mYB1fQpROt4kVoz5H5DEgrHpiap9TEojj7kJZwbC99d64a1a
 class User extends Authenticatable
 {
     use HasApiTokens;

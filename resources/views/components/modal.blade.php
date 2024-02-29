@@ -10,10 +10,17 @@ $maxWidth = [
     'xl' => 'sm:max-w-xl',
     '2xl' => 'sm:max-w-2xl',
 ][$maxWidth ?? '2xl'];
+
 @endphp
 
+
 <div
-    x-data="{ show: @entangle($attributes->wire('model')) }"
+    @if($attributes->wire('model')->directive)
+        x-data="{ show: @entangle($attributes->wire('model')) }"
+    @else
+        x-data="{ show: $store.rootModal.show }"
+        x-init="$watch('$store.rootModal.show', value => show = value); $watch('show', value => $store.rootModal.show = value);"
+    @endif
     x-on:close.stop="show = false"
     x-on:keydown.escape.window="show = false"
     x-show="show"

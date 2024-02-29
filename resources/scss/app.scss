@@ -10,7 +10,7 @@
 }
 
 .table{
-  @apply w-full text-sm text-left rtl:text-right text-gray-500;
+  @apply w-full text-sm text-left rtl:text-right text-gray-700;
 
   &table-dark{
     @apply dark:text-gray-400;
@@ -114,4 +114,29 @@ p{
 
 ul, ol{
   @apply list-none list-inside;
+}
+
+.modal{
+  @apply fixed left-0 top-0 right-0 bottom-0 flex items-center justify-center;
+
+   .modal-bg{
+     @apply absolute left-0 top-0 right-0 bottom-0 bg-gray-800 opacity-25
+   }
+
+  .modal-wrapper{
+    @apply relative bg-white w-[80%] max-w-[800px] rounded-lg;
+  }
+
+  .modal-header{
+    @apply p-6 border-b border-gray-100
+  }
+
+  .modal-content{
+    @apply p-6 overflow-auto;
+    max-height: 60vh;
+  }
+
+  .modal-footer{
+    @apply p-6 border-t border-gray-100
+  }
 }

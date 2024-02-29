@@ -104,6 +104,10 @@ Route::middleware([
             return view('mypage.profile');
         })->name('profile');
 
+        Route::post('/profile', function(){
+            return view('mypage.profile');
+        })->name('profile');
+
         Route::get('/profile/information', function(){
             return view('mypage.profile-information');
         })->name('profile.information');
