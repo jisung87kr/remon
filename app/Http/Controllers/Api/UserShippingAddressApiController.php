@@ -23,7 +23,7 @@ class UserShippingAddressApiController extends Controller
             $result = $request->user()->shippingAddresses;
             return response()->json(new Response(Response::SUCCESS, '배송지목록 조회 성공.', $result));
         } catch (\Exception $e) {
-            return response()->json(new Response(Response::ERROR, '배송지목록을 조회 실패', $e->getMessage()), 500);
+            return response()->json(new Response(Response::ERROR, '배송지목록 조회 실패', $e->getMessage()), 500);
         }
     }
 

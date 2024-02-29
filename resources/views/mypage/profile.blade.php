@@ -59,6 +59,12 @@
             <div class="text-lg font-bold pb-2 mb-3 border-b border-gray-900">주소록</div>
             <div>
                 <table class="table">
+                    <colgroup>
+                        <col width="150px">
+                        <col width="100px">
+                        <col width="*">
+                        <col width="200px">
+                    </colgroup>
                     <thead>
                     <tr class="text-center">
                         <th>배송지</th>
@@ -102,7 +108,7 @@
                     <button type="button" class="text-sm mx-auto" @click="openModal">+ 배송지 추가</button>
                 </div>
             </div>
-            <div class="modal" x-show="isModalShow">
+            <div class="modal" x-show="isModalShow" style="display: none;">
                 <div class="modal-bg"></div>
                 <div class="modal-wrapper">
                     <div class="modal-header">
@@ -185,16 +191,27 @@
               addressList: [],
               init(){
                 this.getAddressList();
+                this.$watch('isModalShow', (value, old)=>{
+                  if(value === false){
+                    console.log('close');
+                    this.resetForm();
+                  }
+                });
               },
               getAddressList(){
                 axios.get('/api/user/shipping_addresses').then(res => {
-                  console.log(res);
                   this.addressList = res.data.data;
+                }).catch(error => {
+                    console.log(error.response.data.message);
+                    Swal.fire({
+                      icon: "error",
+                      title: "오류발생",
+                      text: error.response.data.message,
+                    });
                 });
               },
               editAddress(id){
                 axios.get(`/api/user/shipping_addresses/${id}`).then(res => {
-                  console.log(res);
                   const data = res.data.data;
                   this.addressId = id;
                   this.addressTitle = data.title;
@@ -206,14 +223,39 @@
                   this.addressExtra = data.address_extra;
                   this.isDefault = data.is_default;
                   this.openModal();
+                }).catch(error => {
+                  Swal.fire({
+                    icon: "error",
+                    title: "오류발생",
+                    text: error.response.data.message,
+                  });
                 });
               },
 
               deleteAddress(id){
+                if(this.addressList.length === 1){
+                  Swal.fire({
+                    icon: "warning",
+                    title: "배송지를 삭제할 수 없습니다.",
+                    text: "최소 1개의 배송지를 유지하셔야 합니다.",
+                  });
+                  return false;
+                }
+
                 axios.delete(`/api/user/shipping_addresses/${id}`).then(res => {
-                  console.log(res);
+                  Swal.fire({
+                    icon: "success",
+                    title: "성공",
+                    text: res.data.message,
+                  });
                   this.getAddressList();
-                });
+                }).catch(error => {
+                  Swal.fire({
+                    icon: "error",
+                    title: "오류발생",
+                    text: error.response.data.message,
+                  });
+                });;
               },
               openModal(){
                   this.isModalShow = true;
@@ -222,17 +264,15 @@
                 var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
                 new daum.Postcode({
                   oncomplete: (data) => {
-                    let addr = ''; // 주소 변수
-                    let extraAddr = ''; // 참고항목 변수
+                    let addr = '';
+                    let extraAddr = '';
 
-                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
                     if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
                       addr = data.roadAddress;
                     } else { // 사용자가 지번 주소를 선택했을 경우(J)
                       addr = data.jibunAddress;
                     }
 
-                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
                     if(data.userSelectedType === 'R'){
                       // 법정동명이 있을 경우 추가한다. (법정리는 제외)
                       // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
@@ -254,20 +294,16 @@
                       this.addressExtra = '';
                     }
 
-                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
                     this.postcode = data.zonecode;
                     this.address = addr;
-                    // 커서를 상세주소 필드로 이동한다.
                     this.$refs.address_detail.focus();
 
                     // iframe을 넣은 element를 안보이게 한다.
                     // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
                     this.searchOpen = false;
 
-                    // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
                     document.body.scrollTop = currentScroll;
                   },
-                  // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
                   onresize : (size) => {
                     this.height = size.height+30+'px';
                   },
@@ -275,7 +311,6 @@
                   height : '100%'
                 }).embed(this.$refs.address_searchbox);
 
-                // iframe을 넣은 element를 보이게 한다.
                 this.searchOpen = true;
               },
               foldDaumPostcode(){
@@ -299,14 +334,38 @@
 
                 if(this.addressId){
                   axios.put(`/api/user/shipping_addresses/${this.addressId}`, params).then(res => {
-                    console.log(res);
+                    Swal.fire({
+                      icon: "success",
+                      title: "성공",
+                      text: res.data.message,
+                    });
+                  }).catch(error => {
+                    Swal.fire({
+                      icon: "error",
+                      title: "오류발생",
+                      text: error.response.data.message,
+                    });
                   });
                 } else {
                   axios.post('/api/user/shipping_addresses', params).then(res => {
-                    console.log(res);
+                    Swal.fire({
+                      icon: "success",
+                      title: "성공",
+                      text: res.data.message,
+                    });
+                  }).catch(error => {
+                    Swal.fire({
+                      icon: "error",
+                      title: "오류발생",
+                      text: error.response.data.message,
+                    });
                   });
                 }
 
+                this.resetForm();
+                this.getAddressList();
+              },
+              resetForm(){
                 this.addressId = '';
                 this.addressName = '';
                 this.addressTitle = '';
@@ -316,10 +375,7 @@
                 this.addressDetail = '';
                 this.addressExtra = '';
                 this.isDefault = '';
-
-                this.getAddressList();
-
-              }
+              },
             }
         </script>
         <div class="mt-6">
