@@ -113,7 +113,10 @@ Route::middleware([
         })->name('profile.information');
 
         Route::get('/media', function(){
-            return view('mypage.media');
+            $blog = auth()->user()->medias()->where('media', \App\Enums\Campaign\MediaEnum::NAVER_BLOG)->first();
+            $instagram = auth()->user()->medias()->where('media', \App\Enums\Campaign\MediaEnum::INSTAGRAM)->first();
+            $youtube = auth()->user()->medias()->where('media', \App\Enums\Campaign\MediaEnum::YOUTUBE)->first();
+            return view('mypage.media', compact('blog', 'instagram', 'youtube'));
         })->name('media');
 
         Route::get('/penalty', function(){

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserShippingAddressApiController;
+use App\Http\Controllers\Api\UserMediaApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,9 +20,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function(){
-    Route::get('user/shipping_addresses', [UserShippingAddressApiController::class, 'index']);
-    Route::get('user/shipping_addresses/{userShippingAddress}', [UserShippingAddressApiController::class, 'show']);
-    Route::post('user/shipping_addresses', [UserShippingAddressApiController::class, 'store']);
-    Route::put('user/shipping_addresses/{userShippingAddress}', [UserShippingAddressApiController::class, 'update']);
-    Route::delete('user/shipping_addresses/{userShippingAddress}', [UserShippingAddressApiController::class, 'destroy']);
+    Route::prefix('user')->group(function(){
+        // 배송지
+        Route::get('shipping_addresses', [UserShippingAddressApiController::class, 'index']);
+        Route::get('shipping_addresses/{userShippingAddress}', [UserShippingAddressApiController::class, 'show']);
+        Route::post('shipping_addresses', [UserShippingAddressApiController::class, 'store']);
+        Route::put('shipping_addresses/{userShippingAddress}', [UserShippingAddressApiController::class, 'update']);
+        Route::delete('shipping_addresses/{userShippingAddress}', [UserShippingAddressApiController::class, 'destroy']);
+
+        // 미디어
+        Route::resource('media', UserMediaApiController::class)->parameters(['media' => 'userMedia']);
+    });
 });

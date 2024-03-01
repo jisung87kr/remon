@@ -32,7 +32,7 @@ class UserShippingAddressApiController extends Controller
         if($request->user()->can('show-userShippingAddress', $userShippingAddress)){
             return response()->json(new Response(Response::SUCCESS, '배송지 조회 성공', $userShippingAddress));
         } else {
-            return response()->json(new Response(Response::ERROR, '권한이 없습니다.', ''), 503);
+            return response()->json(new Response(Response::ERROR, '권한이 없습니다.', ''), 401);
         }
     }
 

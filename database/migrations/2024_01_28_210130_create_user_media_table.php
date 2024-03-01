@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('url')->comment('미디어 채널 url');
             $table->string('connected_status')->default('UNCONNECTED')->comment('연결 상태');
             $table->timestamps();
+            $table->unique(['user_id', 'media', 'url', 'connected_status']);
         });
     }
 
