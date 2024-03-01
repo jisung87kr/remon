@@ -2,9 +2,20 @@
 namespace App\Enums\User;
 
 enum JobEnum: string {
-    const STUDENT = '학생';
-    const EMPLOYEE = '직장인';
-    const HOMEMAKER = '주부';
-    const SELF_EMPLOYED = '자영업';
-    const OTHER = '기타';
+    case STUDENT = 'student';
+    case EMPLOYEE = 'employee';
+    case HOMEMAKER = 'homeworker';
+    case SELF_EMPLOYED = 'self_employed';
+    case OTHER = 'other';
+
+    public function label()
+    {
+        return match($this){
+            JobEnum::STUDENT => 'student',
+            JobEnum::EMPLOYEE => 'employee',
+            JobEnum::HOMEMAKER => 'homeworker',
+            JobEnum::SELF_EMPLOYED => 'self_employed',
+            JobEnum::OTHER => 'other',
+        };
+    }
 }

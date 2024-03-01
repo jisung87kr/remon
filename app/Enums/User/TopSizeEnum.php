@@ -2,10 +2,22 @@
 namespace App\Enums\User;
 
 enum TopSizeEnum: string {
-    case S = '44,90';
-    case M = '55,95';
-    case L = '66,100';
-    case XL = '77,105';
-    case XXL = '88,110';
-    case XXXL = '99,115';
+    case S = 's';
+    case M = 'm';
+    case L = 'l';
+    case XL = 'xl';
+    case XXL = 'xxl';
+    case XXXL = 'xxxl';
+
+    public function label()
+    {
+        return match($this){
+            TopSizeEnum::S => '44,90',
+            TopSizeEnum::M => '55,95',
+            TopSizeEnum::L => '66,100',
+            TopSizeEnum::XL => '77,105',
+            TopSizeEnum::XXL => '88,110',
+            TopSizeEnum::XXXL => '99,115',
+        };
+    }
 }

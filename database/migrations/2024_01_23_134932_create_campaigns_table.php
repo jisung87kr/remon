@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('address_postcode')->nullable()->comment('우편번호');
             $table->string('address')->nullable()->comment('주소');
             $table->string('address_detail')->nullable()->comment('주소 상세');
+            $table->string('address_extra')->nullable()->comment('참고항목');
             $table->string('lat')->nullable()->comment('위도');
             $table->string('long')->nullable()->comment('경도');
             $table->text('mission')->comment('미션 설명');

@@ -1,3 +1,5 @@
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=509c2656c00fa9af4782197a888763f6&libraries=services,clusterer,drawing?autoload=false"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <div class="container mx-auto p-6" x-data="campaignData">
     <form action="{{ $action }}" method="POST" enctype="multipart/form-data">
         @method($method)
@@ -200,54 +202,59 @@
                         </template>
                     </div>
                     <template x-if="type == 2">
-                        <div class="col-span-2 py-6">
-                            <div class="grid grid-cols-12 gap-6">
-                                <div class="col-span-3">
-                                    <label for="address_postcode" class="label mb-2">우편번호</label>
-                                    <input id="address_postcode"
-                                           class="form-control"
-                                           name="address_postcode"
-                                           readonly
-                                           x-model="addressPostcode"
-                                           @click="execDaumPostcode">
-                                    <x-input-error for="address_postcode" class="mt-1"></x-input-error>
-                                </div>
-                                <div class="col-span-9">
-                                    <label for="address" class="label mb-2">주소</label>
-                                    <div class="flex gap-3">
-                                        <input id="address" class="form-control w-full" name="address" readonly x-model="address" @click="execDaumPostcode">
-                                        <button type="button" class="button button-gray shrink-0 !m-0" @click.prevent="execDaumPostcode">주소찾기</button>
+                        <div class="col-span-2">
+                            <div class="col-span-2 py-6">
+                                <div class="grid grid-cols-12 gap-6">
+                                    <div class="col-span-3">
+                                        <label for="address_postcode" class="label mb-2">우편번호</label>
+                                        <input id="address_postcode"
+                                               class="form-control"
+                                               name="address_postcode"
+                                               readonly
+                                               x-model="addressPostcode"
+                                               @click="execDaumPostcode">
+                                        <x-input-error for="address_postcode" class="mt-1"></x-input-error>
                                     </div>
-                                    <x-input-error for="address" class="mt-1"></x-input-error>
-                                </div>
-                                <div class="col-span-12 relative border pt-6" x-show="findAddress">
-                                    <div x-ref="search_address_element">
-                                        <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" @click="findAddress=false" alt="접기 버튼">
+                                    <div class="col-span-9">
+                                        <label for="address" class="label mb-2">주소</label>
+                                        <div class="flex gap-3">
+                                            <input id="address" class="form-control w-full" name="address" readonly x-model="address" @click="execDaumPostcode">
+                                            <button type="button" class="button button-gray shrink-0 !m-0" @click.prevent="execDaumPostcode">주소찾기</button>
+                                        </div>
+                                        <x-input-error for="address" class="mt-1"></x-input-error>
                                     </div>
-                                </div>
-                                <div class="col-span-12">
-                                    <label for="address_detail" class="label mb-2">주소상세</label>
-                                    <input id="address_detail" class="form-control" name="address_detail" x-ref="address_detail">
-                                    <x-input-error for="address_detail" class="mt-1"></x-input-error>
-                                </div>
-                                <div class="col-span-12 bg-red-50 h-[300px] rounded-lg flex items-center justify-center" x-show="mapObject">
-                                    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=509c2656c00fa9af4782197a888763f6&libraries=services,clusterer,drawing"></script>
-                                    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-                                    <div id="map" x-ref="map" class="w-full h-[300px]"></div>
-                                    <input type="hidden" name="lat" value="" x-model="lat">
-                                    <input type="hidden" name="long" value="" x-model="long">
+                                    <div class="col-span-12 relative border pt-6 bg-white" x-show="findAddress">
+                                        <div x-ref="search_address_element">
+                                            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" @click="findAddress=false" alt="접기 버튼">
+                                        </div>
+                                    </div>
+                                    <div class="col-span-12">
+                                        <label for="address_detail" class="label mb-2">주소상세</label>
+                                        <input id="address_detail" class="form-control" name="address_detail" x-model="addressDetail" x-ref="address_detail">
+                                        <x-input-error for="address_detail" class="mt-1"></x-input-error>
+                                    </div>
+                                    <div class="col-span-12">
+                                        <label for="address_extra" class="label mb-2">추가항목</label>
+                                        <input id="address_extra" class="form-control" name="address_extra" x-model="addressExtra" x-ref="address_extra">
+                                        <x-input-error for="address_detail" class="mt-1"></x-input-error>
+                                    </div>
+                                    <div class="col-span-12 bg-red-50 h-[300px] rounded-lg flex items-center justify-center" x-show="mapObject">
+                                        <div id="map" x-ref="map" class="w-full h-[300px]"></div>
+                                        <input type="hidden" name="lat" value="" x-model="lat">
+                                        <input type="hidden" name="long" value="" x-model="long">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-span-2 py-6">
-                            <label for="visit_instruction" class="label mb-2">방문 및 예약안내</label>
-                            <textarea name="visit_instruction" id="visit_instruction" class="form-control" cols="30" rows="10"></textarea>
-                            <x-input-error for="visit_instruction" class="mt-1"></x-input-error>
+                            <div class="col-span-2 py-6">
+                                <label for="visit_instruction" class="label mb-2">방문 및 예약안내</label>
+                                <textarea name="visit_instruction" id="visit_instruction" class="form-control" cols="30" rows="10">{{ old('visit_instruction', $campaign['visit_instruction']) }}</textarea>
+                                <x-input-error for="visit_instruction" class="mt-1"></x-input-error>
+                            </div>
                         </div>
                     </template>
                     <div class="col-span-2 py-6">
                         <label for="extra_information" class="label mb-2">추가안내사항</label>
-                        <textarea name="extra_information" id="extra_information" class="form-control" cols="30" rows="10"></textarea>
+                        <textarea name="extra_information" id="extra_information" class="form-control" cols="30" rows="10">{{ old('extra_information', $campaign->extra_information) }}</textarea>
                         <x-input-error for="extra_information" class="mt-1"></x-input-error>
                     </div>
                 </div>
@@ -414,8 +421,7 @@
     addressPostcode: '{{ old('address_postcode', $campaign['address_postcode']) }}',
     address: '{{ old('address', str_replace("\n", '', $campaign['address'])) }}',
     addressDetail: '{{ old('address_detail', $campaign['address_detail']) }}',
-    addressExtra: '',
-    searchAddressElement: '',
+    addressExtra: '{{ old('address_extra', $campaign['address_extra']) }}',
     findAddress: false,
     mapElement: '',
     mapObject: null,
@@ -438,7 +444,6 @@
       hashtag: '{{ App\Enums\Campaign\MissionOptionEnum::HASHTAG_ID_OF_MISSION_OPTION->value }}',
     },
     init(){
-      this.searchAddressElement = this.$refs.search_address_element;
       this.mapelement = this.$refs.map;
       if(this.lat && this.long){
         this.initMap();
@@ -447,6 +452,10 @@
       if(this.customOptions.length === 0){
         this.customOptions = [{...this.customOption}]
       }
+
+      this.$watch('type', (value, old) => {
+        console.log(value, old);
+      });
     },
     showInput(optionId){
       for (let i = 0; i < this.missionOptions.length; i++) {
@@ -556,11 +565,11 @@
         },
         // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
         onresize : (size) => {
-          this.searchAddressElement.style.height = size.height+'px';
+          this.$refs.search_address_element.style.height = size.height+'px';
         },
         width : '100%',
         height : '100%'
-      }).embed(this.searchAddressElement);
+      }).embed(this.$refs.search_address_element);
     }
   }
 </script>
