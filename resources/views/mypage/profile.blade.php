@@ -1,41 +1,70 @@
 <x-mypage-layout>
-    <form action="">
+    <form action="{{ route('user-profile-information.update') }}" method="POST">
+        @csrf
+        @method('PUT')
         <x-slot name="header">내정보</x-slot>
+        @if ($errors->updateProfileInformation->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->updateProfileInformation->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="mt-6">
             <div class="text-lg font-bold pb-2 mb-3 border-b border-gray-900">회원정보</div>
             <div class="mt-6">
                 <div class="flex items-center py-3">
                     <label for="name" class="shrink-0 w-[120px] mr-3 label !text-gray-600">이름</label>
-                    <input type="text" class="form-control" value="{{ auth()->user()->name }}" id="name">
-                </div>
-                <div class="flex items-center py-3">
-                    <x-label class="!text-base !mr-3 shrink-0 w-[120px]">성별</x-label>
                     <div>
-                        <x-radio-button id="sex_man" name="sex" value="man">남자</x-radio-button>
-                        <x-radio-button id="sex_man" name="sex" value="man">여자</x-radio-button>
+                        <input type="text" name="name" class="form-control" value="{{ auth()->user()->name }}" id="name">
+                        <x-input-error for="name" errorBag="updateProfileInformation" class="mt-1"></x-input-error>
                     </div>
                 </div>
                 <div class="flex items-center py-3">
-                    <x-label class="!text-base !mr-3 shrink-0 w-[120px]">출생연도</x-label>
-                    <select name="" id="" class="form-select">
-                        <option value="">선택해주세요</option>
-                        @foreach(array_reverse(range(1923, date('Y'))) as $year)
-                            <option value="{{ $year }}">{{ $year }}</option>
-                        @endforeach
-                    </select>
+                    <x-label for="" class="!text-base !mr-3 shrink-0 w-[120px]">성별</x-label>
+                    <div>
+                        <div class="flex gap-3">
+                            <x-radio-button id="man" name="sex" value="man" :checked="auth()->user()->sex == 'man'">남자</x-radio-button>
+                            <x-radio-button id="woman" name="sex" value="woman" :checked="auth()->user()->sex == 'woman'">여자</x-radio-button>
+                        </div>
+                        <x-input-error for="sex" errorBag="updateProfileInformation" class="mt-1"></x-input-error>
+                    </div>
+                </div>
+                <div class="flex items-center py-3">
+                    <x-label for="birthdate" class="!text-base !mr-3 shrink-0 w-[120px]">출생연도</x-label>
+                    <div>
+                        <select name="birthdate" id="birthdate" class="form-select">
+                            <option value="">선택해주세요</option>
+                            @foreach(array_reverse(range(1923, date('Y'))) as $year)
+                                <option value="{{ $year }}" @selected($year == auth()->user()->birthdate)>{{ $year }}</option>
+                            @endforeach
+                        </select>
+                        <x-input-error for="birthdate" errorBag="updateProfileInformation" class="mt-1"></x-input-error>
+                    </div>
                 </div>
                 <div class="flex items-center py-3">
                     <label for="nick_name" class="shrink-0 w-[120px] mr-3 label !text-gray-600">닉네임</label>
-                    <input type="text" class="form-control" value="" id="nick_name">
+                    <div>
+                        <input type="text" name="nick_name" class="form-control" value="{{ auth()->user()->nick_name }}" id="nick_name">
+                        <x-input-error for="nick_name" errorBag="updateProfileInformation" class="mt-1"></x-input-error>
+                    </div>
                 </div>
                 <div class="flex items-center py-3">
                     <label for="email" class="shrink-0 w-[120px] mr-3 label !text-gray-600">아이디(이메일)</label>
-                    <input type="text" class="form-control" value="{{ auth()->user()->email }}" id="email">
+                    <div class="w-full">
+                        <input type="text" name="email" class="form-control" value="{{ auth()->user()->email }}" id="email" readonly>
+                        <x-input-error for="email" errorBag="updateProfileInformation" class="mt-1"></x-input-error>
+                    </div>
                 </div>
                 <div class="flex items-center py-3">
                     <label for="phone" class="shrink-0 w-[120px] mr-3 label !text-gray-600">연락처</label>
                     <div class="w-full">
-                        <input type="text" class="form-control" value="" id="phone">
+                        <div>
+                            <input type="text" name="phone" class="form-control" value="{{ auth()->user()->phone }}" id="phone" @keyup="event.target.value = event.target.value.replace(/\D/g, '').replace(/(\d{3})(\d{1,4})(\d{1,4})/, '$1-$2-$3')">
+                            <x-input-error for="phone" errorBag="updateProfileInformation" class="mt-1"></x-input-error>
+                        </div>
                         <div class="text-sm mt-2">
                             <div>
                                 <div class="inline">
@@ -339,12 +368,15 @@
                       title: "성공",
                       text: res.data.message,
                     });
+                    this.resetForm();
                   }).catch(error => {
                     Swal.fire({
                       icon: "error",
-                      title: "오류발생",
-                      text: error.response.data.message,
+                      title: error.response.data.message,
+                      text: error.response.data.data,
                     });
+                  }).finally(res => {
+                    this.getAddressList();
                   });
                 } else {
                   axios.post('/api/user/shipping_addresses', params).then(res => {
@@ -353,17 +385,17 @@
                       title: "성공",
                       text: res.data.message,
                     });
+                    this.resetForm();
                   }).catch(error => {
                     Swal.fire({
                       icon: "error",
-                      title: "오류발생",
-                      text: error.response.data.message,
+                      title: error.response.data.message,
+                      text: error.response.data.data,
                     });
+                  }).finally(res => {
+                    this.getAddressList();
                   });
                 }
-
-                this.resetForm();
-                this.getAddressList();
               },
               resetForm(){
                 this.addressId = '';
@@ -383,16 +415,16 @@
                 <div>수신동의</div>
                 <small class="text-gray-500 my-3">레몬에서 진행하는 다양한 이벤트와 회원님 맞춤 캠페인 추천을 받을 수 있어요.</small>
             </div>
-            <div class="mt-6">
+            <div class="mt-6" x-data="agreeData">
                 <div class="flex items-center">
-                    <input type="checkbox" class="form-check mr-2" id="privacy">
+                    <input type="checkbox" name="agree_privacy" class="form-check mr-2" id="agree_privacy" value="1" @checked(auth()->user()->agree_privacy)>
                     <div>
-                        <label for="privacy">이벤트 및 캠페인 추천 등 혜택안내를 위한 개인정보 수집∙이용동의</label>
+                        <label for="agree_privacy">이벤트 및 캠페인 추천 등 혜택안내를 위한 개인정보 수집∙이용동의</label>
                         <a href="" class="text-purple-700 underline text-sm">내용보기</a>
                     </div>
                 </div>
                 <div class="flex items-center mt-3">
-                    <input type="checkbox" class="form-check mr-2" id="allow_marketing">
+                    <input type="checkbox" class="form-check mr-2" id="allow_marketing" x-ref="checkall" @checked(auth()->user()->agree_email && auth()->user()->agree_sms && auth()->user()->agree_push) @click="checkAll">
                     <div>
                         <label for="allow_marketing">이벤트 및 캠페인 추천 등 혜택안내 수신 동의</label>
                         <a href="" class="text-purple-700 underline text-sm">내용보기</a>
@@ -400,19 +432,33 @@
                 </div>
                 <div class="ml-6 mt-3 flex gap-6">
                     <div>
-                        <input type="checkbox" name="allow_marketing[]" value="email" class="form-check mr-2" id="allow_marketing_email">
-                        <label for="allow_marketing_email">이메일</label>
+                        <input type="checkbox" name="agree_email" value="1" class="allow_marketing form-check mr-2" id="agree_email" @checked(auth()->user()->agree_email) @click="check">
+                        <label for="agree_email">이메일</label>
                     </div>
                     <div>
-                        <input type="checkbox" name="allow_marketing[]" value="sms" class="form-check mr-2" id="allow_marketing_SMS">
-                        <label for="allow_marketing_SMS">SMS</label>
+                        <input type="checkbox" name="agree_sms" value="1" class="allow_marketing form-check mr-2" id="agree_sms" @checked(auth()->user()->agree_sms) @click="check">
+                        <label for="agree_sms">SMS</label>
                     </div>
                     <div>
-                        <input type="checkbox" name="allow_marketing[]" value="push" class="form-check mr-2" id="allow_marketing_push">
-                        <label for="allow_marketing_push">앱 푸시 알림</label>
+                        <input type="checkbox" name="agree_push" value="1" class="allow_marketing form-check mr-2" id="agree_push" @checked(auth()->user()->agree_push) @click="check">
+                        <label for="agree_push">앱 푸시 알림</label>
                     </div>
                 </div>
             </div>
+            <script>
+                const agreeData = {
+                  checkAll(){
+                    document.querySelectorAll('.allow_marketing').forEach(item => {
+                      item.checked = event.target.checked;
+                    });
+                  },
+                  check(){
+                    if(!event.target.checked){
+                      this.$refs.checkall.checked = false;
+                    }
+                  }
+                }
+            </script>
         </div>
 
         <div class="my-24 text-center">

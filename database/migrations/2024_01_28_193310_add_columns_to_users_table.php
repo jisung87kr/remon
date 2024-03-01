@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('sex', ['man', 'woman'])->nullable()->comment('성별')->after('phone_verified_at');
             $table->string('birthdate')->nullable()->comment('생년월일')->after('sex');
             $table->integer('level')->default(0)->comment('회원 레벨')->after('profile_photo_path');
+            $table->boolean('agree_privacy')->default(0)->comment('개인정보 수집 이용동의 여부')->after('level');
             $table->boolean('agree_email')->default(0)->comment('이메일 수신 여부')->after('level');
             $table->boolean('agree_sms')->default(0)->comment('문자 수신 여부')->after('agree_email');
             $table->boolean('agree_push')->default(0)->comment('푸시 수신 여부')->after('agree_sms');

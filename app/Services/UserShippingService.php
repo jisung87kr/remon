@@ -23,7 +23,7 @@ class UserShippingService{
                 'address' => 'required',
                 'address_detail' => 'required',
                 'address_extra' => 'nullable',
-                'is_default' => 'boolean',
+                'is_default' => 'nullable|boolean',
             ]);
 
             if($validated['is_default']){

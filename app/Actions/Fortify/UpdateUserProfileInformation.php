@@ -7,9 +7,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
+use Illuminate\Validation\Rules\Password;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
+    use PasswordValidationRules;
     /**
      * Validate and update the given user's profile information.
      *
@@ -17,10 +19,21 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     public function update(User $user, array $input): void
     {
-        Validator::make($input, [
+        $validated = Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'sex' => ['nullable', 'string', 'regex:/^(man|woman)$/'],
+            'birthdate' => ['nullable'],
+            'nick_name' => ['nullable'],
+            'phone' => ['nullable'],
+            'status' => ['nullable'],
+            'level' => ['nullable'],
+            'agree_privacy' => ['nullable', 'boolean'],
+            'agree_email' => ['nullable', 'boolean'],
+            'agree_sms' => ['nullable', 'boolean'],
+            'agree_push' => ['nullable', 'boolean'],
+            'point' => ['nullable', 'integer'],
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
@@ -31,10 +44,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user instanceof MustVerifyEmail) {
             $this->updateVerifiedUser($user, $input);
         } else {
-            $user->forceFill([
-                'name' => $input['name'],
-                'email' => $input['email'],
-            ])->save();
+            $user->forceFill($validated)->save();
         }
     }
 
