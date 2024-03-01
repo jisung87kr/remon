@@ -123,8 +123,17 @@
             <div class="border-b">
                 <div class="container mx-auto p-6">
                     <nav>
-                        <ul class="flex gap-5">
-                            <li class="font-bold"><a href="{{ route('campaigns.index') }}" class="{{ request()->routeIs('campaigns.index') ? 'text-indigo-500' : '' }}">전체 캠페인</a></li>
+                        <ul class="flex gap-y-5 gap-x-8">
+                            <li class="font-bold">
+                                <a href="{{ route('campaigns.index') }}" class="{{ request()->routeIs('campaigns.index') && (empty(request()->input('campaign_type')) || count(request()->input('campaign_type', [])) == 2) ? 'text-indigo-500' : '' }}">전체 캠페인</a>
+                            </li>
+                            <li class="font-bold">
+                                <a href="{{ route('campaigns.index', ['campaign_type' => ['방문형']]) }}" class="{{ request()->routeIs('campaigns.index') && count(request()->input('campaign_type', [])) == 1 && in_array('방문형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">방문형 캠페인</a>
+                            </li>
+                            <li class="font-bold">
+                                <a href="{{ route('campaigns.index', ['campaign_type' => ['배송형']]) }}" class="{{ request()->routeIs('campaigns.index') && count(request()->input('campaign_type', [])) == 1 && in_array('배송형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">배송형 캠페인</a>
+                            </li>
+
                             <li class="font-bold"><a href="{{ route('event') }}" class="{{ request()->routeIs('event') ? 'text-indigo-500' : '' }}">이벤트</a></li>
                             <li class="font-bold"><a href="{{ route('community.free') }}" class="{{ request()->routeIs('community.free') ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
                             <li class="font-bold"><a href="{{ route('help.inquiry') }}" class="{{ request()->routeIs('help.inquiry') ? 'text-indigo-500' : '' }}">고객센터</a></li>

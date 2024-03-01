@@ -1,6 +1,7 @@
 @props(['campaigns' => $campaigns, 'category' => $category, 'mode' => null])
 <section id="popular_campaign" class="container mx-auto p-6">
     <h1 class="text-2xl font-bold mb-3">{{ $category->name }} 캠페인</h1>
+    @if(false)
     <div class="flex items-center relative" x-data="{open: false}">
         <div class="flex text-2xl items-center">
             <span>지역 선택</span>
@@ -14,7 +15,7 @@
                 <span class="text-2xl font-bold">{{ request()->input('location', '전체') }}</span>
                 <span class="text-sm ml-1 mt-1">▼</span>
             </button>
-            <div class="absolute left-0 top-10 w-full lg:w-3/5 bg-white border rounded-lg p-6 shadow z-50" x-show="open">
+            <div class="absolute left-0 top-10 w-full lg:w-3/5 bg-white border rounded-lg p-6 shadow z-50" x-show="open" style="display: none">
                 <div>
                     <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), [$category, 'location' => '전체'])) }}" class="text-lg @if(request()->input('location') == '전체') text-indigo-700 @endif">전체지역</a>
                 </div>
@@ -38,6 +39,7 @@
             </div>
         </div>
     </div>
+    @endif
     <form action="">
         @if($category->name)
             <div class="my-10 border-b flex">
@@ -70,6 +72,22 @@
                     </div>
                 </div>
                 <div class="md:flex py-3 items-center">
+                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">제품별</div>
+                    <div class="md:grow">
+                        <ul class="flex flex-wrap gap-3">
+                            @foreach($productCategory->categories as $category2)
+                                <li class="">
+                                    <x-checkbox-button id="product_{{$category2->id}}"
+                                                       name="product[]"
+                                                       value="{{$category2->name}}"
+                                                       :checked="in_array($category2->name, request()->input('product', []))">{{ $category2->name }}</x-checkbox-button>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="md:flex py-3 items-center">
                     <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">유형별</div>
                     <div class="md:grow">
                         <ul class="flex flex-wrap gap-3">
@@ -84,17 +102,20 @@
                         </ul>
                     </div>
                 </div>
+
                 <div class="md:flex py-3 items-center">
-                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">제품별</div>
+                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">지역별</div>
                     <div class="md:grow">
                         <ul class="flex flex-wrap gap-3">
-                            @foreach($productCategory->categories as $category2)
-                                <li class="">
-                                    <x-checkbox-button id="product_{{$category2->id}}"
-                                                       name="product[]"
-                                                       value="{{$category2->name}}"
-                                                       :checked="in_array($category2->name, request()->input('product', []))">{{ $category2->name }}</x-checkbox-button>
-                                </li>
+                            @foreach($locationCategory->categories as $location)
+                                @foreach($location->categories as $locationChild)
+                                    <li>
+                                        <x-checkbox-button id="type_{{$locationChild->id}}"
+                                                           name="type[]"
+                                                           value="{{$locationChild->name}}"
+                                                           :checked="in_array($locationChild->name, request()->input('type', []))">{{ $locationChild->name }}</x-checkbox-button>
+                                    </li>
+                                @endforeach
                             @endforeach
                         </ul>
                     </div>
