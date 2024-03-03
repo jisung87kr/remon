@@ -140,3 +140,21 @@ ul, ol{
     @apply p-6 border-t border-gray-100
   }
 }
+
+.application-category{
+  .application-category-title{
+
+  }
+
+  .application-category-content{
+    @apply my-5 text-sm text-gray-500
+  }
+}
+
+.application_field{
+  .application_field-item{
+    .application_field-title{
+      @apply text-sm text-gray-500 mb-3
+    }
+  }
+}

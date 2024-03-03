@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CampaignApplicationController;
 use App\Models\Campaign;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaigns.index');
 Route::get('/campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
+Route::get('/campaigns/{campaign}/application', [CampaignApplicationController::class, 'index'])->name('campaigns.application.index');
 
 Route::get('/campaigns/{campaign}/applicants', function(Campaign $campaign){
     return view('campaign.applicants', compact('campaign'));
