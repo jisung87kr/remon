@@ -22,42 +22,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-span-8 lg:col-span-2">
-                <div class="lg:sticky lg:top-0">
-                    <div class="py-6 border-b">
-                        <img src="https://placeholder.co/1000x1000" alt="">
-                        <div class="mt-3">
-                            <div class="font-bold text-xl">[전국] 명륜진사갈비</div>
-                            <div class="font-bold text-gray-500">확-달라진 명륜진사갈비 NEW버전을 소개해주세요!</div>
-                            <div class="flex gap-3 mt-3">
-                                <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
-                                <div class="p-1 text-xs border text-gray-600">예약없음</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="py-6 border-b">
-                        <div class="flex font-bold my-2">
-                            <div class="shrink-0 w-[110px] mr-1">캠페인 신청기간</div>
-                            <div>01.16 ~ 01.23</div>
-                        </div>
-                        <div class="flex text-gray-500 my-2">
-                            <div class="shrink-0 w-[110px] mr-1">인플루언서 발표</div>
-                            <div>01.16 ~ 01.23</div>
-                        </div>
-                        <div class="flex text-gray-500 my-2">
-                            <div class="shrink-0 w-[110px] mr-1">콘텐츠 등록기간</div>
-                            <div>01.16 ~ 01.23</div>
-                        </div>
-                        <div class="flex text-gray-500 my-2">
-                            <div class="shrink-0 w-[110px] mr-1">콘텐츠 결과발표</div>
-                            <div>01.16 ~ 01.23</div>
-                        </div>
-                    </div>
-                    <div class="py-6">
-                        <a href="" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">캠페인 신청하기</a>
-                    </div>
-                </div>
-            </div>
+            <x-campaign.sidecar :campaign="$campaign" :useThumbnail="true"></x-campaign.sidecar>
         </div>
     </div>
     <script>

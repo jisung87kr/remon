@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Campaign;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,8 +23,8 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaigns.index');
 Route::get('/campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
 
-Route::get('/campaigns/{campaign}/applicants', function($campaign){
-    return view('campaign.applicants');
+Route::get('/campaigns/{campaign}/applicants', function(Campaign $campaign){
+    return view('campaign.applicants', compact('campaign'));
 })->name('campaigns.applicants');
 
 Route::get('/brandzone/{brandzone}', function($brandzone){

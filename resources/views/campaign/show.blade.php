@@ -3,8 +3,7 @@
         <div class="grid grid-cols-8 gap-6 relative">
             <div class="col-span-8 lg:col-span-6 lg:border-r lg:pr-6">
                 <div>
-                    <h1 class="font-bold text-[32px] my-3">[{{ $campaign->locationCategories[0]->name }}
-                        ] {{ $campaign->product_name }}</h1>
+                    <h1 class="font-bold text-[32px] my-3">[{{ $campaign->locationCategories[0]->name }}] {{ $campaign->product_name }}</h1>
                     <div class="font-bold text-gray-500">{{ $campaign->title }}</div>
                     <div class="flex items-center gap-2 mt-3">
                         @foreach($campaign->media as $media)
@@ -35,10 +34,11 @@
                     </a>
                 </div>
                 <div>
+                    @if(is_countable($campaign->detailimages) && count($campaign->detailimages) > 0)
                     <div class="overflow-hidden" :class="{'h-[800px]' : !showMore}">
-                        <img src="https://placeholder.co/1200x600" alt="">
-                        <img src="https://placeholder.co/1200x600" alt="">
-                        <img src="https://placeholder.co/1200x600" alt="">
+                        @foreach($campaign->detailimages as $image)
+                        <img src="{{ Storage::url($image['file_path']) }}" alt="">
+                        @endforeach
                     </div>
                     <button class="p-3 text-center border-y my-3 text-gray-500 font-bold block w-full flex justify-center items-center"
                             @click.prevent="showMore = true" x-show="!showMore">
@@ -50,6 +50,7 @@
                             <path d="M6 9l6 6l6 -6"/>
                         </svg>
                     </button>
+                    @endif
                     <div>
                         <div class="flex py-6" id="benefit">
                             <div class="shrink-0 w-[160px] font-bold mr-3">제공 내역</div>
@@ -146,48 +147,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-span-8 lg:col-span-2">
-                <div class="lg:sticky lg:top-0">
-                    <div class="py-6 border-b">
-                        <div class="flex font-bold my-2">
-                            <div class="shrink-0 w-[110px] mr-1">캠페인 신청기간</div>
-                            <div>{{ $campaign->applicant_start_at->format('m.d') }}
-                                ~ {{ $campaign->applicant_end_at->format('m.d') }}</div>
-                        </div>
-                        <div class="flex text-gray-500 my-2">
-                            <div class="shrink-0 w-[110px] mr-1">인플루언서 발표</div>
-                            <div>{{ $campaign->announcement_at->format('m.d') }}</div>
-                        </div>
-                        <div class="flex text-gray-500 my-2">
-                            <div class="shrink-0 w-[110px] mr-1">콘텐츠 등록기간</div>
-                            <div>{{ $campaign->registration_start_date_at->format('m.d') }}
-                                ~ {{ $campaign->registration_end_date_at->format('m.d') }}</div>
-                        </div>
-                        <div class="flex text-gray-500 my-2">
-                            <div class="shrink-0 w-[110px] mr-1">콘텐츠 결과발표</div>
-                            <div>{{ $campaign->result_announcement_date_at->format('m.d') }}</div>
-                        </div>
-                    </div>
-                    <div class="hidden lg:block py-6 border-b">
-                        <a href="#benefit" class="text-gray-800">제공 내역</a>
-                    </div>
-                    <div class="hidden lg:block py-6 border-b">
-                        <a href="#visit_instruction" class="text-gray-800">방문 및 예약안내</a>
-                    </div>
-                    <div class="hidden lg:block py-6 border-b">
-                        <a href="#mission" class="text-gray-800">캠페인 미션</a>
-                    </div>
-                    <div class="hidden lg:block py-6 border-b">
-                        <a href="#keyword" class="text-gray-800">키워드</a>
-                    </div>
-                    <div class="hidden lg:block py-6 border-b">
-                        <a href="#extra_information" class="text-gray-800">추가 안내사항</a>
-                    </div>
-                    <div class="py-6">
-                        <a href="" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">캠페인 신청하기</a>
-                    </div>
-                </div>
-            </div>
+            <x-campaign.sidecar :campaign="$campaign" :useLink="true"></x-campaign.sidecar>
         </div>
     </div>
     <script>

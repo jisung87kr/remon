@@ -141,12 +141,12 @@ class Campaign extends Model
 
     public function thumbnails()
     {
-        return $this->hasMany(CampaignImage::class)->where('type', ImageTypeEnum::THUMBNAIL)->orderBy('order_seq')->get();
+        return $this->hasMany(CampaignImage::class)->where('type', ImageTypeEnum::THUMBNAIL)->orderBy('order_seq');
     }
 
     public function detailimages()
     {
-        return $this->hasMany(CampaignImage::class)->where('type', ImageTypeEnum::DETAIL)->orderBy('order_seq')->get();
+        return $this->hasMany(CampaignImage::class)->where('type', ImageTypeEnum::DETAIL)->orderBy('order_seq');
     }
 
     public function images()
