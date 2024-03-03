@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,5 +25,14 @@ class MissionOption extends Model
     public function campaignMissionOptions()
     {
         return $this->hasMany(CampaignMissionOption::class, 'mission_option_id', 'id');
+    }
+
+    public function missionName(): Attribute
+    {
+        return Attribute::make(
+            get: function (){
+                return $this->option_value ? "{$this->option_name}({$this->option_value})" : $this->option_name;
+            },
+        );
     }
 }

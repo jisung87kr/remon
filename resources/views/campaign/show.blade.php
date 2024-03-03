@@ -6,7 +6,7 @@
                     <h1 class="font-bold text-[32px] my-3">[{{ $campaign->locationCategories[0]->name }}
                         ] {{ $campaign->product_name }}</h1>
                     <div class="font-bold text-gray-500">{{ $campaign->title }}</div>
-                    <div class="flex gap-1 mt-3">
+                    <div class="flex items-center gap-2 mt-3">
                         @foreach($campaign->media as $media)
                             @switch($media->media)
                                 @case(App\Enums\Campaign\MediaEnum::NAVER_BLOG->value)
@@ -16,7 +16,7 @@
                                     <img src="{{ Vite::asset('resources/images/media/instagram.svg') }}" alt="">
                                     @break
                                 @case(App\Enums\Campaign\MediaEnum::YOUTUBE->value)
-                                    <img src="{{ Vite::asset('resources/images/media/youtube.svg') }}" alt="">
+                                    <img src="{{ Vite::asset('resources/images/media/youtube.svg') }}" alt="" class="w-[20px]">
                                     @break
                             @endswitch
                         @endforeach
@@ -68,9 +68,9 @@
                         <div class="flex py-6" id="mission">
                             <div class="shrink-0 w-[160px] font-bold mr-3">캠페인 미션</div>
                             <div class="w-full border-b pb-6">
-                                <ul class="flex gap-x-3 mb-3">
+                                <ul class="flex flex-wrap gap-3 mb-3">
                                     @foreach($campaign->missionOptions as $missionOption)
-                                        <li>{{ $missionOption->mission->name }}</li>
+                                        <li class="border p-2 text-sm rounded-lg">{{ $missionOption->mission_name }}</li>
                                     @endforeach
                                 </ul>
                                 <hr class="my-6">
