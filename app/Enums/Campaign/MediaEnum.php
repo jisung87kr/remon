@@ -2,9 +2,9 @@
 namespace App\Enums\Campaign;
 enum MediaEnum: string
 {
-    case NAVER_BLOG = 'NAVER_BLOG';
-    case INSTAGRAM = 'INSTAGRAM';
-    case YOUTUBE = 'YOUTUBE';
+    case NAVER_BLOG = 'naver_blog';
+    case INSTAGRAM = 'instagram';
+    case YOUTUBE = 'youtube';
 
     public function label(): string
     {

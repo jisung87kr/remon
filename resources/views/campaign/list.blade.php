@@ -129,14 +129,14 @@
         @endif
 
         <div class="flex gap-3 mb-6 justify-end">
-            <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), [$category, 'media' => \App\Helper\CommonHelper::toggleArrayQueryString('media', \App\Enums\Campaign\MediaEnum::NAVER_BLOG->name)])) }}"
-               class="border rounded-2xl px-3 py-1 text-sm {{ in_array(\App\Enums\Campaign\MediaEnum::NAVER_BLOG->name, request()->input('media', [])) ? 'border-indigo-400' : '' }}">블로그</a>
+            <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), [$category, 'media' => \App\Helper\CommonHelper::toggleArrayQueryString('media', \App\Enums\Campaign\MediaEnum::NAVER_BLOG->value)])) }}"
+               class="border rounded-2xl px-3 py-1 text-sm {{ in_array(\App\Enums\Campaign\MediaEnum::NAVER_BLOG->value, request()->input('media', [])) ? 'border-indigo-400' : '' }}">블로그</a>
 
-            <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), [$category, 'media' => \App\Helper\CommonHelper::toggleArrayQueryString('media', \App\Enums\Campaign\MediaEnum::INSTAGRAM->name)])) }}"
-               class="border rounded-2xl px-3 py-1 text-sm {{ in_array(\App\Enums\Campaign\MediaEnum::INSTAGRAM->name, request()->input('media', [])) ? 'border-indigo-400' : '' }}">인스타그램</a>
+            <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), [$category, 'media' => \App\Helper\CommonHelper::toggleArrayQueryString('media', \App\Enums\Campaign\MediaEnum::INSTAGRAM->value)])) }}"
+               class="border rounded-2xl px-3 py-1 text-sm {{ in_array(\App\Enums\Campaign\MediaEnum::INSTAGRAM->value, request()->input('media', [])) ? 'border-indigo-400' : '' }}">인스타그램</a>
 
-            <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), [$category, 'media' => \App\Helper\CommonHelper::toggleArrayQueryString('media', \App\Enums\Campaign\MediaEnum::YOUTUBE->name)])) }}"
-               class="border rounded-2xl px-3 py-1 text-sm {{ in_array(\App\Enums\Campaign\MediaEnum::YOUTUBE->name, request()->input('media', [])) ? 'border-indigo-400' : '' }}">유튜부</a>
+            <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), [$category, 'media' => \App\Helper\CommonHelper::toggleArrayQueryString('media', \App\Enums\Campaign\MediaEnum::YOUTUBE->value)])) }}"
+               class="border rounded-2xl px-3 py-1 text-sm {{ in_array(\App\Enums\Campaign\MediaEnum::YOUTUBE->value, request()->input('media', [])) ? 'border-indigo-400' : '' }}">유튜부</a>
 
 
             <div class="relative border rounded-2xl px-3 py-1 text-sm">

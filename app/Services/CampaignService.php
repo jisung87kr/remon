@@ -55,7 +55,7 @@ class CampaignService{
             'mission_option_content_keyword' => 'nullable|string',
             'mission_option_link'            => 'nullable|string',
             'mission_option_hashtag'         => 'nullable|string',
-            'application_field'              => ['array', Rule::in(ApplicationFieldEnum::toArray('name'))],
+            'application_field'              => ['array', Rule::in(ApplicationFieldEnum::toArray('value'))],
             'custom_option'                  => 'nullable|array',
             'thumbnails.*'                   => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'detail_images.*'                => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -103,6 +103,7 @@ class CampaignService{
             $mergedCategories = array_unique($mergedCategories);
             $campaign->categories()->sync($mergedCategories);
 
+
             // 미디어 등록
             foreach ($validated['media'] as $index => $media) {
                 $campaign->media()->updateOrCreate(['media' => $media], ['media' => $media]);
@@ -145,11 +146,11 @@ class CampaignService{
             // 지원사항 필드 등록
             $applicationFields = [];
             foreach ($validated['application_field'] as $index => $item) {
-                $enumLabel = ApplicationFieldEnum::findByName($item)->label();
+                $enumLabel = ApplicationFieldEnum::from($item)->label();
                 $option = isset($enumLabel['option']) ? serialize(CommonHelper::makeCasesWithLabel($enumLabel['option'])) : null;
-                $fieldName = $enumLabel['name'];
+                $fieldName = $enumLabel['value'];
 
-                if($enumLabel['name'] === ApplicationFieldEnum::CUSTOM_OPTION->name){
+                if($enumLabel['value'] === ApplicationFieldEnum::CUSTOM_OPTION->value){
                     foreach ($validated['custom_option'] as $key => $value) {
                         $applicationFields[] = [
                             'id' => $value['id'],

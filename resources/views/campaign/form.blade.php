@@ -112,8 +112,8 @@
                             <li>
                                 <x-checkbox-button id="media_{{$index}}"
                                                    name="media[]"
-                                                   :value="$media->name"
-                                                   :checked="in_array($media->name, old('media', $campaign->media->pluck('media')->toArray()))">{{ $media->label() }}</x-checkbox-button>
+                                                   :value="$media->value"
+                                                   :checked="in_array($media->value, old('media', $campaign->media->pluck('media')->toArray()))">{{ $media->label() }}</x-checkbox-button>
                             </li>
                         @endforeach
                         </ul>
@@ -367,14 +367,14 @@
                                 <li>
                                     <x-checkbox-button id="application_field_{{$customOption->value}}"
                                                        name="application_field[]"
-                                                       value="{{$customOption->name}}"
+                                                       value="{{$customOption->value}}"
                                                        xmodel="application_field">{{ $customOption->label()['label'] }}</x-checkbox-button>
                                 </li>
                             @endforeach
                         </ul>
                         <x-input-error for="application_field" class="mt-1"></x-input-error>
                     </div>
-                    <template x-if="application_field.includes('CUSTOM_OPTION')">
+                    <template x-if="application_field.includes('custom_option')">
                         <div class="col-span-2 py-6">
                             <label for="" class="label mb-2">상품옵션</label>
                             <div>
