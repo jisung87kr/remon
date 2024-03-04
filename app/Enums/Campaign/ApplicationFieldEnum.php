@@ -6,19 +6,9 @@ use App\Enums\User\HeightEnum;
 use App\Enums\User\ShoesSizeEnum;
 use App\Enums\User\SkinTypeEnum;
 use App\Enums\User\TopSizeEnum;
+use App\Enums\BoolEnum;
 
-enum BoolEnum: int{
-    case FALSE = 0;
-    case TRUE = 1;
 
-    public function label()
-    {
-        return match($this){
-            BoolEnum::FALSE => '아니요',
-            BoolEnum::TRUE => '예',
-        };
-    }
-}
 
 enum ApplicationFieldEnum:string
 {
@@ -101,6 +91,7 @@ enum ApplicationFieldEnum:string
                 'type' => 'radio',
                 'name' => ApplicationFieldEnum::IS_FACE_VISIBLE->name,
                 'value' => ApplicationFieldEnum::IS_FACE_VISIBLE->value,
+                'option' => BoolEnum::cases(),
             ],
             ApplicationFieldEnum::HAS_SHARED_BLOG => [
                 'category' => ApplicationFieldCategoryEnum::INFORMATION->value,

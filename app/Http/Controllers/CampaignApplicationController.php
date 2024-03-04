@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Campaign\ApplicantStatus;
+use App\Enums\Campaign\StatusEnum;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CampaignApplicationController extends Controller
 {
@@ -28,7 +31,33 @@ class CampaignApplicationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required', 'string'],
+            'birthdate' => ['required'],
+            'sex' => ['required'],
+            'phone' => ['required'],
+            'portrait_right_consent' => ['required', 'boolean'],
+            'base_right_consent' => ['required', 'boolean'],
+        ]);
+
+        $validated['status'] = ApplicantStatus::APPLIED->value;
+
+        DB::beginTransaction();
+        try {
+            $applicant = $request->user()->applicants()->create($validated);
+            foreach ($request->input('application_field') as $index => $item) {
+                $applicant->applicationValues()->create([
+                    'campaign_application_filed_id' => $item['id'],
+                    'value' => $item['value'],
+                ]);
+            }
+
+            DB::commit();
+            return $applicant;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     /**

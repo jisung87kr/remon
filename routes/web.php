@@ -23,7 +23,6 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaigns.index');
 Route::get('/campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
-Route::get('/campaigns/{campaign}/application', [CampaignApplicationController::class, 'index'])->name('campaigns.application.index');
 
 Route::get('/campaigns/{campaign}/applicants', function(Campaign $campaign){
     return view('campaign.applicants', compact('campaign'));
@@ -85,6 +84,9 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/campaigns/{campaign}/application', [CampaignApplicationController::class, 'index'])->name('campaigns.application.index');
+    Route::post('/campaigns/{campaign}/application', [CampaignApplicationController::class, 'store'])->name('campaigns.application.post');
 
     Route::prefix('/mypage')->name('mypage.')->group(function(){
         Route::get('/campaigns', function(){

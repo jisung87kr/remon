@@ -59,6 +59,7 @@
         @endif
         <div class="py-6">
             <a href="" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">캠페인 신청하기</a>
+            <button type="submit">신청</button>
         </div>
     </div>
 </div>
