@@ -361,6 +361,10 @@
             <div class="border-t border-stone-900 py-3">
                 <div class="grid md:grid-cols-2 divide-y">
                     <div class="col-span-2 py-6">
+                        <label for="application_information" class="label mb-2 text-base">신청 안내</label>
+                        <textarea id="application_information" name="application_information" class="form-control w-full" cols="30" rows="10">{{old('application_information', $campaign->application_information)}}</textarea>
+                    </div>
+                    <div class="col-span-2 py-6">
                         <label class="label mb-2 text-base">입력항목 선택</label>
                         <ul class="flex flex-wrap gap-3">
                             @foreach($customOptions as $customOption)

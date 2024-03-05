@@ -12,7 +12,7 @@
                         <div class="flex py-6">
                             <div class="shrink-0 w-[160px] font-bold mr-3">상품링크</div>
                             <div class="w-full border-b pb-6">
-                                <a href="{{ $campaign->product_url }}" target="_blank">{{ $campaign->product_url }}</a>
+                                <a href="{{ $campaign->product_url }}" target="_blank" class="text-blue-600">{{ $campaign->product_url }}</a>
                             </div>
                         </div>
                         <div class="flex py-6">
@@ -25,10 +25,59 @@
                                 </div>
                             </div>
                         </div>
+                        @if($campaign->useShipping)
                         <div class="flex py-6">
                             <div class="shrink-0 w-[160px] font-bold mr-3">방문 및 예약안내</div>
-                            <div class="w-full border-b pb-6">{{ $campaign->visit_instruction }}</div>
+                            <div class="w-full border-b pb-6">
+                                <div>
+                                    {{ $campaign->visit_instruction }}
+                                </div>
+                                <div class="mt-6">
+                                    <div id="map"
+                                         x-ref="map"
+                                         x-data="mapData"
+                                         data-address="{{$campaign->address}}"
+                                         class="mt-6 w-full h-[300px]"></div>
+                                    <div class="mt-3 text-gray-500">
+                                        <div>
+                                            <span>({{ $campaign->address_postcode }})</span> <span>{{ $campaign->address }}</span> <span>{{ $campaign->address_extra }}</span> <span>{{ $campaign->address_detail }}</span>
+                                        </div>
+                                    </div>
+                                    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=509c2656c00fa9af4782197a888763f6&libraries=services,clusterer,drawing?autoload=false"></script>
+                                    <script>
+                                      const mapData = {
+                                        lat: '{{ $campaign->lat }}',
+                                        long: '{{ $campaign->long }}',
+                                        mapObject: null,
+                                        init(){
+                                          this.initMap();
+                                        },
+                                        initMap(){
+                                          this.mapObject = new daum.maps.Map(this.$refs.map, {
+                                            center: new daum.maps.LatLng(this.lat, this.long),
+                                            level: 5,
+                                          });
+
+                                          //마커를 미리 생성
+                                          this.marker = new daum.maps.Marker({
+                                            position: new daum.maps.LatLng(this.lat, this.long),
+                                            map: this.mapObject
+                                          });
+
+                                          //컨트롤러
+                                          let mapTypeControl = new kakao.maps.MapTypeControl();
+                                          this.mapObject.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+                                          // 줌
+                                          let zoomControl = new kakao.maps.ZoomControl();
+                                          this.mapObject.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+                                        },
+                                      }
+                                    </script>
+                                </div>
+                            </div>
                         </div>
+                        @endif
                         <div class="flex py-6">
                             <div class="shrink-0 w-[160px] font-bold mr-3">회원 기본 정보</div>
                             <div class="w-full border-b pb-6">
@@ -94,24 +143,13 @@
                         <div class="flex py-6">
                             <div class="shrink-0 w-[160px] font-bold mr-3">신청 정보 입력</div>
                             <div class="w-full pb-6">
+                                @if($campaign->application_information)
                                 <div class="application-category">
-                                    <div class="application-category-title">신청 옵션을 입력해주세요.</div>
-                                    <div class="application-category-content">
-                                        ★ 전국매장/영업시간/매장전화번호 확인 링크 꼭 확인 하신 후 방문 가능 지점 체크해주세요!<br>
-                                        ★ 신메뉴 홍보를 위한 캠페인으로 3월 5일(화)~3월 6일(수) 2일간만 진행됩니다.<br>
-                                        ★ 해당 기간 내 참여 및 포스팅 가능 하신분만 신중하게 신청 부탁드립니다.<br>
-                                        ★ 해당 신제품의 경우 맵기 정도가 불닭볶음면보다 맵기 때문에 신청시 참고 부탁드립니다.
-                                    </div>
-                                    <div class="application_field">
-                                        <div class="application_field-item">
-                                            <div class="application_field-title">캠페인 내용 및 일정 확인하셨나요?</div>
-                                            <select name="" id="" class="application_field-input form-select">
-                                                <option value="">네</option>
-                                                <option value="">아니오</option>
-                                            </select>
-                                        </div>
+                                    <div class="application-category-content !mt-0">
+                                        {{ $campaign->application_information }}
                                     </div>
                                 </div>
+                                @endif
 
                                 {{-- 선택한 옵션이 있으면 노출 --}}
                                 <div class="application-category mt-10">
@@ -151,6 +189,7 @@
                                     @endforeach
                                 </div>
 
+                                @if($campaign->useShipping)
                                 {{-- 배송형 캠페인만 노출 --}}
                                 <div class="application-category mt-10">
                                     <div class="application-category-title">상품을 배송받을 주소를 입력해 주세요.</div>
@@ -192,6 +231,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>

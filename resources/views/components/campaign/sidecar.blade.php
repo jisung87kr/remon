@@ -12,7 +12,19 @@
                 <div class="font-bold text-xl">[{{ $campaign->locationCategories[0]->name }}] {{ $campaign->product_name }}</div>
                 <div class="font-bold text-gray-500">{{ $campaign->title }}</div>
                 <div class="flex gap-3 mt-3">
-                    <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
+                    @foreach($campaign->media as $media)
+                        @switch($media->media)
+                            @case(App\Enums\Campaign\MediaEnum::NAVER_BLOG->value)
+                                <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
+                                @break
+                            @case(App\Enums\Campaign\MediaEnum::INSTAGRAM->value)
+                                <img src="{{ Vite::asset('resources/images/media/instagram.svg') }}" alt="">
+                                @break
+                            @case(App\Enums\Campaign\MediaEnum::YOUTUBE->value)
+                                <img src="{{ Vite::asset('resources/images/media/youtube.svg') }}" alt="" class="w-[20px]">
+                                @break
+                        @endswitch
+                    @endforeach
                     <div class="p-1 text-xs border text-gray-600">예약없음</div>
                 </div>
             </div>
@@ -58,8 +70,29 @@
         </div>
         @endif
         <div class="py-6">
-            <a href="" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">캠페인 신청하기</a>
-            <button type="submit">신청</button>
+            @if(request()->route()->getName() === 'campaigns.application.index')
+                <div class="mb-6">
+                    @if($campaign->hasPortraitRightConsent)
+                    <div class="my-2 flex gap-3">
+                        <input type="checkbox" class="form-check mt-1" id="portrait_right_consent" value="1" required>
+                        <div>
+                            <label for="portrait_right_consent" class="text-sm text-gray-700">초상권 활용에 동의 합니다.</label>
+                            <a href="" class="block underline text-sm text-gray-500 mt-2" target="_blank">자세히보기</a>
+                        </div>
+                    </div>
+                    @endif
+                    <div class="my-2 flex gap-3">
+                        <input type="checkbox" class="form-check mt-1" id="base_right_consent" value="1" required>
+                        <div>
+                            <label for="base_right_consent" class="text-sm text-gray-700">캠페인 유의사항, 개인정보 및 콘텐츠 제3자 제공, 저작물 이용에 동의합니다.</label>
+                            <a href="" class="block underline text-sm text-gray-500 mt-2" target="_blank">자세히보기</a>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">캠페인 신청하기</button>
+            @else
+                <a href="{{ route('campaigns.application.index', $campaign) }}" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">캠페인 신청하기</a>
+            @endif
         </div>
     </div>
 </div>

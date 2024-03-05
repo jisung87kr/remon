@@ -60,6 +60,7 @@ class CampaignService{
             'thumbnails.*'                   => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'detail_images.*'                => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'delete_images'                  => 'nullable|array',
+            'application_information'        => 'nullable',
         ]);
 
         DB::beginTransaction();
@@ -93,6 +94,7 @@ class CampaignService{
                 'registration_end_date_at'    => $validated['registration_end_date_at'],
                 'result_announcement_date_at' => $validated['result_announcement_date_at'],
                 'mission'                     => $validated['mission'],
+                'application_information'     => $validated['application_information'] ?? null,
             ]);
 
             // 카테고리 등록

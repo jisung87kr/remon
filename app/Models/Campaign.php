@@ -6,6 +6,7 @@ use App\Enums\Campaign\ApplicationFieldEnum;
 use App\Enums\Campaign\ImageTypeEnum;
 use App\Enums\Campaign\MissionOptionEnum;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -247,5 +248,24 @@ class Campaign extends Model
                 $query->orderBy('applicant_end_at', 'asc');
             }
         });
+    }
+
+    public function useShipping() : Attribute
+    {
+        return Attribute::make(
+            get: function(){
+                return $this->type->id === 2;
+            },
+        );
+    }
+
+    public function hasPortraitRightConsent() : Attribute
+    {
+        //$campaign->applicationFields->pluck('name')->toArray()
+        return Attribute::make(
+            get: function(){
+                return in_array(ApplicationFieldEnum::IS_FACE_VISIBLE->value, $this->applicationFields->pluck('name')->toArray());
+            },
+        );
     }
 }

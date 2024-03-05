@@ -39,6 +39,7 @@ return new class extends Migration
             $table->dateTime('result_announcement_date_at')->comment('캠페인 결과발표일');
             $table->string('status')->default('DRAFT')->comment('캠페인 상태');
             $table->integer('applicant_limit')->default(0)->comment('모집인원');
+            $table->text('application_information')->default(0)->comment('신청 안내 정보');
             $table->timestamps();
         });
     }

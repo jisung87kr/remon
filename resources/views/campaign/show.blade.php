@@ -62,10 +62,59 @@
                                 </div>
                             </div>
                         </div>
+                        @if($campaign->useShipping)
                         <div class="flex py-6" id="visit_instruction">
                             <div class="shrink-0 w-[160px] font-bold mr-3">방문 및 예약안내</div>
-                            <div class="w-full border-b pb-6">{{ $campaign->visit_instruction }}</div>
+                            <div class="w-full border-b pb-6">
+                                <div>{{ $campaign->visit_instruction }}</div>
+                                @if($campaign->lat && $campaign->long)
+                                <div class="mt-6">
+                                    <div id="map"
+                                         x-ref="map"
+                                         x-data="mapData"
+                                         data-address="{{$campaign->address}}"
+                                         class="mt-6 w-full h-[300px]"></div>
+                                    <div class="mt-3 text-gray-500">
+                                        <div>
+                                            <span>({{ $campaign->address_postcode }})</span> <span>{{ $campaign->address }}</span> <span>{{ $campaign->address_extra }}</span> <span>{{ $campaign->address_detail }}</span>
+                                        </div>
+                                    </div>
+                                    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=509c2656c00fa9af4782197a888763f6&libraries=services,clusterer,drawing?autoload=false"></script>
+                                    <script>
+                                        const mapData = {
+                                          lat: '{{ $campaign->lat }}',
+                                          long: '{{ $campaign->long }}',
+                                          mapObject: null,
+                                          init(){
+                                            this.initMap();
+                                          },
+                                          initMap(){
+                                            this.mapObject = new daum.maps.Map(this.$refs.map, {
+                                              center: new daum.maps.LatLng(this.lat, this.long),
+                                              level: 5,
+                                            });
+
+                                            //마커를 미리 생성
+                                            this.marker = new daum.maps.Marker({
+                                              position: new daum.maps.LatLng(this.lat, this.long),
+                                              map: this.mapObject
+                                            });
+
+                                            //컨트롤러
+                                            let mapTypeControl = new kakao.maps.MapTypeControl();
+                                            this.mapObject.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+                                            // 줌
+                                            let zoomControl = new kakao.maps.ZoomControl();
+                                            this.mapObject.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+                                          },
+                                        }
+                                    </script>
+                                </div>
+                                @endif
+                            </div>
                         </div>
+                        @endif
                         <div class="flex py-6" id="mission">
                             <div class="shrink-0 w-[160px] font-bold mr-3">캠페인 미션</div>
                             <div class="w-full border-b pb-6">
