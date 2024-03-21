@@ -1,6 +1,6 @@
 <div x-data="{open: false}">
     {{ $trigger }}
-    <div class="modal" style="display: none" x-show="open">
+    <div {{ $attributes->merge(["class" => "modal"]) }} style="display: none" x-show="open">
         <div class="modal-bg"></div>
         <div class="modal-wrapper" @click.away="open = false">
             <div class="modal-header">

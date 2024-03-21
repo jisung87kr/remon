@@ -90,4 +90,15 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Campaign::class, 'campaign_applicants', 'user_id', 'campaign_id');
     }
+
+    public function getMedia($mediaName)
+    {
+        foreach ($this->medias as $index => $media) {
+            if($media->media === $mediaName){
+                return $media;
+            }
+        }
+
+        return null;
+    }
 }

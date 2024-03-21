@@ -34,8 +34,8 @@
         </div>
         <div class="text-center p-12 border rounded-2xl">
             <img src="{{ Vite::asset('resources/images/media/ic-connect-instagram.svg') }}" alt="" class="mx-auto">
-            <div class="my-6 font-bold text-gray-700">블로그 연결하기</div>
-            <div class="text-gray-500 text-sm">블로그를 연결하고 더 많은 캠페인을 체험해보세요.</div>
+            <div class="my-6 font-bold text-gray-700">인스타그램 연결하기</div>
+            <div class="text-gray-500 text-sm">인스타그램을 연결하고 더 많은 캠페인을 체험해보세요.</div>
             <x-rootmodal>
                 <x-slot name="trigger">
                     <button type="button"
@@ -61,8 +61,8 @@
         </div>
         <div class="text-center p-12 border rounded-2xl">
             <img src="{{ Vite::asset('resources/images/media/ic-connect-youtube.svg') }}" alt="" class="mx-auto">
-            <div class="my-6 font-bold text-gray-700">블로그 연결하기</div>
-            <div class="text-gray-500 text-sm">블로그를 연결하고 더 많은 캠페인을 체험해보세요.</div>
+            <div class="my-6 font-bold text-gray-700">유튜브 연결하기</div>
+            <div class="text-gray-500 text-sm">유튜브를 연결하고 더 많은 캠페인을 체험해보세요.</div>
             <x-rootmodal>
                 <x-slot name="trigger">
                     <button type="button"
@@ -91,19 +91,19 @@
         const mediaData = {
           blog:{
             id: '{{ $blog->id ?? null }}',
-            media: 'NAVER_BLOG',
+            media: '{{ \App\Enums\Campaign\MediaEnum::NAVER_BLOG->value }}',
             url : '{{ $blog->url ?? null }}',
             connected_status: 'connected',
           },
           instagram:{
             id: '{{ $instagram->id ?? null }}',
-            media: 'INSTAGRAM',
+            media: '{{ \App\Enums\Campaign\MediaEnum::INSTAGRAM->value }}',
             url : '{{ $instagram->url ?? null }}',
             connected_status: 'connected',
           },
           youtube:{
             id: '{{ $youtube->id ?? null }}',
-            media: 'YOUTUBE',
+            media: '{{ \App\Enums\Campaign\MediaEnum::YOUTUBE->value }}',
             url : '{{ $youtube->url ?? null }}',
             connected_status: 'connected',
           },
