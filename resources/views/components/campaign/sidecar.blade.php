@@ -3,11 +3,11 @@
     <div class="lg:sticky lg:top-0">
         @if($useThumbnail)
         <div class="py-6 border-b">
-            @if($campaign->thumbnails[0])
+            @isset($campaign->thumbnails[0])
                 <img src="{{Storage::url($campaign->thumbnails[0]['file_path'])}}" alt="">
             @else
                 <img src="https://placeholder.co/1000x1000" alt="">
-            @endif
+            @endisset
             <div class="mt-3">
                 <div class="font-bold text-xl">[{{ $campaign->locationCategories[0]->name }}] {{ $campaign->product_name }}</div>
                 <div class="font-bold text-gray-500">{{ $campaign->title }}</div>
@@ -74,24 +74,34 @@
                 <div class="mb-6">
                     @if($campaign->hasPortraitRightConsent)
                     <div class="my-2 flex gap-3">
-                        <input type="checkbox" class="form-check mt-1" id="portrait_right_consent" value="1" required>
+                        <input type="checkbox" name="portrait_right_consent" class="form-check mt-1" id="portrait_right_consent" value="1" required>
                         <div>
                             <label for="portrait_right_consent" class="text-sm text-gray-700">초상권 활용에 동의 합니다.</label>
                             <a href="" class="block underline text-sm text-gray-500 mt-2" target="_blank">자세히보기</a>
                         </div>
+                        <x-input-error for="portrait_right_consent" class="mt-1"></x-input-error>
                     </div>
                     @endif
                     <div class="my-2 flex gap-3">
-                        <input type="checkbox" class="form-check mt-1" id="base_right_consent" value="1" required>
+                        <input type="checkbox" name="base_right_consent" class="form-check mt-1" id="base_right_consent" value="1" required>
                         <div>
                             <label for="base_right_consent" class="text-sm text-gray-700">캠페인 유의사항, 개인정보 및 콘텐츠 제3자 제공, 저작물 이용에 동의합니다.</label>
                             <a href="" class="block underline text-sm text-gray-500 mt-2" target="_blank">자세히보기</a>
                         </div>
+                        <x-input-error for="base_right_consent" class="mt-1"></x-input-error>
                     </div>
                 </div>
-                <button type="submit" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">캠페인 신청하기</button>
+                @if(auth()->user() && auth()->user()->getApplication($campaign))
+                    <a href="" class="bg-indigo-900 text-white px-5 py-4 block text-center font-bold w-full">신청한 캠페인 입니다</a>
+                @else
+                    <button type="submit" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">캠페인 신청하기</button>
+                @endif
             @else
-                <a href="{{ route('campaigns.application.index', $campaign) }}" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">캠페인 신청하기</a>
+                @if(auth()->user() && auth()->user()->getApplication($campaign))
+                    <a href="" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">신청한 캠페인 입니다</a>
+                @else
+                    <a href="{{ route('campaigns.application.index', $campaign) }}" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">캠페인 신청하기</a>
+                @endif
             @endif
         </div>
     </div>

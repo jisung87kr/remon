@@ -91,6 +91,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Campaign::class, 'campaign_applicants', 'user_id', 'campaign_id');
     }
 
+    public function applicants()
+    {
+        return $this->hasMany(CampaignApplicant::class, 'user_id', 'id');
+    }
+
     public function getMedia($mediaName)
     {
         foreach ($this->medias as $index => $media) {
@@ -100,5 +105,10 @@ class User extends Authenticatable
         }
 
         return null;
+    }
+
+    public function getApplication(Campaign $campaign)
+    {
+        return $this->campaigns()->where('campaign_id', $campaign->id)->first();
     }
 }

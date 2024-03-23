@@ -84,16 +84,19 @@
                                 <div>
                                     <label for="name" class="label mb-2">이름</label>
                                     <input type="text" name="name" class="form-control"
+                                           @readonly(auth()->user()->name)
                                            value="{{ auth()->user()->name }}" id="name">
+                                    <x-input-error for="name" class="mt-1"></x-input-error>
                                 </div>
                                 <div class="my-4">
                                     <label for="birthdate" class="label mb-2">출생연도</label>
-                                    <select name="birthdate" id="birthdate" class="form-select">
+                                    <select name="birthdate" id="birthdate" class="form-select" @readonly(auth()->user()->birthdate)>
                                         <option value="">선택해주세요</option>
                                         @foreach(array_reverse(range(1923, date('Y'))) as $year)
                                             <option value="{{ $year }}" @selected($year == auth()->user()->birthdate)>{{ $year }}</option>
                                         @endforeach
                                     </select>
+                                    <x-input-error for="birthdate" class="mt-1"></x-input-error>
                                 </div>
                                 <div class="my-4">
                                     <label for="sex" class="label mb-2">성별</label>
@@ -105,12 +108,15 @@
                                                         :checked="auth()->user()->sex == 'woman'">여자
                                         </x-radio-button>
                                     </div>
+                                    <x-input-error for="sex" class="mt-1"></x-input-error>
                                 </div>
                                 <div class="my-4">
                                     <label for="phone" class="label mb-2">연락처</label>
                                     <input type="text" name="phone" class="form-control"
                                            value="{{ auth()->user()->phone }}" id="phone"
+                                           @readonly(auth()->user()->phone)
                                            @keyup="event.target.value = event.target.value.replace(/\D/g, '').replace(/(\d{3})(\d{1,4})(\d{1,4})/, '$1-$2-$3')">
+                                    <x-input-error for="phone" class="mt-1"></x-input-error>
                                 </div>
                             </div>
                         </div>
@@ -270,15 +276,15 @@
                                             <div class="application_field-item mt-3">
                                                 <div class="application_field-title">{{ $field->label }}</div>
                                                 @if($field->name === 'custom_option')
-                                                    <select name="application_field[{{ $field->id }}][value]" id="" class="form-select">
+                                                    <select name="application_field[{{ $field->id }}][value]" id="application_field_{{$field->id}}" class="form-select" required>
                                                         @foreach(explode(',', $field->option) as $option)
                                                             <option value="{{ $option }}">{{ $option }}</option>
                                                         @endforeach
                                                     </select>
                                                 @elseif($field->type === 'text')
-                                                    <input type="text" name="application_field[{{ $field->id }}][value]" class="form-control">
+                                                    <input type="text" name="application_field[{{ $field->id }}][value]" class="form-control" id="application_field_{{$field->id}}" required>
                                                 @elseif($field->type === 'selectbox')
-                                                    <select name="application_field[{{ $field->id }}][value]" id="" class="application_field-input form-select">
+                                                    <select name="application_field[{{ $field->id }}][value]" id="application_field_{{$field->id}}" class="application_field-input form-select" required>
                                                         <option value="">선택</option>
                                                         @foreach(unserialize($field->option) as $option)
                                                             <option value="{{$option['value']}}">{{ $option['label'] }}</option>
@@ -287,60 +293,150 @@
                                                 @elseif($field->type === 'radio')
                                                     <div class="flex gap-3">
                                                         @foreach(unserialize($field->option) as $key => $option)
-                                                            <x-radio-button id="{{ $option['name'].$key }}"
+                                                            <x-radio-button id="application_field_{{$field->id}}_{{ $option['name'].$key }}"
                                                                             name="application_field[{{ $field->id }}][value]"
+                                                                            required
                                                                             value="{{$option['value']}}">{{ $option['label'] }}</x-radio-button>
                                                         @endforeach
                                                     </div>
                                                 @endif
-
                                             </div>
+                                            <x-input-error for="application_field.{{ $field->id }}.value" class="mt-1"></x-input-error>
                                         </div>
                                     @endforeach
                                 </div>
 
                                 @if($campaign->useShipping)
                                 {{-- 배송형 캠페인만 노출 --}}
-                                <div class="application-category mt-10">
+                                <div class="application-category mt-10" x-data="shippingData">
                                     <div class="application-category-title">상품을 배송받을 주소를 입력해 주세요.</div>
                                     <div class="application_field">
                                         <div class="application_field-item mt-5">
                                             <div class="flex gap-3">
-                                                <x-radio-button id="man" name="sex" value="man">집
-                                                </x-radio-button>
-                                                <x-radio-button id="woman" name="sex" value="woman">새로입력하기
-                                                </x-radio-button>
+                                                <template x-for="item in addressList">
+                                                    <div>
+                                                        <input type="radio"
+                                                               name="shipping_id"
+                                                               :id="`shipping_id${item.id}`"
+                                                               :value="item.id"
+                                                               x-model="selectedId"
+                                                               class="hidden peer"
+                                                               @click="setAddress(item.id)">
+                                                        <label :for="`shipping_id${item.id}`"
+                                                               x-text="item.title"
+                                                               class="text-sm inline-flex items-center justify-between px-3 py-2 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100"></label>
+                                                    </div>
+                                                </template>
+                                                <x-radio-button id="shipping_id_new" name="shipping_id" value="new" x-model="selectedId"
+                                                                @click="setAddress('new')">새로입력하기</x-radio-button>
                                             </div>
                                             <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
                                                 <div class="">
-                                                    <label for="" class="label">이름</label>
-                                                    <input type="text" class="form-control">
+                                                    <label for="shipping_name" class="label application_field-title">이름</label>
+                                                    <input type="text"
+                                                           name="shipping_name"
+                                                           class="form-control"
+                                                           id="shipping_name"
+                                                           :readonly="readonly"
+                                                           x-model="address.shippingName">
                                                 </div>
                                                 <div class="">
-                                                    <label for="" class="label">연락처</label>
-                                                    <input type="text" class="form-control">
+                                                    <label for="shipping_phone" class="label application_field-title">연락처</label>
+                                                    <input type="text"
+                                                           name="shipping_phone"
+                                                           class="form-control"
+                                                           id="shipping_phone"
+                                                           :readonly="readonly"
+                                                           x-model="address.shippingPhone">
                                                 </div>
                                             </div>
                                             <div class="mt-5">
                                                 <div>
                                                     <div class="flex gap-3">
-                                                        <input type="text" class="form-control" placeholder="우편번호">
+                                                        <input type="text"
+                                                               name="address_postcode"
+                                                               class="form-control"
+                                                               placeholder="우편번호"
+                                                               :readonly="readonly"
+                                                               x-model="address.addressPostcode">
                                                         <button class="button button-light shrink-0">우편번호 찾기</button>
                                                     </div>
                                                 </div>
                                                 <div class="mt-1">
-                                                    <input type="text" class="form-control" placeholder="주소">
+                                                    <input type="text"
+                                                           name="address"
+                                                           class="form-control"
+                                                           placeholder="주소"
+                                                           :readonly="readonly"
+                                                           x-model="address.address">
                                                 </div>
                                                 <div class="mt-1">
-                                                    <input type="text" class="form-control" placeholder="주소 상세">
+                                                    <input type="text"
+                                                           name="address_detail"
+                                                           class="form-control"
+                                                           placeholder="주소상세"
+                                                           :readonly="readonly"
+                                                           x-model="address.addressDetail">
                                                 </div>
                                                 <div class="mt-1">
-                                                    <input type="text" class="form-control" placeholder="추가항목">
+                                                    <input type="text"
+                                                           name="address_extra"
+                                                           class="form-control"
+                                                           placeholder="추가항목"
+                                                           :readonly="readonly"
+                                                           x-model="address.addressExtra">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                    const shippingData = {
+                                      addressList: @json(auth()->user()->shippingAddresses),
+                                      address: {
+                                        address: null,
+                                        addressDetail: null,
+                                        addressExtra: null,
+                                        addressPostcode: null,
+                                        shippingName: null,
+                                        shippingPhone: null,
+                                      },
+                                      seletedId: null,
+                                      readonly: true,
+                                      init(){
+                                        if(this.addressList && this.addressList[0] && this.addressList[0].id){
+                                          this.setAddress(this.addressList[0].id);
+                                        } else {
+                                          this.setAddress('new');
+                                        }
+                                      },
+                                      setAddress(id){
+                                        this.seletedId = id;
+                                        this.readonly = id !== 'new';
+                                        if(this.readonly){
+                                          const selectedAddress = this.addressList.filter(item => item.id === id)[0];
+                                          this.address.address = selectedAddress.address;
+                                          this.address.addressDetail = selectedAddress.address_detail;
+                                          this.address.addressExtra = selectedAddress.address_extra;
+                                          this.address.addressPostcode = selectedAddress.address_postcode;
+                                          this.address.shippingName = selectedAddress.name;
+                                          this.address.shippingPhone = selectedAddress.phone;
+                                        } else {
+                                            this.cleanAddress();
+                                        }
+                                      },
+                                      cleanAddress(){
+                                        this.address = {
+                                            address: null,
+                                            addressDetail: null,
+                                            addressExtra: null,
+                                            addressPostcode: null,
+                                            shippingName: null,
+                                            shippingPhone: null,
+                                        };
+                                      }
+                                    }
+                                </script>
                                 @endif
                             </div>
                         </div>
