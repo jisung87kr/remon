@@ -10,9 +10,19 @@ class CampaignMediaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $filter = [
+            'media'         => $request->input('media'),
+            'keyword'       => $request->input('keyword'),
+            'campaign_type' => $request->input('campaign_type'),
+            'type'          => $request->input('type'),
+            'product'       => $request->input('product'),
+            'location'      => $request->input('location'),
+        ];
+
+        $campaigns = auth()->user()->campaigns()->filter($filter)->paginate(10);
+        return view('mypage.campaigns', compact('campaigns'));
     }
 
     /**

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\CampaignMediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,9 +90,7 @@ Route::middleware([
     Route::post('/campaigns/{campaign}/application', [CampaignApplicationController::class, 'store'])->name('campaigns.application.post');
 
     Route::prefix('/mypage')->name('mypage.')->group(function(){
-        Route::get('/campaigns', function(){
-            return view('mypage.campaigns');
-        })->name('campaigns');
+        Route::get('/campaigns', [CampaignMediaController::class, 'index'])->name('campaigns');
 
         Route::get('/favorites', function(){
             return view('mypage.favorites');
