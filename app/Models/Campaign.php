@@ -212,7 +212,7 @@ class Campaign extends Model
                 $query->whereIn('categories.id', function ($query) use ($location) {
                     if($location == '전체'){
                         $categoryModel = new Category();
-                        $locationIds = $categoryModel->getChildIds(11);;
+                        $locationIds = $categoryModel->getChildIds(11);
                         $query->select('id')
                             ->from('categories')
                             ->whereIn('id', $locationIds);
@@ -233,6 +233,12 @@ class Campaign extends Model
         $query->when($filter['media'] ?? false, function($query, $media){
             $query->whereHas('media', function($mediaQuery) use ($media){
                 $mediaQuery->where('media', $media);
+            });
+        });
+
+        $query->when($filter['applicant_status'] ?? false, function($query, $status){
+            $query->whereHas('applicants', function($query) use ($status){
+                $query->where('campaign_applicants.status', $status);
             });
         });
     }

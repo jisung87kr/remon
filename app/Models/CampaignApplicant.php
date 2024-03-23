@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Builder;
 
 //class CampaignApplicant extends Pivot
 class CampaignApplicant extends Model
@@ -22,5 +23,12 @@ class CampaignApplicant extends Model
     public function hasApplication()
     {
 
+    }
+
+    public function scopeFilter(Builder $query, array $filter)
+    {
+        $query->when($filter['status'] ?? false, function($query, $status){
+            $query->where('status', $status);
+        });
     }
 }

@@ -96,6 +96,11 @@ class User extends Authenticatable
         return $this->hasMany(CampaignApplicant::class, 'user_id', 'id');
     }
 
+    public function applications()
+    {
+        return $this->hasMany(CampaignApplicant::class, 'user_id', 'id');
+    }
+
     public function getMedia($mediaName)
     {
         foreach ($this->medias as $index => $media) {
