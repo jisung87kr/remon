@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CampaignMediaController;
+use App\Http\Controllers\Mymapge\CampaignMypageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,7 +91,7 @@ Route::middleware([
     Route::post('/campaigns/{campaign}/application', [CampaignApplicationController::class, 'store'])->name('campaigns.application.post');
 
     Route::prefix('/mypage')->name('mypage.')->group(function(){
-        Route::get('/campaigns', [CampaignMediaController::class, 'index'])->name('campaigns');
+        Route::get('/campaigns', [CampaignMypageController::class, 'index'])->name('campaigns');
 
         Route::get('/favorites', function(){
             return view('mypage.favorites');
