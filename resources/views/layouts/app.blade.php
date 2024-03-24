@@ -17,16 +17,6 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <script>
-      document.addEventListener('alpine:init', () => {
-        Alpine.store('rootModal', {
-          show: false,
-          toggle(){
-            this.show = !this.show;
-          }
-        });
-      })
-    </script>
     <body class="font-sans antialiased" x-data>
         <x-banner />
 

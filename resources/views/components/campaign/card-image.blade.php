@@ -8,7 +8,11 @@
             <img src="https://placeholder.co/300x300" alt="" class="w-full">
         @endisset
     </a>
-    <button class="absolute right-3 top-3">
+    <button class="absolute right-3 top-3"
+            x-data="likeCampaignData"
+            @click="toggle({{ $campaign->id ?? null }})"
+            data-campaignId="{{ isset($campaign->id) ? $campaign->id == 2 ? $campaign->id : null : null }}">
+        <div x-show="isActive">active</div>
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart"
              width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff"
              fill="none" stroke-linecap="round" stroke-linejoin="round">
