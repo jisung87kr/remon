@@ -11,9 +11,9 @@ class CampaignApplicationValue extends Model
 
     protected $guarded = [];
 
-    public function campaginApplicant()
+    public function campaginApplication()
     {
-        return $this->belongsTo(CampaignApplicant::class, 'campaign_applicant_id', 'id');
+        return $this->belongsTo(CampaignApplication::class, 'campaign_application_id', 'id');
     }
 
     public function campaginApplicationField()

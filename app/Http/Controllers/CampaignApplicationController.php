@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Campaign\ApplicantStatus;
+use App\Enums\Campaign\ApplicationStatus;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -51,7 +51,7 @@ class CampaignApplicationController extends Controller
 
         $validated = $request->validate($rules);
 
-        $validated['status'] = ApplicantStatus::APPLIED->value;
+        $validated['status'] = ApplicationStatus::APPLIED->value;
         $validated['campaign_id'] = $campaign->id;
 
         DB::beginTransaction();
@@ -75,13 +75,13 @@ class CampaignApplicationController extends Controller
                 $request->user()->update($updateUserData);
             }
 
-            $applicant = $request->user()->applicants()->create($validated);
+            $application = $request->user()->applications()->create($validated);
             if($request->input('application_field')){
                 $request->validate([
                     'application_field.*.value' => ['required']
                 ]);
                 foreach ($request->input('application_field') as $index => $item) {
-                    $applicant->applicationValues()->create([
+                    $application->applicationValues()->create([
                         'campaign_application_field_id' => $item['id'],
                         'value' => $item['value'],
                     ]);
@@ -89,7 +89,7 @@ class CampaignApplicationController extends Controller
             }
 
             DB::commit();
-            return $applicant;
+            return $application;
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

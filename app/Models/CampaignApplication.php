@@ -7,17 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Builder;
 
-//class CampaignApplicant extends Pivot
-class CampaignApplicant extends Model
+//class CampaignApplication extends Pivot
+class CampaignApplication extends Model
 {
     use HasFactory;
 
-    protected $table = 'campaign_applicants';
+    protected $table = 'campaign_applications';
     protected $guarded = [];
 
     public function applicationValues()
     {
-        return $this->hasMany(CampaignApplicationValue::class, 'campaign_applicant_id', 'id');
+        return $this->hasMany(CampaignApplicationValue::class, 'campaign_application_id', 'id');
     }
 
     public function hasApplication()

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Enums\Campaign\ApplicantStatus;
+use App\Enums\Campaign\ApplicationStatus;
 
 return new class extends Migration
 {
@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('campaign_applicants', function (Blueprint $table) {
+        Schema::create('campaign_applications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('campaign_id')->constrained()->onDelete('cascade');
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('birthdate')->comment('신청자 생년월일');
             $table->enum('sex', ['man', 'woman'])->comment('신청자 성별');
             $table->string('phone')->comment('신청자 연락처');
-            $table->string('status')->default(ApplicantStatus::APPLIED->value)->comment('신청상태');
+            $table->string('status')->default(ApplicationStatus::APPLIED->value)->comment('신청상태');
             $table->boolean('portrait_right_consent')->default(0)->comment('초상권 활용 동의');
             $table->boolean('base_right_consent')->default(0)->comment('캠페인 유의사항, 개인정보 및 콘텐츠 제3자 제공, 저작물이용 동의');
             $table->string('shipping_name')->nullable()->comment('받는 사람');
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('campaign_applicants');
+        Schema::dropIfExists('campaign_applications');
     }
 };

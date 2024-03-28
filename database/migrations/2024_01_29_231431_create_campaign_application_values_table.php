@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('campaign_application_values', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('campaign_applicant_id');
+            $table->foreignId('campaign_application_id');
             $table->foreignId('campaign_application_field_id');
             $table->text('value')->comment('신청정보 필드 사용자 입력 값');
             $table->timestamps();

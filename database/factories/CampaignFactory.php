@@ -20,8 +20,8 @@ class CampaignFactory extends Factory
         $status = ['DRAFT', 'PUBLISHED'];
         $randomKey = array_rand($status);
 
-        $applicantStartAt = $this->faker->dateTimeBetween('+1 days', '+7 days');
-        $applicantEndAt = $this->faker->dateTimeBetween('+8 days', '+14 days');
+        $applicationStartAt = $this->faker->dateTimeBetween('+1 days', '+7 days');
+        $applicationEndAt = $this->faker->dateTimeBetween('+8 days', '+14 days');
         $announcementAt = $this->faker->dateTimeBetween('+15 days', '+21 days');
         $registrationStartDateAt = $this->faker->dateTimeBetween('+22 days', '+28 days');
         $registrationEndDateAt = $this->faker->dateTimeBetween('+29 days', '+35 days');
@@ -43,14 +43,14 @@ class CampaignFactory extends Factory
             'address_detail' => $this->faker->streetAddress,
             'mission' => $this->faker->paragraph,
             'extra_information' => $this->faker->paragraph,
-            'applicant_start_at' => $applicantStartAt,
-            'applicant_end_at' => $applicantEndAt,
+            'application_start_at' => $applicationStartAt,
+            'application_end_at' => $applicationEndAt,
             'announcement_at' => $announcementAt,
             'registration_start_date_at' => $registrationStartDateAt,
             'registration_end_date_at' => $registrationEndDateAt,
             'result_announcement_date_at' => $resultAnnouncementDateAt,
             'status' => $status[$randomKey],
-            'applicant_limit' => mt_rand(10, 100),
+            'application_limit' => mt_rand(10, 100),
         ];
     }
 }

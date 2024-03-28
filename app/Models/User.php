@@ -90,17 +90,12 @@ class User extends Authenticatable
 
     public function campaigns()
     {
-        return $this->belongsToMany(Campaign::class, 'campaign_applicants', 'user_id', 'campaign_id');
-    }
-
-    public function applicants()
-    {
-        return $this->hasMany(CampaignApplicant::class, 'user_id', 'id');
+        return $this->belongsToMany(Campaign::class, 'campaign_applications', 'user_id', 'campaign_id');
     }
 
     public function applications()
     {
-        return $this->hasMany(CampaignApplicant::class, 'user_id', 'id');
+        return $this->hasMany(CampaignApplication::class, 'user_id', 'id');
     }
 
     public function campaignFavorites()

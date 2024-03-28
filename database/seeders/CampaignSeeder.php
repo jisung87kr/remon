@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Enums\Campaign\ApplicantStatus;
+use App\Enums\Campaign\ApplicationStatus;
 use App\Helper\CommonHelper;
 use App\Models\Campaign;
-use App\Models\CampaignApplicant;
+use App\Models\CampaignApplication;
 use App\Models\CampaignApplicationField;
 use App\Models\CampaignApplicationValue;
 use App\Models\CampaignImage;
@@ -13,7 +13,7 @@ use App\Models\CampaignMedia;
 use App\Models\Category;
 use App\Models\MissionOption;
 use App\Models\User;
-use Database\Factories\CampaignApplicantFactory;
+use Database\Factories\CampaignApplicationFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory;
@@ -56,8 +56,8 @@ class CampaignSeeder extends Seeder
             ]);
 
             $users = User::inRandomOrder()->limit(3)->get();
-            $status = CommonHelper::getRandomEnumCase(ApplicantStatus::cases());
-            $campaign->applicants()->attach($users->pluck('id')->toArray(), [
+            $status = CommonHelper::getRandomEnumCase(ApplicationStatus::cases());
+            $campaign->applications()->attach($users->pluck('id')->toArray(), [
                 'name' => $faker->name,
                 'birthdate'=> $faker->dateTimeBetween('1970-01-01', '2014-12-31')->format('Y-m-d'),
                 'sex' => ['man', 'woman'][rand(0, 1)],
@@ -66,10 +66,10 @@ class CampaignSeeder extends Seeder
             ]);
 
             foreach ($users as $user) {
-                $campaignApplicant = CampaignApplicant::where('campaign_id', $campaign->id)->where('user_id', $user->id)->first();
+                $campaignApplication = CampaignApplication::where('campaign_id', $campaign->id)->where('user_id', $user->id)->first();
                 foreach ($applicationFields as $index => $applicationField) {
                     CampaignApplicationValue::factory()->create([
-                        'campaign_applicant_id' => $campaignApplicant->id,
+                        'campaign_application_id' => $campaignApplication->id,
                         'campaign_application_field_id' => $applicationField->id
                     ]);
                 }

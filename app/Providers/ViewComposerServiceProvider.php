@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Enums\Campaign\ApplicantStatus;
+use App\Enums\Campaign\ApplicationStatus;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 

@@ -141,20 +141,20 @@
                         <x-input-error for="benefit" class="mt-1"></x-input-error>
                     </div>
                     <div class="col-span-2 py-6">
-                        <label for="applicant_limit" class="label mb-2">모집인원</label>
-                        <input type="number" id="applicant_limit" class="form-control" name="applicant_limit" value="{{ old('applicant_limit', $campaign['applicant_limit']) }}">
+                        <label for="application_limit" class="label mb-2">모집인원</label>
+                        <input type="number" id="application_limit" class="form-control" name="application_limit" value="{{ old('application_limit', $campaign['application_limit']) }}">
                         <x-input-error for="product_name" class="mt-1"></x-input-error>
                     </div>
                     <div class="col-span-2 py-6 flex gap-3">
                         <div class="w-1/2">
-                            <label for="applicant_start_at" class="label mb-2">신청 시작일</label>
-                            <input type="date" id="applicant_start_at" class="form-control" name="applicant_start_at" value="{{ old('applicant_start_at', $campaign['applicant_start_at'] ? $campaign['applicant_start_at']->format('Y-m-d') : null) }}">
-                            <x-input-error for="applicant_start_at" class="mt-1"></x-input-error>
+                            <label for="application_start_at" class="label mb-2">신청 시작일</label>
+                            <input type="date" id="application_start_at" class="form-control" name="application_start_at" value="{{ old('application_start_at', $campaign['application_start_at'] ? $campaign['application_start_at']->format('Y-m-d') : null) }}">
+                            <x-input-error for="application_start_at" class="mt-1"></x-input-error>
                         </div>
                         <div class="w-1/2">
-                            <label for="applicant_end_at" class="label mb-2">신청 종료일</label>
-                            <input type="date" id="applicant_end_at" class="form-control" name="applicant_end_at" value="{{ old('applicant_end_at', $campaign['applicant_end_at'] ? $campaign['applicant_end_at']->format('Y-m-d') : null) }}">
-                            <x-input-error for="applicant_end_at" class="mt-1"></x-input-error>
+                            <label for="application_end_at" class="label mb-2">신청 종료일</label>
+                            <input type="date" id="application_end_at" class="form-control" name="application_end_at" value="{{ old('application_end_at', $campaign['application_end_at'] ? $campaign['application_end_at']->format('Y-m-d') : null) }}">
+                            <x-input-error for="application_end_at" class="mt-1"></x-input-error>
                         </div>
                     </div>
                     <div class="col-span-2 py-6 flex gap-3">

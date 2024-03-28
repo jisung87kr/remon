@@ -7,7 +7,7 @@
                 </div>
                 <div class="mt-6 border-b mb-6 flex">
                     <a href="{{ route('campaigns.show', 1) }}" class="block px-5 py-3 text-gray-500">캠페인 정보</a>
-                    <a href="{{ route('campaigns.applicants', 1) }}" class="block px-5 py-3 border-b-2 border-indigo-400">
+                    <a href="{{ route('campaigns.applications', 1) }}" class="block px-5 py-3 border-b-2 border-indigo-400">
                         <span class="font-bold">신청자 </span><span class="font-bold">4,000</span><span>/</span><span>100</span>
                     </a>
                 </div>

@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Enums\Campaign\ApplicantStatus;
+use App\Enums\Campaign\ApplicationStatus;
 use App\Helper\CommonHelper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CampaignApplicant>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CampaignApplication>
  */
-class CampaignApplicantFactory extends Factory
+class CampaignApplicationFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +18,7 @@ class CampaignApplicantFactory extends Factory
      */
     public function definition(): array
     {
-        $status = CommonHelper::getRandomEnumCase(ApplicantStatus::cases());
+        $status = CommonHelper::getRandomEnumCase(ApplicationStatus::cases());
         return [
             'name' => $this->faker->name,
             'birthdate'=> $this->faker->dateTimeBetween('1970-01-01', '2014-12-31')->format('Y-m-d'),

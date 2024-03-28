@@ -19,8 +19,8 @@ class Campaign extends Model
 
     protected $guarded = [];
     protected $casts = [
-        'applicant_start_at' => 'datetime',
-        'applicant_end_at' => 'datetime',
+        'application_start_at' => 'datetime',
+        'application_end_at' => 'datetime',
         'announcement_at' => 'datetime',
         'registration_start_date_at' => 'datetime',
         'registration_end_date_at' => 'datetime',
@@ -43,9 +43,9 @@ class Campaign extends Model
         return $this->belongsToMany(MissionOption::class, 'campaign_mission_option', 'campaign_id', 'mission_option_id')->withPivot('id');
     }
 
-    public function applicants()
+    public function applications()
     {
-        return $this->belongsToMany(User::class, 'campaign_applicants', 'campaign_id', 'user_id');
+        return $this->belongsToMany(User::class, 'campaign_applications', 'campaign_id', 'user_id');
     }
 
     public function applicationFields()
@@ -241,9 +241,9 @@ class Campaign extends Model
             });
         });
 
-        $query->when($filter['applicant_status'] ?? false, function($query, $status){
-            $query->whereHas('applicants', function($query) use ($status){
-                $query->where('campaign_applicants.status', $status);
+        $query->when($filter['application_status'] ?? false, function($query, $status){
+            $query->whereHas('applications', function($query) use ($status){
+                $query->where('campaign_applications.status', $status);
             });
         });
     }
@@ -256,7 +256,7 @@ class Campaign extends Model
             } elseif($sort == 'popular'){
                 $query->orderBy('id', 'desc');
             } elseif($sort == 'deadline'){
-                $query->orderBy('applicant_end_at', 'asc');
+                $query->orderBy('application_end_at', 'asc');
             }
         });
     }

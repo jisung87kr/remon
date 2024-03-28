@@ -33,8 +33,8 @@
         <div class="py-6 border-b">
             <div class="flex font-bold my-2">
                 <div class="shrink-0 w-[110px] mr-1">캠페인 신청기간</div>
-                <div>{{ $campaign->applicant_start_at->format('m.d') }}
-                    ~ {{ $campaign->applicant_end_at->format('m.d') }}</div>
+                <div>{{ $campaign->application_start_at->format('m.d') }}
+                    ~ {{ $campaign->application_end_at->format('m.d') }}</div>
             </div>
             <div class="flex text-gray-500 my-2">
                 <div class="shrink-0 w-[110px] mr-1">인플루언서 발표</div>

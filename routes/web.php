@@ -26,9 +26,9 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaigns.index');
 Route::get('/campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
 
-Route::get('/campaigns/{campaign}/applicants', function(Campaign $campaign){
-    return view('campaign.applicants', compact('campaign'));
-})->name('campaigns.applicants');
+Route::get('/campaigns/{campaign}/applications', function(Campaign $campaign){
+    return view('campaign.applications', compact('campaign'));
+})->name('campaigns.applications');
 
 Route::get('/brandzone/{brandzone}', function($brandzone){
     return view('campaign.brandzone');
