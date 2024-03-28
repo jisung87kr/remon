@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\MediaConnectedStatusEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -59,6 +60,7 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'favoriteCampaignIds',
     ];
 
     public function points()
@@ -101,6 +103,11 @@ class User extends Authenticatable
         return $this->hasMany(CampaignApplicant::class, 'user_id', 'id');
     }
 
+    public function campaignFavorites()
+    {
+        return $this->belongsToMany(Campaign::class, 'user_campaign_favorites', 'user_id', 'campaign_id');
+    }
+
     public function getMedia($mediaName)
     {
         foreach ($this->medias as $index => $media) {
@@ -115,5 +122,19 @@ class User extends Authenticatable
     public function getApplication(Campaign $campaign)
     {
         return $this->campaigns()->where('campaign_id', $campaign->id)->first();
+    }
+
+    public function favoriteCampaignIds(): Attribute
+    {
+        return Attribute::make(
+            get: function($value, $attribute){
+                return $this->campaignFavorites()->pluck('campaigns.id')->toArray();
+            },
+        );
+    }
+
+    public function isFavoriteCampaign(Campaign $campaign)
+    {
+        return in_array($campaign->id, $this->favoriteCampaignIds);
     }
 }

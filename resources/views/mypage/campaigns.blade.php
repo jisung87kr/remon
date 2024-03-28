@@ -34,16 +34,7 @@
             </div>
         </form>
         <div>
-            <div class="text-right mb-6">
-                <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), ['media' => \App\Helper\CommonHelper::toggleArrayQueryString('media', \App\Enums\Campaign\MediaEnum::NAVER_BLOG->value)])) }}"
-                   class="border rounded-2xl px-3 py-1 text-sm {{ in_array(\App\Enums\Campaign\MediaEnum::NAVER_BLOG->value, request()->input('media', [])) ? 'border-indigo-400' : '' }}">블로그</a>
-
-                <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), ['media' => \App\Helper\CommonHelper::toggleArrayQueryString('media', \App\Enums\Campaign\MediaEnum::INSTAGRAM->value)])) }}"
-                   class="border rounded-2xl px-3 py-1 text-sm {{ in_array(\App\Enums\Campaign\MediaEnum::INSTAGRAM->value, request()->input('media', [])) ? 'border-indigo-400' : '' }}">인스타그램</a>
-
-                <a href="{{ route(request()->route()->getName(), array_merge(request()->query(), ['media' => \App\Helper\CommonHelper::toggleArrayQueryString('media', \App\Enums\Campaign\MediaEnum::YOUTUBE->value)])) }}"
-                   class="border rounded-2xl px-3 py-1 text-sm {{ in_array(\App\Enums\Campaign\MediaEnum::YOUTUBE->value, request()->input('media', [])) ? 'border-indigo-400' : '' }}">유튜부</a>
-            </div>
+            <x-campaign.snsfilter class="mt-6 justify-end mb-6" :category="null"></x-campaign.snsfilter>
             <div class="grid grid-cols-3 gap-6 xl:grid-cols-5">
                 @forelse($campaigns as $key => $campaign)
                     <x-campaign.card :campaign="$campaign"></x-campaign.card>
@@ -53,6 +44,7 @@
                     </div>
                 @endforelse
             </div>
+            {{ $campaigns->links() }}
         </div>
     </div>
 </x-mypage-layout>

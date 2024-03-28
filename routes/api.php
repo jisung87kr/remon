@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserShippingAddressApiController;
@@ -30,5 +31,14 @@ Route::middleware('auth:sanctum')->group(function(){
 
         // 미디어
         Route::resource('media', UserMediaApiController::class)->parameters(['media' => 'userMedia']);
+
+        //
+        Route::post('/favorites/campaigns/{campaign}', function(Request $request, Campaign $campaign){
+            $request->user()->campaignFavorites()->attach($campaign);
+        });
+
+        Route::delete('/favorites/campaigns/{campaign}', function(Request $request, Campaign $campaign){
+            $request->user()->campaignFavorites()->wherePivot('campaign_id', $campaign->id)->detach();
+        });
     });
 });

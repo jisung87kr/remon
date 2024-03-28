@@ -6,16 +6,22 @@ document.addEventListener('alpine:init', () => {
     }
   });
 
-  Alpine.data('likeCampaignData', () => ({
-    init(){
-      this.isActive = this.$el.getAttribute('data-campaignId');
-    },
+  Alpine.data('favoriteCampaignData', () => ({
     isActive: false,
+    init(){
+      this.isActive = this.$el.getAttribute('data-campaignId') == 'true';
+    },
     toggle(campaignId){
       if(this.isActive){
-        this.isActive = false;
+        axios.delete(`/api/user/favorites/campaigns/${campaignId}`).then(res => {
+          console.log(res);
+          this.isActive = false;
+        });
       } else {
-        this.isActive = true;
+        axios.post(`/api/user/favorites/campaigns/${campaignId}`).then(res => {
+          console.log(res);
+          this.isActive = true;
+        });
       }
     },
   }));

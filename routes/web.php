@@ -90,12 +90,16 @@ Route::middleware([
     Route::get('/campaigns/{campaign}/application', [CampaignApplicationController::class, 'index'])->name('campaigns.application.index');
     Route::post('/campaigns/{campaign}/application', [CampaignApplicationController::class, 'store'])->name('campaigns.application.post');
 
-    Route::prefix('/mypage')->name('mypage.')->group(function(){
-        Route::get('/campaigns', [CampaignMypageController::class, 'index'])->name('campaigns');
+//    Route::delete('/user/{user}/campaign_favorites', function(Request $request){
+//        $campaignId = $request->input('campaignId');
+//        $campaign = Campaign::find($campaignId);
+//        $request->user()->campaignFavorites()->detach($campaign);
+//    });
 
-        Route::get('/favorites', function(){
-            return view('mypage.favorites');
-        })->name('favorites');
+    Route::prefix('/mypage')->name('mypage.')->group(function(){
+        Route::get('/campaigns', [CampaignMypageController::class, 'campaigns'])->name('campaigns');
+
+        Route::get('/favorites', [CampaignMypageController::class, 'favorites'])->name('favorites');
 
         Route::get('/reviews', function(){
             return view('mypage.reviews');

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class CampaignMypageController extends Controller
 {
-    public function index(Request $request)
+    public function campaigns(Request $request)
     {
         $filter = [
             'media'         => $request->input('media'),
@@ -28,5 +28,21 @@ class CampaignMypageController extends Controller
             'completedCount' => auth()->user()->campaigns()->filter(['applicant_status' => ApplicantStatus::COMPLETED->value])->count(),
         ];
         return view('mypage.campaigns', compact('campaigns', 'countData'));
+    }
+
+    public function favorites(Request $request)
+    {
+        $filter = [
+            'media'         => $request->input('media'),
+            'keyword'       => $request->input('keyword'),
+            'campaign_type' => $request->input('campaign_type'),
+            'type'          => $request->input('type'),
+            'product'       => $request->input('product'),
+            'location'      => $request->input('location'),
+            'applicant_status' => $request->input('status'),
+        ];
+
+        $campaigns = $request->user()->campaignFavorites()->filter($filter)->paginate(10);;
+        return view('mypage.favorites', compact('campaigns'));
     }
 }

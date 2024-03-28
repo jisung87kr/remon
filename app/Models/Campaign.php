@@ -58,6 +58,11 @@ class Campaign extends Model
         return $this->hasMany(CampaignApplicationField::class)->where('name', ApplicationFieldEnum::CUSTOM_OPTION);
     }
 
+    public function userFavorites()
+    {
+        return $this->belongsToMany(User::class, 'user_campaign_favorites', 'campaign_id', 'user_id');
+    }
+
     public function productCategories()
     {
         $categoryModel = new Category();
