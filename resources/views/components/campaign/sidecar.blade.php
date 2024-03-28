@@ -92,13 +92,13 @@
                     </div>
                 </div>
                 @if(auth()->user() && auth()->user()->getApplication($campaign))
-                    <a href="" class="bg-indigo-900 text-white px-5 py-4 block text-center font-bold w-full">신청한 캠페인 입니다</a>
+                    <a href="#" class="bg-indigo-900 text-white px-5 py-4 block text-center font-bold w-full">신청한 캠페인 입니다</a>
                 @else
                     <button type="submit" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">캠페인 신청하기</button>
                 @endif
             @else
                 @if(auth()->user() && auth()->user()->getApplication($campaign))
-                    <a href="" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">신청한 캠페인 입니다</a>
+                    <a href="#" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">신청한 캠페인 입니다</a>
                 @else
                     <a href="{{ route('campaigns.application.index', $campaign) }}" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">캠페인 신청하기</a>
                 @endif
