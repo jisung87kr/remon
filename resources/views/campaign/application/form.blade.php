@@ -1,7 +1,7 @@
 <div class="container mx-auto px-6" x-data="campaignData">
-    <form action="{{ $route }}" method="{{ $method }}">
+    <form action="{{ $route }}" method="POST">
         @csrf
-        @method('PUT')
+        @method($method)
         <div class="grid grid-cols-8 gap-6 relative break-keep">
             <div class="col-span-8 lg:col-span-6 lg:border-r lg:pr-6">
                 <div>
@@ -304,7 +304,7 @@
                                                         <x-radio-button id="application_field_{{$field->id}}_{{ $option['name'].$key }}"
                                                                         name="application_field[{{ $field->id }}][value]"
                                                                         required
-                                                                        :checked="$value === $option['value']"
+                                                                        :checked="$value == $option['value']"
                                                                         value="{{$option['value']}}">{{ $option['label'] }}</x-radio-button>
                                                     @endforeach
                                                 </div>

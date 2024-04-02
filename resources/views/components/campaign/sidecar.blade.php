@@ -70,7 +70,7 @@
         </div>
         @endif
         <div class="py-6">
-            @if(request()->route()->getName() === 'campaign.application.index')
+            @if(request()->route()->getName() === 'campaign.application.create')
                 <div class="mb-6">
                     @if($campaign->hasPortraitRightConsent)
                     <div class="my-2 flex gap-3">

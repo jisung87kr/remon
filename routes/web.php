@@ -143,6 +143,6 @@ Route::middleware([
             return view('admin.index');
         })->name('index');
 
-        Route::resource('/campaigns', CampaignController::class);
+        Route::resource('/campaigns', CampaignController::class)->names('campaign');
     });
 });

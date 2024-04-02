@@ -96,7 +96,7 @@ class CampaignController extends Controller
     public function update(Request $request, Campaign $campaign)
     {
         $this->campaignService->upsert();
-        $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaigns.edit' : 'campaign.show';
+        $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaign.edit' : 'campaign.show';
         return redirect()->route($routeName, $campaign);
     }
 

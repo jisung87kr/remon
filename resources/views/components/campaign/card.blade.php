@@ -2,7 +2,7 @@
 @php
     switch ($mode){
         case 'admin':
-            $routeName = 'admin.campaigns.edit';
+            $routeName = 'admin.campaign.edit';
         break;
         default:
             $routeName = 'campaign.show';
