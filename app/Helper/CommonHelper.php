@@ -1,6 +1,9 @@
 <?php
 namespace App\Helper;
 
+use App\Models\CampaignApplicationField;
+use App\Models\CampaignApplicationValue;
+
 class CommonHelper{
     static public function getRandomEnumCase($cases)
     {
@@ -47,5 +50,14 @@ class CommonHelper{
             $currentMedia[] = $value;
         }
         return $currentMedia;
+    }
+
+    static public function findApplicationFieldValue($values, CampaignApplicationField $field){
+        foreach ($values as $index => $value) {
+            if($value->campaign_application_field_id === $field->id){
+                return $value;
+            }
+        }
+        return null;
     }
 }

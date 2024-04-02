@@ -4,30 +4,30 @@
         <form action="">
             <div class="flex justify-center gap-3 py-6">
                 <button type="submit"
-                        class="button @if(request()->input('status') == \App\Enums\Campaign\ApplicantStatus::APPLIED->value) button-default @else button-light @endif"
+                        class="button @if(request()->input('status') == \App\Enums\Campaign\ApplicationStatus::APPLIED->value) button-default @else button-light @endif"
                         name="status"
-                        value="{{ \App\Enums\Campaign\ApplicantStatus::APPLIED->value }}">
+                        value="{{ \App\Enums\Campaign\ApplicationStatus::APPLIED->value }}">
                     <span>신청한 캠페인</span>
                     <span>{{ number_format($countData['appliedCount']) }}</span>
                 </button>
                 <button type="submit"
-                        class="button @if(request()->input('status') == \App\Enums\Campaign\ApplicantStatus::APPROVED->value) button-default @else button-light @endif""
+                        class="button @if(request()->input('status') == \App\Enums\Campaign\ApplicationStatus::APPROVED->value) button-default @else button-light @endif""
                         name="status"
-                        value="{{ \App\Enums\Campaign\ApplicantStatus::APPROVED->value }}">
+                        value="{{ \App\Enums\Campaign\ApplicationStatus::APPROVED->value }}">
                     <span>선정된 캠페인</span>
                     <span>{{ number_format($countData['approvedCount']) }}</span>
                 </button>
                 <button type="submit"
-                        class="button @if(request()->input('status') == \App\Enums\Campaign\ApplicantStatus::POSTED->value) button-default @else button-light @endif""
+                        class="button @if(request()->input('status') == \App\Enums\Campaign\ApplicationStatus::POSTED->value) button-default @else button-light @endif""
                         name="status"
-                        value="{{ \App\Enums\Campaign\ApplicantStatus::POSTED->value }}">
+                        value="{{ \App\Enums\Campaign\ApplicationStatus::POSTED->value }}">
                     <span>등록한 캠페인</span>
                     <span>{{ number_format($countData['postedCount']) }}</span>
                 </button>
                 <button type="submit"
-                        class="button @if(request()->input('status') == \App\Enums\Campaign\ApplicantStatus::COMPLETED->value) button-default @else button-light @endif""
+                        class="button @if(request()->input('status') == \App\Enums\Campaign\ApplicationStatus::COMPLETED->value) button-default @else button-light @endif""
                         name="status"
-                        value="{{ \App\Enums\Campaign\ApplicantStatus::COMPLETED->value }}">
+                        value="{{ \App\Enums\Campaign\ApplicationStatus::COMPLETED->value }}">
                     <span>종료된 캠페인</span>
                     <span>{{ number_format($countData['completedCount']) }}</span>
                 </button>

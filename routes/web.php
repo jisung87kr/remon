@@ -87,6 +87,7 @@ Route::middleware([
     Route::get('/campaigns/{campaign}/applications/create', [CampaignApplicationController::class, 'create'])->name('campaign.application.create');
     Route::post('/campaigns/{campaign}/applications', [CampaignApplicationController::class, 'store'])->name('campaign.application.store');
     Route::get('/campaigns/{campaign}/applications/{campaignApplication}', [CampaignApplicationController::class, 'show'])->name('campaign.application.show');
+    Route::get('/campaigns/{campaign}/applications/{campaignApplication}/edit', [CampaignApplicationController::class, 'edit'])->name('campaign.application.edit');
     Route::post('/campaigns/{campaign}/applications/{campaignApplication}', [CampaignApplicationController::class, 'update'])->name('campaign.application.update');
     Route::any('/campaigns/{campaign}/applications/{campaignApplication}/cancel', [CampaignApplicationController::class, 'cancel'])->name('campaign.application.cancel');
 
@@ -103,11 +104,11 @@ Route::middleware([
 
         Route::get('/reviews', function(){
             return view('mypage.review');
-        })->name('reviews');
+        })->name('review');
 
         Route::get('/messages', function(){
             return view('mypage.message');
-        })->name('messages');
+        })->name('message');
 
         Route::get('/profile', function(){
             return view('mypage.profile');

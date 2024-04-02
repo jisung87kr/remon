@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Mymapge;
 
-use App\Enums\Campaign\ApplicantStatus;
+use App\Enums\Campaign\ApplicationStatus;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -22,10 +22,10 @@ class CampaignMypageController extends Controller
 
         $campaigns = auth()->user()->campaigns()->filter($filter)->paginate(10);
         $countData = [
-            'appliedCount' => auth()->user()->campaigns()->filter(['applicant_status' => ApplicantStatus::APPLIED->value])->count(),
-            'approvedCount' => auth()->user()->campaigns()->filter(['applicant_status' => ApplicantStatus::APPROVED->value])->count(),
-            'postedCount' => auth()->user()->campaigns()->filter(['applicant_status' => ApplicantStatus::POSTED->value])->count(),
-            'completedCount' => auth()->user()->campaigns()->filter(['applicant_status' => ApplicantStatus::COMPLETED->value])->count(),
+            'appliedCount' => auth()->user()->campaigns()->filter(['applicant_status' => ApplicationStatus::APPLIED->value])->count(),
+            'approvedCount' => auth()->user()->campaigns()->filter(['applicant_status' => ApplicationStatus::APPROVED->value])->count(),
+            'postedCount' => auth()->user()->campaigns()->filter(['applicant_status' => ApplicationStatus::POSTED->value])->count(),
+            'completedCount' => auth()->user()->campaigns()->filter(['applicant_status' => ApplicationStatus::COMPLETED->value])->count(),
         ];
         return view('mypage.campaigns', compact('campaigns', 'countData'));
     }

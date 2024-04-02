@@ -24,7 +24,8 @@ class CampaignApplicationController extends Controller
      */
     public function create(Campaign $campaign)
     {
-        return view('campaign.application.create', compact('campaign'));
+        $campaignApplication = new CampaignApplication();
+        return view('campaign.application.create', compact('campaign', 'campaignApplication'));
     }
 
     /**
@@ -111,7 +112,8 @@ class CampaignApplicationController extends Controller
      */
     public function edit(Campaign $campaign, CampaignApplication $campaignApplication)
     {
-        //
+//        dd($campaignApplication->applicationValues);
+        return view('campaign.application.edit', compact('campaign', 'campaignApplication'));
     }
 
     /**
