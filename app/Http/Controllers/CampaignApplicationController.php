@@ -5,11 +5,17 @@ namespace App\Http\Controllers;
 use App\Enums\Campaign\ApplicationStatus;
 use App\Models\Campaign;
 use App\Models\CampaignApplication;
+use App\Services\CampaignApplicationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CampaignApplicationController extends Controller
 {
+    public $service;
+    public function __construct(CampaignApplicationService $service)
+    {
+        $this->service = $service;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -33,70 +39,9 @@ class CampaignApplicationController extends Controller
      */
     public function store(Request $request, Campaign $campaign)
     {
-        $rules = [
-            'name' => ['required', 'string'],
-            'birthdate' => ['required'],
-            'sex' => ['required'],
-            'phone' => ['required'],
-            'portrait_right_consent' => ['nullable'],
-            'base_right_consent' => ['required', 'boolean'],
-            'shipping_name' => ['nullable'],
-            'shipping_phone' => ['nullable'],
-            'address' => ['nullable'],
-            'address_detail' => ['nullable'],
-            'address_extra' => ['nullable'],
-            'address_postcode' => ['nullable'],
-        ];
-
-        if($request->input('portrait_right_consent')){
-            $rules['portrait_right_consent'] = ['nullable', 'boolean'];
-        }
-
-        $validated = $request->validate($rules);
-
-        $validated['status'] = ApplicationStatus::APPLIED->value;
-        $validated['campaign_id'] = $campaign->id;
-
-        DB::beginTransaction();
-        try {
-
-            $updateUserData = [];
-            if(!$request->user()->birthdate){
-                $updateUserData['birthdate'] = $validated['birthdate'];
-            }
-
-            if(!$request->user()->sex){
-                $updateUserData['sex'] = $validated['sex'];
-            }
-
-            if(!$request->user()->phone){
-                $updateUserData['phone'] = $validated['phone'];
-                $updateUserData['phone_verified_at'] = null;
-            }
-
-            if($updateUserData){
-                $request->user()->update($updateUserData);
-            }
-
-            $application = $request->user()->applications()->create($validated);
-            if($request->input('application_field')){
-                $request->validate([
-                    'application_field.*.value' => ['required']
-                ]);
-                foreach ($request->input('application_field') as $index => $item) {
-                    $application->applicationValues()->create([
-                        'campaign_application_field_id' => $item['id'],
-                        'value' => $item['value'],
-                    ]);
-                }
-            }
-
-            DB::commit();
-            return $application;
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
+        $campaignApplication = new CampaignApplication();
+        $application = $this->service->upsert($campaign, $campaignApplication);
+        return redirect()->route('campaign.show', [$campaign]);
     }
 
     /**
@@ -104,7 +49,7 @@ class CampaignApplicationController extends Controller
      */
     public function show(Campaign $campaign, CampaignApplication $campaignApplication)
     {
-
+        dd('신청 완료!');
     }
 
     /**
@@ -126,6 +71,9 @@ class CampaignApplicationController extends Controller
         if(!auth()->user()->can('update', $campaignApplication)){
             abort(403);
         }
+
+        $application = $this->service->upsert($campaign, $campaignApplication);
+        return redirect()->route('campaign.application.edit', [$campaign, $campaignApplication]);
     }
 
     /**
