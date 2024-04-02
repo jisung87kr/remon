@@ -112,7 +112,9 @@ class CampaignApplicationController extends Controller
      */
     public function edit(Campaign $campaign, CampaignApplication $campaignApplication)
     {
-//        dd($campaignApplication->applicationValues);
+        if(!auth()->user()->can('update', $campaignApplication)){
+            abort(403);
+        }
         return view('campaign.application.edit', compact('campaign', 'campaignApplication'));
     }
 
@@ -121,7 +123,9 @@ class CampaignApplicationController extends Controller
      */
     public function update(Request $request, Campaign $campaign, CampaignApplication $campaignApplication)
     {
-        //
+        if(!auth()->user()->can('update', $campaignApplication)){
+            abort(403);
+        }
     }
 
     /**

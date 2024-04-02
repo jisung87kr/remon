@@ -522,7 +522,7 @@
                     </div>
                 </div>
             </div>
-            <x-campaign.sidecar :campaign="$campaign" :useThumbnail="true"></x-campaign.sidecar>
+            <x-campaign.sidecar :campaign="$campaign" :useThumbnail="true" :campaignApplication="$campaignApplication"></x-campaign.sidecar>
         </div>
     </form>
 </div>

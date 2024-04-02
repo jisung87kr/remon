@@ -88,14 +88,8 @@ Route::middleware([
     Route::post('/campaigns/{campaign}/applications', [CampaignApplicationController::class, 'store'])->name('campaign.application.store');
     Route::get('/campaigns/{campaign}/applications/{campaignApplication}', [CampaignApplicationController::class, 'show'])->name('campaign.application.show');
     Route::get('/campaigns/{campaign}/applications/{campaignApplication}/edit', [CampaignApplicationController::class, 'edit'])->name('campaign.application.edit');
-    Route::post('/campaigns/{campaign}/applications/{campaignApplication}', [CampaignApplicationController::class, 'update'])->name('campaign.application.update');
+    Route::put('/campaigns/{campaign}/applications/{campaignApplication}', [CampaignApplicationController::class, 'update'])->name('campaign.application.update');
     Route::any('/campaigns/{campaign}/applications/{campaignApplication}/cancel', [CampaignApplicationController::class, 'cancel'])->name('campaign.application.cancel');
-
-//    Route::delete('/user/{user}/campaign_favorites', function(Request $request){
-//        $campaignId = $request->input('campaignId');
-//        $campaign = Campaign::find($campaignId);
-//        $request->user()->campaignFavorites()->detach($campaign);
-//    });
 
     Route::prefix('/mypage')->name('mypage.')->group(function(){
         Route::get('/campaigns', [CampaignMypageController::class, 'campaigns'])->name('campaign');

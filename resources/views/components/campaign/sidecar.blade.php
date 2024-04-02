@@ -1,4 +1,4 @@
-@props(['campaign' => $campaign, 'useLink' => false, 'useThumbnail' => false])
+@props(['campaign' => $campaign, 'useLink' => false, 'useThumbnail' => false, 'campaignApplication' => $campaignApplication])
 <div class="col-span-8 lg:col-span-2">
     <div class="lg:sticky lg:top-0">
         @if($useThumbnail)
@@ -70,20 +70,26 @@
         </div>
         @endif
         <div class="py-6">
-            @if(request()->route()->getName() === 'campaign.application.create')
+            @if(request()->route()->getName() === 'campaign.application.index')
+                @if(auth()->user() && auth()->user()->getApplication($campaign))
+                    <a href="#" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">신청한 캠페인 입니다</a>
+                @else
+                    <a href="{{ route('campaign.application.index', $campaign) }}" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">캠페인 신청하기</a>
+                @endif
+            @else
                 <div class="mb-6">
                     @if($campaign->hasPortraitRightConsent)
-                    <div class="my-2 flex gap-3">
-                        <input type="checkbox" name="portrait_right_consent" class="form-check mt-1" id="portrait_right_consent" value="1" required>
-                        <div>
-                            <label for="portrait_right_consent" class="text-sm text-gray-700">초상권 활용에 동의 합니다.</label>
-                            <a href="" class="block underline text-sm text-gray-500 mt-2" target="_blank">자세히보기</a>
+                        <div class="my-2 flex gap-3">
+                            <input type="checkbox" name="portrait_right_consent" class="form-check mt-1" id="portrait_right_consent" value="1" required @checked(old('portrait_right_consent', $campaignApplication->portrait_right_consent) == 1)>
+                            <div>
+                                <label for="portrait_right_consent" class="text-sm text-gray-700">초상권 활용에 동의 합니다.</label>
+                                <a href="" class="block underline text-sm text-gray-500 mt-2" target="_blank">자세히보기</a>
+                            </div>
+                            <x-input-error for="portrait_right_consent" class="mt-1"></x-input-error>
                         </div>
-                        <x-input-error for="portrait_right_consent" class="mt-1"></x-input-error>
-                    </div>
                     @endif
                     <div class="my-2 flex gap-3">
-                        <input type="checkbox" name="base_right_consent" class="form-check mt-1" id="base_right_consent" value="1" required>
+                        <input type="checkbox" name="base_right_consent" class="form-check mt-1" id="base_right_consent" value="1" required @checked(old('base_right_consent', $campaignApplication->base_right_consent) == 1)>
                         <div>
                             <label for="base_right_consent" class="text-sm text-gray-700">캠페인 유의사항, 개인정보 및 콘텐츠 제3자 제공, 저작물 이용에 동의합니다.</label>
                             <a href="" class="block underline text-sm text-gray-500 mt-2" target="_blank">자세히보기</a>
@@ -93,14 +99,11 @@
                 </div>
                 @if(auth()->user() && auth()->user()->getApplication($campaign))
                     <a href="#" class="bg-indigo-900 text-white px-5 py-4 block text-center font-bold w-full">신청한 캠페인 입니다</a>
+                    @if(auth()->user()->can('update', $campaignApplication))
+                        <button type="submit" class="mt-3 bg-orange-600 text-white px-5 py-4 block text-center font-bold w-full">수정완료</button>
+                    @endif
                 @else
                     <button type="submit" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">캠페인 신청하기</button>
-                @endif
-            @else
-                @if(auth()->user() && auth()->user()->getApplication($campaign))
-                    <a href="#" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">신청한 캠페인 입니다</a>
-                @else
-                    <a href="{{ route('campaign.application.index', $campaign) }}" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">캠페인 신청하기</a>
                 @endif
             @endif
         </div>
