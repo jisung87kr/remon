@@ -37,7 +37,7 @@
                         <x-nav.label>캠페인</x-nav.label>
                     </x-slot>
                     <x-slot name="group">
-                        <x-nav.item href="{{ route('admin.campaigns.index') }}" :active="request()->routeIs('admin.campaigns.index')">캠페인 관리</x-nav.item>
+                        <x-nav.item href="{{ route('admin.campaign.index') }}" :active="request()->routeIs('admin.campaign.index')">캠페인 관리</x-nav.item>
                         <x-nav.item href="./">신청 관리</x-nav.item>
                     </x-slot>
                 </x-nav.index>

@@ -55,10 +55,10 @@
         <div class="mb-6">
             <div class="font-bold text-lg py-4 border-b">활동관리</div>
             <ul>
-                <li class="py-4 border-b"><a href="{{ route('mypage.campaigns') }}" class="{{ request()->routeIs('mypage.campaigns') ? 'active font-bold' : '' }}">나의 캠페인</a></li>
-                <li class="py-4 border-b"><a href="{{ route('mypage.favorites') }}" class="{{ request()->routeIs('mypage.favorites') ? 'active font-bold' : '' }}">관심 캠페인</a></li>
-                <li class="py-4 border-b"><a href="{{ route('mypage.reviews') }}" class="{{ request()->routeIs('mypage.reviews') ? 'active font-bold' : '' }}">등록 콘텐츠</a></li>
-                <li class="py-4 border-b"><a href="{{ route('mypage.messages') }}" class="{{ request()->routeIs('mypage.messages') ? 'active font-bold' : '' }}">받은 메세지</a></li>
+                <li class="py-4 border-b"><a href="{{ route('mypage.campaign') }}" class="{{ request()->routeIs('mypage.campaign') ? 'active font-bold' : '' }}">나의 캠페인</a></li>
+                <li class="py-4 border-b"><a href="{{ route('mypage.favorite') }}" class="{{ request()->routeIs('mypage.favorite') ? 'active font-bold' : '' }}">관심 캠페인</a></li>
+                <li class="py-4 border-b"><a href="{{ route('mypage.review') }}" class="{{ request()->routeIs('mypage.review') ? 'active font-bold' : '' }}">등록 콘텐츠</a></li>
+                <li class="py-4 border-b"><a href="{{ route('mypage.message') }}" class="{{ request()->routeIs('mypage.message') ? 'active font-bold' : '' }}">받은 메세지</a></li>
             </ul>
         </div>
         <div class=" mb-6">

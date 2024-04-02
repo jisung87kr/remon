@@ -23,12 +23,8 @@ use App\Http\Controllers\Mymapge\CampaignMypageController;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
-Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaigns.index');
-Route::get('/campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaigns.show');
-
-Route::get('/campaigns/{campaign}/applications', function(Campaign $campaign){
-    return view('campaign.applications', compact('campaign'));
-})->name('campaigns.applications');
+Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaign.index');
+Route::get('/campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaign.show');
 
 Route::get('/brandzone/{brandzone}', function($brandzone){
     return view('campaign.brandzone');
@@ -87,8 +83,12 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/campaigns/{campaign}/application', [CampaignApplicationController::class, 'index'])->name('campaigns.application.index');
-    Route::post('/campaigns/{campaign}/application', [CampaignApplicationController::class, 'store'])->name('campaigns.application.post');
+    Route::get('/campaigns/{campaign}/applications', [CampaignApplicationController::class, 'index'])->name('campaign.application.index');
+    Route::get('/campaigns/{campaign}/applications/create', [CampaignApplicationController::class, 'create'])->name('campaign.application.create');
+    Route::post('/campaigns/{campaign}/applications', [CampaignApplicationController::class, 'store'])->name('campaign.application.store');
+    Route::get('/campaigns/{campaign}/applications/{campaignApplication}', [CampaignApplicationController::class, 'show'])->name('campaign.application.show');
+    Route::post('/campaigns/{campaign}/applications/{campaignApplication}', [CampaignApplicationController::class, 'update'])->name('campaign.application.update');
+    Route::any('/campaigns/{campaign}/applications/{campaignApplication}/cancel', [CampaignApplicationController::class, 'cancel'])->name('campaign.application.cancel');
 
 //    Route::delete('/user/{user}/campaign_favorites', function(Request $request){
 //        $campaignId = $request->input('campaignId');
@@ -97,16 +97,16 @@ Route::middleware([
 //    });
 
     Route::prefix('/mypage')->name('mypage.')->group(function(){
-        Route::get('/campaigns', [CampaignMypageController::class, 'campaigns'])->name('campaigns');
+        Route::get('/campaigns', [CampaignMypageController::class, 'campaigns'])->name('campaign');
 
-        Route::get('/favorites', [CampaignMypageController::class, 'favorites'])->name('favorites');
+        Route::get('/favorites', [CampaignMypageController::class, 'favorites'])->name('favorite');
 
         Route::get('/reviews', function(){
-            return view('mypage.reviews');
+            return view('mypage.review');
         })->name('reviews');
 
         Route::get('/messages', function(){
-            return view('mypage.messages');
+            return view('mypage.message');
         })->name('messages');
 
         Route::get('/profile', function(){

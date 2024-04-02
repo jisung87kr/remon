@@ -68,7 +68,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="relative">
-                        <a href="{{ route('campaigns.show', 1) }}" class="overflow-hidden rounded block">
+                        <a href="{{ route('campaign.show', 1) }}" class="overflow-hidden rounded block">
                             <img src="https://placeholder.co/300x300" alt="">
                         </a>
                         <button class="absolute right-3 top-3">

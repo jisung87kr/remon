@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Campaign\ApplicationStatus;
 use App\Models\Campaign;
+use App\Models\CampaignApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,15 +15,16 @@ class CampaignApplicationController extends Controller
      */
     public function index(Campaign $campaign)
     {
+//        return view('campaign.application.index', compact('campaign'));
         return view('campaign.application.index', compact('campaign'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Campaign $campaign)
     {
-        //
+        return view('campaign.application.create', compact('campaign'));
     }
 
     /**
@@ -99,15 +101,15 @@ class CampaignApplicationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Campaign $campaign, CampaignApplication $campaignApplication)
     {
-        //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Campaign $campaign, CampaignApplication $campaignApplication)
     {
         //
     }
@@ -115,7 +117,7 @@ class CampaignApplicationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Campaign $campaign, CampaignApplication $campaignApplication)
     {
         //
     }
@@ -123,8 +125,12 @@ class CampaignApplicationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Campaign $campaign, CampaignApplication $campaignApplication)
     {
         //
+    }
+
+    public function cancel(Request $request, Campaign $campaign, CampaignApplication $campaignApplication){
+        dd($campaignApplication);
     }
 }

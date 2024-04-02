@@ -62,7 +62,7 @@ class CampaignController extends Controller
     public function store(Request $request)
     {
         $campaign = $this->campaignService->upsert();
-        $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaigns.show' : 'campaigns.show';
+        $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaign.show' : 'campaign.show';
         return redirect()->route($routeName, $campaign);
     }
 
@@ -96,7 +96,7 @@ class CampaignController extends Controller
     public function update(Request $request, Campaign $campaign)
     {
         $this->campaignService->upsert();
-        $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaigns.edit' : 'campaigns.show';
+        $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaigns.edit' : 'campaign.show';
         return redirect()->route($routeName, $campaign);
     }
 
@@ -106,7 +106,7 @@ class CampaignController extends Controller
     public function destroy(Campaign $campaign)
     {
         $campaign->delete();
-        $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaigns.index' : 'campaigns.index';
+        $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaign.index' : 'campaign.index';
         return redirect()->route($routeName);
     }
 }

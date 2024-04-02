@@ -12,31 +12,31 @@
                 <img src="{{ Vite::asset('resources/images/category/category-guide.png') }}" alt="">
                 <div class="mt-2">이용가이드</div>
             </a>
-            <a href="{{ route('campaigns.index', ['type' => ['맛집']]) }}" class="text-center">
+            <a href="{{ route('campaign.index', ['type' => ['맛집']]) }}" class="text-center">
                 <img src="{{ Vite::asset('resources/images/category/category-restaurant.png') }}" alt="">
                 <div class="mt-2">맛집</div>
             </a>
-            <a href="{{ route('campaigns.index', ['type' => ['뷰티']]) }}" class="text-center">
+            <a href="{{ route('campaign.index', ['type' => ['뷰티']]) }}" class="text-center">
                 <img src="{{ Vite::asset('resources/images/category/category-beauty.png') }}" alt="">
                 <div class="mt-2">뷰티</div>
             </a>
-            <a href="{{ route('campaigns.index', ['type' => ['숙박']]) }}" class="text-center">
+            <a href="{{ route('campaign.index', ['type' => ['숙박']]) }}" class="text-center">
                 <img src="{{ Vite::asset('resources/images/category/category-travel.png') }}" alt="">
                 <div class="mt-2">여행</div>
             </a>
-            <a href="{{ route('campaigns.index', ['type' => ['문화']]) }}" class="text-center">
+            <a href="{{ route('campaign.index', ['type' => ['문화']]) }}" class="text-center">
                 <img src="{{ Vite::asset('resources/images/category/category-culture.png') }}" alt="">
                 <div class="mt-2">문화</div>
             </a>
-            <a href="{{ route('campaigns.index', ['product' => ['식품']]) }}" class="text-center">
+            <a href="{{ route('campaign.index', ['product' => ['식품']]) }}" class="text-center">
                 <img src="{{ Vite::asset('resources/images/category/category-food.png') }}" alt="">
                 <div class="mt-2">식품</div>
             </a>
-            <a href="{{ route('campaigns.index', ['product' => ['생활']]) }}" class="text-center">
+            <a href="{{ route('campaign.index', ['product' => ['생활']]) }}" class="text-center">
                 <img src="{{ Vite::asset('resources/images/category/category-life.png') }}" alt="">
                 <div class="mt-2">생활</div>
             </a>
-            <a href="{{ route('campaigns.index', ['product' => ['디지털']]) }}" class="text-center">
+            <a href="{{ route('campaign.index', ['product' => ['디지털']]) }}" class="text-center">
                 <img src="{{ Vite::asset('resources/images/category/category-digital.png') }}" alt="">
                 <div class="mt-2">디지털</div>
             </a>

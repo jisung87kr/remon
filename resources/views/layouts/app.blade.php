@@ -24,7 +24,7 @@
             <header class="p-6 flex container mx-auto justify-between items-center">
                 <div class="flex content-center items-baseline">
                     <a href="/" class="mr-5 font-bold">REMON</a>
-                    <form action="{{ route('campaigns.index') }}">
+                    <form action="{{ route('campaign.index') }}">
                         <div class="relative">
                             <input type="text"
                                    name="search"
@@ -69,10 +69,10 @@
                                     {{ __('Manage Account') }}
                                 </div>
 
-                                <x-dropdown-link href="{{ route('mypage.campaigns') }}">
+                                <x-dropdown-link href="{{ route('mypage.campaign') }}">
                                     {{ __('나의 캠페인') }}
                                 </x-dropdown-link>
-                                <x-dropdown-link href="{{ route('mypage.favorites') }}">
+                                <x-dropdown-link href="{{ route('mypage.favorite') }}">
                                     {{ __('관심 캠페인') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link href="{{ route('mypage.point') }}">
@@ -115,13 +115,13 @@
                     <nav>
                         <ul class="flex gap-y-5 gap-x-8">
                             <li class="font-bold">
-                                <a href="{{ route('campaigns.index') }}" class="{{ request()->routeIs('campaigns.index') && (empty(request()->input('campaign_type')) || count(request()->input('campaign_type', [])) == 2) ? 'text-indigo-500' : '' }}">전체 캠페인</a>
+                                <a href="{{ route('campaign.index') }}" class="{{ request()->routeIs('campaign.index') && (empty(request()->input('campaign_type')) || count(request()->input('campaign_type', [])) == 2) ? 'text-indigo-500' : '' }}">전체 캠페인</a>
                             </li>
                             <li class="font-bold">
-                                <a href="{{ route('campaigns.index', ['campaign_type' => ['방문형']]) }}" class="{{ request()->routeIs('campaigns.index') && count(request()->input('campaign_type', [])) == 1 && in_array('방문형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">방문형 캠페인</a>
+                                <a href="{{ route('campaign.index', ['campaign_type' => ['방문형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('방문형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">방문형 캠페인</a>
                             </li>
                             <li class="font-bold">
-                                <a href="{{ route('campaigns.index', ['campaign_type' => ['배송형']]) }}" class="{{ request()->routeIs('campaigns.index') && count(request()->input('campaign_type', [])) == 1 && in_array('배송형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">배송형 캠페인</a>
+                                <a href="{{ route('campaign.index', ['campaign_type' => ['배송형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('배송형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">배송형 캠페인</a>
                             </li>
 
                             <li class="font-bold"><a href="{{ route('event') }}" class="{{ request()->routeIs('event') ? 'text-indigo-500' : '' }}">이벤트</a></li>

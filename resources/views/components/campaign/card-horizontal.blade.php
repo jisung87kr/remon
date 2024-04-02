@@ -5,7 +5,7 @@
             $routeName = 'admin.campaigns.edit';
         break;
         default:
-            $routeName = 'campaigns.show';
+            $routeName = 'campaign.show';
         break;
     }
 @endphp

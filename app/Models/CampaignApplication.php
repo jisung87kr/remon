@@ -12,17 +12,12 @@ class CampaignApplication extends Model
 {
     use HasFactory;
 
-    protected $table = 'campaign_applications';
+//    protected $table = 'campaign_applications';
     protected $guarded = [];
 
     public function applicationValues()
     {
         return $this->hasMany(CampaignApplicationValue::class, 'campaign_application_id', 'id');
-    }
-
-    public function hasApplication()
-    {
-
     }
 
     public function scopeFilter(Builder $query, array $filter)
