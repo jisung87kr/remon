@@ -40,6 +40,11 @@ class CampaignApplicationPolicy
         return $user->id === $campaignApplication->user_id;
     }
 
+    public function cancel(User $user, CampaignApplication $campaignApplication): bool
+    {
+        return $user->id === $campaignApplication->user_id;
+    }
+
     /**
      * Determine whether the user can delete the model.
      */

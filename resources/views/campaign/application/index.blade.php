@@ -6,9 +6,10 @@
                     <h1 class="font-bold text-[32px] my-3">[전국] 명륜진사갈비</h1>
                 </div>
                 <div class="mt-6 border-b mb-6 flex">
-                    <a href="{{ route('campaign.show', 1) }}" class="block px-5 py-3 text-gray-500">캠페인 정보</a>
-                    <a href="{{ route('campaign.application.index', 1) }}" class="block px-5 py-3 border-b-2 border-indigo-400">
-                        <span class="font-bold">신청자 </span><span class="font-bold">4,000</span><span>/</span><span>100</span>
+                    <a href="{{ route('campaign.show', $campaign) }}" class="block px-5 py-3 text-gray-500">캠페인 정보</a>
+                    <a href="{{ route('campaign.application.index', $campaign) }}" class="block px-5 py-3 border-b-2 border-indigo-400">
+                        <span class="font-bold">신청자 </span><span class="font-bold">{{ number_format($campaign->applications()->count()) }}</span><span>/</span><span>{{ number_format($campaign->application_limit) }}</span>
+
                     </a>
                 </div>
                 <div>
@@ -22,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <x-campaign.sidecar :campaign="$campaign" :useThumbnail="true"></x-campaign.sidecar>
+            <x-campaign.sidecar :campaign="$campaign" :useThumbnail="true" :campaignApplication="$campaignApplication"></x-campaign.sidecar>
         </div>
     </div>
     <script>

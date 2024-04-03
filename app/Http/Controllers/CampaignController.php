@@ -72,7 +72,7 @@ class CampaignController extends Controller
      */
     public function show(Campaign $campaign)
     {
-        $campaignApplication = new CampaignApplication();
+        $campaignApplication = auth()->user()->getApplication($campaign) ??  new CampaignApplication();
         $viewName = request()->route()->getPrefix() === 'admin/' ? 'campaign.show' : 'campaign.show';
         return view($viewName, compact('campaign', 'campaignApplication'));
     }

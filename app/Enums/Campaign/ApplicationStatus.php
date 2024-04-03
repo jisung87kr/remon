@@ -4,6 +4,7 @@ namespace App\Enums\Campaign;
 enum ApplicationStatus: string
 {
     case APPLIED = 'applied';
+    case CANCELED = 'canceled';
     case APPROVED = 'approved';
     case REJECTED = 'rejected';
     case PENDING = 'pending';
@@ -14,6 +15,7 @@ enum ApplicationStatus: string
     {
         return match ($this){
             ApplicationStatus::APPLIED => '신청됨',
+            ApplicationStatus::CANCELED => '취소됨',
             ApplicationStatus::APPROVED => '승인됨',
             ApplicationStatus::REJECTED => '거절됨',
             ApplicationStatus::PENDING => '대기중',

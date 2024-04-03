@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Campaign\ApplicationStatus;
+use App\Http\Resources\Response;
 use App\Models\Campaign;
 use App\Models\CampaignApplication;
 use App\Services\CampaignApplicationService;
@@ -21,8 +22,8 @@ class CampaignApplicationController extends Controller
      */
     public function index(Campaign $campaign)
     {
-//        return view('campaign.application.index', compact('campaign'));
-        return view('campaign.application.index', compact('campaign'));
+        $campaignApplication = auth()->user()->getApplication($campaign) ??  new CampaignApplication();
+        return view('campaign.application.index', compact('campaign', 'campaignApplication'));
     }
 
     /**
@@ -30,7 +31,10 @@ class CampaignApplicationController extends Controller
      */
     public function create(Campaign $campaign)
     {
-        $campaignApplication = new CampaignApplication();
+        $campaignApplication = auth()->user()->getApplication($campaign) ??  new CampaignApplication();
+        if($campaignApplication->id){
+            return redirect()->route('campaign.application.edit', [$campaign, $campaignApplication]);
+        }
         return view('campaign.application.create', compact('campaign', 'campaignApplication'));
     }
 
@@ -39,7 +43,7 @@ class CampaignApplicationController extends Controller
      */
     public function store(Request $request, Campaign $campaign)
     {
-        $campaignApplication = new CampaignApplication();
+        $campaignApplication = auth()->user()->getApplication($campaign) ??  new CampaignApplication();
         $application = $this->service->upsert($campaign, $campaignApplication);
         return redirect()->route('campaign.show', [$campaign]);
     }
@@ -85,6 +89,15 @@ class CampaignApplicationController extends Controller
     }
 
     public function cancel(Request $request, Campaign $campaign, CampaignApplication $campaignApplication){
-        dd($campaignApplication);
+        if(!auth()->user()->can('cancel', $campaignApplication)){
+            return response()->json(new Response(Response::ERROR, '캔페인 신청서 취소 권한이 없습니다.', ''), 403);
+        }
+
+        $result = $campaignApplication->update(['status' => ApplicationStatus::CANCELED->value]);
+        if($result){
+            return response()->json(new Response(Response::SUCCESS, '캔페인 신청서 취소 성공', ''));
+        } else {
+            return response()->json(new Response(Response::ERROR, '캔페인 신청서 취소 실패', ''), 500);
+        }
     }
 }

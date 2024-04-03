@@ -26,9 +26,9 @@
                     </div>
                 </div>
                 <div class="mt-6 border-b mb-6 flex">
-                    <a href="{{ route('campaign.show', 1) }}"
+                    <a href="{{ route('campaign.show', $campaign) }}"
                        class="block px-5 py-3 border-b-2 border-indigo-400 font-bold">캠페인 정보</a>
-                    <a href="{{ route('campaign.application.index', 1) }}" class="block px-5 py-3 text-gray-500">
+                    <a href="{{ route('campaign.application.index', $campaign) }}" class="block px-5 py-3 text-gray-500">
                         <span>신청자 </span><span
                                 class="font-bold">{{ number_format($campaign->applications()->count()) }}</span><span>/</span><span>{{ number_format($campaign->application_limit) }}</span>
                     </a>

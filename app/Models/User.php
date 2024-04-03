@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Campaign\ApplicationStatus;
 use App\Enums\MediaConnectedStatusEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -95,7 +96,9 @@ class User extends Authenticatable
 
     public function applications()
     {
-        return $this->hasMany(CampaignApplication::class, 'user_id', 'id');
+        return $this->hasMany(CampaignApplication::class, 'user_id', 'id')
+            ->whereNot('status', ApplicationStatus::CANCELED->value)
+            ->orderBy('id', 'desc');
     }
 
     public function campaignFavorites()
@@ -116,7 +119,7 @@ class User extends Authenticatable
 
     public function getApplication(Campaign $campaign)
     {
-        return $this->campaigns()->where('campaign_id', $campaign->id)->first();
+        return $this->applications()->where('campaign_id', $campaign->id)->whereNot('status', ApplicationStatus::CANCELED->value)->first();
     }
 
     public function favoriteCampaignIds(): Attribute
