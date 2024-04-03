@@ -196,7 +196,7 @@
                     </div>
                 </div>
             </div>
-            <x-campaign.sidecar :campaign="$campaign" :useLink="true"></x-campaign.sidecar>
+            <x-campaign.sidecar :campaign="$campaign" :useLink="true" :campaignApplication="$campaignApplication"></x-campaign.sidecar>
         </div>
     </div>
     <script>

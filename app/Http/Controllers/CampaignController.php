@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Campaign;
+use App\Models\CampaignApplication;
 use App\Models\CampaignType;
 use App\Models\Category;
 use App\Models\Mission;
@@ -71,8 +72,9 @@ class CampaignController extends Controller
      */
     public function show(Campaign $campaign)
     {
+        $campaignApplication = new CampaignApplication();
         $viewName = request()->route()->getPrefix() === 'admin/' ? 'campaign.show' : 'campaign.show';
-        return view($viewName, compact('campaign'));
+        return view($viewName, compact('campaign', 'campaignApplication'));
     }
 
     /**
