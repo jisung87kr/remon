@@ -242,9 +242,7 @@ class Campaign extends Model
         });
 
         $query->when($filter['application_status'] ?? false, function($query, $status){
-            $query->whereHas('applications', function($query) use ($status){
-                $query->where('campaign_applications.status', $status);
-            });
+            $query->where('campaign_applications.status', $status);
         });
     }
 

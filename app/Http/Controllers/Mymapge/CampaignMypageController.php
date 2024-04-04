@@ -17,15 +17,15 @@ class CampaignMypageController extends Controller
             'type'          => $request->input('type'),
             'product'       => $request->input('product'),
             'location'      => $request->input('location'),
-            'applicant_status' => $request->input('status'),
+            'application_status' => $request->input('status'),
         ];
 
         $campaigns = auth()->user()->campaigns()->filter($filter)->paginate(10);
         $countData = [
-            'appliedCount' => auth()->user()->campaigns()->filter(['applicant_status' => ApplicationStatus::APPLIED->value])->count(),
-            'approvedCount' => auth()->user()->campaigns()->filter(['applicant_status' => ApplicationStatus::APPROVED->value])->count(),
-            'postedCount' => auth()->user()->campaigns()->filter(['applicant_status' => ApplicationStatus::POSTED->value])->count(),
-            'completedCount' => auth()->user()->campaigns()->filter(['applicant_status' => ApplicationStatus::COMPLETED->value])->count(),
+            'appliedCount' => auth()->user()->campaigns()->filter(['application_status' => ApplicationStatus::APPLIED->value])->count(),
+            'approvedCount' => auth()->user()->campaigns()->filter(['application_status' => ApplicationStatus::APPROVED->value])->count(),
+            'postedCount' => auth()->user()->campaigns()->filter(['application_status' => ApplicationStatus::POSTED->value])->count(),
+            'completedCount' => auth()->user()->campaigns()->filter(['application_status' => ApplicationStatus::COMPLETED->value])->count(),
         ];
         return view('mypage.campaigns', compact('campaigns', 'countData'));
     }
