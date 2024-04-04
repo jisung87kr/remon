@@ -271,7 +271,7 @@
                                 <div class="application-category-title">신청 옵션을 입력해주세요.</div>
                                 @foreach($campaign->applicationFields as $field)
                                     @php
-                                        $applicantionValue = App\Helper\CommonHelper::findApplicationFieldValue($campaignApplication->applicationValues, $field);
+                                        $applicantionValue = App\Helper\CommonHelper::findApplicationFieldValue($campaignApplication->applicationValues ?? [], $field);
                                         $value = old("application_field[{{ $field->id }}][value]", $applicantionValue->value ?? '' );
                                     @endphp
                                     <input type="hidden" name="application_field[{{ $field->id }}][id]" value="{{ $field->id }}">
@@ -414,12 +414,12 @@
                                     addressList: @json(auth()->user()->shippingAddresses),
                                     application: @json($campaignApplication),
                                     address: {
-                                      address: '{{ old('address', $campaignApplication->address) ?? '' }}',
-                                      addressDetail: '{{ old('address_detail', $campaignApplication->address_detail) ?? '' }}',
-                                      addressExtra: '{{ old('address_extra', $campaignApplication->address_extra) ?? '' }}',
-                                      addressPostcode: '{{ old('address_postcode', $campaignApplication->address_postcode) ?? '' }}',
-                                      shippingName: '{{ old('shipping_name', $campaignApplication->shipping_name) ?? '' }}',
-                                      shippingPhone: '{{ old('shipping_phone', $campaignApplication->shipping_phone) ?? '' }}',
+                                      address: '{{ old('address', $campaignApplication->address ?? '') ?? '' }}',
+                                      addressDetail: '{{ old('address_detail', $campaignApplication->address_detail ?? '') ?? '' }}',
+                                      addressExtra: '{{ old('address_extra', $campaignApplication->address_extra ?? '') ?? '' }}',
+                                      addressPostcode: '{{ old('address_postcode', $campaignApplication->address_postcode ?? '') ?? '' }}',
+                                      shippingName: '{{ old('shipping_name', $campaignApplication->shipping_name ?? '') ?? '' }}',
+                                      shippingPhone: '{{ old('shipping_phone', $campaignApplication->shipping_phone ?? '') ?? '' }}',
                                     },
                                     selectedId: null,
                                     readonly: true,

@@ -81,7 +81,7 @@
                 <div class="mb-6">
                     @if($campaign->hasPortraitRightConsent)
                         <div class="my-2 flex gap-3">
-                            <input type="checkbox" name="portrait_right_consent" class="form-check mt-1" id="portrait_right_consent" value="1" required @checked(old('portrait_right_consent', $campaignApplication->portrait_right_consent) == 1)>
+                            <input type="checkbox" name="portrait_right_consent" class="form-check mt-1" id="portrait_right_consent" value="1" required @checked(old('portrait_right_consent', $campaignApplication->portrait_right_consent ?? null) == 1)>
                             <div>
                                 <label for="portrait_right_consent" class="text-sm text-gray-700">초상권 활용에 동의 합니다.</label>
                                 <a href="" class="block underline text-sm text-gray-500 mt-2" target="_blank">자세히보기</a>
@@ -90,7 +90,7 @@
                         </div>
                     @endif
                     <div class="my-2 flex gap-3">
-                        <input type="checkbox" name="base_right_consent" class="form-check mt-1" id="base_right_consent" value="1" required @checked(old('base_right_consent', $campaignApplication->base_right_consent) == 1)>
+                        <input type="checkbox" name="base_right_consent" class="form-check mt-1" id="base_right_consent" value="1" required @checked(old('base_right_consent', $campaignApplication->base_right_consent ?? null) == 1)>
                         <div>
                             <label for="base_right_consent" class="text-sm text-gray-700">캠페인 유의사항, 개인정보 및 콘텐츠 제3자 제공, 저작물 이용에 동의합니다.</label>
                             <a href="" class="block underline text-sm text-gray-500 mt-2" target="_blank">자세히보기</a>

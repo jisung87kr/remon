@@ -32,7 +32,7 @@ class CampaignApplicationController extends Controller
     public function create(Campaign $campaign)
     {
         $campaignApplication = auth()->user() ? auth()->user()->getApplication($campaign) : new CampaignApplication();
-        if($campaignApplication->id){
+        if(isset($campaignApplication->id)){
             return redirect()->route('campaign.application.edit', [$campaign, $campaignApplication]);
         }
         return view('campaign.application.create', compact('campaign', 'campaignApplication'));
