@@ -22,7 +22,7 @@ class CampaignApplicationController extends Controller
      */
     public function index(Campaign $campaign)
     {
-        $campaignApplication = auth()->user()->getApplication($campaign) ??  new CampaignApplication();
+        $campaignApplication = auth()->user() ? auth()->user()->getApplication($campaign) : new CampaignApplication();
         return view('campaign.application.index', compact('campaign', 'campaignApplication'));
     }
 
@@ -31,7 +31,7 @@ class CampaignApplicationController extends Controller
      */
     public function create(Campaign $campaign)
     {
-        $campaignApplication = auth()->user()->getApplication($campaign) ??  new CampaignApplication();
+        $campaignApplication = auth()->user() ? auth()->user()->getApplication($campaign) : new CampaignApplication();
         if($campaignApplication->id){
             return redirect()->route('campaign.application.edit', [$campaign, $campaignApplication]);
         }
@@ -43,7 +43,7 @@ class CampaignApplicationController extends Controller
      */
     public function store(Request $request, Campaign $campaign)
     {
-        $campaignApplication = auth()->user()->getApplication($campaign) ??  new CampaignApplication();
+        $campaignApplication = auth()->user() ? auth()->user()->getApplication($campaign) : new CampaignApplication();
         $application = $this->service->upsert($campaign, $campaignApplication);
         return redirect()->route('campaign.show', [$campaign]);
     }
