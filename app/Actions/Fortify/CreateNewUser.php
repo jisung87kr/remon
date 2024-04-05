@@ -58,6 +58,9 @@ class CreateNewUser implements CreatesNewUsers
                     case AdminRoleEnum::ACCOUNTING_TEAM->value:
                         $user->assignRole(AdminRoleEnum::ACCOUNTING_TEAM->value);
                         break;
+                    case AdminRoleEnum::OPERATIONS_TEAM->value:
+                        $user->assignRole(AdminRoleEnum::OPERATIONS_TEAM->value);
+                        break;
                     default:
                         $user->assignRole(RoleEnum::GENERAL_USER->value);
                         break;

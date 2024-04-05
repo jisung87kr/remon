@@ -62,25 +62,25 @@
             @endforelse
         </div>
     </section>
-    <section id="remon_pick" class="container mx-auto p-6">
-        <h1 class="text-2xl font-bold mb-3">레몬's PICK</h1>
-        <div class="grid grid-cols-2 xl:grid-cols-4 gap-6">
-            @foreach(range(1, 4) as $key)
-                <div>
-                    <div>
-                        <div class="bg-gray-50 aspect-video"></div>
-                        <div class="font-bold mt-3 mb-1 text-lg">Happy new Year! 이니까</div>
-                        <div class="font-bold text-gray-500">맛집 캠페인</div>
-                    </div>
-                    <div class="mt-10">
-                        @foreach(range(1, 3) as $key2)
-                            <x-campaign.card-horizontal class="mt-3" :campaign="$campaign"></x-campaign.card-horizontal>
-                        @endforeach
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </section>
+{{--    <section id="remon_pick" class="container mx-auto p-6">--}}
+{{--        <h1 class="text-2xl font-bold mb-3">레몬's PICK</h1>--}}
+{{--        <div class="grid grid-cols-2 xl:grid-cols-4 gap-6">--}}
+{{--            @foreach(range(1, 4) as $key)--}}
+{{--                <div>--}}
+{{--                    <div>--}}
+{{--                        <div class="bg-gray-50 aspect-video"></div>--}}
+{{--                        <div class="font-bold mt-3 mb-1 text-lg">Happy new Year! 이니까</div>--}}
+{{--                        <div class="font-bold text-gray-500">맛집 캠페인</div>--}}
+{{--                    </div>--}}
+{{--                    <div class="mt-10">--}}
+{{--                        @foreach(range(1, 3) as $key2)--}}
+{{--                            <x-campaign.card-horizontal class="mt-3" :campaign="$campaign"></x-campaign.card-horizontal>--}}
+{{--                        @endforeach--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            @endforeach--}}
+{{--        </div>--}}
+{{--    </section>--}}
     <section id="kakaobanner" class="container mx-auto my-10 p-6">
         <a href="">
             <div class="bg-gray-50 flex items-center justify-center p-10">
@@ -91,26 +91,26 @@
             </div>
         </a>
     </section>
-    <section id="pendding_campaign" class="bg-gray-50">
-        <div class="container mx-auto px-6 py-32">
-            <div class="grid grid-cols-3 md:grid-cols-4 xl:grid-cols-6">
-                <div>
-                    <div class="mb-10">
-                        <div class="text-indigo-700 font-bold text-[32px]">777개</div>
-                        <div class="text-2xl">오픈예정 캠페인</div>
-                    </div>
-                    <div class="text-gray-500">❤️ 좋아요로 미리<br>찜해두고 신청해보세요.</div>
-                </div>
-                <div class="col-span-2 md:col-span-3 xl:col-span-5">
-                    <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
-                        @foreach(range(1, 5) as $key)
-                            <x-campaign.card-simple :campaign="$campaign"></x-campaign.card-simple>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+{{--    <section id="pendding_campaign" class="bg-gray-50">--}}
+{{--        <div class="container mx-auto px-6 py-32">--}}
+{{--            <div class="grid grid-cols-3 md:grid-cols-4 xl:grid-cols-6">--}}
+{{--                <div>--}}
+{{--                    <div class="mb-10">--}}
+{{--                        <div class="text-indigo-700 font-bold text-[32px]">777개</div>--}}
+{{--                        <div class="text-2xl">오픈예정 캠페인</div>--}}
+{{--                    </div>--}}
+{{--                    <div class="text-gray-500">❤️ 좋아요로 미리<br>찜해두고 신청해보세요.</div>--}}
+{{--                </div>--}}
+{{--                <div class="col-span-2 md:col-span-3 xl:col-span-5">--}}
+{{--                    <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">--}}
+{{--                        @foreach(range(1, 5) as $key)--}}
+{{--                            <x-campaign.card-simple :campaign="$campaign"></x-campaign.card-simple>--}}
+{{--                        @endforeach--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </section>--}}
 {{--    <section id="brandzone" class="container mx-auto my-12 p-6">--}}
 {{--        <h1 class="text-2xl font-bold mb-3">브랜드 존</h1>--}}
 {{--        <div class="grid grid-cols-2 xl:grid-cols-4 gap-6">--}}

@@ -25,5 +25,6 @@ class RoleSeeder extends Seeder
         $adminRole = Role::create(['name' => AdminRoleEnum::ADMIN->value]);
         $salesTeamRole = Role::create(['name' => AdminRoleEnum::SALES_TEAM->value]);
         $accountingTeamRole = Role::create(['name' => AdminRoleEnum::ACCOUNTING_TEAM->value]);
+        $operationsTeamRole = Role::create(['name' => AdminRoleEnum::OPERATIONS_TEAM->value]);
     }
 }
