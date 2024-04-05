@@ -3,12 +3,16 @@
 use App\Http\Controllers\CampaignApplicationController;
 use App\Models\Campaign;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CampaignMediaController;
 use App\Http\Controllers\Mymapge\CampaignMypageController;
+use App\Enums\Campaign\MediaEnum;
+use App\Enums\RoleEnum;
+use App\Enums\AdminRoleEnum;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,9 +121,9 @@ Route::middleware([
         })->name('profile.information');
 
         Route::get('/media', function(){
-            $blog = auth()->user()->medias()->where('media', \App\Enums\Campaign\MediaEnum::NAVER_BLOG)->first();
-            $instagram = auth()->user()->medias()->where('media', \App\Enums\Campaign\MediaEnum::INSTAGRAM)->first();
-            $youtube = auth()->user()->medias()->where('media', \App\Enums\Campaign\MediaEnum::YOUTUBE)->first();
+            $blog = auth()->user()->medias()->where('media', MediaEnum::NAVER_BLOG)->first();
+            $instagram = auth()->user()->medias()->where('media', MediaEnum::INSTAGRAM)->first();
+            $youtube = auth()->user()->medias()->where('media', MediaEnum::YOUTUBE)->first();
             return view('mypage.media', compact('blog', 'instagram', 'youtube'));
         })->name('media');
 
@@ -132,7 +136,9 @@ Route::middleware([
         })->name('point');
     });
 
-    Route::prefix('/admin')->name('admin.')->group(function(){
+    $adminRole = AdminRoleEnum::ADMIN->value;
+    $superAdminRole = AdminRoleEnum::SUPER_ADMIN->value;
+    Route::middleware("role:{$superAdminRole}|{$adminRole}")->prefix('/admin')->name('admin.')->group(function(){
         Route::get('/', function(){
             return view('admin.index');
         })->name('index');

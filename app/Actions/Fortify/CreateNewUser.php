@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
+use App\Enums\RoleEnum;
+use App\Enums\AdminRoleEnum;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -29,12 +31,37 @@ class CreateNewUser implements CreatesNewUsers
         ])->validate();
 
         return DB::transaction(function () use ($input) {
+            $role = $input['role'] ?? null;
+
             return tap(User::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
-            ]), function (User $user) {
+            ]), function (User $user) use ($role){
                 $this->createTeam($user);
+                switch ($role){
+                    case RoleEnum::BUSINESS_USER->value:
+                        $user->assignRole(RoleEnum::BUSINESS_USER->value);
+                        break;
+                    case RoleEnum::VENDOR_USER->value:
+                        $user->assignRole(RoleEnum::VENDOR_USER->value);
+                        break;
+                    case AdminRoleEnum::SUPER_ADMIN->value:
+                        $user->assignRole(AdminRoleEnum::SUPER_ADMIN->value);
+                        break;
+                    case AdminRoleEnum::ADMIN->value:
+                        $user->assignRole(AdminRoleEnum::ADMIN->value);
+                        break;
+                    case AdminRoleEnum::SALES_TEAM->value:
+                        $user->assignRole(AdminRoleEnum::SALES_TEAM->value);
+                        break;
+                    case AdminRoleEnum::ACCOUNTING_TEAM->value:
+                        $user->assignRole(AdminRoleEnum::ACCOUNTING_TEAM->value);
+                        break;
+                    default:
+                        $user->assignRole(RoleEnum::GENERAL_USER->value);
+                        break;
+                }
             });
         });
     }
