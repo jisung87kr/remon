@@ -13,6 +13,7 @@
 
         <!-- Scripts -->
         @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+        @vite(['resources/css/select2.min.css', 'resources/js/jquery-3.7.1.js', 'resources/js/select2.min.css'])
 
         <!-- Styles -->
         @livewireStyles
