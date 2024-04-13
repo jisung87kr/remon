@@ -13,6 +13,7 @@
 
     <!-- Scripts -->
     @vite(['resources/scss/admin.scss', 'resources/js/app.js'])
+    @vite(['resources/css/select2.min.css', 'resources/js/jquery-3.7.1.js', 'resources/js/select2.min.js'])
 
     <!-- Styles -->
     @livewireStyles
@@ -29,9 +30,7 @@
                 <a href="" class="text-2xl font-bold">REMON</a>
             </div>
             <ul class="nav">
-                <li class="nav-item nav-link">
-                    <a href="">카테고리 관리</a>
-                </li>
+                <li class="nav-title text-gray-500">캠페인</li>
                 <x-nav.index :active="request()->routeIs('admin.campaigns.*')">
                     <x-slot name="label">
                         <x-nav.label>캠페인</x-nav.label>
@@ -41,9 +40,32 @@
                         <x-nav.item href="./">신청 관리</x-nav.item>
                     </x-slot>
                 </x-nav.index>
+
                 <li class="nav-title text-gray-500">회원</li>
-                <li class="nav-item nav-link"><a href="">회원관리</a></li>
-                <li class="nav-item nav-link"><a href="">메세지</a></li>
+                <x-nav.index :active="request()->routeIs('admin.user.*')">
+                    <x-slot name="label">
+                        <x-nav.label>{{ \App\Enums\RoleEnum::GENERAL_USER->label() }}</x-nav.label>
+                    </x-slot>
+                    <x-slot name="group">
+                        <x-nav.item href="{{ route('admin.user.general.index') }}" :active="request()->routeIs('admin.user.general.index')">목록</x-nav.item>
+                        <x-nav.item href="{{ route('admin.user.general.index') }}" :active="request()->routeIs('admin.user.general.index')">메세지</x-nav.item>
+                    </x-slot>
+                </x-nav.index>
+                <x-nav.index :active="request()->routeIs('admin.user.*')">
+                    <x-slot name="label">
+                        <x-nav.label>{{ \App\Enums\RoleEnum::BUSINESS_USER->label() }}</x-nav.label>
+                    </x-slot>
+                    <x-slot name="group">
+                        <x-nav.item href="{{ route('admin.user.business.index') }}" :active="request()->routeIs('admin.user.business.index')">목록</x-nav.item>
+                        <x-nav.item href="{{ route('admin.user.general.index') }}" :active="request()->routeIs('admin.user.general.index')">메세지</x-nav.item>
+                    </x-slot>
+                </x-nav.index>
+
+                <li class="nav-title text-gray-500">설정</li>
+                <li class="nav-item nav-link">
+                    <a href="">카테고리 관리</a>
+                </li>
+                <li class="nav-item nav-link"><a href="">사이트 설정</a></li>
             </ul>
         </aside>
         <main id="main" class="container mx-auto h-full p-6 relative">

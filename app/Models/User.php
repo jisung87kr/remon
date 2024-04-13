@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Campaign\ApplicationStatus;
 use App\Enums\MediaConnectedStatusEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -136,5 +137,14 @@ class User extends Authenticatable
     public function isFavoriteCampaign(Campaign $campaign)
     {
         return in_array($campaign->id, $this->favoriteCampaignIds);
+    }
+
+    public function scopeFilter(Builder $query, array $filter)
+    {
+        $query->when($filter['role'] ?? false, function($query, $role){
+            $query->whereHas('roles', function($query) use ($role){
+                $query->where('name', $role);
+            });
+        });
     }
 }

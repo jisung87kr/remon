@@ -25,6 +25,10 @@ use App\Enums\AdminRoleEnum;
 |
 */
 
+Route::get('foo', function(){
+    return redirect()->route('admin.index');
+});
+
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaign.index');
@@ -134,15 +138,5 @@ Route::middleware([
         Route::get('/point', function(){
             return view('mypage.point');
         })->name('point');
-    });
-
-    $adminRole = AdminRoleEnum::ADMIN->value;
-    $superAdminRole = AdminRoleEnum::SUPER_ADMIN->value;
-    Route::middleware("role:{$superAdminRole}|{$adminRole}")->prefix('/admin')->name('admin.')->group(function(){
-        Route::get('/', function(){
-            return view('admin.index');
-        })->name('index');
-
-        Route::resource('/campaigns', CampaignController::class)->names('campaign');
     });
 });

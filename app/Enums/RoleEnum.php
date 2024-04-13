@@ -10,9 +10,9 @@ enum RoleEnum: string
     public function label()
     {
         return match($this){
-            RoleEnum::GENERAL_USER => '일반회원',
-            RoleEnum::BUSINESS_USER => '비지니스회원',
-            RoleEnum::VENDOR_USER => '벤더회원',
+            RoleEnum::GENERAL_USER => '일반 회원',
+            RoleEnum::BUSINESS_USER => '비즈니스 회원',
+            RoleEnum::VENDOR_USER => '벤더 회원',
         };
     }
 }
