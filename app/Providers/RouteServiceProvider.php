@@ -18,8 +18,12 @@ class RouteServiceProvider extends ServiceProvider
      * Typically, users are redirected here after authentication.
      *
      * @var string
+     *
+     * see RedirectIfAuthenticated::class
      */
-    public const HOME = '/mypage/campaigns';
+    public const HOME = '/';
+    public const ADMIN_HOME = '/admin';
+    public const BUSINESS_HOME = '/business';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

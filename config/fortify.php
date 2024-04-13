@@ -74,8 +74,6 @@ return [
     */
 
     'home' => '/',
-    'dashboard' => '/dashboard',
-    'admin' => '/admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -156,6 +154,12 @@ return [
             'confirmPassword' => true,
             // 'window' => 0,
         ]),
+    ],
+
+    'redirects' => [
+        'register' => '/',
+        'business_register' => '/business',
+        'admin_register' => '/admin',
     ],
 
 ];
