@@ -33,6 +33,11 @@ class Campaign extends Model
         return $this->morphToMany(Category::class, 'categoryable');
     }
 
+    public function business()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
     public function type()
     {
         return $this->belongsTo(CampaignType::class, 'campaign_type_id', 'id');

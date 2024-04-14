@@ -23,6 +23,7 @@ class CampaignService{
     {
         $validated = $this->request->validate([
             'id'                             => 'nullable',
+            'user_id'                        => ['required'],
             'status'                         => [Rule::enum(StatusEnum::class)],
             'type'                           => 'required',
             'product_category'               => 'required|array',
@@ -70,6 +71,7 @@ class CampaignService{
             $campaign = Campaign::updateOrCreate([
                 'id' => $validated['id'] ?? null,
             ],[
+                'user_id'                     => $validated['user_id'],
                 'campaign_type_id'            => $validated['type'],
                 'campaign_type_name'          => $campaignType->name,
                 'campaign_type_price'         => $campaignType->price,

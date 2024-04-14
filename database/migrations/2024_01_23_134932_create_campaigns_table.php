@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
             $table->foreignId('campaign_type_id');
+            $table->foreignId('user_id');
             $table->string('campaign_type_name')->comment('캠페인 유형 이름');
             $table->integer('campaign_type_price')->comment('캠페인 유형 금액');
             $table->string('product_name')->comment('상품명');

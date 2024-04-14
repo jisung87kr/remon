@@ -97,6 +97,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Campaign::class, 'campaign_applications', 'user_id', 'campaign_id');
     }
 
+    public function businessCampaigns()
+    {
+        return $this->hasMany(Campaign::class);
+    }
+
     public function applications()
     {
         return $this->hasMany(CampaignApplication::class, 'user_id', 'id')

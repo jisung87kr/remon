@@ -47,6 +47,23 @@
                         <x-input-error for="product_category" class="mt-1"></x-input-error>
                     </div>
                     <div class="col-span-2 py-6">
+                        <label class="label mb-2 text-base">비즈니스</label>
+                        <select name="user_id" id="user_id" class="form-select">
+                            <option value="" disabled selected>선택</option>
+                            @foreach($businessUsers as $businessUser)
+                                <option value="{{ $businessUser->id }}" @selected($businessUser->id === $campaign->user_id)>{{ $businessUser->name }}</option>
+                            @endforeach
+                        </select>
+                        <x-input-error for="user_id" class="mt-1"></x-input-error>
+                        <script defer>
+                          window.onload = function(){
+                            $(document).ready(function(){
+                              $(".form-select").select2();
+                            });
+                          }
+                        </script>
+                    </div>
+                    <div class="col-span-2 py-6">
                         <label class="label mb-2 text-base">제퓸 유형</label>
                         <ul class="flex flex-wrap gap-3">
                             @foreach($typeCategory->categories as $category)

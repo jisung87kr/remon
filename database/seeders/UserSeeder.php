@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\RoleEnum;
 use App\Models\UserMedia;
 use App\Models\UserMessage;
 use App\Models\UserMeta;
@@ -21,7 +22,7 @@ class UserSeeder extends Seeder
     {
         $faker = Factory::create();
 
-        User::factory(10)->create()->each(function($user) use($faker){
+        User::factory(10)->create()->each(function($user, $i) use($faker){
             UserPoint::factory(3)->create([
                'user_id' => $user->id,
             ]);
@@ -55,6 +56,12 @@ class UserSeeder extends Seeder
             UserMessage::factory(3)->create([
                 'user_id' => $user->id,
             ]);
+
+            if($i < 3){
+                $user->assignRole(RoleEnum::GENERAL_USER->value);
+            } else {
+                $user->assignRole(RoleEnum::BUSINESS_USER->value);
+            }
         });
 
         User::factory()->create([

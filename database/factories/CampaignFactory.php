@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\RoleEnum;
 use App\Models\CampaignType;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -26,10 +28,12 @@ class CampaignFactory extends Factory
         $registrationStartDateAt = $this->faker->dateTimeBetween('+22 days', '+28 days');
         $registrationEndDateAt = $this->faker->dateTimeBetween('+29 days', '+35 days');
         $resultAnnouncementDateAt = $this->faker->dateTimeBetween('+36 days', '+42 days');
-
         $campaignType = CampaignType::inRandomOrder()->first();
 
+        $user = User::role(RoleEnum::BUSINESS_USER->value)->inRandomOrder()->first();
+
         return [
+            'user_id' => $user->id,
             'product_name' => $this->faker->word,
             'campaign_type_id' => $campaignType,
             'campaign_type_name' => $campaignType->name,

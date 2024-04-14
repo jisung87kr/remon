@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\RoleEnum;
 use App\Models\Campaign;
 use App\Models\CampaignApplication;
 use App\Models\CampaignType;
 use App\Models\Category;
 use App\Models\Mission;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\CampaignService;
 class CampaignController extends Controller
@@ -54,7 +56,8 @@ class CampaignController extends Controller
         $missions = Mission::all();
         $customOptions = $this->campaignService->getApplicationFields();
         $viewName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaign.create' : 'campaign.create';
-        return view($viewName, compact('campaign', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions', 'customOptions'));
+        $businessUsers = User::role(RoleEnum::BUSINESS_USER->value)->get();
+        return view($viewName, compact('campaign', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions', 'customOptions', 'businessUsers'));
     }
 
     /**
@@ -89,7 +92,8 @@ class CampaignController extends Controller
         $missions = Mission::all();
         $customOptions = $this->campaignService->getApplicationFields();
         $viewName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaign.edit' : 'campaign.edit';
-        return view($viewName, compact('campaign', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions', 'customOptions'));
+        $businessUsers = User::role(RoleEnum::BUSINESS_USER->value)->get();
+        return view($viewName, compact('campaign', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions', 'customOptions', 'businessUsers'));
     }
 
     /**
