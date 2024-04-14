@@ -22,8 +22,8 @@
                 <div class="w-full flex justify-end gap-3">
                     <input type="text" name="keyword" class="form-control" style="width: 200px" value="{{ request()->input('keyword') }}">
                     <input type="submit" value="검색" class="button button-default">
-                    <a href="?export=1" target="_blank" class="button shrink-0 flex gap-3 bg-gray-200 items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-download" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#9e9e9e" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <a href="{{ url()->current() }}?{{ http_build_query(array_merge(request()->query(), ['export' => 1])) }}" target="_blank" class="button shrink-0 flex gap-3 bg-gray-200 items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-download" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#9e9e9e" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                             <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
                             <path d="M7 11l5 5l5 -5" />
