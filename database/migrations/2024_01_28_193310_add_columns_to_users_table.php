@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('agree_sms')->default(0)->comment('문자 수신 여부')->after('agree_email');
             $table->boolean('agree_push')->default(0)->comment('푸시 수신 여부')->after('agree_sms');
             $table->boolean('point')->default(0)->comment('포인트')->after('agree_push');
-            $table->string('status')->default('ACTIVE')->comment('회원 상태')->after('sex');
+            $table->string('status')->default(\App\Enums\User\StatusEnum::ACTIVE->value)->comment('회원 상태')->after('sex');
         });
     }
 

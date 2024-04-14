@@ -10,5 +10,5 @@ Route::get('/', function(){
 })->name('index');
 
 Route::resource('/campaigns', CampaignController::class)->names('campaign');
-Route::resource('/users/general', GeneralUserAdminController::class)->names("user.general");
-Route::resource('/users/business', BusinessUserAdminController::class)->names("user.business");
+Route::resource('/users/general', GeneralUserAdminController::class)->names("user.general")->parameters(['general' => 'user']);
+Route::resource('/users/business', BusinessUserAdminController::class)->names("user.business")->parameters(['business' => 'user']);

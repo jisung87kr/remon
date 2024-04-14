@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Enums\RoleEnum;
+use App\Actions\Fortify\CreateNewUser;
+use App\Actions\Fortify\UpdateUserProfileInformation;
 
 class BusinessUserAdminController extends Controller
 {
@@ -15,7 +17,7 @@ class BusinessUserAdminController extends Controller
      */
     public function index()
     {
-        $filter = ['role' => AdminRoleEnum::ADMIN->value];
+        $filter = ['role' => RoleEnum::BUSINESS_USER->value];
         $users = User::filter($filter)->paginate(10);
         return view('admin.user.business.index', compact('users'));
     }
@@ -33,9 +35,9 @@ class BusinessUserAdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, CreateNewUser $createNewUser)
     {
-        $user = '';
+        $user = $createNewUser->create($request->all());
         return redirect()->route('admin.user.business.show', $user);
     }
 
@@ -58,8 +60,9 @@ class BusinessUserAdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user, UpdateUserProfileInformation $updateUserProfileInformation)
     {
+        $updateUserProfileInformation->update($user, $request->all());
         return redirect()->route('admin.user.business.show', $user);
     }
 
