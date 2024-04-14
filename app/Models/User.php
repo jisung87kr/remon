@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -26,6 +27,7 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasRoles;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -155,6 +157,18 @@ class User extends Authenticatable
             $query->whereHas('roles', function($query) use ($role){
                 $query->where('name', $role);
             });
+        });
+
+        $query->when($filter['keyword'] ?? false, function($query, $keyword){
+            $query->where(function($query) use ($keyword){
+                $query->where('name', 'like', "%{$keyword}%")
+                    ->orWhere('nick_name', 'like', "%{$keyword}%")
+                    ->orWhere('email', 'like', "%{$keyword}%");
+            });
+        });
+
+        $query->when($filter['status'] ?? false, function($query, $status){
+            $query->where('status', $status);
         });
     }
 }

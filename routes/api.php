@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserShippingAddressApiController;
 use App\Http\Controllers\Api\UserMediaApiController;
+use App\Http\Controllers\Api\UserApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -40,5 +41,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::delete('/favorites/campaigns/{campaign}', function(Request $request, Campaign $campaign){
             $request->user()->campaignFavorites()->wherePivot('campaign_id', $campaign->id)->detach();
         });
+
+        Route::delete('/{user}', [UserApiController::class, 'destroy'])->name('destroy');
     });
 });

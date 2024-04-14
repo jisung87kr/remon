@@ -15,10 +15,15 @@ class BusinessUserAdminController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $filter = ['role' => RoleEnum::BUSINESS_USER->value];
-        $users = User::filter($filter)->paginate(10);
+        $size = $request->input('size', 10);
+        $filter = [
+            'role' => RoleEnum::BUSINESS_USER->value,
+            'keyword' => $request->input('keyword'),
+            'status' => $request->input('status'),
+        ];
+        $users = User::filter($filter)->paginate($size);
         return view('admin.user.business.index', compact('users'));
     }
 

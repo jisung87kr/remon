@@ -177,8 +177,10 @@ class Campaign extends Model
         });
 
         $query->when($filter['keyword'] ?? false, function($query, $keyword){
-            $query->where('title', 'LIKE', "%{$keyword}%")
-                ->orWhere('product_name', 'LIKE', "%{$keyword}%");
+            $query->where(function($query) use ($keyword) {
+                $query->where('title', 'LIKE', "%{$keyword}%")
+                    ->orWhere('product_name', 'LIKE', "%{$keyword}%");
+            });
         });
 
         $query->when($filter['campaign_type'] ?? false, function($query, $campaignType){
