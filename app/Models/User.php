@@ -66,7 +66,7 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
-        'favoriteCampaignIds',
+        'favorite_campaign_ids',
     ];
 
     public function points()

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\AdminRoleEnum;
+use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Enums\RoleEnum;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use Maatwebsite\Excel\Excel;
 
 class BusinessUserAdminController extends Controller
 {
@@ -23,6 +25,12 @@ class BusinessUserAdminController extends Controller
             'keyword' => $request->input('keyword'),
             'status' => $request->input('status'),
         ];
+
+        if($request->input('export')){
+            $filename = RoleEnum::BUSINESS_USER->value."_export_".time().".xlsx";
+            return (new UsersExport($filter))->download($filename);
+        }
+
         $users = User::filter($filter)->paginate($size);
         return view('admin.user.business.index', compact('users'));
     }
