@@ -10,6 +10,7 @@ use App\Models\CampaignApplicationField;
 use App\Models\CampaignApplicationValue;
 use App\Models\CampaignImage;
 use App\Models\CampaignMedia;
+use App\Models\CampaignMediaContent;
 use App\Models\Category;
 use App\Models\MissionOption;
 use App\Models\User;
@@ -36,7 +37,7 @@ class CampaignSeeder extends Seeder
             $campaign->categories()->attach([$location->id]);
             $campaign->categories()->attach($campaignAttributes);
             $campaign->categories()->attach($campaignMissions);
-            CampaignMedia::factory()->create([
+            $campaignMedia = CampaignMedia::factory()->create([
                'campaign_id' => $campaign->id,
             ]);
 
@@ -73,6 +74,11 @@ class CampaignSeeder extends Seeder
                         'campaign_application_field_id' => $applicationField->id
                     ]);
                 }
+
+                CampaignMediaContent::factory()->create([
+                   'user_id' => $user->id,
+                   'campaigns_media_id' => $campaignMedia->id
+                ]);
             }
         });
     }

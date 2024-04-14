@@ -13,6 +13,7 @@ use App\Http\Controllers\Mymapge\CampaignMypageController;
 use App\Enums\Campaign\MediaEnum;
 use App\Enums\RoleEnum;
 use App\Enums\AdminRoleEnum;
+use App\Http\Controllers\CampaignMediaContentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +26,7 @@ use App\Enums\AdminRoleEnum;
 |
 */
 
-Route::get('foo', function(){
-    return redirect()->route('admin.index');
-});
+Route::get('foo', function(){});
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
@@ -97,7 +96,10 @@ Route::middleware([
     Route::get('/campaigns/{campaign}/applications/{campaignApplication}', [CampaignApplicationController::class, 'show'])->name('campaign.application.show');
     Route::get('/campaigns/{campaign}/applications/{campaignApplication}/edit', [CampaignApplicationController::class, 'edit'])->name('campaign.application.edit');
     Route::put('/campaigns/{campaign}/applications/{campaignApplication}', [CampaignApplicationController::class, 'update'])->name('campaign.application.update');
-    Route::any('/campaigns/{campaign}/applications/{campaignApplication}/cancel', [CampaignApplicationController::class, 'cancel'])->name('campaign.application.cancel');
+    Route::post('/campaigns/{campaign}/applications/{campaignApplication}/cancel', [CampaignApplicationController::class, 'cancel'])->name('campaign.application.cancel');
+
+    Route::resource('/campaigns/{campaign}/media/{media}/content', CampaignMediaContentController::class)->names('campaign.media.content');
+
 
     Route::prefix('/mypage')->name('mypage.')->group(function(){
         Route::get('/campaigns', [CampaignMypageController::class, 'campaigns'])->name('campaign');

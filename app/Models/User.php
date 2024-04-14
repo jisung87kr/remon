@@ -114,6 +114,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Campaign::class, 'user_campaign_favorites', 'user_id', 'campaign_id');
     }
 
+    public function campaignMediaContents()
+    {
+        return $this->hasMany(CampaignMediaContent::class, 'user_id', 'id');
+    }
+
     public function getMedia($mediaName)
     {
         foreach ($this->medias as $index => $media) {

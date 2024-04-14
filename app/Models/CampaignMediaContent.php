@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CampaignMedia extends Model
+class CampaignMediaContent extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
 
-    public function contents()
+    public function user()
     {
-        return $this->hasMany(CampaignMediaContent::class, 'campaigns_media_id', 'id');
+        return $this->belongsTo(User::class);
     }
 }
