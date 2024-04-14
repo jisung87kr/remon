@@ -63,7 +63,7 @@ class CampaignSeeder extends Seeder
                 'birthdate'=> $faker->dateTimeBetween('1970-01-01', '2014-12-31')->format('Y-m-d'),
                 'sex' => ['man', 'woman'][rand(0, 1)],
                 'phone' => $faker->phoneNumber,
-                'status' => $status->name,
+                'status' => $status->value,
             ]);
 
             foreach ($users as $user) {

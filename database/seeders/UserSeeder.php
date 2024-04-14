@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\AdminRoleEnum;
 use App\Enums\RoleEnum;
 use App\Models\UserMedia;
 use App\Models\UserMessage;
@@ -64,9 +65,11 @@ class UserSeeder extends Seeder
             }
         });
 
-        User::factory()->create([
+        $user = User::factory()->create([
             'name' => '유지성',
             'email' => 'jisung87kr@gmail.com',
         ]);
+
+        $user->assignRole(AdminRoleEnum::ADMIN->value);
     }
 }

@@ -20,6 +20,11 @@ class CampaignApplication extends Model
         return $this->hasMany(CampaignApplicationValue::class, 'campaign_application_id', 'id');
     }
 
+    public function campaign()
+    {
+        return $this->belongsTo(Campaign::class);
+    }
+
     public function scopeFilter(Builder $query, array $filter)
     {
         $query->when($filter['status'] ?? false, function($query, $status){

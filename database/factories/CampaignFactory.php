@@ -19,7 +19,7 @@ class CampaignFactory extends Factory
      */
     public function definition(): array
     {
-        $status = ['DRAFT', 'PUBLISHED'];
+        $status = ['draft', 'published'];
         $randomKey = array_rand($status);
 
         $applicationStartAt = $this->faker->dateTimeBetween('+1 days', '+7 days');
