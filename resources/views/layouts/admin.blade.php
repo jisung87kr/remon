@@ -31,13 +31,14 @@
             </div>
             <ul class="nav">
                 <li class="nav-title text-gray-500">캠페인</li>
-                <x-nav.index :active="request()->routeIs('admin.campaigns.*')">
+                <x-nav.index :active="request()->routeIs('admin.campaign.*')">
                     <x-slot name="label">
                         <x-nav.label>캠페인</x-nav.label>
                     </x-slot>
                     <x-slot name="group">
-                        <x-nav.item href="{{ route('admin.campaign.index') }}" :active="request()->routeIs('admin.campaign.index')">캠페인 관리</x-nav.item>
-                        <x-nav.item href="{{ route('admin.application.index') }}">신청 관리</x-nav.item>
+                        <x-nav.item href="{{ route('admin.campaign.index') }}" :active="request()->routeIs('admin.campaign.index')">캠페인 목록</x-nav.item>
+                        <x-nav.item href="{{ route('admin.campaign.create') }}" :active="request()->routeIs('admin.campaign.create')">캠페인 등록</x-nav.item>
+                        <x-nav.item href="{{ route('admin.application.index') }}" :active="request()->routeIs('admin.application.index')">신청 목록</x-nav.item>
                     </x-slot>
                 </x-nav.index>
 
@@ -48,7 +49,7 @@
                     </x-slot>
                     <x-slot name="group">
                         <x-nav.item href="{{ route('admin.user.general.index') }}" :active="request()->routeIs('admin.user.general.index')">목록</x-nav.item>
-                        <x-nav.item href="{{ route('admin.user.general.index') }}" :active="request()->routeIs('admin.user.general.index')">메세지</x-nav.item>
+                        <x-nav.item href="" :active="request()->routeIs('admin.user.general.index')">메세지</x-nav.item>
                     </x-slot>
                 </x-nav.index>
                 <x-nav.index :active="request()->routeIs('admin.user.*')">
@@ -57,7 +58,7 @@
                     </x-slot>
                     <x-slot name="group">
                         <x-nav.item href="{{ route('admin.user.business.index') }}" :active="request()->routeIs('admin.user.business.index')">목록</x-nav.item>
-                        <x-nav.item href="{{ route('admin.user.general.index') }}" :active="request()->routeIs('admin.user.general.index')">메세지</x-nav.item>
+                        <x-nav.item href="" :active="request()->routeIs('admin.user.general.index')">메세지</x-nav.item>
                     </x-slot>
                 </x-nav.index>
 

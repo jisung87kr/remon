@@ -13,17 +13,7 @@
                 <div class="font-bold text-gray-500">{{ $campaign->title }}</div>
                 <div class="flex gap-3 mt-3">
                     @foreach($campaign->media as $media)
-                        @switch($media->media)
-                            @case(App\Enums\Campaign\MediaEnum::NAVER_BLOG->value)
-                                <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
-                                @break
-                            @case(App\Enums\Campaign\MediaEnum::INSTAGRAM->value)
-                                <img src="{{ Vite::asset('resources/images/media/instagram.svg') }}" alt="">
-                                @break
-                            @case(App\Enums\Campaign\MediaEnum::YOUTUBE->value)
-                                <img src="{{ Vite::asset('resources/images/media/youtube.svg') }}" alt="" class="w-[20px]">
-                                @break
-                        @endswitch
+                        <x-media-icon :media="$media->media"></x-media-icon>
                     @endforeach
                     <div class="p-1 text-xs border text-gray-600">예약없음</div>
                 </div>
@@ -98,53 +88,50 @@
                         <x-input-error for="base_right_consent" class="mt-1"></x-input-error>
                     </div>
                 </div>
-                @if(auth()->user() && auth()->user()->getApplication($campaign))
-                    <div class="flex gap-3">
-
-                        <button type="button"
-                                class="bg-gray-500 text-white px-5 py-4 block text-center font-bold w-full"
-                                disabled>{{ \App\Enums\Campaign\ApplicationStatus::from($campaignApplication->status)->label() }}</button>
-                        @if($campaignApplication->status == \App\Enums\Campaign\ApplicationStatus::APPLIED->value)
+                <button type="button"
+                        class="bg-gray-500 text-white px-5 py-4 block text-center font-bold w-full"
+                        disabled>{{ \App\Enums\Campaign\ApplicationStatus::from($campaignApplication->status)->label() }}</button>
+                @if(auth()->user()->can('update', $campaignApplication))
+                    @if($campaignApplication->status == \App\Enums\Campaign\ApplicationStatus::APPLIED->value)
                         <button type="button"
                                 class="bg-gray-500 text-white px-5 py-4 block text-center font-bold w-ful shrink-0"
                                 x-data="campaignCancelData"
                                 @click="cancelApplication">신청 취소</button>
                         <script>
-                            const campaignCancelData = {
-                              campaignId: '{{ $campaign->id }}',
-                              campaignApplicationId: '{{ $campaignApplication->id }}',
-                              cancelApplication(){
-                                axios.post(`/campaigns/${this.campaignId}/applications/${this.campaignApplicationId}/cancel`).then(res => {
-                                  if(res.data.status == 'SUCCESS'){
-                                    Swal.fire({
-                                      icon: 'success',
-                                      title: res.data.message,
-                                      didClose: () => {
-                                        window.location.href = `/campaigns/${this.campaignId}`;
-                                      }
-                                    });
-                                  } else {
-                                    Swal.fire({
-                                      icon: 'error',
-                                      title: res.data.message,
-                                      didClose: () => {
+                          const campaignCancelData = {
+                            campaignId: '{{ $campaign->id }}',
+                            campaignApplicationId: '{{ $campaignApplication->id }}',
+                            cancelApplication(){
+                              axios.post(`/campaigns/${this.campaignId}/applications/${this.campaignApplicationId}/cancel`).then(res => {
+                                if(res.data.status == 'SUCCESS'){
+                                  Swal.fire({
+                                    icon: 'success',
+                                    title: res.data.message,
+                                    didClose: () => {
+                                      window.location.href = `/campaigns/${this.campaignId}`;
+                                    }
+                                  });
+                                } else {
+                                  Swal.fire({
+                                    icon: 'error',
+                                    title: res.data.message,
+                                    didClose: () => {
 
-                                      }
-                                    });
-                                  }
-                                });
-                              }
+                                    }
+                                  });
+                                }
+                              });
                             }
+                          }
                         </script>
-                        @endif
-                    </div>
-
-                    @if(auth()->user()->can('update', $campaignApplication))
-                        <button type="submit" class="mt-3 bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">수정완료</button>
                     @endif
-                @else
-                    <button type="submit" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">캠페인 신청하기</button>
+                    <button type="submit" class="mt-3 bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">수정완료</button>
                 @endif
+
+                @if(request()->route()->getName() === 'campaign.application.create')
+                    <button type="submit" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">신청 제출</button>
+                @endif
+
             @endif
         </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\AdminRoleEnum;
 use App\Models\CampaignApplication;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -21,7 +22,10 @@ class CampaignApplicationPolicy
      */
     public function view(User $user, CampaignApplication $campaignApplication): bool
     {
-        //
+        if($user->hasRole(AdminRoleEnum::ADMIN->value)){
+            return true;
+        }
+        return $user->id === $campaignApplication->user_id;
     }
 
     /**
