@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Fortify\CreateNewUser;
+use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Enums\AdminRoleEnum;
+use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,10 +16,21 @@ class GeneralUserAdminController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $filter = ['role' => RoleEnum::GENERAL_USER->value];
-        $users = User::filter($filter)->paginate(10);
+        $size = $request->input('size', 10);
+        $filter = [
+            'role' => RoleEnum::GENERAL_USER->value,
+            'keyword' => $request->input('keyword'),
+            'status' => $request->input('status'),
+        ];
+
+        if($request->input('export')){
+            $filename = RoleEnum::GENERAL_USER->value."_export_".time().".xlsx";
+            return (new UsersExport($filter))->download($filename);
+        }
+
+        $users = User::filter($filter)->paginate($size);
         return view('admin.user.general.index', compact('users'));
     }
 
@@ -32,9 +46,9 @@ class GeneralUserAdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, CreateNewUser $createNewUser)
     {
-        $user = '';
+        $user = $createNewUser->create($request->all());
         return redirect()->route('admin.user.general.show', $user);
     }
 
@@ -57,8 +71,9 @@ class GeneralUserAdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user, UpdateUserProfileInformation $updateUserProfileInformation)
     {
+        $updateUserProfileInformation->update($user, $request->all());
         return redirect()->route('admin.user.general.show', $user);
     }
 
