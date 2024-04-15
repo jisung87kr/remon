@@ -154,9 +154,11 @@
                                                 </div>
                                                 <small>주소를 정확히 입력해주세요</small>
                                             </div>
+                                            @if($editable)
                                             <x-slot name="footer">
                                                 <button type="button" class="button button-default" @click="save(item.media)">저장</button>
                                             </x-slot>
+                                            @endif
                                         </x-rootmodal>
                                     </div>
                                 </div>
@@ -336,8 +338,10 @@
                                                                class="text-sm inline-flex items-center justify-between px-3 py-2 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100"></label>
                                                     </div>
                                                 </template>
+                                                @if($editable)
                                                 <x-radio-button id="shipping_id_new" name="shipping_id" value="new" x-model="selectedId"
                                                                 @click="setAddress('new')">새로입력하기</x-radio-button>
+                                                @endif
                                             </div>
                                             <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
                                                 <div class="">
@@ -368,7 +372,9 @@
                                                                placeholder="우편번호"
                                                                :readonly="readonly"
                                                                x-model="address.addressPostcode">
+                                                        @if($editable)
                                                         <button type="button" class="button button-light shrink-0" @click="openDaumPostcode">우편번호 찾기</button>
+                                                        @endif
                                                     </div>
                                                     <div id="address_searchbox"
                                                          x-ref="address_searchbox"

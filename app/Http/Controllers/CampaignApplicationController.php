@@ -53,7 +53,11 @@ class CampaignApplicationController extends Controller
      */
     public function show(Campaign $campaign, CampaignApplication $campaignApplication)
     {
-        dd('신청 완료!');
+        if(!auth()->user()->can('view', $campaignApplication)){
+            abort(403);
+        }
+        $editable = false;
+        return view('campaign.application.edit', compact('campaign', 'campaignApplication', 'editable'));
     }
 
     /**
@@ -61,10 +65,11 @@ class CampaignApplicationController extends Controller
      */
     public function edit(Campaign $campaign, CampaignApplication $campaignApplication)
     {
-        if(!auth()->user()->can('update', $campaignApplication)){
+        if(!auth()->user()->can('edit', $campaignApplication)){
             abort(403);
         }
-        return view('campaign.application.edit', compact('campaign', 'campaignApplication'));
+        $editable = true;
+        return view('campaign.application.edit', compact('campaign', 'campaignApplication', 'editable'));
     }
 
     /**
