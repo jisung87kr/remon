@@ -138,12 +138,6 @@
     <script>
         const campaignListData = {
           campaignType: @json(request()->input('campaign_type', [])),
-          init(){
-            this.$watch('campaignType', (value, oldValue) => {
-              console.log(value);
-              console.log(oldValue);
-            });
-          },
           hasShippingType(){
             const filtered = this.campaignType.filter(item => item === '방문형');
             return filtered.length > 0;
