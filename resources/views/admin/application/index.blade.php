@@ -1,13 +1,13 @@
 <x-admin-layout>
-    @if(session('status'))
-        <div class="alert alert-success mb-3">
-            {{ session('status') }}
-        </div>
-    @elseif(session('error'))
-        <div class="alert alert-danger mb-3">
-            {{ session('error') }}
-        </div>
-    @endif
+    <div class="absolute top-6 right-6">
+        @if(session('status'))
+            <x-toast toast="success">{{ session('status') }}</x-toast>
+            <x-toast toast="danger">{{ session('status') }}</x-toast>
+            <x-toast toast="error">{{ session('status') }}</x-toast>
+        @elseif(session('error'))
+            <x-toast toast="error">{{ session('status') }}</x-toast>
+        @endif
+    </div>
     <x-admin.card-default :action="route(Route::currentRouteName())">
         <x-slot name="filter">
             <div class="flex gap-3">
