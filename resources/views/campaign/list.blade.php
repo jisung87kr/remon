@@ -40,7 +40,7 @@
         </div>
     </div>
     @endif
-    <form action="">
+    <form action="" x-data="campaignListData">
         @if($category->name)
             <div class="my-10 border-b flex">
                 <a href="{{ route("category.show", $category->name) }}" class="block px-4 py-2 {{ $category->name == '전체' ? 'border-b-2 border-indigo-400' : '' }}">전체</a>
@@ -65,7 +65,8 @@
                                     <x-checkbox-button id="campaign_type_{{$type->id}}"
                                                        name="campaign_type[]"
                                                        value="{{$type->name}}"
-                                                       :checked="in_array($type->name, request()->input('campaign_type', []))">{{ $type->name }}</x-checkbox-button>
+                                                       xmodel="campaignType"
+                                                       >{{ $type->name }}</x-checkbox-button>
                                 </li>
                             @endforeach
                         </ul>
@@ -103,6 +104,7 @@
                     </div>
                 </div>
 
+                <template x-if="hasShippingType">
                 <div class="md:flex py-3 items-center">
                     <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">지역별</div>
                     <div class="md:grow">
@@ -120,6 +122,7 @@
                         </ul>
                     </div>
                 </div>
+                </template>
             </div>
 
             <div class="text-center mb-12">
@@ -132,6 +135,21 @@
             <x-campaign.snsfilter :category="$category"></x-campaign.snsfilter>
         </div>
     </form>
+    <script>
+        const campaignListData = {
+          campaignType: @json(request()->input('campaign_type', [])),
+          init(){
+            this.$watch('campaignType', (value, oldValue) => {
+              console.log(value);
+              console.log(oldValue);
+            });
+          },
+          hasShippingType(){
+            const filtered = this.campaignType.filter(item => item === '방문형');
+            return filtered.length > 0;
+          }
+        };
+    </script>
 
     <div class="grid grid-cols-3 gap-6 xl:grid-cols-5">
         @forelse($campaigns as $key => $campaign)
