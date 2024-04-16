@@ -58,7 +58,7 @@ class CampaignSeeder extends Seeder
 
             $users = User::inRandomOrder()->limit(3)->get();
             $status = CommonHelper::getRandomEnumCase(ApplicationStatus::cases());
-            $campaign->applications()->attach($users->pluck('id')->toArray(), [
+            $campaign->applicants()->attach($users->pluck('id')->toArray(), [
                 'name' => $faker->name,
                 'birthdate'=> $faker->dateTimeBetween('1970-01-01', '2014-12-31')->format('Y-m-d'),
                 'sex' => ['man', 'woman'][rand(0, 1)],

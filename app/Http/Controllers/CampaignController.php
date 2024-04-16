@@ -66,7 +66,7 @@ class CampaignController extends Controller
     public function store(Request $request)
     {
         $campaign = $this->campaignService->upsert();
-        $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaign.show' : 'campaign.show';
+        $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaign.edit' : 'campaign.show';
         return redirect()->route($routeName, $campaign);
     }
 

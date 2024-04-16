@@ -28,7 +28,7 @@ class CampaignService{
             'type'                           => 'required',
             'product_category'               => 'required|array',
             'type_category'                  => 'required|array',
-            'location_category'              => 'required|array',
+            'location_category'              => 'nullable|array',
             'media'                          => 'required|array',
             'title'                          => 'required',
             'product_name'                   => 'required',
@@ -56,7 +56,7 @@ class CampaignService{
             'mission_option_content_keyword' => 'nullable|string',
             'mission_option_link'            => 'nullable|string',
             'mission_option_hashtag'         => 'nullable|string',
-            'application_field'              => ['array', Rule::in(ApplicationFieldEnum::toArray('value'))],
+            'application_field'              => ['nullable', 'array', Rule::in(ApplicationFieldEnum::toArray('value'))],
             'custom_option'                  => 'nullable|array',
             'thumbnails.*'                   => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'detail_images.*'                => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -103,7 +103,7 @@ class CampaignService{
             $mergedCategories = [];
             $mergedCategories = array_merge($mergedCategories, $validated['product_category']);
             $mergedCategories = array_merge($mergedCategories, $validated['type_category']);
-            $mergedCategories = array_merge($mergedCategories, $validated['location_category']);
+            $mergedCategories = array_merge($mergedCategories, $validated['location_category'] ?? []);
             $mergedCategories = array_unique($mergedCategories);
             $campaign->categories()->sync($mergedCategories);
 
@@ -148,51 +148,51 @@ class CampaignService{
             $campaign->missionOptions()->sync($missionOptionsData);
 
             // 지원사항 필드 등록
-            $applicationFields = [];
-            foreach ($validated['application_field'] as $index => $item) {
-                $enumLabel = ApplicationFieldEnum::from($item)->label();
-                $option = isset($enumLabel['option']) ? serialize(CommonHelper::makeCasesWithLabel($enumLabel['option'])) : null;
-                $fieldName = $enumLabel['value'];
+            if(isset($validated['application_field'])){
+                $applicationFields = [];
+                foreach ($validated['application_field'] as $index => $item) {
+                    $enumLabel = ApplicationFieldEnum::from($item)->label();
+                    $option = isset($enumLabel['option']) ? serialize(CommonHelper::makeCasesWithLabel($enumLabel['option'])) : null;
+                    $fieldName = $enumLabel['value'];
 
-                if($enumLabel['value'] === ApplicationFieldEnum::CUSTOM_OPTION->value){
-                    foreach ($validated['custom_option'] as $key => $value) {
+                    if($enumLabel['value'] === ApplicationFieldEnum::CUSTOM_OPTION->value){
+                        foreach ($validated['custom_option'] as $key => $value) {
+                            $applicationFields[] = [
+                                'id' => $value['id'],
+                                'campaign_id' => $campaign->id,
+                                'field_category' => $enumLabel['category'],
+                                'name' => $fieldName,
+                                'type' => $enumLabel['type'],
+                                'label' => $value['name'],
+                                'option' => $value['value'],
+                            ];
+                        }
+                    } else {
                         $applicationFields[] = [
-                            'id' => $value['id'],
+                            'id' => $campaign->applicationFields()->where('name', $fieldName)->where('field_category', $enumLabel['category'])->first()['id'] ?? null,
                             'campaign_id' => $campaign->id,
                             'field_category' => $enumLabel['category'],
                             'name' => $fieldName,
                             'type' => $enumLabel['type'],
-                            'label' => $value['name'],
-                            'option' => $value['value'],
+                            'label' => $enumLabel['label'],
+                            'option' => $option,
                         ];
                     }
-                } else {
-                    $applicationFields[] = [
-                        'id' => $campaign->applicationFields()->where('name', $fieldName)->where('field_category', $enumLabel['category'])->first()['id'] ?? null,
-                        'campaign_id' => $campaign->id,
-                        'field_category' => $enumLabel['category'],
-                        'name' => $fieldName,
-                        'type' => $enumLabel['type'],
-                        'label' => $enumLabel['label'],
-                        'option' => $option,
-                    ];
                 }
-            }
 
+                $existingApplicationFields = $campaign->applicationFields()->get();
+                $existingIds = $existingApplicationFields->pluck('id')->all();
+                $recordsToDelete = $existingIds;
 
-            $existingApplicationFields = $campaign->applicationFields()->get();
-            $existingIds = $existingApplicationFields->pluck('id')->all();
-            $recordsToDelete = $existingIds;
-
-            foreach ($applicationFields as $key => $field) {
-                if (($index = array_search($field['id'], $recordsToDelete)) !== false) {
-                    unset($recordsToDelete[$index]);
+                foreach ($applicationFields as $key => $field) {
+                    if (($index = array_search($field['id'], $recordsToDelete)) !== false) {
+                        unset($recordsToDelete[$index]);
+                    }
                 }
+
+                $campaign->applicationFields()->whereIn('id', $recordsToDelete)->delete();
+                $campaign->applicationFields()->upsert($applicationFields, ['campaign_id', 'field_category', 'name', 'type', 'label']);
             }
-
-            $campaign->applicationFields()->whereIn('id', $recordsToDelete)->delete();
-            $campaign->applicationFields()->upsert($applicationFields, ['campaign_id', 'field_category', 'name', 'type', 'label']);
-
 
             // 이미지 업로드
             if($this->request->hasFile('thumbnails')){

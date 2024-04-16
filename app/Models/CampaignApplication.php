@@ -36,4 +36,10 @@ class CampaignApplication extends Model
             $query->where('status', $status);
         });
     }
+
+    public function scopeActiveCount(Builder $query)
+    {
+        return $query->selectRaw('count(*)')
+            ->whereIn('campaign_applications.status', ['applied', 'posted', 'completed']);
+    }
 }

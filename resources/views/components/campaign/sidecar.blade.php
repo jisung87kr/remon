@@ -9,7 +9,7 @@
                 <img src="https://placeholder.co/1000x1000" alt="">
             @endisset
             <div class="mt-3">
-                <div class="font-bold text-xl">[{{ $campaign->locationCategories[0]->name }}] {{ $campaign->product_name }}</div>
+                <div class="font-bold text-xl">@if($campaign->locationCategories->count() > 0)[{{ $campaign->locationCategories[0]->name }}] @endif{{ $campaign->product_name }}</div>
                 <div class="font-bold text-gray-500">{{ $campaign->title }}</div>
                 <div class="flex gap-3 mt-3">
                     @foreach($campaign->media as $media)
@@ -88,13 +88,15 @@
                         <x-input-error for="base_right_consent" class="mt-1"></x-input-error>
                     </div>
                 </div>
+                @isset($campaignApplication->status)
                 <button type="button"
                         class="bg-gray-500 text-white px-5 py-4 block text-center font-bold w-full"
                         disabled>{{ \App\Enums\Campaign\ApplicationStatus::from($campaignApplication->status)->label() }}</button>
+                @endisset
                 @if(auth()->user()->can('update', $campaignApplication))
                     @if($campaignApplication->status == \App\Enums\Campaign\ApplicationStatus::APPLIED->value)
                         <button type="button"
-                                class="bg-gray-500 text-white px-5 py-4 block text-center font-bold w-ful shrink-0"
+                                class="bg-orange-300 text-white px-5 py-4 block text-center font-bold mt-3 w-full"
                                 x-data="campaignCancelData"
                                 @click="cancelApplication">신청 취소</button>
                         <script>

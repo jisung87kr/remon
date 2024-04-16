@@ -19,11 +19,13 @@
             <div class="ml-2 font-bold">{{ $campaign->application_end_at->diffForHumans() }} 마감</div>
         </div>
         <div>
+            @if($campaign->locationCategories->count() > 0)
             <div>[{{ $campaign->locationCategories[0]->name }}] {{ $campaign->product_name }}</div>
+            @endif
             <small class="text-gray-500 line-clamp-2">{{ $campaign->benefit }}</small>
         </div>
         <div class="my-2">
-            <small>신청 {{ number_format($campaign->applications()->count()) }}</small><small class="text-gray-500"> / </small><small
+            <small>신청 {{ number_format($campaign->applications()->activeCount()->count()) }}</small><small class="text-gray-500"> / </small><small
                     class="text-gray-500">{{ number_format($campaign->applicant_limit) }}명</small>
         </div>
         <div class="flex gap-1">

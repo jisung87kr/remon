@@ -77,6 +77,7 @@
                         </ul>
                         <x-input-error for="type_category" class="mt-1"></x-input-error>
                     </div>
+                    <template x-if="type == 1">
                     <div class="col-span-2 py-6">
                         <label class="label mb-4">지역 카테고리</label>
                         <div>
@@ -98,6 +99,7 @@
                             <x-input-error for="location_category" class="mt-1"></x-input-error>
                         </div>
                     </div>
+                    </template>
                 </div>
             </div>
         </section>
@@ -218,7 +220,7 @@
                             </div>
                         </template>
                     </div>
-                    <template x-if="type == 2">
+                    <template x-if="type == 1">
                         <div class="col-span-2">
                             <div class="col-span-2 py-6">
                                 <div class="grid grid-cols-12 gap-6">

@@ -35,7 +35,8 @@ class CampaignApplicationController extends Controller
         if(isset($campaignApplication->id)){
             return redirect()->route('campaign.application.edit', [$campaign, $campaignApplication]);
         }
-        return view('campaign.application.create', compact('campaign', 'campaignApplication'));
+        $editable = false;
+        return view('campaign.application.create', compact('campaign', 'campaignApplication', 'editable'));
     }
 
     /**
@@ -43,7 +44,7 @@ class CampaignApplicationController extends Controller
      */
     public function store(Request $request, Campaign $campaign)
     {
-        $campaignApplication = auth()->user() ? auth()->user()->getApplication($campaign) : new CampaignApplication();
+        $campaignApplication = auth()->user()->getApplication($campaign) ?? new CampaignApplication();
         $application = $this->service->upsert($campaign, $campaignApplication);
         return redirect()->route('campaign.show', [$campaign]);
     }
@@ -65,7 +66,7 @@ class CampaignApplicationController extends Controller
      */
     public function edit(Campaign $campaign, CampaignApplication $campaignApplication)
     {
-        if(!auth()->user()->can('edit', $campaignApplication)){
+        if(!auth()->user()->can('update', $campaignApplication)){
             abort(403);
         }
         $editable = true;

@@ -2,22 +2,13 @@
     <div class="container mx-auto px-6" x-data="campaignData">
         <div class="grid grid-cols-8 gap-6 relative">
             <div class="col-span-8 lg:col-span-6 lg:border-r lg:pr-6">
+                @if($campaign->locationCategories)
                 <div>
-                    <h1 class="font-bold text-[32px] my-3">[{{ $campaign->locationCategories[0]->name }}] {{ $campaign->product_name }}</h1>
+                    <h1 class="font-bold text-[32px] my-3">@if($campaign->locationCategories->count() > 0)[{{ $campaign->locationCategories[0]->name }}]@endif {{ $campaign->product_name }}</h1>
                     <div class="font-bold text-gray-500">{{ $campaign->title }}</div>
                     <div class="flex items-center gap-2 mt-3">
                         @foreach($campaign->media as $media)
-                            @switch($media->media)
-                                @case(App\Enums\Campaign\MediaEnum::NAVER_BLOG->value)
-                                    <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
-                                    @break
-                                @case(App\Enums\Campaign\MediaEnum::INSTAGRAM->value)
-                                    <img src="{{ Vite::asset('resources/images/media/instagram.svg') }}" alt="">
-                                    @break
-                                @case(App\Enums\Campaign\MediaEnum::YOUTUBE->value)
-                                    <img src="{{ Vite::asset('resources/images/media/youtube.svg') }}" alt="" class="w-[20px]">
-                                    @break
-                            @endswitch
+                            <x-media-icon :media="$media"></x-media-icon>
                         @endforeach
 
                         @foreach($campaign->options as $option)
@@ -25,12 +16,13 @@
                         @endforeach
                     </div>
                 </div>
+                @endif
                 <div class="mt-6 border-b mb-6 flex">
                     <a href="{{ route('campaign.show', $campaign) }}"
                        class="block px-5 py-3 border-b-2 border-indigo-400 font-bold">캠페인 정보</a>
                     <a href="{{ route('campaign.application.index', $campaign) }}" class="block px-5 py-3 text-gray-500">
                         <span>신청자 </span><span
-                                class="font-bold">{{ number_format($campaign->applications()->count()) }}</span><span>/</span><span>{{ number_format($campaign->application_limit) }}</span>
+                                class="font-bold">{{ number_format($campaign->applications()->activeCount()->count()) }}</span><span>/</span><span>{{ number_format($campaign->application_limit) }}</span>
                     </a>
                 </div>
                 <div>
@@ -62,7 +54,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if($campaign->useShipping)
+                        @if(!$campaign->isShippingType)
                         <div class="flex py-6" id="visit_instruction">
                             <div class="shrink-0 w-[160px] font-bold mr-3">방문 및 예약안내</div>
                             <div class="w-full border-b pb-6">
