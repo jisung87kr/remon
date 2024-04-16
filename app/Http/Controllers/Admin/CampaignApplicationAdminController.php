@@ -20,7 +20,7 @@ class CampaignApplicationAdminController extends Controller
 
         if($request->input('export')){
             $filename = "campaign_application_export_".time().".xlsx";
-            (new CampaignApplicationExport($filter))->download($filename);
+            return (new CampaignApplicationExport($filter))->download($filename);
         }
 
         $applications = CampaignApplication::filter($filter)->with('user')->orderBy('id', 'desc')->paginate($size);
