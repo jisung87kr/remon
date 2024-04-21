@@ -14,4 +14,9 @@ class CampaignMedia extends Model
     {
         return $this->hasMany(CampaignMediaContent::class, 'campaigns_media_id', 'id');
     }
+
+    public function contentsByUser()
+    {
+        return $this->hasMany(CampaignMediaContent::class, 'campaigns_media_id', 'id')->where('user_id', auth()->user()->id)->orderBy('id', 'desc');
+    }
 }

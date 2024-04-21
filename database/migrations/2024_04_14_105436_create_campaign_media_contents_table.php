@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('campaign_media_contents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
+            $table->foreignId('campaign_id');
             $table->foreignId('campaigns_media_id');
             $table->string('content_url')->comment('컨텐츠 url');
             $table->text('description')->nullable()->comment('컨텐츠 설명');

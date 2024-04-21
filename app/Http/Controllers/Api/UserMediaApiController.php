@@ -7,6 +7,7 @@ use App\Enums\MediaConnectedStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Response;
 use App\Models\UserMedia;
+use App\Services\Crawler\NaverBLogCrawler;
 use App\Services\NaverBlogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -108,6 +109,33 @@ class UserMediaApiController extends Controller
             return response()->json(new Response(Response::SUCCESS, '미디어 삭제 성공', $result));
         } catch (\Exception $e){
             return response()->json(new Response(Response::ERROR, '미디어 삭제 실패', $e->getMessage()), 500);
+        }
+    }
+
+    public function getContentFromExternal(Request $request, NaverBLogCrawler $naverBLogCrawler)
+    {
+        try {
+            $media = $request->input('media');
+            $content = [];
+            $result = [];
+            switch ($media){
+                case MediaEnum::NAVER_BLOG->value:
+                    $mediaData = auth()->user()->medias()->where('media', MediaEnum::NAVER_BLOG->value)->first();
+                    $content = $naverBLogCrawler->getRss($mediaData['mediaid']);
+                    foreach ($content['channel']['item'] as $index => $item) {
+                        $result[] = [
+                            'url' => $item['guid'],
+                            'title' => $item['title'],
+                            'description' => $item['description'],
+                            'tag' => $item['tag'],
+                            'pubDate' => $item['pubDate'],
+                        ];
+                    }
+                    break;
+            }
+            return response()->json(new Response(Response::SUCCESS, '미디어 콘텐츠 성공', $result));
+        } catch (\Exception $e) {
+            return response()->json(new Response(Response::ERROR, '미디어 콘텐츠 조회 실패', $e->getMessage()), 500);
         }
     }
 }

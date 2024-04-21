@@ -26,7 +26,11 @@ use App\Http\Controllers\CampaignMediaContentController;
 |
 */
 
-Route::get('foo', function(){});
+Route::get('foo', function(){
+    $campaignMedia = \App\Models\CampaignMedia::find('11');
+    $result = auth()->user()->campaignMediaContent($campaignMedia)->first();
+    dd($result);
+});
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 

@@ -4,30 +4,34 @@
         @method($method)
         <div class="grid grid-cols-8 gap-6 relative break-keep">
             <div class="col-span-8 lg:col-span-6 lg:border-r lg:pr-6">
-                <div>
+                <div class="flex gap-3 items-center">
                     <h1 class="font-bold text-[32px] my-3">캠페인 신청하기</h1>
+                    @isset($campaignApplication->status)
+                    <div>
+                        <x-badge.application :status="$campaignApplication->status">{{ \App\Enums\Campaign\ApplicationStatus::tryFrom($campaignApplication->status)->label() }}</x-badge.application>
+                    </div>
+                    @endif
                 </div>
                 <div>
-                    <div class="flex py-6">
+                    <div class="flex mt-6">
                         <div class="shrink-0 w-[160px] font-bold mr-3">상품링크</div>
-                        <div class="w-full border-b pb-6">
+                        <div class="w-full">
                             <a href="{{ $campaign->product_url }}" target="_blank" class="text-blue-600">{{ $campaign->product_url }}</a>
                         </div>
                     </div>
-                    <div class="flex py-6">
-                        <div class="shrink-0 w-[160px] font-bold mr-3">제공내역</div>
-                        <div class="w-full border-b pb-6">
+                    <div class="flex mt-6">
+                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">제공내역</div>
+                        <div class="w-full border-t pt-6">
                             {{ $campaign->benefit }}
                             <div class="text-sm text-red-500 mt-6">
-                                ※ 옵션 오기재로 인한 교환/취소 불가하며, 해당 사유 발생 시 관련 페널티 부과 및 배송비, 제품가 환불 요청 등이 이루어질 수 있습니다. 이 점
-                                유의하시어 반드시 정확하게 기재 바랍니다.
+                                ※ 옵션 오기재로 인한 교환/취소 불가하며, 해당 사유 발생 시 관련 페널티 부과 및 배송비, 제품가 환불 요청 등이 이루어질 수 있습니다. 이 점유의하시어 반드시 정확하게 기재 바랍니다.
                             </div>
                         </div>
                     </div>
                     @if($campaign->useShipping)
-                        <div class="flex py-6">
-                            <div class="shrink-0 w-[160px] font-bold mr-3">방문 및 예약안내</div>
-                            <div class="w-full border-b pb-6">
+                        <div class="flex mt-6">
+                            <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">방문 및 예약안내</div>
+                            <div class="w-full border-t pt-6">
                                 <div>
                                     {{ $campaign->visit_instruction }}
                                 </div>
@@ -77,9 +81,9 @@
                             </div>
                         </div>
                     @endif
-                    <div class="flex py-6">
-                        <div class="shrink-0 w-[160px] font-bold mr-3">회원 기본 정보</div>
-                        <div class="w-full border-b pb-6">
+                    <div class="flex mt-6">
+                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">회원 기본 정보</div>
+                        <div class="w-full border-t pt-6">
                             <div>
                                 <label for="name" class="label mb-2">이름</label>
                                 <input type="text" name="name" class="form-control"
@@ -122,9 +126,9 @@
                     @if($campaign->media)
                         <div x-data="mediaData">
                             <template x-for="item in media">
-                                <div class="flex py-6">
-                                    <div class="shrink-0 w-[160px] font-bold mr-3" x-text="item.media_name"></div>
-                                    <div class="w-full border-b pb-6">
+                                <div class="flex mt-6">
+                                    <div class="shrink-0 w-[160px] font-bold mr-3 pt-6" x-text="item.media_name"></div>
+                                    <div class="w-full border-t pt-6">
                                         <div class="text-sm" x-text="`콘텐츠를 작성할 ${item.media_name} 주소를 등록해주세요. 등록한 정보는 선정 후 변경할 수 없습니다.`"></div>
                                         <x-rootmodal class="z-[999]">
                                             <x-slot name="trigger">
@@ -257,8 +261,8 @@
                           }
                         </script>
                     @endif
-                    <div class="flex py-6">
-                        <div class="shrink-0 w-[160px] font-bold mr-3">신청 정보 입력</div>
+                    <div class="flex mt-6">
+                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">신청 정보 입력</div>
                         <div class="w-full pb-6">
                             @if($campaign->application_information)
                                 <div class="application-category">
@@ -524,6 +528,79 @@
                                   }
                                 </script>
                             @endif
+                        </div>
+                    </div>
+
+                    <div class="flex mt-6">
+                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">스폰서배너 삽입</div>
+                        <div class="w-full border-t pt-6">
+                            <div class="mb-3">콘텐츠 본문 하단에 스폰서 배너를 삽입해주세요.</div>
+                            <div class="flex gap-3">
+                                <input type="text" class="form-control" value="http://localhost/campaign/banner">
+                                <button type="button" class="button button-light">코드복사</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex mt-6">
+                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">콘텐츠 선택</div>
+                        <div class="w-full border-t pt-6">
+                            <div class="mb-3">
+                                캠페인에 등록할 콘텐츠를 선택해주세요.
+                                리스트에서 찾지 못한 경우, 글 주소를 입력해주세요.
+                            </div>
+                            @foreach($campaign->media as $media)
+                            <div x-data="mediaContentData">
+                                <div class="mb-3 flex gap-3">
+                                    <x-media-icon :media="$media->media"></x-media-icon>
+                                    <span>{{ \App\Enums\Campaign\MediaEnum::from($media->media)->label() }}</span>
+                                </div>
+                                <input type="hidden" name="media_content[{{ $loop->index }}][media]" value="{{ $media->media }}">
+                                <input type="hidden" name="media_content[{{ $loop->index }}][id]" value="{{ $media->id }}">
+                                <select name="media_content[{{ $loop->index }}][url]"
+                                        id="media_content"
+                                        class="form-select w-full"
+                                        x-model="contentUrl"
+                                        x-ref="media_content">
+                                    <template x-for="item in items" :key="item.url">
+                                        <option :value="item.url"
+                                                x-text="item.title"
+                                                :selected="item.url === contentUrl"></option>
+                                    </template>
+                                    <template x-if="!items || items.length == 0">
+                                        <option value="" disabled selected>목록을 불러올 수 없습니다.</option>
+                                    </template>
+                                </select>
+                                <input type="text" name="media_content[{{ $loop->index }}][url_text]"
+                                       class="form-control mt-3"
+                                       x-model="contentUrl"
+                                       :readonly="!items || !items.length == 0"
+                                       placeholder="http://글주소">
+                            </div>
+                            <script>
+                                const mediaContentData = {
+                                    media: '{{ $media->media }}',
+                                    contentUrl: '{{ $media->contentsByUser()->first()->content_url }}',
+                                    items: [],
+                                    init(){
+                                      axios.get(`/api/user/media/external_content?media=${this.media}`).then(res => {
+                                        this.items = res.data.data;
+                                        // $(this.$refs.media_content).select2();
+                                      });
+                                    },
+                                }
+                            </script>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="flex my-6">
+                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">스폰서배너 삽입</div>
+                        <div class="w-full border-t pt-6">
+                            <ul class="list-disc">
+                                <li>컴페인에 등록한 콘텐츠는 홍보나 필요에 의해 사용될 수 있습니다.</li>
+                                <li>콘텐츠 본문에 반드시 스폰서배너가 삽입되야 캠페인 참여로 인정됩니다.</li>
+                                <li>캠페인과 관련 없는 콘텐츠는 통보없이 삭제될 수 있습니다.</li>
+                            </ul>
                         </div>
                     </div>
                 </div>

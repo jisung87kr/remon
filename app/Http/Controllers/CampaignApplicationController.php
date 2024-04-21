@@ -6,6 +6,7 @@ use App\Enums\Campaign\ApplicationStatus;
 use App\Http\Resources\Response;
 use App\Models\Campaign;
 use App\Models\CampaignApplication;
+use App\Models\CampaignMediaContent;
 use App\Services\CampaignApplicationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -82,7 +83,31 @@ class CampaignApplicationController extends Controller
             abort(403);
         }
 
-        $application = $this->service->upsert($campaign, $campaignApplication);
+        switch ($campaignApplication->status){
+            case ApplicationStatus::APPROVED->value:
+            case ApplicationStatus::POSTED->value:
+                try {
+                    DB::beginTransaction();
+                    foreach ($request->input('media_content', []) as $index => $item) {
+                        $request->user()->campaignMediaContents()->updateOrCreate([
+                            'campaign_id' => $campaign->id,
+                            'campaigns_media_id' => $item['id'],
+                        ], [
+                            'content_url' => $item['url'] ?? $item['url_text'],
+                        ]);
+                    }
+                    $campaignApplication->update(['status' => ApplicationStatus::POSTED->value]);
+                    DB::commit();
+                } catch (\Exception $e){
+                    DB::rollBack();
+                    throw $e;
+                }
+                break;
+            default:
+                $application = $this->service->upsert($campaign, $campaignApplication);
+                break;
+        }
+
         return redirect()->route('campaign.application.edit', [$campaign, $campaignApplication]);
     }
 

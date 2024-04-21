@@ -88,11 +88,6 @@
                         <x-input-error for="base_right_consent" class="mt-1"></x-input-error>
                     </div>
                 </div>
-                @isset($campaignApplication->status)
-                <button type="button"
-                        class="bg-gray-500 text-white px-5 py-4 block text-center font-bold w-full"
-                        disabled>{{ \App\Enums\Campaign\ApplicationStatus::from($campaignApplication->status)->label() }}</button>
-                @endisset
                 @if(auth()->user()->can('update', $campaignApplication))
                     @if($campaignApplication->status == \App\Enums\Campaign\ApplicationStatus::APPLIED->value)
                         <button type="button"
@@ -126,8 +121,11 @@
                             }
                           }
                         </script>
+                        <button type="submit" class="mt-3 bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">수정완료</button>
                     @endif
-                    <button type="submit" class="mt-3 bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">수정완료</button>
+                    @if($campaignApplication->status == \App\Enums\Campaign\ApplicationStatus::APPROVED->value)
+                        <button type="submit" class="mt-3 bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">콘텐츠 등록하기</button>
+                    @endif
                 @endif
 
                 @if(request()->route()->getName() === 'campaign.application.create')

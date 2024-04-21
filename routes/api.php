@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::delete('shipping_addresses/{userShippingAddress}', [UserShippingAddressApiController::class, 'destroy']);
 
         // 미디어
+        Route::get('media/external_content', [UserMediaApiController::class, 'getContentFromExternal']);
         Route::resource('media', UserMediaApiController::class)->parameters(['media' => 'userMedia']);
 
         //

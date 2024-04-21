@@ -35,6 +35,7 @@ class CampaignMediaContentController extends Controller
         ]);
 
         $validated['user_id'] = $request->user()->id;
+        $validated['campaign_id'] = $campaign->id;
 
         $result = $media->contents()->create($validated);
         return $result;
