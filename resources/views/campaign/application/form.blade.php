@@ -158,11 +158,9 @@
                                                 </div>
                                                 <small>주소를 정확히 입력해주세요</small>
                                             </div>
-                                            @if($editable)
                                             <x-slot name="footer">
                                                 <button type="button" class="button button-default" @click="save(item.media)">저장</button>
                                             </x-slot>
-                                            @endif
                                         </x-rootmodal>
                                     </div>
                                 </div>
@@ -531,16 +529,32 @@
                         </div>
                     </div>
 
-                    <div class="flex mt-6">
-                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">스폰서배너 삽입</div>
+                    @if(isset($campaignApplication->id) && in_array($campaignApplication->status, [\App\Enums\Campaign\ApplicationStatus::APPROVED->value, \App\Enums\Campaign\ApplicationStatus::POSTED->value]))
+                    <div class="flex mt-6" x-data="bannerData">
+                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">스폰서 배너 삽입</div>
                         <div class="w-full border-t pt-6">
                             <div class="mb-3">콘텐츠 본문 하단에 스폰서 배너를 삽입해주세요.</div>
                             <div class="flex gap-3">
-                                <input type="text" class="form-control" value="http://localhost/campaign/banner">
-                                <button type="button" class="button button-light">코드복사</button>
+                                <input type="text" class="form-control" value="<img src='{{ config('app.url') }}/campaign_banner?id={{ $campaignApplication->banner_id }}' />" x-ref="banner">
+                                <button type="button" class="button button-light" @click="copyBanner">코드복사</button>
                             </div>
                         </div>
                     </div>
+                    <script>
+                        const bannerData = {
+                          copyBanner(){
+                            const text = this.$refs.banner.value;
+                            navigator.clipboard.writeText(text)
+                              .then(() => {
+                                alert('코드가 복사되었습니다.');
+                              })
+                              .catch(err => {
+                                console.error('복사 실패:', err);
+                                alert('코드 복사에 실패했습니다.');
+                              });
+                          }
+                        }
+                    </script>
                     <div class="flex mt-6">
                         <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">콘텐츠 선택</div>
                         <div class="w-full border-t pt-6">
@@ -579,7 +593,7 @@
                             <script>
                                 const mediaContentData = {
                                     media: '{{ $media->media }}',
-                                    contentUrl: '{{ $media->contentsByUser()->first()->content_url }}',
+                                    contentUrl: '{{ $media->contentsByUser()->first()->content_url ?? '' }}',
                                     items: [],
                                     init(){
                                       axios.get(`/api/user/media/external_content?media=${this.media}`).then(res => {
@@ -603,6 +617,7 @@
                             </ul>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
             <x-campaign.sidecar :campaign="$campaign" :useThumbnail="true" :campaignApplication="$campaignApplication"></x-campaign.sidecar>

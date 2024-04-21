@@ -40,6 +40,7 @@ class CampaignApplicationService{
 
         $validated['status'] = ApplicationStatus::APPLIED->value;
         $validated['campaign_id'] = $campaign->id;
+        $validated['banner_id'] = md5(uniqid(mt_rand(), true));
 
         DB::beginTransaction();
         try {

@@ -64,6 +64,7 @@ class CampaignSeeder extends Seeder
                 'sex' => ['man', 'woman'][rand(0, 1)],
                 'phone' => $faker->phoneNumber,
                 'status' => $status->value,
+                'banner_id' => md5(uniqid(mt_rand(), true)),
             ]);
 
             foreach ($users as $user) {

@@ -14,6 +14,8 @@ use App\Enums\Campaign\MediaEnum;
 use App\Enums\RoleEnum;
 use App\Enums\AdminRoleEnum;
 use App\Http\Controllers\CampaignMediaContentController;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,11 +27,24 @@ use App\Http\Controllers\CampaignMediaContentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/foo', function(){
 
-Route::get('foo', function(){
-    $campaignMedia = \App\Models\CampaignMedia::find('11');
-    $result = auth()->user()->campaignMediaContent($campaignMedia)->first();
-    dd($result);
+});
+
+Route::get('campaign_banner', function(Request $request){
+    $filepath = "campaigns/1/7GMCs3UeUw1P3rXq7WGvLV4gc6TqvXz8paKGT865.png";
+    $fileContents = Storage::disk('public')->get($filepath);
+    $response = new Response($fileContents);
+    $response->headers->set('Content-Type', Storage::disk('public')->mimeType($filepath));
+
+    $bannerLog = new \App\Models\BannerLog;
+    $bannerLog->create([
+        'banner_id' => $request->input('id'),
+        'referer' => $request->header('referer'),
+        'ip_address' => $request->ip(),
+    ]);
+
+    return $response;
 });
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
