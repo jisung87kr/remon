@@ -7,12 +7,19 @@ use App\Enums\MediaConnectedStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Response;
 use App\Models\UserMedia;
+use App\Services\NaverBlogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class UserMediaApiController extends Controller
 {
+    public $naverBlogService;
+
+    public function __construct(NaverBlogService $naverBlogService)
+    {
+        $this->naverBlogService = $naverBlogService;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -47,11 +54,19 @@ class UserMediaApiController extends Controller
             $validated = $request->validate([
                 'media' => ['required', Rule::enum(MediaEnum::class)],
                 'url' => ['required', 'url'],
-                'connected_status' => ['required', Rule::enum(MediaConnectedStatusEnum::class)],
             ]);
 
-            $result = $request->user()->medias()->create($validated);
-            return response()->json(new Response(Response::SUCCESS, '미디어 목록 등록 성공', $result));
+            switch ($validated['media']){
+                case MediaEnum::NAVER_BLOG->value:
+                    $result = $this->naverBlogService->connect($request->user(), $validated['url']);
+                    break;
+            }
+
+            if($result){
+                return response()->json(new Response(Response::SUCCESS, '미디어 목록 등록 성공', $result));
+            }
+
+            throw new \Exception('미디어를 등록할 수 없습니다.');
         } catch (\Exception $e){
             return response()->json(new Response(Response::ERROR, '미디어 목록 등록 실패', $e->getMessage()), 500);
         }
