@@ -2,8 +2,6 @@
     <div class="absolute top-6 right-6">
         @if(session('status'))
             <x-toast toast="success">{{ session('status') }}</x-toast>
-            <x-toast toast="danger">{{ session('status') }}</x-toast>
-            <x-toast toast="error">{{ session('status') }}</x-toast>
         @elseif(session('error'))
             <x-toast toast="error">{{ session('status') }}</x-toast>
         @endif
