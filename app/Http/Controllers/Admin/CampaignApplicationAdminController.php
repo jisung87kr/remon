@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\ApplicationProcessed;
 use App\Exports\CampaignApplicationExport;
 use App\Http\Controllers\Controller;
 use App\Models\CampaignApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CampaignApplicationAdminController extends Controller
 {
@@ -34,6 +36,7 @@ class CampaignApplicationAdminController extends Controller
                 if(isset($item['checked'])){
                     $application = CampaignApplication::find($item['id']);
                     $application->update(['status' => $item['status']]);
+                    ApplicationProcessed::dispatch($application);
                 }
             }
 
