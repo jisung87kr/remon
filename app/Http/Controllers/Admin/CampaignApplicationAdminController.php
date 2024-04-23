@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Campaign\ApplicationStatus;
+use App\Enums\User\PointTypeEnum;
 use App\Events\ApplicationProcessed;
 use App\Exports\CampaignApplicationExport;
 use App\Http\Controllers\Controller;
@@ -36,6 +38,22 @@ class CampaignApplicationAdminController extends Controller
                 if(isset($item['checked'])){
                     $application = CampaignApplication::find($item['id']);
                     $application->update(['status' => $item['status']]);
+
+                    // 포인트 부여
+                    if($item['status'] === ApplicationStatus::COMPLETED->value && $application->campaign->use_benefit_point){
+                        $pointData = $application->user->points()->where('campaign_id', $application->campaign_id)->first();
+                        if(!$pointData){
+                            $application->user->points()->create([
+                                'type' => PointTypeEnum::INCREMENT->value,
+                                'point' => $application->campaign->benefit_point,
+                                'description' => "캠페인 완료 보상",
+                                'campaign_id' => $application->campaign_id,
+                                'expired_at' => now()->addDays('100'),
+                            ]);
+                        }
+                    }
+
+                    //상태변경 알림 이벤트
                     ApplicationProcessed::dispatch($application);
                 }
             }

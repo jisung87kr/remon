@@ -73,7 +73,7 @@
                         <tr>
                             <td>
                                 <input type="checkbox" name="application[{{ $loop->index }}][checked]" value="1" class="form-check"
-                                        @disabled(in_array($application->status, [\App\Enums\Campaign\ApplicationStatus::POSTED->value, \App\Enums\Campaign\ApplicationStatus::COMPLETED->value]))>
+                                        @disabled(in_array($application->status, [\App\Enums\Campaign\ApplicationStatus::COMPLETED->value]))>
                             </td>
                             <td>{{ $application->id }}</td>
                             <td>
@@ -99,7 +99,7 @@
                             </td>
                             <td>
                                 <input type="hidden" name="application[{{ $loop->index }}][id]" value="{{ $application->id }}">
-                                <select name="application[{{ $loop->index }}][status]" class="form-select" @disabled(in_array($application->status, [\App\Enums\Campaign\ApplicationStatus::POSTED->value, \App\Enums\Campaign\ApplicationStatus::COMPLETED->value]))>>
+                                <select name="application[{{ $loop->index }}][status]" class="form-select" @disabled(in_array($application->status, [\App\Enums\Campaign\ApplicationStatus::COMPLETED->value]))>
                                     @foreach(\App\Enums\Campaign\ApplicationStatus::cases() as $case)
                                         <option value="{{ $case->value }}" @selected($application->status == $case->value)>{{ $case->label() }}</option>
                                     @endforeach
