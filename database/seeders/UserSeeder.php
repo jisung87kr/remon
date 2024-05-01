@@ -65,11 +65,17 @@ class UserSeeder extends Seeder
             }
         });
 
-        $user = User::factory()->create([
+        $jisung = User::factory()->create([
             'name' => '유지성',
             'email' => 'jisung87kr@gmail.com',
         ]);
 
-        $user->assignRole(AdminRoleEnum::ADMIN->value);
+        $admin = User::factory()->create([
+            'name' => '관리자',
+            'email' => 'admin@admin.com',
+        ]);
+
+        $jisung->assignRole(AdminRoleEnum::ADMIN->value);
+        $admin->assignRole(AdminRoleEnum::ADMIN->value);
     }
 }

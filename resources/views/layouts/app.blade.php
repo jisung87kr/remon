@@ -103,16 +103,6 @@
                                 </form>
                             </x-slot>
                         </x-dropdown>
-                        @if(request()->routeIs('mypage.*'))
-                        <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M4 6l16 0" />
-                                <path d="M4 12l16 0" />
-                                <path d="M4 18l16 0" />
-                            </svg>
-                        </button>
-                        @endif
                     </div>
                 @else
                     <div class="flex gap-1 items-baseline">
@@ -212,9 +202,37 @@
             </footer>
         </div>
 
+        <div class="modal menu-modal z-[999]" x-show="$store.menuModal.show" style="display: none">
+            <div class="modal-bg"></div>
+            <div class="modal-wrapper" @click.away="$store.menuModal.show = false">
+                <div class="modal-header">
+                    <div class="relative">
+                        <button type="button"
+                                class="absolute right-1 top-1/2 -translate-y-1/2"
+                                @click="$store.menuModal.show = false">x</button>
+                    </div>
+                </div>
+                <div class="modal-content">
+                    <ul>
+                        <li class="my-3">
+                            <a href="{{ route('campaign.index') }}" class="{{ request()->routeIs('campaign.index') && (empty(request()->input('campaign_type')) || count(request()->input('campaign_type', [])) == 2) ? 'text-indigo-500' : '' }}">전체 캠페인</a>
+                        </li>
+                        <li class="my-3">
+                            <a href="{{ route('campaign.index', ['campaign_type' => ['방문형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('방문형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">방문형 캠페인</a>
+                        </li>
+                        <li class="my-3">
+                            <a href="{{ route('campaign.index', ['campaign_type' => ['배송형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('배송형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">배송형 캠페인</a>
+                        </li>
+                        <li class="my-3"><a href="{{ route('event') }}" class="{{ request()->routeIs('event') ? 'text-indigo-500' : '' }}">이벤트</a></li>
+                        <li class="my-3"><a href="{{ route('community.free') }}" class="{{ request()->routeIs('community.free') ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
+                        <li class="my-3"><a href="{{ route('help.inquiry') }}" class="{{ request()->routeIs('help.inquiry') ? 'text-indigo-500' : '' }}">고객센터</a></li>
+                        <li class="my-3"><a href="{{ route('help.contact') }}" class="{{ request()->routeIs('help.contact') ? 'text-indigo-500' : '' }}">광고문의</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-
-        <div class="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-white border border-gray-200 rounded-full bottom-4 left-1/2">
+        <div class="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-white border border-gray-200 rounded-full bottom-4 left-1/2" x-data>
             <div class="grid h-full max-w-lg grid-cols-5 mx-auto">
                 <a href="{{ route('index') }}" class="inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-gray-50 group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -225,7 +243,9 @@
                     </svg>
                     <span class="text-xs mt-1">홈</span>
                 </a>
-                <button type="button" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
+                <button type="button"
+                        class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group"
+                        @click="$store.menuModal.show = true;">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M4 6l16 0" />

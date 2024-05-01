@@ -6,6 +6,21 @@ document.addEventListener('alpine:init', () => {
     }
   });
 
+  Alpine.store('menuModal', {
+    show: false,
+    toggle(){
+      this.show = !this.show;
+    }
+  });
+
+  Alpine.store('lnbModal', {
+    show: false,
+    open: false,
+    toggle(){
+      this.open = !this.open;
+    }
+  });
+
   Alpine.data('favoriteCampaignData', () => ({
     isActive: false,
     init(){
@@ -25,4 +40,9 @@ document.addEventListener('alpine:init', () => {
       }
     },
   }));
+});
+
+window.addEventListener('resize', () => {
+  Alpine.store('lnbModal').show = window.innerWidth > 1024 ? true : false;
+  Alpine.store('lnbModal').open = window.innerWidth > 1024 ? false : true;
 });
