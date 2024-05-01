@@ -44,7 +44,8 @@
                     </form>
                 </div>
                 @if(Auth::check())
-                    <div class="ms-3 relative">
+
+                    <div class="ms-3 relative flex gap-3 items-center">
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
                                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
@@ -102,6 +103,16 @@
                                 </form>
                             </x-slot>
                         </x-dropdown>
+                        @if(request()->routeIs('mypage.*'))
+                        <button>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M4 6l16 0" />
+                                <path d="M4 12l16 0" />
+                                <path d="M4 18l16 0" />
+                            </svg>
+                        </button>
+                        @endif
                     </div>
                 @else
                     <div class="flex gap-1 items-baseline">
@@ -112,23 +123,23 @@
                 @endif
             </header>
             <div class="border-b">
-                <div class="container mx-auto p-6">
+                <div class="container mx-auto">
                     <nav>
-                        <ul class="flex gap-y-5 gap-x-8">
-                            <li class="font-bold">
+                        <ul class="flex flex-nowrap gap-y-5 gap-x-8 overflow-x-auto p-6">
+                            <li class="font-bold shrink-0">
                                 <a href="{{ route('campaign.index') }}" class="{{ request()->routeIs('campaign.index') && (empty(request()->input('campaign_type')) || count(request()->input('campaign_type', [])) == 2) ? 'text-indigo-500' : '' }}">전체 캠페인</a>
                             </li>
-                            <li class="font-bold">
+                            <li class="font-bold shrink-0">
                                 <a href="{{ route('campaign.index', ['campaign_type' => ['방문형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('방문형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">방문형 캠페인</a>
                             </li>
-                            <li class="font-bold">
+                            <li class="font-bold shrink-0">
                                 <a href="{{ route('campaign.index', ['campaign_type' => ['배송형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('배송형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">배송형 캠페인</a>
                             </li>
 
-                            <li class="font-bold"><a href="{{ route('event') }}" class="{{ request()->routeIs('event') ? 'text-indigo-500' : '' }}">이벤트</a></li>
-                            <li class="font-bold"><a href="{{ route('community.free') }}" class="{{ request()->routeIs('community.free') ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
-                            <li class="font-bold"><a href="{{ route('help.inquiry') }}" class="{{ request()->routeIs('help.inquiry') ? 'text-indigo-500' : '' }}">고객센터</a></li>
-                            <li class="font-bold"><a href="{{ route('help.contact') }}" class="{{ request()->routeIs('help.contact') ? 'text-indigo-500' : '' }}">광고문의</a></li>
+                            <li class="font-bold shrink-0"><a href="{{ route('event') }}" class="{{ request()->routeIs('event') ? 'text-indigo-500' : '' }}">이벤트</a></li>
+                            <li class="font-bold shrink-0"><a href="{{ route('community.free') }}" class="{{ request()->routeIs('community.free') ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
+                            <li class="font-bold shrink-0"><a href="{{ route('help.inquiry') }}" class="{{ request()->routeIs('help.inquiry') ? 'text-indigo-500' : '' }}">고객센터</a></li>
+                            <li class="font-bold shrink-0"><a href="{{ route('help.contact') }}" class="{{ request()->routeIs('help.contact') ? 'text-indigo-500' : '' }}">광고문의</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -139,7 +150,7 @@
                 {{ $slot }}
             </main>
 
-            <footer class="border-t px-6">
+            <footer class="border-t px-6 mb-20">
                 <div class="container mx-auto py-6">
                     <div class="md:flex md:justify-between md:items-center">
                         <div class="mr-6">
@@ -184,15 +195,15 @@
                             <div class="mt-6 lg:mt-0 lg:flex gap-6">
                                 <div class="flex gap-3">
                                     <div class="text-gray-500">Influencer</div>
-                                    <div class="font-bold">1,000,000</div>
+                                    <div class="font-bold">{{ number_format($influencerCount) }}</div>
                                 </div>
                                 <div class="flex gap-3">
                                     <div class="text-gray-500">Campaign</div>
-                                    <div class="font-bold">1,000,000</div>
+                                    <div class="font-bold">{{ number_format($campaignCount) }}</div>
                                 </div>
                                 <div class="flex gap-3">
                                     <div class="text-gray-500">Contents</div>
-                                    <div class="font-bold">1,000,000</div>
+                                    <div class="font-bold">{{ number_format($contentCount) }}</div>
                                 </div>
                             </div>
                         </div>
@@ -200,6 +211,61 @@
                 </div>
             </footer>
         </div>
+
+
+
+        <div class="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-white border border-gray-200 rounded-full bottom-4 left-1/2">
+            <div class="grid h-full max-w-lg grid-cols-5 mx-auto">
+                <a href="{{ route('index') }}" class="inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-gray-50 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+                        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                        <path d="M10 12h4v4h-4z" />
+                    </svg>
+                    <span class="text-xs mt-1">홈</span>
+                </a>
+                <button type="button" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M4 6l16 0" />
+                        <path d="M4 12l16 0" />
+                        <path d="M4 18l16 0" />
+                    </svg>
+                    <span class="text-xs mt-1">메뉴</span>
+                </button>
+                <a href="{{ route('community.free') }}" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-chatbot" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
+                        <path d="M9.5 9h.01" />
+                        <path d="M14.5 9h.01" />
+                        <path d="M9.5 13a3.5 3.5 0 0 0 5 0" />
+                    </svg>
+                    <span class="text-xs mt-1">커뮤니티</span>
+                </a>
+                <a href="{{ route('help.inquiry') }}" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-desktop-bolt" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M14.5 16h-10.5a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v7.5" />
+                        <path d="M7 20h6" />
+                        <path d="M9 16v4" />
+                        <path d="M19 16l-2 3h4l-2 3" />
+                    </svg>
+                    <span class="text-xs mt-1">고객센터</span>
+                </a>
+                <a href="{{ route('mypage.campaign') }}" type="button" class="inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-gray-50 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-hexagon" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M12 13a3 3 0 1 0 0 -6a3 3 0 0 0 0 6z" />
+                        <path d="M6.201 18.744a4 4 0 0 1 3.799 -2.744h4a4 4 0 0 1 3.798 2.741" />
+                        <path d="M19.875 6.27c.7 .398 1.13 1.143 1.125 1.948v7.284c0 .809 -.443 1.555 -1.158 1.948l-6.75 4.27a2.269 2.269 0 0 1 -2.184 0l-6.75 -4.27a2.225 2.225 0 0 1 -1.158 -1.948v-7.285c0 -.809 .443 -1.554 1.158 -1.947l6.75 -3.98a2.33 2.33 0 0 1 2.25 0l6.75 3.98h-.033z" />
+                    </svg>
+                    <span class="text-xs mt-1">마이페이지</span>
+                </a>
+            </div>
+        </div>
+
 
         @stack('modals')
 

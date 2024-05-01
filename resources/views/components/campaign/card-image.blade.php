@@ -1,7 +1,7 @@
 @props(['campaign' => $campaign, 'href' => $href])
 <div {{ $attributes->merge(['class' => 'relative']) }}>
     {{ $slot }}
-    <a href="{{ $href }}" class="overflow-hidden rounded block">
+    <a href="{{ $href }}" class="overflow-hidden rounded-lg block">
         @isset($campaign->thumbnails[0])
             <img src="{{Storage::url($campaign->thumbnails[0]['file_path'])}}" alt="" class="w-full">
         @else

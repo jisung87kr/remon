@@ -1,13 +1,49 @@
 <x-app-layout>
-    <section id="main-banner" class="container mx-auto p-6">
-        <div class="grid grid-cols-3 gap-6">
-            <div class="aspect-video bg-gray-50 rounded-lg flex items-center justify-center">banner1</div>
-            <div class="aspect-video bg-gray-50 rounded-lg flex items-center justify-center">banner2</div>
-            <div class="aspect-video bg-gray-50 rounded-lg flex items-center justify-center">banner3</div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <section id="main-banner" class="container-full py-6">
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="aspect-video bg-gray-50 rounded-lg flex items-center justify-center">banner1</div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="aspect-video bg-gray-50 rounded-lg flex items-center justify-center">banner2</div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="aspect-video bg-gray-50 rounded-lg flex items-center justify-center">banner3</div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-scrollbar"></div>
         </div>
+        <script>
+          const swiper = new Swiper('.swiper', {
+            loop: true,
+            // pagination: {
+            //   el: '.swiper-pagination',
+            // },
+            scrollbar: {
+              el: '.swiper-scrollbar',
+            },
+            slidesPerView: 1.3,
+            spaceBetween: 15,
+            breakpoints:{
+              768: {
+                slidesPerView: 2,
+                spaceBetween: 15,
+              },
+              1024: {
+                slidesPerView: 3,
+                spaceBetween: 15,
+              },
+            }
+          });
+        </script>
     </section>
     <section id="category" class="container mx-auto p-6 my-12">
-        <div class="grid grid-cols-10 gap-6 xl:grid-cols-10 xl:gap-12">
+        <div class="grid grid-cols-5 gap-6 lg:grid-cols-10 xl:gap-12">
             <a href="{{ route('help.guide') }}" class="text-center">
                 <img src="{{ Vite::asset('resources/images/category/category-guide.png') }}" alt="">
                 <div class="mt-2">이용가이드</div>
@@ -52,7 +88,7 @@
     </section>
     <section id="popular_campaign" class="container mx-auto p-6">
         <h1 class="text-2xl font-bold mb-3">지금 인기 캠페인</h1>
-        <div class="grid grid-cols-3 gap-6 xl:grid-cols-7">
+        <div class="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
             @forelse($bestCampaigns as $key => $campaign)
                 <x-campaign.card :campaign="$campaign"></x-campaign.card>
             @empty
