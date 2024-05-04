@@ -13,7 +13,7 @@
                         <label class="label mb-2 text-base">상태</label>
                         <select name="status" id="status" class="form-select">
                             @foreach(App\Enums\Campaign\StatusEnum::cases() as $status)
-                                <option value="{{ $status->name }}" @selected($status->name == old('status', $campaign->status))>{{ $status->label() }}</option>
+                                <option value="{{ $status->value }}" @selected($status->value == old('status', $campaign->status))>{{ $status->label() }}</option>
                             @endforeach
                         </select>
                         <x-input-error for="status" class="mt-1"></x-input-error>
@@ -111,14 +111,57 @@
                         <label class="label mb-2 text-base">대표이미지</label>
                         <input type="file" name="thumbnails[]" class="form-control" multiple>
                         <x-input-error for="thumbnails" class="mt-1"></x-input-error>
+                        @isset($campaign->thumbnails)
+                        <div class="grid grid-cols-4 md:grid-cols-6 gap-3 mt-3" id="thumbnails">
+                            @foreach($campaign->thumbnails as $index => $thumbnail)
+                                <div class="overflow-hidden relative">
+                                    <input type="hidden" name="thumbnails_sort[{{ $thumbnail->id }}]" class="form-control input-sort" value="{{ $index }}">
+                                    <input type="checkbox" name="delete_images[]" value="{{ $thumbnail->id }}" class="absolute top-2 right-2">
+                                    <a href="{{ Storage::url($thumbnail['file_path']) }}" target="_blank">
+                                        <img src="{{ Storage::url($thumbnail['file_path']) }}" alt="" class="rounded-lg">
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                        @endisset
                     </div>
                     <div class="col-span-2 py-6">
                         <label class="label mb-2 text-base">상세이미지</label>
                         <input type="file" name="detail_images[]" class="form-control" multiple>
                         <x-input-error for="detail_images" class="mt-1"></x-input-error>
+                        @isset($campaign->detailimages)
+                            <div class="grid grid-cols-4 md:grid-cols-6 gap-3 mt-3 sortable" id="detail_images">
+                                @foreach($campaign->detailimages as $index => $detailImage)
+                                    <div class="overflow-hidden relative">
+                                        <input type="hidden" name="detail_images_sort[{{ $detailImage->id }}]" class="form-control input-sort" value="{{ $index }}">
+                                        <input type="checkbox" name="delete_images[]" value="{{ $detailImage->id }}" class="absolute top-2 right-2">
+                                        <a href="{{ Storage::url($detailImage['file_path']) }}" target="_blank">
+                                            <img src="{{ Storage::url($detailImage['file_path']) }}" alt="" class="rounded-lg">
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endisset
                     </div>
                 </div>
             </div>
+            <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+            <script>
+              var thumbnails = document.getElementById('thumbnails');
+              var detail_images = document.getElementById('detail_images');
+              var opt = {
+                onUpdate: function(event){
+                  console.log(event);
+                  var items = event.target.querySelectorAll(".input-sort");
+                  for (let i = 0; i < items.length; i++) {
+                    items[i].value = i;
+                  }
+                }
+              };
+
+              var sortable1 = Sortable.create(thumbnails, opt);
+              var sortable2 = Sortable.create(detail_images, opt);
+            </script>
         </section>
         <section class="mb-16">
             <h1 class="h3 mb-6">캠페인 정보</h1>

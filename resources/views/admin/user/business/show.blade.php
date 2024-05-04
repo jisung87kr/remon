@@ -52,32 +52,30 @@
                        </tr>
                        </thead>
                        <tbody>
-                       <tr>
-                           <td>-</td>
-                           <td>-</td>
-                           <td>-</td>
-                           <td>-</td>
-                       </tr>
-                       <tr>
-                           <td>-</td>
-                           <td>-</td>
-                           <td>-</td>
-                           <td>-</td>
-                       </tr>
-                       <tr>
-                           <td>-</td>
-                           <td>-</td>
-                           <td>-</td>
-                           <td>-</td>
-                       </tr>
-                       <tr>
-                           <td>-</td>
-                           <td>-</td>
-                           <td>-</td>
-                           <td>-</td>
-                       </tr>
+                       @forelse($campaigns as $campaign)
+                           <tr>
+                               <td>
+                                   <a href="{{ route('campaign.show', $campaign) }}" target="_blank">{{ $campaign->title }}</a>
+                               </td>
+                               <td>{{ $campaign->applications->count() }} / {{ $campaign->application_limit }}</td>
+                               <td>{{ $campaign->progressStatus }} </td>
+                               <td>{{ $campaign->created_at->format('y-m-d') }}</td>
+                           </tr>
+                       @empty
+                           <tr>
+                               <td>-</td>
+                               <td>-</td>
+                               <td>-</td>
+                               <td>-</td>
+                           </tr>
+                       @endforelse
                        </tbody>
                    </table>
+                   @if($campaigns->links())
+                       <div class="p-5">
+                           {{ $campaigns->links() }}
+                       </div>
+                   @endif
                </div>
            </div>
            <div class="card !p-0">

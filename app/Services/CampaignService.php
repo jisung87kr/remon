@@ -6,6 +6,7 @@ use App\Enums\Campaign\MissionOptionEnum;
 use App\Enums\Campaign\StatusEnum;
 use App\Helper\CommonHelper;
 use App\Models\Campaign;
+use App\Models\CampaignImage;
 use App\Models\CampaignMedia;
 use App\Models\CampaignType;
 use Illuminate\Support\Facades\DB;
@@ -62,6 +63,8 @@ class CampaignService{
             'detail_images.*'                => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'delete_images'                  => 'nullable|array',
             'application_information'        => 'nullable',
+            'thumbnails_sort.*'              => 'nullable',
+            'detail_images_sort.*'           => 'nullable',
         ]);
 
         DB::beginTransaction();
@@ -73,6 +76,7 @@ class CampaignService{
             ],[
                 'user_id'                     => $validated['user_id'],
                 'campaign_type_id'            => $validated['type'],
+                'status'                      => $validated['status'],
                 'campaign_type_name'          => $campaignType->name,
                 'campaign_type_price'         => $campaignType->price,
                 'title'                       => $validated['title'],
@@ -222,6 +226,18 @@ class CampaignService{
                 foreach ($images as $image) {
                     $image->delete();
                     Storage::disk('public')->delete($image->file_path);
+                }
+            }
+
+            if(!empty($validated['thumbnails_sort'])){
+                foreach ($validated['thumbnails_sort'] as $index => $item) {
+                    $campaign->images()->where('id', $index)->update(['order_seq' => $item]);
+                }
+            }
+
+            if(!empty($validated['detail_images_sort'])){
+                foreach ($validated['detail_images_sort'] as $index => $item) {
+                    $campaign->images()->where('id', $index)->update(['order_seq' => $item]);
                 }
             }
 

@@ -11,7 +11,7 @@ class IndexController extends Controller
 {
     public function index(Request $request)
     {
-        $bestCampaigns = Campaign::where('status', StatusEnum::DRAFT)->limit(7)->get();
+        $bestCampaigns = Campaign::where('status', StatusEnum::PUBLISHED)->limit(7)->get();
         $remonPicksCampaigns = [];
         $pendingCampaigns = [];
         $brands = [];
