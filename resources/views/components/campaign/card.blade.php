@@ -7,7 +7,7 @@
         default:
             $routeName = 'campaign.show';
         break;
-    }
+    }집
 @endphp
 <div class="card">
     <div class="card-body">
@@ -19,10 +19,13 @@
             <div class="ml-2 font-bold">{{ $campaign->application_end_at->diffForHumans() }} 마감</div>
         </div>
         <div>
-            @if($campaign->locationCategories->count() > 0)
-            <div>[{{ $campaign->locationCategories[0]->name }}] {{ $campaign->product_name }}</div>
+            <div>
+                @if($campaign->locationCategories->count() > 0)[{{ $campaign->locationCategories[0]->name }}]@endif
+                {{ $campaign->product_name }}
+            </div>
+            @if($campaign->benefit)
+                <small class="text-gray-500 line-clamp-2">{{ $campaign->benefit }}</small>
             @endif
-            <small class="text-gray-500 line-clamp-2">{{ $campaign->benefit }}</small>
         </div>
         <div class="my-2">
             <small>신청 {{ number_format($campaign->applications()->activeCount()->count()) }}</small><small class="text-gray-500"> / </small><small

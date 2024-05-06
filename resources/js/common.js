@@ -16,6 +16,9 @@ document.addEventListener('alpine:init', () => {
   Alpine.store('lnbModal', {
     show: false,
     open: false,
+    init(){
+      this.show =  window.innerWidth > 1024;
+    },
     toggle(){
       this.open = !this.open;
     }

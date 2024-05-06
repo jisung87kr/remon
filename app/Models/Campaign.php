@@ -27,6 +27,19 @@ class Campaign extends Model
         'result_announcement_date_at' => 'datetime',
     ];
     protected $with = ['locationCategories', 'options'];
+    protected $appends = ['progressStatus'];
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('bannerLogCount', function (Builder $builder) {
+            $query = "
+                SELECT *, 
+                       (SELECT COUNT(*) FROM banner_logs WHERE banner_id IN (SELECT banner_id FROM campaign_applications WHERE campaign_id = C.id )) AS banner_log_count 
+                FROM campaigns AS C
+                ";
+            $builder->fromSub($query, "campaigns");
+        });
+    }
 
     public function categories()
     {
@@ -280,6 +293,25 @@ class Campaign extends Model
         );
     }
 
+    public function progressStatus() : Attribute
+    {
+        return Attribute::make(
+            get: function($value, $attributes){
+                if(date('Y-m-d H:i:s') < $attributes['application_start_at']){
+                    return '준비중';
+                } else if($attributes['application_start_at'] >= date('Y-m-d H:i:s') && date('Y-m-d H:i:s') <= $attributes['application_end_at']){
+                    return '진행중';
+                } else if(date('Y-m-d H:i:s') < $attributes['announcement_at']){
+                    return '발표중';
+                } else if($attributes['registration_start_date_at'] >= date('Y-m-d H:i:s') && date('Y-m-d H:i:s') <= $attributes['registration_end_date_at']){
+                    return '컨텐츠 등록중';
+                } else {
+                    return '종료됨';
+                }
+            },
+        );
+    }
+
     public function hasPortraitRightConsent() : Attribute
     {
         //$campaign->applicationFields->pluck('name')->toArray()
@@ -288,5 +320,13 @@ class Campaign extends Model
                 return in_array(ApplicationFieldEnum::IS_FACE_VISIBLE->value, $this->applicationFields->pluck('name')->toArray());
             },
         );
+    }
+
+    public function scopeBannerLogCount(Builder $query)
+    {
+        $banners = $this->applications->pluck('banner_id')->toArray();
+        $bannersStr = implode("','", $banners);
+        $results = DB::select("SELECT COUNT(*) AS cnt FROM banner_logs WHERE banner_id IN ('{$bannersStr}')");
+        return $results[0]->cnt ?? null;
     }
 }

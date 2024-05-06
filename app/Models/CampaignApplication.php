@@ -30,6 +30,11 @@ class CampaignApplication extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function bannerLogs()
+    {
+        return $this->hasMany(BannerLog::class, 'banner_id', 'banner_id');
+    }
+
     public function scopeFilter(Builder $query, array $filter)
     {
         $query->when($filter['status'] ?? false, function($query, $status){
@@ -41,5 +46,10 @@ class CampaignApplication extends Model
     {
         return $query->selectRaw('count(*)')
             ->whereIn('campaign_applications.status', ['applied', 'posted', 'completed']);
+    }
+
+    public function bannerViewCount()
+    {
+
     }
 }

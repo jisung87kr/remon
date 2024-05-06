@@ -48,7 +48,9 @@
                            <th>캠페인</th>
                            <th>신청</th>
                            <th>상태</th>
+                           <th>배너조회</th>
                            <th>등록일</th>
+                           <th>행동</th>
                        </tr>
                        </thead>
                        <tbody>
@@ -59,10 +61,16 @@
                                </td>
                                <td>{{ $campaign->applications->count() }} / {{ $campaign->application_limit }}</td>
                                <td>{{ $campaign->progressStatus }} </td>
+                               <td>{{ number_format($campaign->banner_log_count) }}</td>
                                <td>{{ $campaign->created_at->format('y-m-d') }}</td>
+                               <td>
+                                   <a href="" target="_blank">보고서</a>
+                               </td>
                            </tr>
                        @empty
                            <tr>
+                               <td>-</td>
+                               <td>-</td>
                                <td>-</td>
                                <td>-</td>
                                <td>-</td>

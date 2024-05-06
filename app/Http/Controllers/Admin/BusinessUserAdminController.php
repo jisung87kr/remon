@@ -59,7 +59,8 @@ class BusinessUserAdminController extends Controller
      */
     public function show(Request $request, User $user)
     {
-        return view('admin.user.business.show', compact('user'));
+        $campaigns = $user->businessCampaigns()->paginate(2);
+        return view('admin.user.business.show', compact('user', 'campaigns'));
     }
 
     /**
