@@ -7,7 +7,7 @@
         default:
             $routeName = 'campaign.show';
         break;
-    }집
+    }
 @endphp
 <div class="card">
     <div class="card-body">
