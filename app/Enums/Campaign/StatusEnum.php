@@ -21,19 +21,3 @@ enum StatusEnum: string{
         };
     }
 }
-
-enum ProgressStatusEnum: string{
-    case Applying = 'applying';
-    case Approving = 'approving';
-    case IN_PROGRESS = 'in_progress';
-    case COMPLETED = 'completed';
-
-    public function label(){
-        return match ($this){
-            ProgressStatusEnum::Applying => '신청중',
-            ProgressStatusEnum::Approving => '선정중',
-            ProgressStatusEnum::IN_PROGRESS => '진행중',
-            ProgressStatusEnum::COMPLETED => '완료됨',
-        };
-    }
-}

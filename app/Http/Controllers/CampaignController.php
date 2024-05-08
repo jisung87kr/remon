@@ -31,6 +31,7 @@ class CampaignController extends Controller
             'type'          => $request->input('type'),
             'product'       => $request->input('product'),
             'location'      => $request->input('location'),
+            'progress_status'      => $request->input('progress_status'),
         ];
         $campaigns = Campaign::filter($filter)->sort($request->input('sort'))->paginate(60);
         $category = new Category;

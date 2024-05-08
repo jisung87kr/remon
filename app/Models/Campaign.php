@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Campaign\ApplicationFieldEnum;
 use App\Enums\Campaign\ImageTypeEnum;
 use App\Enums\Campaign\MissionOptionEnum;
+use App\Enums\Campaign\ProgressStatusEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,14 +28,31 @@ class Campaign extends Model
         'result_announcement_date_at' => 'datetime',
     ];
     protected $with = ['locationCategories', 'options'];
-    protected $appends = ['progressStatus'];
+    protected $appends = ['progressStatusLabel'];
 
     protected static function booted(): void
     {
         static::addGlobalScope('bannerLogCount', function (Builder $builder) {
+            $ready = ProgressStatusEnum::READY->value;
+            $applying = ProgressStatusEnum::Applying->value;
+            $approving = ProgressStatusEnum::Approving->value;
+            $inProgress = ProgressStatusEnum::IN_PROGRESS->value;
+            $result = ProgressStatusEnum::RESULT->value;
+            $completed = ProgressStatusEnum::COMPLETED->value;
+            $unknown = ProgressStatusEnum::UNKONWON->value;
+
             $query = "
                 SELECT *, 
-                       (SELECT COUNT(*) FROM banner_logs WHERE banner_id IN (SELECT banner_id FROM campaign_applications WHERE campaign_id = C.id )) AS banner_log_count 
+                       (SELECT COUNT(*) FROM banner_logs WHERE banner_id IN (SELECT banner_id FROM campaign_applications WHERE campaign_id = C.id )) AS banner_log_count,
+                       CASE
+                           WHEN NOW() < application_start_at THEN '{$ready}'
+                           WHEN NOW() BETWEEN application_start_at AND application_end_at THEN '{$applying}'
+                           WHEN NOW() BETWEEN application_end_at AND announcement_at THEN '{$approving}'
+                           WHEN NOW() BETWEEN registration_start_date_at AND registration_end_date_at THEN '{$inProgress}'
+                           WHEN NOW() BETWEEN registration_end_date_at AND result_announcement_date_at THEN '{$result}'
+                           WHEN NOW() > result_announcement_date_at THEN '{$completed}'
+                           ELSE '{$unknown}'
+                       END AS progress_status
                 FROM campaigns AS C
                 ";
             $builder->fromSub($query, "campaigns");
@@ -207,6 +225,10 @@ class Campaign extends Model
             });
         });
 
+        $query->when($filter['progress_status'] ?? false, function($query, $progressStatus){
+            $query->whereIn('progress_status', $progressStatus);
+        });
+
         $query->when($filter['type'] ?? false, function($query, $type){
             $query->whereHas('typeCategories', function($query) use ($type){
                 $query->whereIn('categories.id', function ($query) use ($type) {
@@ -293,21 +315,11 @@ class Campaign extends Model
         );
     }
 
-    public function progressStatus() : Attribute
+    public function progressStatusLabel() : Attribute
     {
         return Attribute::make(
             get: function($value, $attributes){
-                if(date('Y-m-d H:i:s') < $attributes['application_start_at']){
-                    return '준비중';
-                } else if($attributes['application_start_at'] >= date('Y-m-d H:i:s') && date('Y-m-d H:i:s') <= $attributes['application_end_at']){
-                    return '진행중';
-                } else if(date('Y-m-d H:i:s') < $attributes['announcement_at']){
-                    return '발표중';
-                } else if($attributes['registration_start_date_at'] >= date('Y-m-d H:i:s') && date('Y-m-d H:i:s') <= $attributes['registration_end_date_at']){
-                    return '컨텐츠 등록중';
-                } else {
-                    return '종료됨';
-                }
+                return ProgressStatusEnum::tryFrom($attributes['progress_status'])->label();
             },
         );
     }

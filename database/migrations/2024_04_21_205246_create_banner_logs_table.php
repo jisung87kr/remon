@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('banner_id');
             $table->string('referer')->nullable();
+            $table->string('user_agent')->nullable();
+            $table->boolean('is_mobile')->nullable();
             $table->string('ip_address');
             $table->timestamps();
         });

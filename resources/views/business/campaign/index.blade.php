@@ -8,14 +8,14 @@
             <x-campaign.snsfilter :category="$category"></x-campaign.snsfilter>
         </div>
         <div class="relative overflow-auto">
-            <table class="table border">
+            <table class="table border" style="min-width: 1200px">
                 <colgroup>
                     <col width="150x">
-                    <col width="100x">
+                    <col width="90x">
                     <col width="*">
                     <col width="200x">
-                    <col width="150x">
-                    <col width="150x">
+                    <col width="120x">
+                    <col width="120x">
                     <col width="150x">
                 </colgroup>
                 <thead class="!bg-white border-y text-center">
@@ -35,7 +35,7 @@
                     <td class="text-center">
                         <img src="{{ Storage::url($campaign->thumbnails[0]['file_path']) }}" alt="" class="rounded-lg">
                     </td>
-                    <td class="text-center">{{ $campaign->progressStatus }}</td>
+                    <td class="text-center">{{ $campaign->progress_status_label }}</td>
                     <td>
                         @foreach($campaign->media as $media)
                             <x-media-icon :media="$media->media"></x-media-icon>

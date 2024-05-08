@@ -18,6 +18,7 @@ class CampaignMypageController extends Controller
             'product'       => $request->input('product'),
             'location'      => $request->input('location'),
             'application_status' => $request->input('status'),
+            'progress_status'      => $request->input('progress_status'),
         ];
 
         $campaigns = auth()->user()->campaigns()->filter($filter)->paginate(10);

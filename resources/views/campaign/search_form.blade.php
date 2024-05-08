@@ -83,6 +83,22 @@
                         </div>
                     </div>
                 </template>
+
+                <div class="md:flex py-3 items-center">
+                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">진행 상태별</div>
+                    <div class="md:grow">
+                        <ul class="flex flex-wrap gap-3">
+                            @foreach(\App\Enums\Campaign\ProgressStatusEnum::cases() as $case)
+                                <li class="">
+                                    <x-checkbox-button id="progress_status_{{$case->value}}"
+                                                       name="progress_status[]"
+                                                       value="{{$case->value}}"
+                                                       :checked="in_array($case->value, request()->input('progress_status', []))">{{ $case->label() }}</x-checkbox-button>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="py-3 text-center relative">
                 <div class="bg-gradient-to-t from-[#fff] h-[20px] absolute left-0 top-o right-0 top-[-20px]"></div>
