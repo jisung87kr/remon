@@ -24,4 +24,4 @@
             break;
     }
 @endphp
-<span class="badge {{ $className }}">{{ \App\Enums\Campaign\ProgressStatusEnum::tryFrom($status)->label() }}</span>
+<span {{ $attributes->merge(['class' => "badge $className"]) }}>{{ \App\Enums\Campaign\ProgressStatusEnum::tryFrom($status)->label() }}</span>

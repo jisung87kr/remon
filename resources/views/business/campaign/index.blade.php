@@ -11,7 +11,7 @@
             <table class="table border" style="min-width: 1200px">
                 <colgroup>
                     <col width="150x">
-                    <col width="90x">
+                    <col width="100x">
                     <col width="*">
                     <col width="200x">
                     <col width="120x">
@@ -35,15 +35,17 @@
                     <td class="text-center">
                         <img src="{{ Storage::url($campaign->thumbnails[0]['file_path']) }}" alt="" class="rounded-lg">
                     </td>
-                    <td class="text-center">{{ $campaign->progress_status_label }}</td>
+                    <td class="text-center">
+                        <x-campaign.badge :status="$campaign->progress_status" class="break-keep"></x-campaign.badge>
+                    </td>
                     <td>
                         @foreach($campaign->media as $media)
                             <x-media-icon :media="$media->media"></x-media-icon>
                         @endforeach
                         <div class="mt-1">
-                            <div>
+                            <div class="font-bold">
                                 @if($campaign->locationCategories->count() > 0)[{{ $campaign->locationCategories[0]->name }}]@endif
-                                {{ $campaign->product_name }}
+                                {{ $campaign->title }}
                             </div>
                             @if($campaign->benefit)
                             <small class="text-gray-500 line-clamp-2">{{ $campaign->benefit }}</small>
