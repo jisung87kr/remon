@@ -210,8 +210,8 @@ class Campaign extends Model
 
     public function scopeFilter(Builder $query, $filter)
     {
-        $query->when($filter['title'] ?? false, function($query, $id){
-            $query->where('title', $id);
+        $query->when($filter['campaign_id'] ?? false, function($query, $id){
+            $query->where('id', $id);
         });
 
         $query->when($filter['keyword'] ?? false, function($query, $keyword){

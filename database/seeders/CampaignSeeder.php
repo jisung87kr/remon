@@ -79,7 +79,7 @@ class CampaignSeeder extends Seeder
                 CampaignMediaContent::factory()->create([
                    'user_id' => $user->id,
                    'campaign_id' => $campaignMedia->campaign_id,
-                   'campaigns_media_id' => $campaignMedia->id
+                   'campaign_media_id' => $campaignMedia->id
                 ]);
             }
         });

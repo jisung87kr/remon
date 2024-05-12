@@ -12,11 +12,11 @@ class CampaignMedia extends Model
 
     public function contents()
     {
-        return $this->hasMany(CampaignMediaContent::class, 'campaigns_media_id', 'id');
+        return $this->hasMany(CampaignMediaContent::class, 'campaign_media_id', 'id');
     }
 
     public function contentsByUser()
     {
-        return $this->hasMany(CampaignMediaContent::class, 'campaigns_media_id', 'id')->where('user_id', auth()->user()->id)->orderBy('id', 'desc');
+        return $this->hasMany(CampaignMediaContent::class, 'campaign_media_id', 'id')->where('user_id', auth()->user()->id)->orderBy('id', 'desc');
     }
 }

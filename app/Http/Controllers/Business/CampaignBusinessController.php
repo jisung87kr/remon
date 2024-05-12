@@ -11,32 +11,21 @@ use App\Models\CampaignMediaContent;
 use App\Models\CampaignType;
 use App\Models\Category;
 use App\Models\Mission;
+use App\Services\StatisticsService;
 use Illuminate\Http\Request;
 
 class CampaignBusinessController extends Controller
 {
+    public $service;
+
+    public function __construct(StatisticsService $service)
+    {
+        $this->service = $service;
+    }
+
     public function dashboard(Request $request)
     {
-        $filter = [];
-        $campaignIds = $request->user()->businessCampaigns()->pluck('id')->toArray();
-        $manCount = CampaignApplication::whereIn('campaign_id', $campaignIds)->where('sex', 'man')->count();
-        $womanCount = CampaignApplication::whereIn('campaign_id', $campaignIds)->where('sex', 'woman')->count();
-        $ageGroup = CampaignApplication::selectRaw('age_group, COUNT(age_group) as cnt')->whereIn('campaign_id', $campaignIds)->groupBy('age_group')->get();
-
-        $summary = [
-            'allCount' => $request->user()->businessCampaigns()->count() ?? 0,
-            'readyCount' => $request->user()->businessCampaigns()->filter(['progress_status' => [ProgressStatusEnum::READY->value]])->count() ?? 0,
-            'applyingCount' => $request->user()->businessCampaigns()->filter(['progress_status' => [ProgressStatusEnum::Applying->value]])->count() ?? 0,
-            'approvingCount' => $request->user()->businessCampaigns()->filter(['progress_status' => [ProgressStatusEnum::Approving->value]])->count() ?? 0,
-            'completedCount' => $request->user()->businessCampaigns()->filter(['progress_status' => [ProgressStatusEnum::COMPLETED->value]])->count() ?? 0,
-            'contentCount' => CampaignMediaContent::whereIn('campaign_id', $campaignIds)->count('id') ?? 0,
-            'viewCount' => $request->user()->businessCampaigns()->filter($filter)->sum('banner_log_count') ?? 0,
-            'mobileCount' => $request->user()->businessCampaigns()->filter($filter)->sum('banner_log_mobile_count') ?? 0,
-            'pcCount' => $request->user()->businessCampaigns()->sum('banner_log_pc_count') ?? 0,
-            'manCount' => $manCount,
-            'womanCount' => $womanCount,
-            'ageGroup' => $ageGroup,
-        ];
+        $summary = $this->service->summary($request);
         return view('business.dashboard', compact('summary'));
     }
 
@@ -64,11 +53,17 @@ class CampaignBusinessController extends Controller
 
     public function show(Request $request, Campaign $campaign)
     {
-        return view('business.campaign.show', compact('campaign'));
+        $contents = CampaignMediaContent::where('campaign_id', $campaign->id)->paginate(10);
+        $applicants = $campaign->applications()->paginate(10);
+        return view('business.campaign.show', compact('campaign', 'contents', 'applicants'));
     }
 
     public function report(Request $request, Campaign $campaign)
     {
-        return view('business.campaign.report', compact('campaign'));
+        $request['campaign_id'] = $campaign->id;
+        $summary = $this->service->summary($request);
+        $contents = CampaignMediaContent::where('campaign_id', $campaign->id)->paginate(10);
+        $applicants = $campaign->applications()->paginate(10);
+        return view('business.campaign.report', compact('campaign', 'summary', 'contents', 'applicants'));
     }
 }

@@ -4,33 +4,10 @@
             <img src="{{ Storage::url($campaign->thumbnails[0]['file_path']) }}" alt="" class="rounded-lg">
         </div>
         <div class="mx-6 w-full">
-            <div class="mb-3">
-                <div class="mb-2">상태</div>
-                <div class="mb-2">sns</div>
-                <div class="text-2xl mb-1 font-bold">제목</div>
-                <div>benefit</div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="flex items-center">
-                    <div class="mr-1 font-bold shrink-0 w-[120px]">캼페인 신청기간</div>
-                    <div class="text-gray-800">24-04-01 ~ 24-04-06</div>
-                </div>
-                <div class="flex items-center">
-                    <div class="mr-1 font-bold shrink-0 w-[120px]">캼페인 신청기간</div>
-                    <div class="text-gray-800">24-04-01 ~ 24-04-06</div>
-                </div>
-                <div class="flex items-center">
-                    <div class="mr-1 font-bold shrink-0 w-[120px]">캼페인 신청기간</div>
-                    <div class="text-gray-800">24-04-01 ~ 24-04-06</div>
-                </div>
-                <div class="flex items-center">
-                    <div class="mr-1 font-bold shrink-0 w-[120px]">캼페인 신청기간</div>
-                    <div class="text-gray-800">24-04-01 ~ 24-04-06</div>
-                </div>
-            </div>
+            <x-campaign.info :campaign="$campaign"></x-campaign.info>
         </div>
         <div class="shrink-0 w-[200px]">
-            <a href="" class="block text-center mb-3 button button-light">캠페인 상세보기</a>
+            <a href="{{ route('campaign.show', $campaign) }}" class="block text-center mb-3 button button-light">캠페인 상세보기</a>
             <a href="" class="block text-center button button-default-outline">문의하기</a>
         </div>
     </div>
@@ -39,7 +16,7 @@
         <div class="mb-3 flex items-center justify-between">
             <div class="font-bold">리뷰목록</div>
             <div class="flex gap-1">
-                <a href="" class="!text-xs button button-light">엑셀다운</a>
+                <a href="" class="!text-xs button button-light" @click.prevent="alert('준비중인 기능입니다')">엑셀다운</a>
                 <a href="{{ route('business.campaign.report', $campaign) }}" class="!text-xs button button-default-outline">결과보고서</a>
             </div>
         </div>
@@ -54,12 +31,20 @@
                 </tr>
                 </thead>
                 <tbody>
+                @foreach($contents as $content)
                 <tr>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
+                    <td>
+                        <x-user.avatar :user="$content->user"></x-user.avatar>
+                    </td>
+                    <td>
+                        <x-media-icon :media="$content->media->media"></x-media-icon>
+                    </td>
+                    <td>
+                        <a href="{{ $content->content_url }}" target="_blank">{{ $content->description }}</a>
+                    </td>
+                    <td>{{ $content->created_at->format('y.m.d') }}</td>
                 </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>
@@ -80,14 +65,24 @@
                 </tr>
                 </thead>
                 <tbody>
+                @foreach($applicants as $applicant)
                 <tr>
+                    <td>{{ $applicant->id }}</td>
+                    <td>
+                        <x-user.avatar :user="$content->user"></x-user.avatar>
+                    </td>
+                    <td>
+                        @foreach($content->user->medias as $media)
+                            <x-media-icon :media="$media->media"></x-media-icon>
+                        @endforeach
+                    </td>
+                    <td>{{ $applicant->created_at->format('y.m.d') }}</td>
                     <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
+                    <td>
+                        <x-badge.application :status="$applicant->status">{{ \App\Enums\Campaign\ApplicationStatus::tryFrom($applicant->status)->label() }}</x-badge.application>
+                    </td>
                 </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>

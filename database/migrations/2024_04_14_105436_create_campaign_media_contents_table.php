@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('campaign_id');
-            $table->foreignId('campaigns_media_id');
+            $table->foreignId('campaign_media_id');
             $table->string('content_url')->comment('컨텐츠 url');
             $table->text('description')->nullable()->comment('컨텐츠 설명');
             $table->timestamps();

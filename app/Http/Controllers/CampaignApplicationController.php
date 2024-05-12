@@ -91,7 +91,7 @@ class CampaignApplicationController extends Controller
                     foreach ($request->input('media_content', []) as $index => $item) {
                         $request->user()->campaignMediaContents()->updateOrCreate([
                             'campaign_id' => $campaign->id,
-                            'campaigns_media_id' => $item['id'],
+                            'campaign_media_id' => $item['id'],
                         ], [
                             'content_url' => $item['url'] ?? $item['url_text'],
                         ]);

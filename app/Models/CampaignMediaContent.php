@@ -15,4 +15,9 @@ class CampaignMediaContent extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function media()
+    {
+        return $this->belongsTo(CampaignMedia::class, 'campaign_media_id', 'id');
+    }
 }

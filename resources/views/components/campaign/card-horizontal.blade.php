@@ -22,7 +22,7 @@
             <div class="ml-2 text-sm font-bold">{{ $campaign->application_end_at->diffForHumans() }} 마감</div>
         </div>
         <div>
-            <a href="{{ route($routeName, $campaign) }}">@if($campaign->locationCategories->count() > 0))[{{ $campaign->locationCategories[0]->name }}] @endif{{ $campaign->product_name }}</a>
+            <a href="{{ route($routeName, $campaign) }}">@if($campaign->locationCategories->count() > 0))[{{ $campaign->locationCategories[0]->name }}] @endif{{ $campaign->title }}</a>
         </div>
         <div>
             <small class="text-gray-500 line-clamp-2">{{ $campaign->benefit }}</small>

@@ -21,7 +21,7 @@
         <div>
             <div>
                 @if($campaign->locationCategories->count() > 0)[{{ $campaign->locationCategories[0]->name }}]@endif
-                {{ $campaign->product_name }}
+                {{ $campaign->title }}
             </div>
             @if($campaign->benefit)
                 <small class="text-gray-500 line-clamp-2">{{ $campaign->benefit }}</small>
