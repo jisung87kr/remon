@@ -258,7 +258,7 @@
                         </div>
                         <template x-if="useBenefitPoint === 'y'">
                             <div>
-                                <input type="number" name="benefit_point" id="benefit_point" class="form-control mt-3" value="{{ old('point', $campaign['point']) }}">
+                                <input type="number" name="benefit_point" id="benefit_point" class="form-control mt-3" value="{{ old('benefit_point', $campaign['benefit_point']) }}">
                                 <x-input-error for="benefit_point" class="mt-1"></x-input-error>
                             </div>
                         </template>
@@ -504,10 +504,10 @@
       value: null,
     },
     missionOptionId: {
-      titleKeyword: '{{ App\Enums\Campaign\MissionOptionEnum::TITLE_KEYWORD_ID_OF_MISSION_OPTION->value }}',
-      contentKeyword: '{{ App\Enums\Campaign\MissionOptionEnum::CONTENT_KEYWORD_ID_OF_MISSION_OPTION->value }}',
-      link: '{{ App\Enums\Campaign\MissionOptionEnum::LINK_ID_OF_MISSION_OPTION->value }}',
-      hashtag: '{{ App\Enums\Campaign\MissionOptionEnum::HASHTAG_ID_OF_MISSION_OPTION->value }}',
+      titleKeyword: '{{ old('mission_option_title_keyword', App\Enums\Campaign\MissionOptionEnum::TITLE_KEYWORD_ID_OF_MISSION_OPTION->value) }}',
+      contentKeyword: '{{ old('mission_option_content_keyword', App\Enums\Campaign\MissionOptionEnum::CONTENT_KEYWORD_ID_OF_MISSION_OPTION->value) }}',
+      link: '{{ old('mission_option_link', App\Enums\Campaign\MissionOptionEnum::LINK_ID_OF_MISSION_OPTION->value) }}',
+      hashtag: '{{ old('mission_option_hashtag', App\Enums\Campaign\MissionOptionEnum::HASHTAG_ID_OF_MISSION_OPTION->value) }}',
     },
     init(){
       this.mapelement = this.$refs.map;

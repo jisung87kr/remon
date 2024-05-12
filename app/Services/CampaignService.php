@@ -36,7 +36,7 @@ class CampaignService{
             'product_url'                    => 'nullable',
             'use_benefit_point'              => Rule::in(['y', 'n']),
             'benefit'                        => 'required',
-            'benefit_point'                  => 'nullable|digits',
+            'benefit_point'                  => 'nullable',
             'address_postcode'               => 'nullable',
             'address'                        => 'nullable',
             'address_detail'                 => 'nullable',
