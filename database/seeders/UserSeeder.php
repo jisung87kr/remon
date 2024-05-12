@@ -22,6 +22,24 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $faker = Factory::create();
+        $jisung = User::factory()->create([
+            'name' => '유지성',
+            'email' => 'jisung87kr@gmail.com',
+        ]);
+
+        $admin = User::factory()->create([
+            'name' => '관리자',
+            'email' => 'admin@test.com',
+        ]);
+
+        $business = User::factory()->create([
+            'name' => '비즈니스',
+            'email' => 'business@test.com',
+        ]);
+
+        $jisung->assignRole(AdminRoleEnum::ADMIN->value);
+        $admin->assignRole(AdminRoleEnum::ADMIN->value);
+        $business->assignRole(RoleEnum::BUSINESS_USER->value);
 
         User::factory(10)->create()->each(function($user, $i) use($faker){
             UserPoint::factory(3)->create([
@@ -64,18 +82,5 @@ class UserSeeder extends Seeder
                 $user->assignRole(RoleEnum::BUSINESS_USER->value);
             }
         });
-
-        $jisung = User::factory()->create([
-            'name' => '유지성',
-            'email' => 'jisung87kr@gmail.com',
-        ]);
-
-        $admin = User::factory()->create([
-            'name' => '관리자',
-            'email' => 'admin@admin.com',
-        ]);
-
-        $jisung->assignRole(AdminRoleEnum::ADMIN->value);
-        $admin->assignRole(AdminRoleEnum::ADMIN->value);
     }
 }
