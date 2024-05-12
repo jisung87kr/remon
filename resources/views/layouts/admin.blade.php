@@ -70,7 +70,7 @@
             </ul>
         </aside>
         <main id="main" class="container mx-auto h-full p-6 relative">
-            <div class="bg-white w-full p-3 shadow rounded-lg sticky top-6 mb-6">
+            <div class="bg-white w-full p-3 shadow rounded-lg sticky top-6 mb-6 z-50">
                 <div class="flex items-center justify-between">
                     <div>
                         <button type="button" @click="asideOpen = true" class="block xl:hidden">

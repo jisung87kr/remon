@@ -60,4 +60,19 @@ class CommonHelper{
         }
         return null;
     }
+
+    static public function makeViewCountChartData($dateRange, $allData)
+    {
+        $data = [];
+        foreach ($dateRange as $index => $date) {
+            foreach ($allData as $index => $allDatum) {
+                if($allDatum->ymd == $date){
+                    $data[] = $allDatum->cnt;
+                    break;
+                }
+            }
+            $data[] = 0;
+        }
+        return $data;
+    }
 }

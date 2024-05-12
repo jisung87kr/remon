@@ -15,6 +15,20 @@ class CampaignApplication extends Model
 //    protected $table = 'campaign_applications';
     protected $guarded = [];
 
+    protected static function booted(): void
+    {
+        static::addGlobalScope('base', function(Builder $builder){
+            $query = "
+                SELECT 
+                    *,
+                    YEAR(CURDATE()) - YEAR(birthdate) - (RIGHT(CURDATE(), 5) < RIGHT(birthdate, 5)) AS age,
+                    floor((YEAR(CURDATE()) - YEAR(birthdate) - (RIGHT(CURDATE(), 5) < RIGHT(birthdate, 5))) / 10) * 10 AS age_group
+                FROM campaign_applications AS CA
+            ";
+            $builder->fromSub($query, "campaign_applications");
+        });
+    }
+
     public function applicationValues()
     {
         return $this->hasMany(CampaignApplicationValue::class, 'campaign_application_id', 'id');

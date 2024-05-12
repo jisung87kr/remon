@@ -14,7 +14,7 @@
                 </div>
                 <div>
                     <div class="text-gray-700">전체 캠페인</div>
-                    <div class="font-bold text-2xl">{{ number_format(10000) }}</div>
+                    <div class="font-bold text-2xl">{{ number_format($summary['allCount']) }}</div>
                 </div>
             </div>
             <div class="card flex items-center">
@@ -30,7 +30,7 @@
                 </div>
                 <div>
                     <div class="text-gray-700">선정 대기 캠페인</div>
-                    <div class="font-bold text-2xl">{{ number_format(10000) }}</div>
+                    <div class="font-bold text-2xl">{{ number_format($summary['readyCount']) }}</div>
                 </div>
             </div>
             <div class="card flex items-center">
@@ -45,7 +45,7 @@
                 </div>
                 <div>
                     <div class="text-gray-700">모집 중 캠페인</div>
-                    <div class="font-bold text-2xl">{{ number_format(10000) }}</div>
+                    <div class="font-bold text-2xl">{{ number_format($summary['applyingCount']) }}</div>
                 </div>
             </div>
             <div class="card flex items-center">
@@ -61,7 +61,7 @@
                 </div>
                 <div>
                     <div class="text-gray-700">완료 캠페인</div>
-                    <div class="font-bold text-2xl">{{ number_format(10000) }}</div>
+                    <div class="font-bold text-2xl">{{ number_format($summary['completedCount']) }}</div>
                 </div>
             </div>
             <div class="card flex items-center">
@@ -74,8 +74,8 @@
                     </svg>
                 </div>
                 <div>
-                    <div class="text-gray-700">등록된 리뷰</div>
-                    <div class="font-bold text-2xl">{{ number_format(10000) }}</div>
+                    <div class="text-gray-700">등록된 컨텐츠</div>
+                    <div class="font-bold text-2xl">{{ number_format($summary['contentCount']) }}</div>
                 </div>
             </div>
             <div class="card flex items-center">
@@ -88,7 +88,7 @@
                 </div>
                 <div>
                     <div class="text-gray-700">총 조회수</div>
-                    <div class="font-bold text-2xl">{{ number_format(10000) }}</div>
+                    <div class="font-bold text-2xl">{{ number_format($summary['viewCount']) }}</div>
                 </div>
             </div>
             <div class="card flex items-center">
@@ -102,7 +102,7 @@
                 </div>
                 <div>
                     <div class="text-gray-700">모바일 조회수</div>
-                    <div class="font-bold text-2xl">{{ number_format(10000) }}</div>
+                    <div class="font-bold text-2xl">{{ number_format($summary['mobileCount']) }}</div>
                 </div>
             </div>
             <div class="card flex items-center">
@@ -118,28 +118,100 @@
                 </div>
                 <div>
                     <div class="text-gray-700">PC 조회수</div>
-                    <div class="font-bold text-2xl">{{ number_format(10000) }}</div>
+                    <div class="font-bold text-2xl">{{ number_format($summary['pcCount']) }}</div>
                 </div>
             </div>
-            <div class="card col-span-2 lg:col-span-4">
-                <div class="font-bold mb-3">조회수 현황</div>
+            <div class="card col-span-2 lg:col-span-4" x-data="viewCountData">
+                <div class="flex mb-3 justify-between">
+                    <div class="font-bold">조회수 현황</div>
+                    <div class="flex gap-3">
+                        <input type="date" name="start_date" x-model="startDate" class="form-control">
+                        <input type="date" name="end_date" x-model="endDate" class="form-control">
+                        <button @click="setChart()" class="button button-gray shrink-0">검색</button>
+                    </div>
+                </div>
                 <canvas id="chart-view-stat"></canvas>
+                <script>
+                    viewChart = null;
+                    const viewCountData = {
+                      labels: [],
+                      datasets: [],
+                      startDate: '{{ date('Y-m-d', strtotime('-30 days')) }}',
+                      endDate: '{{ date('Y-m-d') }}',
+                      async init(){
+                        this.setChart();
+                      },
+                      async setChart(){
+                        const response = await this.getViewCount();
+                        const ctxView = document.getElementById('chart-view-stat');
+                        var labels = response.labels;
+                        var datasets = response.datasets;
+                        if(viewChart){
+                          viewChart.data.labels = labels;
+                          viewChart.data.datasets = datasets;
+                          viewChart.update();
+                        } else {
+                          viewChart = initChart(ctxView, 'line',  labels, datasets);
+                        }
+                      },
+                      async getViewCount(){
+                        let params = {
+                          start_date: this.startDate,
+                          end_date: this.endDate,
+                        }
+                        const response = await axios.get('{{ route('business.statistics.campaign.view') }}', {
+                          params: params
+                        });
+                        return response.data.data;
+                      }
+                    }
+                </script>
             </div>
         </div>
     </section>
     <section class="mb-10">
         <h1 class="mb-3 text-2xl font-bold">캠페인 분석</h1>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="card">
+            <div class="card" x-data="sexData">
                 <div class="font-bold mb-3">성별 신청 현황</div>
                 <canvas id="chart-sex-stat"></canvas>
+                <script>
+                    ctxSex = document.getElementById('chart-sex-stat');
+                    const sexData = {
+                      labels: [],
+                      datasets: [],
+                      async init(){
+                        let response = await this.getData();
+                        sexChart = initChart(ctxSex, 'doughnut', response.labels, response.datasets);
+                      },
+                      async getData(){
+                        const response = await axios.get('{{ route('business.statistics.campaign.sex') }}');
+                        return response.data.data;
+                      }
+                    }
+                </script>
             </div>
-            <div class="card">
+            <div class="card" x-data="ageData">
                 <div class="font-bold mb-3">연령별 신청 현황</div>
                 <canvas id="chart-age-stat"></canvas>
+                <script>
+                  ctxAge = document.getElementById('chart-age-stat');
+                  const ageData = {
+                    labels: [],
+                    datasets: [],
+                    async init(){
+                      let response = await this.getData();
+                      ctxAge = initChart(ctxAge, 'bar', response.labels, response.datasets);
+                    },
+                    async getData(){
+                      const response = await axios.get('{{ route('business.statistics.campaign.age') }}');
+                      return response.data.data;
+                    }
+                  }
+                </script>
             </div>
             <div class="card">
-                <div class="font-bold mb-3">유입경로</div>
+                <div class="font-bold mb-3">[준비중] 유입경로</div>
                 <canvas id="chart-referer-stat"></canvas>
             </div>
         </div>
@@ -148,7 +220,7 @@
         <h1 class="mb-3 text-2xl font-bold">키워드</h1>
         <div class="grid grid-cols-2 gap-6">
             <div class="card">
-                <div class="font-bold mb-3">키워드 노출현황(상세)</div>
+                <div class="font-bold mb-3">[준비중] 키워드 노출현황(상세)</div>
                 <div>
                     <table class="table">
                         <thead>
@@ -179,11 +251,11 @@
                 </div>
             </div>
             <div class="card">
-                <div class="font-bold mb-3">유입 키워드 TOP 20</div>
-                <div>#123 #123 #123</div>
+                <div class="font-bold mb-3">[준비중] 유입 키워드 TOP 20</div>
+                <div>#준비중 입니다.</div>
             </div>
             <div class="card col-span-2">
-                <div class="font-bold mb-3">키워드 노출현황</div>
+                <div class="font-bold mb-3">[준비중] 키워드 노출현황</div>
                 <canvas id="chart-keyword-stat"></canvas>
             </div>
         </div>
@@ -191,58 +263,6 @@
     @push('script')
         <script type="text/javascript">
             window.addEventListener('load', () => {
-              const ctxView = document.getElementById('chart-view-stat');
-              var labels = ['24-01', '24-02', '24-03', '24-04', '24-05', '24-06', '24-07'];
-              var datasets = [
-                {
-                  label: '총 조회수',
-                  data: [3, 4, 5, 6, 7, 8, 9],
-                  borderColor: 'red',
-                  backgroundColor: 'red',
-                },
-                {
-                  label: 'PC 조회수',
-                  data: [2, 3, 4, 5, 6, 7, 8],
-                  borderColor: 'blue',
-                  backgroundColor: 'blue',
-                },
-                {
-                  label: '모바일 조회수',
-                  data: [1, 2, 3, 4, 5, 6, 7],
-                  borderColor: 'blue',
-                  backgroundColor: 'blue',
-                }
-              ];
-
-              var viewCart = initChart(ctxView, 'line',  labels, datasets);
-
-
-              const ctxSex = document.getElementById('chart-sex-stat');
-              var labels = ['남성', '여성'];
-              var datasets = [
-                {
-                  data: [40, 60],
-                  backgroundColor: ['blue', 'red'],
-                  hoverOffset: 4
-                },
-              ]
-
-              var SexChart = initChart(ctxSex, 'doughnut', labels, datasets);
-
-
-              const ctxAge = document.getElementById('chart-age-stat');
-              var labels = ['20대', '30대', '40대', '기타'];
-              var datasets = [
-                {
-                  label: '연령',
-                  data: [1, 2, 3, 4],
-                  borderColor: 'red',
-                  backgroundColor: 'red',
-                },
-              ]
-
-              var ageChart = initChart(ctxAge, 'bar', labels, datasets);
-
               const ctxReferer = document.getElementById('chart-referer-stat');
               var labels = ['네이버검색', '네이버플레이스', '다음카카오', '기타'];
               var datasets = [

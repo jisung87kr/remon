@@ -10,4 +10,9 @@ class BannerLog extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function application()
+    {
+        return $this->belongsTo(CampaignApplication::class, 'banner_id', 'banner_id');
+    }
 }

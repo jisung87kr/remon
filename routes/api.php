@@ -1,11 +1,14 @@
 <?php
 
 use App\Models\Campaign;
+use App\Models\CampaignApplication;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserShippingAddressApiController;
 use App\Http\Controllers\Api\UserMediaApiController;
 use App\Http\Controllers\Api\UserApiController;
+use App\Http\Controllers\Statistics\BusinessStatisticsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -45,4 +48,10 @@ Route::middleware('auth:sanctum')->group(function(){
 
         Route::delete('/{user}', [UserApiController::class, 'destroy'])->name('destroy');
     });
+});
+
+Route::prefix('business')->group(function(){
+    Route::get('statistics/campaign/sex', [BusinessStatisticsController::class, 'sex'])->name('business.statistics.campaign.sex');
+    Route::get('statistics/campaign/view', [BusinessStatisticsController::class, 'view'])->name('business.statistics.campaign.view');
+    Route::get('statistics/campaign/age', [BusinessStatisticsController::class, 'age'])->name('business.statistics.campaign.age');
 });
