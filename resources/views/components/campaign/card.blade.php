@@ -21,7 +21,7 @@
         <div>
             <div>
                 @if($campaign->locationCategories->count() > 0)[{{ $campaign->locationCategories[0]->name }}]@endif
-                <a href="{{ route('campaign.show', $campaign) }}">{{ $campaign->title }}</a>
+                <a href="{{ route($routeName, $campaign) }}">{{ $campaign->title }}</a>
             </div>
             @if($campaign->benefit)
                 <small class="text-gray-500 line-clamp-2">{{ $campaign->benefit }}</small>
