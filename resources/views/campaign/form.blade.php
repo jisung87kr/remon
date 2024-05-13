@@ -57,9 +57,11 @@
                         <x-input-error for="user_id" class="mt-1"></x-input-error>
                         <script>
                           window.onload = function(){
-                            $(document).ready(function(){
-                              $(".form-select").select2();
-                            });
+                            setTimeout(function(){
+                                $(document).ready(function(){
+                                  $(".form-select").select2();
+                                });
+                            }, 500);
                           }
                         </script>
                     </div>
