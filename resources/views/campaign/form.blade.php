@@ -55,7 +55,7 @@
                             @endforeach
                         </select>
                         <x-input-error for="user_id" class="mt-1"></x-input-error>
-                        <script defer>
+                        <script>
                           window.onload = function(){
                             $(document).ready(function(){
                               $(".form-select").select2();
@@ -263,57 +263,55 @@
                             </div>
                         </template>
                     </div>
-                    <template x-if="type == 1">
-                        <div class="col-span-2">
-                            <div class="col-span-2 py-6">
-                                <div class="grid grid-cols-12 gap-6">
-                                    <div class="col-span-3">
-                                        <label for="address_postcode" class="label mb-2">우편번호</label>
-                                        <input id="address_postcode"
-                                               class="form-control"
-                                               name="address_postcode"
-                                               readonly
-                                               x-model="addressPostcode"
-                                               @click="execDaumPostcode">
-                                        <x-input-error for="address_postcode" class="mt-1"></x-input-error>
+                    <div class="col-span-2" x-show="type==1">
+                        <div class="col-span-2 py-6">
+                            <div class="grid grid-cols-12 gap-6">
+                                <div class="col-span-3">
+                                    <label for="address_postcode" class="label mb-2">우편번호</label>
+                                    <input id="address_postcode"
+                                           class="form-control"
+                                           name="address_postcode"
+                                           readonly
+                                           x-model="addressPostcode"
+                                           @click="execDaumPostcode">
+                                    <x-input-error for="address_postcode" class="mt-1"></x-input-error>
+                                </div>
+                                <div class="col-span-9">
+                                    <label for="address" class="label mb-2">주소</label>
+                                    <div class="flex gap-3">
+                                        <input id="address" class="form-control w-full" name="address" readonly x-model="address" @click="execDaumPostcode">
+                                        <button type="button" class="button button-gray shrink-0 !m-0" @click.prevent="execDaumPostcode">주소찾기</button>
                                     </div>
-                                    <div class="col-span-9">
-                                        <label for="address" class="label mb-2">주소</label>
-                                        <div class="flex gap-3">
-                                            <input id="address" class="form-control w-full" name="address" readonly x-model="address" @click="execDaumPostcode">
-                                            <button type="button" class="button button-gray shrink-0 !m-0" @click.prevent="execDaumPostcode">주소찾기</button>
-                                        </div>
-                                        <x-input-error for="address" class="mt-1"></x-input-error>
-                                    </div>
-                                    <div class="col-span-12 relative border pt-6 bg-white" x-show="findAddress">
-                                        <div x-ref="search_address_element">
-                                            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" @click="findAddress=false" alt="접기 버튼">
-                                        </div>
-                                    </div>
-                                    <div class="col-span-12">
-                                        <label for="address_detail" class="label mb-2">주소상세</label>
-                                        <input id="address_detail" class="form-control" name="address_detail" x-model="addressDetail" x-ref="address_detail">
-                                        <x-input-error for="address_detail" class="mt-1"></x-input-error>
-                                    </div>
-                                    <div class="col-span-12">
-                                        <label for="address_extra" class="label mb-2">추가항목</label>
-                                        <input id="address_extra" class="form-control" name="address_extra" x-model="addressExtra" x-ref="address_extra">
-                                        <x-input-error for="address_detail" class="mt-1"></x-input-error>
-                                    </div>
-                                    <div class="col-span-12 bg-red-50 h-[300px] rounded-lg flex items-center justify-center" x-show="mapObject">
-                                        <div id="map" x-ref="map" class="w-full h-[300px]"></div>
-                                        <input type="hidden" name="lat" value="" x-model="lat">
-                                        <input type="hidden" name="long" value="" x-model="long">
+                                    <x-input-error for="address" class="mt-1"></x-input-error>
+                                </div>
+                                <div class="col-span-12 relative border pt-6 bg-white" x-show="findAddress">
+                                    <div x-ref="search_address_element">
+                                        <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" @click="findAddress=false" alt="접기 버튼">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-span-2 py-6">
-                                <label for="visit_instruction" class="label mb-2">방문 및 예약안내</label>
-                                <textarea name="visit_instruction" id="visit_instruction" class="form-control" cols="30" rows="10">{{ old('visit_instruction', $campaign['visit_instruction']) }}</textarea>
-                                <x-input-error for="visit_instruction" class="mt-1"></x-input-error>
+                                <div class="col-span-12">
+                                    <label for="address_detail" class="label mb-2">주소상세</label>
+                                    <input id="address_detail" class="form-control" name="address_detail" x-model="addressDetail" x-ref="address_detail">
+                                    <x-input-error for="address_detail" class="mt-1"></x-input-error>
+                                </div>
+                                <div class="col-span-12">
+                                    <label for="address_extra" class="label mb-2">추가항목</label>
+                                    <input id="address_extra" class="form-control" name="address_extra" x-model="addressExtra" x-ref="address_extra">
+                                    <x-input-error for="address_detail" class="mt-1"></x-input-error>
+                                </div>
+                                <div class="col-span-12 bg-red-50 h-[300px] rounded-lg flex items-center justify-center" x-show="mapObject">
+                                    <div id="map" x-ref="map" class="w-full h-[300px]"></div>
+                                    <input type="hidden" name="lat" value="" x-model="lat">
+                                    <input type="hidden" name="long" value="" x-model="long">
+                                </div>
                             </div>
                         </div>
-                    </template>
+                        <div class="col-span-2 py-6">
+                            <label for="visit_instruction" class="label mb-2">방문 및 예약안내</label>
+                            <textarea name="visit_instruction" id="visit_instruction" class="form-control" cols="30" rows="10">{{ old('visit_instruction', $campaign['visit_instruction']) }}</textarea>
+                            <x-input-error for="visit_instruction" class="mt-1"></x-input-error>
+                        </div>
+                    </div>
                     <div class="col-span-2 py-6">
                         <label for="extra_information" class="label mb-2">추가안내사항</label>
                         <textarea name="extra_information" id="extra_information" class="form-control" cols="30" rows="10">{{ old('extra_information', $campaign->extra_information) }}</textarea>
@@ -482,7 +480,7 @@
 </div>
 <script>
   const campaignData = {
-    type: '{{old('type', $campaign['campaign_type_id'] ?? 1 )}}',
+    type: '{{old('type', $campaign['campaign_type_id'] ? $campaign['campaign_type_id'] : 1 )}}',
     useBenefitPoint: '{{ old('use_benefit_point', ($campaign['use_benefit_point'] ? 'y' : 'n') ?? 'n' ) }}',
     addressPostcode: '{{ old('address_postcode', $campaign['address_postcode']) }}',
     address: '{{ old('address', str_replace("\n", '', $campaign['address'])) }}',
