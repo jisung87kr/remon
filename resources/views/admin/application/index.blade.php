@@ -117,12 +117,7 @@
             </div>
         @endif
     </x-admin.card-default>
-    <script defer>
-      window.onload = function(){
-        $(document).ready(function(){
-          $(".form-select").select2();
-        });
-      }
+    <script>
       const userData = {
         deleteUser(id){
           axios.delete(`/api/user/${id}`).then(res => {

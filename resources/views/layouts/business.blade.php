@@ -13,7 +13,6 @@
 
     <!-- Scripts -->
     @vite(['resources/scss/admin.scss', 'resources/js/app.js'])
-    @vite(['resources/css/select2.min.css', 'resources/js/jquery-3.7.1.js', 'resources/js/select2.min.js'])
     <script src="{{ Vite::asset('resources/js/functions.js') }}"></script>
     @stack('script')
     <!-- Styles -->

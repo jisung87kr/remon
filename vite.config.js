@@ -5,12 +5,9 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/select2.min.css',
                 'resources/scss/app.scss',
                 'resources/scss/admin.scss',
                 'resources/js/app.js',
-                'resources/js/jquery-3.7.1.js',
-                'resources/js/select2.min.js',
             ],
             refresh: true,
         }),
