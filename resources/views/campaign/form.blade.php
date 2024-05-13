@@ -55,15 +55,6 @@
                             @endforeach
                         </select>
                         <x-input-error for="user_id" class="mt-1"></x-input-error>
-                        <script>
-                          window.onload = function(){
-                            setTimeout(function(){
-                                $(document).ready(function(){
-                                  $(".form-select").select2();
-                                });
-                            }, 1000);
-                          }
-                        </script>
                     </div>
                     <div class="col-span-2 py-6">
                         <label class="label mb-2 text-base">제퓸 유형</label>
