@@ -5,7 +5,7 @@
         @isset($campaign->thumbnails[0])
             <img src="{{Storage::url($campaign->thumbnails[0]['file_path'])}}" alt="" class="w-full">
         @else
-            <img src="https://placeholder.co/300x300" alt="" class="w-full">
+            <img src="https://placehold.co/400x400?text=no+image" alt="" class="rounded-lg">
         @endisset
     </a>
     @if(auth()->user())

@@ -269,8 +269,8 @@
                 {
                   label: '유입경로',
                   data: [1, 2, 3, 4],
-                  borderColor: 'red',
-                  backgroundColor: 'red',
+                  borderColor: '#2dd4bf',
+                  backgroundColor: '#2dd4bf',
                 },
               ]
 
@@ -282,8 +282,8 @@
                 {
                   label: '키워드노출',
                   data: [1, 2, 3, 4, 5, 6, 7],
-                  borderColor: 'red',
-                  backgroundColor: 'red',
+                  borderColor: '#2dd4bf',
+                  backgroundColor: '#2dd4bf',
                 },
               ];
 

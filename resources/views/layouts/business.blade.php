@@ -28,13 +28,14 @@
         <!-- Page Content -->
         <aside id="aside" class="!lg-block" x-show="asideOpen" @click.away="closeAside">
             <div class="mb-6">
-                <a href="{{ route('business.dashboard') }}" class="text-2xl font-bold">REMON</a>
+                <a href="{{ route('business.dashboard') }}" class="text-2xl font-bold">BUSINESS REMON</a>
             </div>
             <ul class="nav">
-                <x-nav.item href="{{ route('business.campaign.index') }}" :active="request()->routeIs('admin.campaign.index')">캠페인 목록</x-nav.item>
-                <x-nav.item href="{{ route('admin.campaign.index') }}" :active="request()->routeIs('admin.campaign.index')">공지사항</x-nav.item>
-                <x-nav.item href="{{ route('admin.campaign.index') }}" :active="request()->routeIs('admin.campaign.index')">1:1문의</x-nav.item>
-                <x-nav.item href="{{ route('admin.campaign.index') }}" :active="request()->routeIs('admin.campaign.index')">가이드</x-nav.item>
+                <x-nav.item href="{{ route('business.dashboard') }}" :active="request()->routeIs('business.dashboard')">대시보드</x-nav.item>
+                <x-nav.item href="{{ route('business.dashboard.campaign.index') }}" :active="request()->routeIs('business.dashboard.campaign.index')">캠페인 목록</x-nav.item>
+                <x-nav.item href="{{ route('business.dashboard') }}" @click.prevent="alert('준비중인 기능입니다.')">공지사항</x-nav.item>
+                <x-nav.item href="{{ route('business.dashboard') }}"  @click.prevent="alert('준비중인 기능입니다.')">1:1문의</x-nav.item>
+                <x-nav.item href="{{ route('business.dashboard') }}"  @click.prevent="alert('준비중인 기능입니다.')">가이드</x-nav.item>
             </ul>
         </aside>
         <main id="main" class="container mx-auto h-full p-6 relative">

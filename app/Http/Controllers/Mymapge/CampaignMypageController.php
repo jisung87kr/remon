@@ -44,6 +44,6 @@ class CampaignMypageController extends Controller
         ];
 
         $campaigns = $request->user()->campaignFavorites()->filter($filter)->paginate(10);;
-        return view('mypage.favorite', compact('campaigns'));
+        return view('mypage.favorites', compact('campaigns'));
     }
 }

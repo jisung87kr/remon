@@ -1,14 +1,18 @@
 <x-business-layout>
     <div class="card flex mb-10">
         <div class="shrink-0 w-[200px]">
-            <img src="{{ Storage::url($campaign->thumbnails[0]['file_path']) }}" alt="" class="rounded-lg">
+            @isset($campaign->thumbnails[0])
+                <img src="{{ Storage::url($campaign->thumbnails[0]['file_path']) }}" alt="" class="rounded-lg">
+            @else
+                <img src="https://placehold.co/400x400?text=no+image" alt="" class="rounded-lg">
+            @endisset
         </div>
         <div class="mx-6 w-full">
             <x-campaign.info :campaign="$campaign"></x-campaign.info>
         </div>
         <div class="shrink-0 w-[200px]">
             <a href="{{ route('campaign.show', $campaign) }}" class="block text-center mb-3 button button-light">캠페인 상세보기</a>
-            <a href="" class="block text-center button button-default-outline">문의하기</a>
+            <a href="" class="block text-center button button-default-outline" @click.prevent="alert('준비중인 기능입니다.')">문의하기</a>
         </div>
     </div>
 

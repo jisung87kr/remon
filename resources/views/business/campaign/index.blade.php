@@ -33,7 +33,11 @@
                 @foreach($campaigns as $campaign)
                 <tr>
                     <td class="text-center">
-                        <img src="{{ Storage::url($campaign->thumbnails[0]['file_path']) }}" alt="" class="rounded-lg">
+                        @isset($campaign->thumbnails[0])
+                            <img src="{{ Storage::url($campaign->thumbnails[0]['file_path']) }}" alt="" class="rounded-lg">
+                        @else
+                            <img src="https://placehold.co/400x400?text=no+image" alt="" class="rounded-lg">
+                        @endisset
                     </td>
                     <td class="text-center">
                         <x-campaign.badge :status="$campaign->progress_status" class="break-keep"></x-campaign.badge>
@@ -62,8 +66,8 @@
                         {{ number_format($campaign->banner_log_count) }}
                     </td>
                     <td class="text-center">
-                        <a href="{{ route('business.campaign.show', $campaign) }}" class="button button-light text-center shrink-0 block">보기</a>
-                        <a href="{{ route('business.campaign.report', $campaign) }}" class="button button-light text-center shrink-0 block mt-1">보고서</a>
+                        <a href="{{ route('business.dashboard.campaign.show', $campaign) }}" class="button button-light text-center shrink-0 block">보기</a>
+                        <a href="{{ route('business.dashboard.campaign.report', $campaign) }}" class="button button-light text-center shrink-0 block mt-1">보고서</a>
                     </td>
                 </tr>
                 @endforeach

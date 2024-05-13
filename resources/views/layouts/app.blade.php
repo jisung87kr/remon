@@ -71,6 +71,7 @@
                                     {{ __('Manage Account') }}
                                 </div>
 
+                                @if(auth()->user()->hasRole(\App\Enums\RoleEnum::GENERAL_USER->value))
                                 <x-dropdown-link href="{{ route('mypage.campaign') }}">
                                     {{ __('나의 캠페인') }}
                                 </x-dropdown-link>
@@ -86,9 +87,21 @@
                                 <x-dropdown-link href="{{ route('mypage.profile') }}">
                                     {{ __('내 정보') }}
                                 </x-dropdown-link>
+                                @endif
+                                @if(auth()->user()->hasRole(\App\Enums\AdminRoleEnum::SUPER_ADMIN->value) || auth()->user()->hasRole(\App\Enums\AdminRoleEnum::ADMIN->value))
                                 <x-dropdown-link href="{{ route('admin.index') }}">
                                     {{ __('관리자 사이트') }}
                                 </x-dropdown-link>
+                                @endif
+                                @if(auth()->user()->hasRole(\App\Enums\RoleEnum::BUSINESS_USER->value))
+                                    <x-dropdown-link href="{{ route('business.dashboard') }}">
+                                        {{ __('비즈니스 대시보드') }}
+                                    </x-dropdown-link>
+                                    <x-dropdown-link href="{{ route('business.dashboard.campaign.index') }}">
+                                        {{ __('캠페인') }}
+                                    </x-dropdown-link>
+                                @endif
+
 
 
                                 <div class="border-t border-gray-200"></div>

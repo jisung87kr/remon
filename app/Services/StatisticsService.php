@@ -51,8 +51,8 @@ class StatisticsService{
             [
                 'label' => '연령',
                 'data' => $ageGroup->pluck('cnt')->toArray(),
-                'borderColor' => 'red',
-                'backgroundColor' => 'red',
+                'borderColor' => '#2dd4bf',
+                'backgroundColor' => '#2dd4bf',
             ]
         ];
 
@@ -76,8 +76,8 @@ class StatisticsService{
         $datasets = [
             [
                 'data' => [$manCount, $womanCount],
-                'borderColor' => ['blue', 'red'],
-                'backgroundColor' => ['blue', 'red'],
+                'borderColor' => ['#2dd4bf', '#a78bfa'],
+                'backgroundColor' => ['#2dd4bf', '#a78bfa'],
             ]
         ];
 
@@ -114,8 +114,8 @@ class StatisticsService{
         $datasets[] = [
             'label' => '총조회수',
             'data' => CommonHelper::makeViewCountChartData($dateRange, $allData),
-            'borderColor' => 'red',
-            'backgroundColor' => 'red'
+            'borderColor' => '#1d4ed8',
+            'backgroundColor' => '#1d4ed8'
         ];
 
         // pc 조회수
@@ -126,8 +126,8 @@ class StatisticsService{
         $datasets[] = [
             'label' => 'pc 조회수',
             'data' => CommonHelper::makeViewCountChartData($dateRange, $pcData),
-            'borderColor' => 'blue',
-            'backgroundColor' => 'blue'
+            'borderColor' => '#2dd4bf',
+            'backgroundColor' => '#2dd4bf'
         ];
 
         // mobile 조회수
@@ -138,8 +138,8 @@ class StatisticsService{
         $datasets[] = [
             'label' => 'mobile 조회수',
             'data' => CommonHelper::makeViewCountChartData($dateRange, $mobileData),
-            'borderColor' => 'green',
-            'backgroundColor' => 'green'
+            'borderColor' => '#a78bfa',
+            'backgroundColor' => '#a78bfa'
         ];
 
         $result = [

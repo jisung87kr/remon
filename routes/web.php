@@ -126,11 +126,11 @@ Route::middleware([
         Route::get('/favorites', [CampaignMypageController::class, 'favorites'])->name('favorite');
 
         Route::get('/reviews', function(){
-            return view('mypage.review');
+            return view('mypage.reviews');
         })->name('review');
 
         Route::get('/messages', function(){
-            return view('mypage.message');
+            return view('mypage.messages');
         })->name('message');
 
         Route::get('/profile', function(){

@@ -37,9 +37,15 @@ class UserSeeder extends Seeder
             'email' => 'business@test.com',
         ]);
 
+        $user = User::factory()->create([
+            'name' => '김리뷰',
+            'email' => 'user1@test.com',
+        ]);
+
         $jisung->assignRole(AdminRoleEnum::ADMIN->value);
         $admin->assignRole(AdminRoleEnum::ADMIN->value);
         $business->assignRole(RoleEnum::BUSINESS_USER->value);
+        $user->assignRole(RoleEnum::GENERAL_USER->value);
 
         User::factory(10)->create()->each(function($user, $i) use($faker){
             UserPoint::factory(3)->create([

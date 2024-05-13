@@ -15,6 +15,6 @@ use App\Http\Controllers\Business\CampaignBusinessController;
 |
 */
 Route::get('/dashboard', [CampaignBusinessController::class, 'dashboard'])->name('dashboard');
-Route::get('/campaigns', [CampaignBusinessController::class, 'index'])->name('campaign.index');
-Route::get('/campaigns/{campaign}', [CampaignBusinessController::class, 'show'])->name('campaign.show');
-Route::get('/campaigns/{campaign}/report', [CampaignBusinessController::class, 'report'])->name('campaign.report');
+Route::get('/campaigns', [CampaignBusinessController::class, 'index'])->name('dashboard.campaign.index');
+Route::get('/campaigns/{campaign}', [CampaignBusinessController::class, 'show'])->name('dashboard.campaign.show');
+Route::get('/campaigns/{campaign}/report', [CampaignBusinessController::class, 'report'])->name('dashboard.campaign.report');

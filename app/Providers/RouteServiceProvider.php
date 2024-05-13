@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Enums\AdminRoleEnum;
+use App\Enums\RoleEnum;
 use App\Models\CampaignApplication;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -44,12 +45,13 @@ class RouteServiceProvider extends ServiceProvider
 
             $adminRole      = AdminRoleEnum::ADMIN->value;
             $superAdminRole = AdminRoleEnum::SUPER_ADMIN->value;
+            $businessRole = RoleEnum::BUSINESS_USER->value;
             Route::middleware(['web', "role:{$adminRole}|{$superAdminRole}"])
                 ->prefix('/admin')
                 ->name('admin.')
                 ->group(base_path('routes/admin.php'));
 
-            Route::middleware(['web', "role:{$adminRole}|{$superAdminRole}"])
+            Route::middleware(['web', "role:{$adminRole}|{$superAdminRole}|{$businessRole}"])
                 ->prefix('/business')
                 ->name('business.')
                 ->group(base_path('routes/business.php'));
