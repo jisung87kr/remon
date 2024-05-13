@@ -61,7 +61,7 @@
                                 $(document).ready(function(){
                                   $(".form-select").select2();
                                 });
-                            }, 500);
+                            }, 1000);
                           }
                         </script>
                     </div>
