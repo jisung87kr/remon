@@ -21,38 +21,45 @@
         <x-banner />
 
         <div class="flex flex-col min-h-screen min-h-screen">
-            <header class="p-6 flex container mx-auto justify-between items-center">
-                <div class="flex content-center items-baseline">
-                    <a href="/" class="mr-5 font-bold">REMON</a>
-                    <form action="{{ route('campaign.index') }}">
-                        <div class="relative">
-                            <input type="text"
-                                   name="search"
-                                   class="block w-[260px] p-4 pe-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                                   placeholder="원하는 캠페인을 검색해보세요" value="{{ request()->input('search') }}">
-                            <div class="absolute inset-y-0 end-0 flex items-center pe-3">
-                                <button type="submit">
-                                    <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                         fill="none" viewBox="0 0 20 20">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                @if(Auth::check())
-
-                    <div class="ms-3 relative flex gap-3 items-center">
-                        <x-dropdown align="right" width="48">
-                            <x-slot name="trigger">
-                                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                    <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                                        <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+            <header class="p-6 flex flex-col md:flex-row md:flex-row-reverse container mx-auto md:justify-between md:items-center">
+                @if(!Auth::check())
+                    <div class="mb-3 text-right md:flex md:gap-1 md:items-baseline md:mb-0 md:text-left">
+                        <a href="{{ route('login') }}" class="text-gray-600 text-sm">로그인</a>
+                        <span>∙</span>
+                        <a href="{{ route('register') }}" class="text-gray-600 text-sm">회원가입</a>
+                    </div>
+                @endif
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <a href="/" class="mr-5 font-bold">REMON</a>
+                        <form action="{{ route('campaign.index') }}">
+                            <div class="relative">
+                                <input type="text"
+                                       name="search"
+                                       class="block w-[260px] p-4 pe-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="원하는 캠페인을 검색해보세요" value="{{ request()->input('search') }}">
+                                <div class="absolute inset-y-0 end-0 flex items-center pe-3">
+                                    <button type="submit">
+                                        <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                             fill="none" viewBox="0 0 20 20">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                        </svg>
                                     </button>
-                                @else
-                                    <span class="inline-flex rounded-md">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    @if(Auth::check())
+                        <div class="ms-3 relative flex gap-3 items-center">
+                            <x-dropdown align="right" width="48">
+                                <x-slot name="trigger">
+                                    @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                                        <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
+                                            <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                                        </button>
+                                    @else
+                                        <span class="inline-flex rounded-md">
                                     <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                                         {{ Auth::user()->name }}
 
@@ -61,68 +68,63 @@
                                         </svg>
                                     </button>
                                 </span>
-                                @endif
-                            </x-slot>
+                                    @endif
+                                </x-slot>
 
-                            <x-slot name="content">
-                                <!-- Account Management -->
-                                <div class="block px-4 py-2 text-xs text-gray-400">
-                                    {{ __('Manage Account') }}
-                                </div>
+                                <x-slot name="content">
+                                    <!-- Account Management -->
+                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                        {{ __('Manage Account') }}
+                                    </div>
 
-                                @if(auth()->user()->hasRole(\App\Enums\RoleEnum::GENERAL_USER->value))
-                                <x-dropdown-link href="{{ route('mypage.campaign') }}">
-                                    {{ __('나의 캠페인') }}
-                                </x-dropdown-link>
-                                <x-dropdown-link href="{{ route('mypage.favorite') }}">
-                                    {{ __('관심 캠페인') }}
-                                </x-dropdown-link>
-                                <x-dropdown-link href="{{ route('mypage.point') }}">
-                                    {{ __('나의 포인트') }}
-                                </x-dropdown-link>
-                                <x-dropdown-link href="{{ route('mypage.media') }}">
-                                    {{ __('미디어 연결') }}
-                                </x-dropdown-link>
-                                <x-dropdown-link href="{{ route('mypage.profile') }}">
-                                    {{ __('내 정보') }}
-                                </x-dropdown-link>
-                                @endif
-                                @if(auth()->user()->hasRole(\App\Enums\AdminRoleEnum::SUPER_ADMIN->value) || auth()->user()->hasRole(\App\Enums\AdminRoleEnum::ADMIN->value))
-                                <x-dropdown-link href="{{ route('admin.index') }}">
-                                    {{ __('관리자 사이트') }}
-                                </x-dropdown-link>
-                                @endif
-                                @if(auth()->user()->hasRole(\App\Enums\RoleEnum::BUSINESS_USER->value))
-                                    <x-dropdown-link href="{{ route('business.dashboard') }}">
-                                        {{ __('비즈니스 대시보드') }}
-                                    </x-dropdown-link>
-                                    <x-dropdown-link href="{{ route('business.dashboard.campaign.index') }}">
-                                        {{ __('캠페인') }}
-                                    </x-dropdown-link>
-                                @endif
+                                    @if(auth()->user()->hasRole(\App\Enums\RoleEnum::GENERAL_USER->value))
+                                        <x-dropdown-link href="{{ route('mypage.campaign') }}">
+                                            {{ __('나의 캠페인') }}
+                                        </x-dropdown-link>
+                                        <x-dropdown-link href="{{ route('mypage.favorite') }}">
+                                            {{ __('관심 캠페인') }}
+                                        </x-dropdown-link>
+                                        <x-dropdown-link href="{{ route('mypage.point') }}">
+                                            {{ __('나의 포인트') }}
+                                        </x-dropdown-link>
+                                        <x-dropdown-link href="{{ route('mypage.media') }}">
+                                            {{ __('미디어 연결') }}
+                                        </x-dropdown-link>
+                                        <x-dropdown-link href="{{ route('mypage.profile') }}">
+                                            {{ __('내 정보') }}
+                                        </x-dropdown-link>
+                                    @endif
+                                    @if(auth()->user()->hasRole(\App\Enums\AdminRoleEnum::SUPER_ADMIN->value) || auth()->user()->hasRole(\App\Enums\AdminRoleEnum::ADMIN->value))
+                                        <x-dropdown-link href="{{ route('admin.index') }}">
+                                            {{ __('관리자 사이트') }}
+                                        </x-dropdown-link>
+                                    @endif
+                                    @if(auth()->user()->hasRole(\App\Enums\RoleEnum::BUSINESS_USER->value))
+                                        <x-dropdown-link href="{{ route('business.dashboard') }}">
+                                            {{ __('비즈니스 대시보드') }}
+                                        </x-dropdown-link>
+                                        <x-dropdown-link href="{{ route('business.dashboard.campaign.index') }}">
+                                            {{ __('캠페인') }}
+                                        </x-dropdown-link>
+                                    @endif
 
 
 
-                                <div class="border-t border-gray-200"></div>
+                                    <div class="border-t border-gray-200"></div>
 
-                                <!-- Authentication -->
-                                <form method="POST" action="{{ route('logout') }}" x-data>
-                                    @csrf
+                                    <!-- Authentication -->
+                                    <form method="POST" action="{{ route('logout') }}" x-data>
+                                        @csrf
 
-                                    <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
-                                        {{ __('로그아웃') }}
-                                    </x-dropdown-link>
-                                </form>
-                            </x-slot>
-                        </x-dropdown>
-                    </div>
-                @else
-                    <div class="flex gap-1 items-baseline">
-                        <a href="{{ route('login') }}" class="text-gray-600 text-sm">로그인</a>
-                        <span>∙</span>
-                        <a href="{{ route('register') }}" class="text-gray-600 text-sm">회원가입</a>
-                    </div>
-                @endif
+                                        <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
+                                            {{ __('로그아웃') }}
+                                        </x-dropdown-link>
+                                    </form>
+                                </x-slot>
+                            </x-dropdown>
+                        </div>
+                    @endif
+                </div>
             </header>
             <div class="border-b">
                 <div class="container mx-auto">
