@@ -1,18 +1,20 @@
 <x-business-layout>
-    <div class="card flex">
-        <div class="shrink-0 w-[200px]">
-            @isset($campaign->thumbnails[0])
-                <img src="{{ Storage::url($campaign->thumbnails[0]['file_path']) }}" alt="" class="rounded-lg">
-            @else
-                <img src="https://placehold.co/400x400?text=no+image" alt="" class="rounded-lg">
-            @endisset
+    <div class="card flex flex-wrap lg:flex-nowrap">
+        <div class="sm:flex w-full">
+            <div class="sm:shrink-0 sm:w-[200px]">
+                @isset($campaign->thumbnails[0])
+                    <img src="{{ Storage::url($campaign->thumbnails[0]['file_path']) }}" alt="" class="rounded-lg">
+                @else
+                    <img src="https://placehold.co/400x400?text=no+image" alt="" class="rounded-lg">
+                @endisset
+            </div>
+            <div class="sm:mx-6 w-full mt-3">
+                <x-campaign.info :campaign="$campaign"></x-campaign.info>
+            </div>
         </div>
-        <div class="mx-6 w-full">
-            <x-campaign.info :campaign="$campaign"></x-campaign.info>
-        </div>
-        <div class="shrink-0 w-[200px]">
-            <a href="{{ route('campaign.show', $campaign) }}" class="block text-center mb-3 button button-light">캠페인 상세보기</a>
-            <a href="" class="block text-center button button-default-outline" @click.prevent="alert('준비중인 기능입니다.')">문의하기</a>
+        <div class="flex w-full gap-3 sm:block text-center mt-3 sm:text-left sm:mt-0 sm:shrink-0 sm:w-[200px] ">
+            <a href="{{ route('campaign.show', $campaign) }}" class="w-1/2 block text-center button button-light sm:w-auto sm:mb-3">캠페인 상세보기</a>
+            <a href="" class="w-1/2 block text-center button button-default-outline sm:w-auto" @click.prevent="alert('준비중인 기능입니다.')">문의하기</a>
         </div>
     </div>
 
@@ -73,12 +75,14 @@
                 <tr>
                     <td>{{ $applicant->id }}</td>
                     <td>
-                        <x-user.avatar :user="$content->user"></x-user.avatar>
+                        <x-user.avatar :user="$applicant->user"></x-user.avatar>
                     </td>
                     <td>
-                        @foreach($content->user->medias as $media)
-                            <x-media-icon :media="$media->media"></x-media-icon>
-                        @endforeach
+                        <div class="flex gap-2">
+                            @foreach($applicant->user->medias as $media)
+                                <x-media-icon :media="$media->media"></x-media-icon>
+                            @endforeach
+                        </div>
                     </td>
                     <td>{{ $applicant->created_at ? $applicant->created_at->format('y.m.d') : '-' }}</td>
                     <td>-</td>
