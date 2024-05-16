@@ -13,10 +13,40 @@
 
     <!-- Scripts -->
     @vite(['resources/scss/admin.scss', 'resources/js/app.js'])
-    <script src="{{ Vite::asset('resources/js/functions.js') }}"></script>
     @stack('script')
     <!-- Styles -->
     @livewireStyles
+    <script>
+      function initChart (el, type, labels, datasets, customOptions = {}){
+        var defaultOptions = {
+          responsive: true,
+          plugins: {
+            legend: {
+              // display: false,
+              position: 'bottom',
+            },
+            title: {
+              display: false,
+            }
+          }
+        };
+
+        var options = Object.assign({}, defaultOptions, customOptions);
+
+        let data = {
+          labels: labels,
+          datasets: datasets,
+        }
+
+        var config = {
+          type: type,
+          data: data,
+          options: options,
+        };
+
+        return new Chart(el, config);
+      }
+    </script>
 </head>
 <body class="font-sans antialiased" x-data>
 
