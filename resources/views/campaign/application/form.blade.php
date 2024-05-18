@@ -123,142 +123,107 @@
                             </div>
                         </div>
                     </div>
-                    @if($campaign->media)
-                        <div x-data="mediaData">
-                            <template x-for="item in media">
-                                <div class="flex mt-6">
-                                    <div class="shrink-0 w-[160px] font-bold mr-3 pt-6" x-text="item.media_name"></div>
-                                    <div class="w-full border-t pt-6">
-                                        <div class="text-sm" x-text="`콘텐츠를 작성할 ${item.media_name} 주소를 등록해주세요. 등록한 정보는 선정 후 변경할 수 없습니다.`"></div>
-                                        <x-rootmodal class="z-[999]">
-                                            <x-slot name="trigger">
-                                                <button type="button"
-                                                        class="button button-light flex gap-1 mt-4 items-center"
-                                                        :class="{ 'bg-green-100 border': item.id, 'button-light' : !item.id}"
-                                                        @click="openModal(item.media)"
-                                                >
-                                                    <template x-if="item.media == '{{ App\Enums\Campaign\MediaEnum::NAVER_BLOG->value }}'">
-                                                        <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="">
-                                                    </template>
-                                                    <template x-if="item.media == '{{ App\Enums\Campaign\MediaEnum::INSTAGRAM->value }}'">
-                                                        <img src="{{ Vite::asset('resources/images/media/instagram.svg') }}">
-                                                    </template>
-                                                    <template x-if="item.media == '{{ App\Enums\Campaign\MediaEnum::YOUTUBE->value }}'">
-                                                        <img src="{{ Vite::asset('resources/images/media/youtube.svg') }}" alt="" class="w-[20px]">
-                                                    </template>
-                                                    <img src="" alt="">
-                                                    <span x-text="item.media_name"></span><span x-text="item.id ? '연결됨' : '연결하기'"></span>
-                                                </button>
-                                            </x-slot>
-                                            <x-slot name="header"></x-slot>
-                                            <div class="text-left">
-                                                <label :for="item.media" class="label" x-text="`${item.media_name} 주소`"></label>
-                                                <div class="flex gap-3 mt-3 mb-1">
-                                                    <input type="text" name="url" x-model="item.url" class="form-control" :id="item.media" placeholder="http://example.com">
-                                                </div>
-                                                <small>주소를 정확히 입력해주세요</small>
-                                            </div>
-                                            <x-slot name="footer">
-                                                <button type="button" class="button button-default" @click="save(item.media)">저장</button>
-                                            </x-slot>
-                                        </x-rootmodal>
+                    @foreach($campaign->media as $media)
+                    @php
+                        $item = auth()->user()->medias->filter(function($item) use ($media){
+                            return $item['media'] == $media->media;
+                        })->first();
+                    @endphp
+                    <div x-data="{{$media->media}}_mediaData">
+                        <div class="flex mt-6">
+                            <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">{{ \App\Enums\Campaign\MediaEnum::tryFrom($media->media)->label() }}</div>
+                            <div class="w-full border-t pt-6">
+                                <div class="text-sm" >콘텐츠를 작성할 {{ \App\Enums\Campaign\MediaEnum::tryFrom($media->media)->label() }} 주소를 등록해주세요. 등록한 정보는 선정 후 변경할 수 없습니다.</div>
+                                <x-rootmodal class="z-[999]">
+                                    <x-slot name="trigger">
+                                        <button type="button"
+                                                class="button button-light flex gap-1 mt-4 items-center"
+                                                :class="{ 'bg-green-100 border': item.id, 'button-light' : !item.id}"
+                                                @click="openModal()"
+                                        >
+                                            <x-media-icon :media="$media->media"></x-media-icon>
+                                            <span>{{ \App\Enums\Campaign\MediaEnum::tryFrom($media->media)->label() }}</span><span x-text="item.id ? '연결됨' : '연결하기'"></span>
+                                        </button>
+                                    </x-slot>
+                                    <x-slot name="header"></x-slot>
+                                    <div class="text-left">
+                                        <label for="{{ $media->media }}" class="label">{{ $media->media }} 주소</label>
+                                        <div class="flex gap-3 mt-3 mb-1">
+                                            <input type="text" name='url[{{ $media->media }}]' x-model="item.url" class="form-control" id="{{ $media->media }}" placeholder="http://example.com">
+                                        </div>
+                                        <small>{{ \App\Enums\Campaign\MediaEnum::tryFrom($media->media)->label() }} 주소를 정확히 입력해주세요</small>
                                     </div>
-                                </div>
-                            </template>
+                                    <x-slot name="footer">
+                                        <button type="button" class="button button-default" @click="save('{{ $media->media }}')">저장</button>
+                                    </x-slot>
+                                </x-rootmodal>
+                                <x-input-error :for="'url.'.$media->media" class="mt-1"></x-input-error>
+                            </div>
                         </div>
-                        <script>
-                          const mediaData = {
-                            campaignMedia: @json($campaign->media),
-                            userMedia: @json(auth()->user()->medias),
-                            media:{},
-                            init(){
-                              this.setMedia();
-                              console.log(this.media);
-                            },
-                            setMedia(){
-                              this.media = this.campaignMedia.map(item => {
-                                let mediaId = null;
-                                let url = null;
-                                let connected_status = null;
-
-                                for(var i=0; i < this.userMedia.length; i++){
-                                  let media = this.userMedia[i];
-
-                                  if(media.media === item.media){
-                                    mediaId = media.id;
-                                    url = media.url;
-                                    connected_status = media.connected_status;
-                                  }
-                                }
-
-                                return {
-                                  id: mediaId,
-                                  media: item.media,
-                                  media_name: this.getMediaName(item.media),
-                                  url: url,
-                                  connected_status: connected_status,
-                                }
-                              });
-
-                              console.log(this.media);
-                            },
-                            getMediaName(media){
-                              switch (media){
-                                case '{{ \App\Enums\Campaign\MediaEnum::NAVER_BLOG->value }}':
-                                  return '{{ \App\Enums\Campaign\MediaEnum::NAVER_BLOG->label() }}';
-                                case '{{ \App\Enums\Campaign\MediaEnum::INSTAGRAM->value }}':
-                                  return '{{ \App\Enums\Campaign\MediaEnum::INSTAGRAM->label() }}';
-                                case '{{ \App\Enums\Campaign\MediaEnum::YOUTUBE->value }}':
-                                  return '{{ \App\Enums\Campaign\MediaEnum::YOUTUBE->label() }}';
-                              }
-                            },
-                            save(media){
-                              let filtered = this.media.filter(item => item.media === media);
-                              let params = filtered[0];
-                              params.connected_status = 'connected';
-
-                              if(params.id){
-                                axios.put(`/api/user/media/${params.id}`, params).then(res => {
-                                  Swal.fire({
-                                    icon: 'success',
-                                    title: res.data.message,
-                                    didClose: () => {
-                                      window.location.reload();
-                                    }
-                                  });
-                                }).catch(error => {
-                                  Swal.fire({
-                                    icon: 'error',
-                                    title: error.response.data.message,
-                                    text: error.response.data.data,
-                                  });
-                                })
-                              } else {
-                                axios.post('/api/user/media', params).then(res => {
-                                  Swal.fire({
-                                    icon: 'success',
-                                    title: res.data.message,
-                                    didClose: () => {
-                                      console.log('finished');
-                                      console.log(res);
-                                      params.id = res.data.data.id;
-                                    }
-                                  });
-                                }).catch(error => {
-                                  Swal.fire({
-                                    icon: 'error',
-                                    title: error.response.data.message,
-                                    text: error.response.data.data,
-                                  });
-                                })
-                              }
-                            },
-                            openModal(type){
-                              this.$data.open = true;
+                    </div>
+                    <script>
+                      const {{$media->media}}_mediaData = {
+                        item: @json($item),
+                        init(){
+                          if(!this.item){
+                            this.item = {
+                              id: null,
+                              media: null,
+                              url: null,
                             }
                           }
-                        </script>
-                    @endif
+                        },
+                        save(media){
+                          let params = {
+                            media: media,
+                            url: this.item.url,
+                            connected_status: 'connected',
+                          };
+
+                          if(this.item){
+                            params.id = this.item.id;
+                          }
+
+                          if(params.id){
+                            axios.put(`/api/user/media/${params.id}`, params).then(res => {
+                              Swal.fire({
+                                icon: 'success',
+                                title: res.data.message,
+                                didClose: () => {
+                                  this.item = res.data.data;
+                                }
+                              });
+                            }).catch(error => {
+                              Swal.fire({
+                                icon: 'error',
+                                title: error.response.data.message,
+                                text: error.response.data.data,
+                              });
+                            })
+                          } else {
+                            axios.post('/api/user/media', params).then(res => {
+                              Swal.fire({
+                                icon: 'success',
+                                title: res.data.message,
+                                didClose: () => {
+                                  this.item = res.data.data;
+                                }
+                              });
+                            }).catch(error => {
+                              Swal.fire({
+                                icon: 'error',
+                                title: error.response.data.message,
+                                text: error.response.data.data,
+                              });
+                            })
+                          }
+                        },
+                        openModal(){
+                          this.$data.open = true;
+                        }
+                      }
+                    </script>
+                    @endforeach
                     <div class="flex mt-6">
                         <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">신청 정보 입력</div>
                         <div class="w-full pb-6">
@@ -562,14 +527,14 @@
                                 캠페인에 등록할 콘텐츠를 선택해주세요.
                                 리스트에서 찾지 못한 경우, 글 주소를 입력해주세요.
                             </div>
-                            @foreach($campaign->media as $media)
-                            <div x-data="mediaContentData">
+                            @foreach($campaignApplication->mediaContents as $content)
+                            <div x-data="{{$content->media->media}}_mediaContentData" class="my-5">
                                 <div class="mb-3 flex gap-3">
-                                    <x-media-icon :media="$media->media"></x-media-icon>
-                                    <span>{{ \App\Enums\Campaign\MediaEnum::from($media->media)->label() }}</span>
+                                    <x-media-icon :media="$content->media"></x-media-icon>
+                                    <span>{{ \App\Enums\Campaign\MediaEnum::from($content->media->media)->label() }}</span>
                                 </div>
-                                <input type="hidden" name="media_content[{{ $loop->index }}][media]" value="{{ $media->media }}">
-                                <input type="hidden" name="media_content[{{ $loop->index }}][id]" value="{{ $media->id }}">
+                                <input type="hidden" name="media_content[{{ $loop->index }}][media]" value="{{ $content->media->media }}">
+                                <input type="hidden" name="media_content[{{ $loop->index }}][id]" value="{{ $content->campaign_media_id }}">
                                 <select name="media_content[{{ $loop->index }}][url]"
                                         id="media_content"
                                         class="form-select w-full"
@@ -587,17 +552,17 @@
                                 <input type="text" name="media_content[{{ $loop->index }}][url_text]"
                                        class="form-control mt-3"
                                        x-model="contentUrl"
-                                       :readonly="!items || !items.length == 0"
                                        placeholder="http://글주소">
                             </div>
                             <script>
-                                const mediaContentData = {
-                                    media: '{{ $media->media }}',
-                                    contentUrl: '{{ $media->contentsByUser()->first()->content_url ?? '' }}',
+                                const {{$content->media->media}}_mediaContentData = {
+                                    media: '{{ $content->media->media }}',
+                                    contentUrl: '{{ $content->content_url }}',
                                     items: [],
                                     init(){
                                       axios.get(`/api/user/media/external_content?media=${this.media}`).then(res => {
                                         this.items = res.data.data;
+                                        console.log(this.items);
                                         // $(this.$refs.media_content).select2();
                                       });
                                     },

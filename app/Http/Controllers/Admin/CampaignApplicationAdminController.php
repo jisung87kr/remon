@@ -8,9 +8,12 @@ use App\Events\ApplicationProcessed;
 use App\Exports\CampaignApplicationExport;
 use App\Http\Controllers\Controller;
 use App\Models\CampaignApplication;
+use App\Models\CampaignMedia;
+use App\Models\CampaignMediaContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class CampaignApplicationAdminController extends Controller
 {
@@ -50,6 +53,22 @@ class CampaignApplicationAdminController extends Controller
                                 'campaign_id' => $application->campaign_id,
                                 'expired_at' => now()->addDays('100'),
                             ]);
+                        }
+                    }
+
+                    if($item['status'] === ApplicationStatus::APPROVED->value){
+                        foreach ($application->campaign->media as $index => $media) {
+                            if(!CampaignMediaContent::where([
+                                'campaign_application_id' => $application->id,
+                                'campaign_media_id' => $media->id,
+                            ])->first()){
+                                $application->mediaContents()->create([
+                                    'campaign_media_id' => $media->id,
+                                    'campaign_id' => $application->campaign->id,
+                                    'user_id' => $application->user->id,
+                                    'banner_id' => (string)Str::uuid(),
+                                ]);
+                            }
                         }
                     }
 

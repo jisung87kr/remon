@@ -18,6 +18,7 @@ use Database\Factories\CampaignApplicationFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory;
+use Illuminate\Support\Str;
 
 class CampaignSeeder extends Seeder
 {
@@ -64,7 +65,6 @@ class CampaignSeeder extends Seeder
                 'sex' => ['man', 'woman'][rand(0, 1)],
                 'phone' => $faker->phoneNumber,
                 'status' => $status->value,
-                'banner_id' => md5(uniqid(mt_rand(), true)),
             ]);
 
             foreach ($users as $user) {
@@ -79,7 +79,9 @@ class CampaignSeeder extends Seeder
                 CampaignMediaContent::factory()->create([
                    'user_id' => $user->id,
                    'campaign_id' => $campaignMedia->campaign_id,
-                   'campaign_media_id' => $campaignMedia->id
+                   'campaign_media_id' => $campaignMedia->id,
+                   'campaign_application_id' => $campaignApplication->id,
+                   'banner_id' => (string) Str::uuid(),
                 ]);
             }
         });

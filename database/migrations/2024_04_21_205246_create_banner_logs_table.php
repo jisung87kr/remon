@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('banner_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('banner_id');
+            $table->foreignId('campaign_media_content_id');
             $table->string('referer')->nullable();
             $table->string('user_agent')->nullable();
             $table->boolean('is_mobile')->nullable();

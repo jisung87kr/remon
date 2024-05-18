@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('name')->nullable()->comment('이름');
             $table->string('display_name')->nullable()->comment('닉네임');
             $table->text('introduce')->nullable()->comment('소개');
-            $table->string('profile_url')->nullable()->comment('프로필 이미지');
+            $table->text('profile_url')->nullable()->comment('프로필 이미지');
             $table->integer('day_visitor_count')->nullable()->comment('일 방문자');
             $table->integer('subscriber_count')->nullable()->comment('구독자');
             $table->integer('total_visitor_count')->nullable()->comment('전체 방문자');

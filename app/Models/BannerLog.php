@@ -11,8 +11,8 @@ class BannerLog extends Model
 
     protected $guarded = [];
 
-    public function application()
+    public function mediaContent()
     {
-        return $this->belongsTo(CampaignApplication::class, 'banner_id', 'banner_id');
+        return $this->belongsTo(CampaignMediaContent::class);
     }
 }
