@@ -495,31 +495,6 @@
                     </div>
 
                     @if(isset($campaignApplication->id) && in_array($campaignApplication->status, [\App\Enums\Campaign\ApplicationStatus::APPROVED->value, \App\Enums\Campaign\ApplicationStatus::POSTED->value]))
-                    <div class="flex mt-6" x-data="bannerData">
-                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">스폰서 배너 삽입</div>
-                        <div class="w-full border-t pt-6">
-                            <div class="mb-3">콘텐츠 본문 하단에 스폰서 배너를 삽입해주세요.</div>
-                            <div class="flex gap-3">
-                                <input type="text" class="form-control" value="<img src='{{ config('app.url') }}/campaign_banner?id={{ $campaignApplication->banner_id }}' />" x-ref="banner">
-                                <button type="button" class="button button-light" @click="copyBanner">코드복사</button>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        const bannerData = {
-                          copyBanner(){
-                            const text = this.$refs.banner.value;
-                            navigator.clipboard.writeText(text)
-                              .then(() => {
-                                alert('코드가 복사되었습니다.');
-                              })
-                              .catch(err => {
-                                console.error('복사 실패:', err);
-                                alert('코드 복사에 실패했습니다.');
-                              });
-                          }
-                        }
-                    </script>
                     <div class="flex mt-6">
                         <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">콘텐츠 선택</div>
                         <div class="w-full border-t pt-6">
@@ -528,9 +503,9 @@
                                 리스트에서 찾지 못한 경우, 글 주소를 입력해주세요.
                             </div>
                             @foreach($campaignApplication->mediaContents as $content)
-                            <div x-data="{{$content->media->media}}_mediaContentData" class="my-5">
+                            <div x-data="{{$content->media->media}}_mediaContentData" class="my-10">
                                 <div class="mb-3 flex gap-3">
-                                    <x-media-icon :media="$content->media"></x-media-icon>
+                                    <x-media-icon :media="$content->media->media"></x-media-icon>
                                     <span>{{ \App\Enums\Campaign\MediaEnum::from($content->media->media)->label() }}</span>
                                 </div>
                                 <input type="hidden" name="media_content[{{ $loop->index }}][media]" value="{{ $content->media->media }}">
@@ -553,6 +528,30 @@
                                        class="form-control mt-3"
                                        x-model="contentUrl"
                                        placeholder="http://글주소">
+                                @if($content->media->media === \App\Enums\Campaign\MediaEnum::NAVER_BLOG->value)
+                                <div class="mt-6 w-full" x-data="{{$content->media->media}}_bannerData">
+                                    <div class="mb-3">콘텐츠 본문 하단에 스폰서 배너를 삽입해주세요.</div>
+                                    <div class="flex gap-3">
+                                        <input type="text" class="form-control" value="<img src='{{ config('app.url') }}/campaign_banner?id={{ $content->banner_id }}' />" x-ref="banner">
+                                        <button type="button" class="button button-light" @click="copyBanner">코드복사</button>
+                                    </div>
+                                </div>
+                                <script>
+                                  const {{$content->media->media}}_bannerData = {
+                                    copyBanner(){
+                                      const text = this.$refs.banner.value;
+                                      navigator.clipboard.writeText(text)
+                                        .then(() => {
+                                          alert('코드가 복사되었습니다.');
+                                        })
+                                        .catch(err => {
+                                          console.error('복사 실패:', err);
+                                          alert('코드 복사에 실패했습니다.');
+                                        });
+                                    }
+                                  };
+                                </script>
+                                @endif
                             </div>
                             <script>
                                 const {{$content->media->media}}_mediaContentData = {
@@ -562,11 +561,9 @@
                                     init(){
                                       axios.get(`/api/user/media/external_content?media=${this.media}`).then(res => {
                                         this.items = res.data.data;
-                                        console.log(this.items);
-                                        // $(this.$refs.media_content).select2();
                                       });
                                     },
-                                }
+                                };
                             </script>
                             @endforeach
                         </div>

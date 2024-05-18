@@ -38,8 +38,9 @@ Route::get('campaign_banner', function(Request $request){
     $response->headers->set('Content-Type', Storage::disk('public')->mimeType($filepath));
 
     $bannerLog = new \App\Models\BannerLog;
+    $mediaContent = \App\Models\CampaignMediaContent::where('banner_id', $request->input('id'))->first();
     $bannerLog->create([
-        'banner_id' => $request->input('id'),
+        'campaign_media_content_id' => $mediaContent->id,
         'referer' => $request->header('referer'),
         'ip_address' => $request->ip(),
     ]);
