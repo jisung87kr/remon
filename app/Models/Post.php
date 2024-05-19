@@ -16,6 +16,18 @@ class Post extends Model
         'status' => PostStatusEnum::class,
     ];
 
+    protected static function booted()
+    {
+        static::addGlobalScope('withCommentsCount', function ($query) {
+            $query->withCount('comments');
+        });
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 
     public function board()
     {
@@ -24,7 +36,7 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->morphToMany(Comment::class, 'commentable');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
 

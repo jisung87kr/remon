@@ -16,6 +16,8 @@ use App\Enums\AdminRoleEnum;
 use App\Http\Controllers\CampaignMediaContentController;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\BoardController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,21 +71,24 @@ Route::get('/category/오늘오픈', function(){
     return view('campaign.index', compact('campaigns', 'category', 'locationCategory'));
 })->name('category.show');
 
-Route::get('/community/free', function(){
-    $board = \App\Models\Board::where('name', 'free')->first();
-    $posts = $board->posts()->paginate(20);
-    return view('post.index', compact('posts'));
-})->name('community.free');
+Route::resource('/boards', BoardController::class)->names('board')->parameters(['board' => 'board:slug']);
+Route::resource('/boards/{board:slug}/posts', PostController::class)->names('post');
 
-Route::get('/community/free/create', function(){
-    $post = [];
-    return view('post.create', compact('post'));
-})->name('post.create');
-
-Route::get('/community/free/{post}', function($post){
-    $post = [];
-    return view('post.show', compact('post'));
-})->name('post.show');
+//Route::get('/community/free', function(){
+//    $board = \App\Models\Board::where('name', 'free')->first();
+//    $posts = $board->posts()->paginate(20);
+//    return view('post.index', compact('posts'));
+//})->name('community.free');
+//
+//Route::get('/community/free/create', function(){
+//    $post = [];
+//    return view('post.create', compact('post'));
+//})->name('post.create');
+//
+//Route::get('/community/free/{post}', function($post){
+//    $post = [];
+//    return view('post.show', compact('post'));
+//})->name('post.show');
 
 Route::get('/community/guide', function(){
     return view('community.guide');

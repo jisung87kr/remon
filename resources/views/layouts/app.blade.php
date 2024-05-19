@@ -141,7 +141,7 @@
                             </li>
 
                             <li class="font-bold shrink-0"><a href="{{ route('event') }}" class="{{ request()->routeIs('event') ? 'text-indigo-500' : '' }}">이벤트</a></li>
-                            <li class="font-bold shrink-0"><a href="{{ route('community.free') }}" class="{{ request()->routeIs('community.free') ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
+                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'free') }}" class="{{ request()->routeIs('board.show', 'free') ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
                             <li class="font-bold shrink-0"><a href="{{ route('help.inquiry') }}" class="{{ request()->routeIs('help.inquiry') ? 'text-indigo-500' : '' }}">고객센터</a></li>
                             <li class="font-bold shrink-0"><a href="{{ route('help.contact') }}" class="{{ request()->routeIs('help.contact') ? 'text-indigo-500' : '' }}">광고문의</a></li>
                         </ul>
@@ -238,7 +238,7 @@
                             <a href="{{ route('campaign.index', ['campaign_type' => ['배송형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('배송형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">배송형 캠페인</a>
                         </li>
                         <li class="my-3"><a href="{{ route('event') }}" class="{{ request()->routeIs('event') ? 'text-indigo-500' : '' }}">이벤트</a></li>
-                        <li class="my-3"><a href="{{ route('community.free') }}" class="{{ request()->routeIs('community.free') ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
+                        <li class="my-3"><a href="{{ route('board.show', 'free') }}" class="{{ request()->routeIs('board.show', 'free') ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
                         <li class="my-3"><a href="{{ route('help.inquiry') }}" class="{{ request()->routeIs('help.inquiry') ? 'text-indigo-500' : '' }}">고객센터</a></li>
                         <li class="my-3"><a href="{{ route('help.contact') }}" class="{{ request()->routeIs('help.contact') ? 'text-indigo-500' : '' }}">광고문의</a></li>
                     </ul>
@@ -268,7 +268,7 @@
                     </svg>
                     <span class="text-xs mt-1">메뉴</span>
                 </button>
-                <a href="{{ route('community.free') }}" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
+                <a href="{{ route('board.show', 'free') }}" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-chatbot" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />

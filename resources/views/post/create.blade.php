@@ -1,5 +1,5 @@
 <x-help-layout>
-    <x-slot name="header">레뷰소식</x-slot>
+    <x-slot name="header">{{ $board->name }}</x-slot>
     <form action="" class="mt-6">
         <div class="flex gap-1 flex-wrap">
             <button type="button" class="button button-gray-outline shrink-0">카테고리1</button>

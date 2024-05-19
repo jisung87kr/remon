@@ -18,7 +18,7 @@
             <div class="font-bold text-lg py-4 border-b">커뮤니티</div>
             <ul>
                 <li class="py-4 border-b"><a href="{{ route('community.guide') }}" class="{{ request()->routeIs('community.guide') ? 'active font-bold' : '' }}">레몬소식</a></li>
-                <li class="py-4 border-b"><a href="{{ route('community.free') }}" class="{{ request()->routeIs('community.free') ? 'active font-bold' : '' }}">레몬톡톡</a></li>
+                <li class="py-4 border-b"><a href="{{ route('board.show', 'free') }}" class="{{ request()->routeIs('board.show', 'free') ? 'active font-bold' : '' }}">레몬톡톡</a></li>
                 <li class="py-4 border-b"><a href="{{ route('community.neighbor') }}" class="{{ request()->routeIs('community.neighbor') ? 'active font-bold' : '' }}">우리친구할까요?</a></li>
             </ul>
         </div>

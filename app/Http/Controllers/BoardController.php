@@ -12,7 +12,6 @@ class BoardController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -36,7 +35,8 @@ class BoardController extends Controller
      */
     public function show(Board $board)
     {
-        //
+        $posts = $board->posts()->paginate(20);
+        return view('post.index', compact('board', 'posts'));
     }
 
     /**

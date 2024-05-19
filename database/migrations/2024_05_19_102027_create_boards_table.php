@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('boards', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('게시판 이름');
-            $table->text('description')->comment('게시판 설명');
+            $table->string('name', 20)->comment('게시판 이름');
+            $table->string('description')->nullable()->comment('게시판 설명');
+            $table->string('slug')->comment('게시판 슬러그');
             $table->timestamps();
         });
     }

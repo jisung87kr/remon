@@ -14,11 +14,11 @@ class BoardSeeder extends Seeder
      */
     public function run(): void
     {
-        $notice = Board::factory()->hasPosts(30)->create(['name' => 'notice', 'description' => '공지사항']);
-        $event = Board::factory()->hasPosts(30)->create(['name' => 'event', 'description' => '이벤트']);
-        $news = Board::factory()->hasPosts(30)->create(['name' => 'news', 'description' => '레몬소식']);
-        $free = Board::factory()->hasPosts(30)->create(['name' => 'free', 'description' => '레몬톡톡']);
-        $neighbor = Board::factory()->hasPosts(30)->create(['name' => 'community', 'description' => '우리친구할까요?']);
-        $inquiry = Board::factory()->hasPosts(30)->create(['name' => 'inquiry', 'description' => '1:1문의']);
+        $notice = Board::factory()->hasPosts(30)->create(['slug' => 'notice', 'name' => '공지사항']);
+        $event = Board::factory()->hasPosts(30)->create(['slug' => 'event', 'name' => '이벤트']);
+        $news = Board::factory()->hasPosts(30)->create(['slug' => 'news', 'name' => '레몬소식']);
+        $free = Board::factory()->hasPosts(30)->create(['slug' => 'free', 'name' => '레몬톡톡']);
+        $neighbor = Board::factory()->hasPosts(30)->create(['slug' => 'community', 'name' => '우리친구할까요?']);
+        $inquiry = Board::factory()->hasPosts(30)->create(['slug' => 'inquiry', 'name' => '1:1문의']);
     }
 }
