@@ -170,7 +170,7 @@
     <section id="best_campaign" class="container mx-auto my-12 p-6">
         <h1 class="text-2xl font-bold mb-3">베스트 콘텐츠</h1>
         <div class="grid grid-cols-3 xl:grid-cols-5 gap-6">
-            @foreach(range(1, 5) as $key)
+            @foreach($bestContents as $content)
                 <a href="">
                     <div class="rounded overflow-hidden">
                         <img src="https://placehold.co/400x300" alt="">

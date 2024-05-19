@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Campaign;
+use App\Models\CampaignMediaContent;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Enums\Campaign\StatusEnum;
@@ -15,7 +16,8 @@ class IndexController extends Controller
         $remonPicksCampaigns = [];
         $pendingCampaigns = [];
         $brands = [];
-        $bestContents = [];
-        return view('index', compact('bestCampaigns'));
+        $bestContents = CampaignMediaContent::withCount('bannerLogs')->orderBy('banner_logs_count', 'desc')->take(10)->get();
+
+        return view('index', compact('bestCampaigns', 'bestContents'));
     }
 }
