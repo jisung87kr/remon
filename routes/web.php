@@ -70,8 +70,20 @@ Route::get('/category/오늘오픈', function(){
 })->name('category.show');
 
 Route::get('/community/free', function(){
-    return view('community.free');
+    $board = \App\Models\Board::where('name', 'free')->first();
+    $posts = $board->posts()->paginate(20);
+    return view('post.index', compact('posts'));
 })->name('community.free');
+
+Route::get('/community/free/create', function(){
+    $post = [];
+    return view('post.create', compact('post'));
+})->name('post.create');
+
+Route::get('/community/free/{post}', function($post){
+    $post = [];
+    return view('post.show', compact('post'));
+})->name('post.show');
 
 Route::get('/community/guide', function(){
     return view('community.guide');

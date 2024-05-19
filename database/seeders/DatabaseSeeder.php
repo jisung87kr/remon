@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             MissionSeeder::class,
             CampaignTypeSeeder::class,
             CampaignSeeder::class,
+            BoardSeeder::class,
          ]);
     }
 }

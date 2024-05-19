@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('boards', function (Blueprint $table) {
             $table->id();
-            $table->string('type')->nullable();
-            $table->string('name');
-            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->string('name')->comment('게시판 이름');
+            $table->text('description')->comment('게시판 설명');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('boards');
     }
 };
