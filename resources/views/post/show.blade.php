@@ -7,7 +7,7 @@
             </div>
             <div class="font-bold text-2xl mb-6">{{ $post->title }}</div>
             <div>
-                {{ $post->content }}
+                {!! $post->content !!}
             </div>
         </section>
         <div class="mt-10">
@@ -96,5 +96,21 @@
                 @endif
             </div>
         </div>
+        @can('delete', $post)
+        <div>
+            <form action="{{ route('board.post.destroy', [$board, $post]) }}" method="POST">
+                @method('DELETE')
+                @csrf
+                <button type="submit" class="button button-red" @click="deletePost">삭제</button>
+            </form>
+            <script>
+              function deletePost(){
+                if(!confirm('삭제 하시겠습니까?')){
+                    event.preventDefault();
+                }
+              }
+            </script>
+        </div>
+        @endcan
     </div>
 </x-help-layout>

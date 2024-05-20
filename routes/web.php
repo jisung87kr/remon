@@ -71,8 +71,8 @@ Route::get('/category/오늘오픈', function(){
     return view('campaign.index', compact('campaigns', 'category', 'locationCategory'));
 })->name('category.show');
 
-Route::resource('/boards', BoardController::class)->names('board')->parameters(['board' => 'board:slug']);
-Route::resource('/boards/{board:slug}/posts', PostController::class)->names('post');
+//Route::resource('/boards', BoardController::class)->names('board')->parameters(['board' => 'board:slug']);
+//Route::resource('/boards/{board:slug}/posts', PostController::class)->names('post');
 
 //Route::get('/community/free', function(){
 //    $board = \App\Models\Board::where('name', 'free')->first();

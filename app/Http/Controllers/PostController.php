@@ -22,15 +22,31 @@ class PostController extends Controller
     public function create(Board $board)
     {
         $post = new Post();
+        if(!auth()->user() || !auth()->user()->can('create', Post::Class)){
+            abort(403);
+        }
         return view('post.create', compact('board', 'post'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Board $board, Post $post)
+    public function store(Request $request, Board $board)
     {
-        //
+        if(!auth()->user() || !auth()->user()->can('create', Post::class)){
+            abort(403);
+        }
+
+        $validated = $request->validate([
+           'status' => 'required',
+           'title' => 'required',
+           'content' => 'required',
+        ]);
+
+        $validated['board_id'] = $board->id;
+
+        $post = $request->user()->posts()->create($validated);
+        return redirect()->route('board.post.show', [$board, $post]);
     }
 
     /**
@@ -47,7 +63,7 @@ class PostController extends Controller
      */
     public function edit(Board $board, Post $post)
     {
-        //
+        return view('post.edit', compact('board', 'post'));
     }
 
     /**
@@ -55,14 +71,31 @@ class PostController extends Controller
      */
     public function update(Request $request, Board $board, Post $post)
     {
-        //
+        if(!auth()->user() || !auth()->user()->can('update', $post)){
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'status' => 'required',
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+
+        $validated['board_id'] = $board->id;
+
+        $post->update($validated);
+        return redirect()->route('board.post.show', [$board, $post]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Board $board, Post $post)
+    public function destroy(Request $request, Board $board, Post $post)
     {
-        //
+        if(!auth()->user() || !auth()->user()->can('delete', Post::class)){
+            abort(403);
+        }
+        $post->delete();
+        return redirect()->route('board.show', $board);
     }
 }

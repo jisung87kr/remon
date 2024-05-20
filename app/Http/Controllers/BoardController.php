@@ -33,9 +33,12 @@ class BoardController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Board $board)
+    public function show(Request $request, Board $board)
     {
-        $posts = $board->posts()->paginate(20);
+        $filter = [
+            'keyword' => $request->input('keyword'),
+        ];
+        $posts = $board->posts()->published()->filter($filter)->paginate(20);
         return view('post.index', compact('board', 'posts'));
     }
 

@@ -12,10 +12,10 @@ enum PostStatusEnum: string
     public function label(): string
     {
         return match($this) {
-            self::DRAFT => 'Draft',
-            self::PUBLISHED => 'Published',
-            self::UNPUBLISHED => 'Unpublished',
-            self::ARCHIVED => 'Archived',
+            self::DRAFT => '초안',
+            self::PUBLISHED => '공개됨',
+            self::UNPUBLISHED => '공개되지 않음',
+            self::ARCHIVED => '아카이브',
         };
     }
 }

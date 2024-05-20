@@ -13,7 +13,7 @@ class Board extends Model
 
     public function Posts()
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class)->latest();
     }
 
     public function getRouteKeyName()

@@ -18,7 +18,9 @@ class BoardSeeder extends Seeder
         $event = Board::factory()->hasPosts(30)->create(['slug' => 'event', 'name' => '이벤트']);
         $news = Board::factory()->hasPosts(30)->create(['slug' => 'news', 'name' => '레몬소식']);
         $free = Board::factory()->hasPosts(30)->create(['slug' => 'free', 'name' => '레몬톡톡']);
-        $neighbor = Board::factory()->hasPosts(30)->create(['slug' => 'community', 'name' => '우리친구할까요?']);
+        $neighbor = Board::factory()->hasPosts(30)->create(['slug' => 'neighbor', 'name' => '우리친구할까요?']);
         $inquiry = Board::factory()->hasPosts(30)->create(['slug' => 'inquiry', 'name' => '1:1문의']);
+        $guide = Board::factory()->hasPosts(30)->create(['slug' => 'guide', 'name' => '가이드']);
+        $ad = Board::factory()->hasPosts(30)->create(['slug' => 'ad', 'name' => '광고문의']);
     }
 }

@@ -76,7 +76,7 @@
                 <img src="{{ Vite::asset('resources/images/category/category-digital.png') }}" alt="">
                 <div class="mt-2">디지털</div>
             </a>
-            <a href="{{ route('community.free') }}" class="text-center">
+            <a href="{{ route('board.show', 'free') }}" class="text-center">
                 <img src="{{ Vite::asset('resources/images/category/category-community.png') }}" alt="">
                 <div class="mt-2">커뮤니티</div>
             </a>
