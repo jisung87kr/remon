@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\UserShippingAddressApiController;
 use App\Http\Controllers\Api\UserMediaApiController;
 use App\Http\Controllers\Api\UserApiController;
 use App\Http\Controllers\Statistics\BusinessStatisticsController;
+use App\Http\Controllers\Api\CommentApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -48,7 +49,12 @@ Route::middleware('auth:sanctum')->group(function(){
 
         Route::delete('/{user}', [UserApiController::class, 'destroy'])->name('destroy');
     });
+
+    Route::post('comments/{commentable_type}/{commentable_id}', [CommentApiController::class, 'store'])->name('comment.store');
+    Route::put('comments/{comment}', [CommentApiController::class, 'update'])->name('comment.update');
+    Route::delete('comments/{comment}', [CommentApiController::class, 'destroy'])->name('comment.destroy');
 });
+Route::get('comments/{commentable_type}/{commentable_id}', [CommentApiController::class, 'index'])->name('comment.index');
 
 Route::prefix('business')->group(function(){
     Route::get('statistics/campaign/sex', [BusinessStatisticsController::class, 'sex'])->name('business.statistics.campaign.sex');

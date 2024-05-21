@@ -55,10 +55,6 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaign.index');
 Route::get('/campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaign.show');
 
-Route::get('/brandzone/{brandzone}', function($brandzone){
-    return view('campaign.brandzone');
-})->name('brandzone.show');
-
 Route::get('/category', function($category){
     return view('campaign.index');
 })->name('category.index');
@@ -70,53 +66,6 @@ Route::get('/category/오늘오픈', function(){
     $locationCategory = Category::filter(['name' => '지역'])->first();
     return view('campaign.index', compact('campaigns', 'category', 'locationCategory'));
 })->name('category.show');
-
-//Route::resource('/boards', BoardController::class)->names('board')->parameters(['board' => 'board:slug']);
-//Route::resource('/boards/{board:slug}/posts', PostController::class)->names('post');
-
-//Route::get('/community/free', function(){
-//    $board = \App\Models\Board::where('name', 'free')->first();
-//    $posts = $board->posts()->paginate(20);
-//    return view('post.index', compact('posts'));
-//})->name('community.free');
-//
-//Route::get('/community/free/create', function(){
-//    $post = [];
-//    return view('post.create', compact('post'));
-//})->name('post.create');
-//
-//Route::get('/community/free/{post}', function($post){
-//    $post = [];
-//    return view('post.show', compact('post'));
-//})->name('post.show');
-
-Route::get('/community/guide', function(){
-    return view('community.guide');
-})->name('community.guide');
-
-Route::get('/community/neighbor', function(){
-    return view('community.neighbor');
-})->name('community.neighbor');
-
-Route::get('/event', function(){
-    return view('community.event');
-})->name('event');
-
-Route::get('/help/notice', function(){
-    return view('help.notice');
-})->name('help.notice');
-
-Route::get('/help/inquiry', function(){
-    return view('help.inquiry');
-})->name('help.inquiry');
-
-Route::get('/help/guide', function(){
-    return view('help.guide');
-})->name('help.guide');
-
-Route::get('/help/contact', function(){
-    return view('help.contact');
-})->name('help.contact');
 
 Route::middleware([
     'auth:sanctum',
@@ -134,9 +83,7 @@ Route::middleware([
     Route::get('/campaigns/{campaign}/applications/{campaignApplication}/edit', [CampaignApplicationController::class, 'edit'])->name('campaign.application.edit');
     Route::put('/campaigns/{campaign}/applications/{campaignApplication}', [CampaignApplicationController::class, 'update'])->name('campaign.application.update');
     Route::post('/campaigns/{campaign}/applications/{campaignApplication}/cancel', [CampaignApplicationController::class, 'cancel'])->name('campaign.application.cancel');
-
     Route::resource('/campaigns/{campaign}/media/{media}/content', CampaignMediaContentController::class)->names('campaign.media.content');
-
 
     Route::prefix('/mypage')->name('mypage.')->group(function(){
         Route::get('/campaigns', [CampaignMypageController::class, 'campaigns'])->name('campaign');
