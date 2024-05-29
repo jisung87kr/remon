@@ -5,6 +5,7 @@
                 <div class="flex items-center lg:w-1/2">
                     <img src="{{ auth()->user()->profile_photo_url }}" alt="" class="rounded-full">
                     <div class="mx-8 text-2xl font-bold">{{ auth()->user()->nick_name }}</div>
+                    @if(false)
                     <button class="px-5 py-2 text-sm text-white font-bold bg-sky-400 rounded">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check inline" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -12,33 +13,34 @@
                         </svg>
                         <span class="ml-1">출석 체크</span>
                     </button>
+                    @endif
                 </div>
                 <div class="grid grid-cols-3 mt-8 lg:mt-0 lg:w-1/2">
                     <div class="px-6">
-                        <div class="mb-3">멤버십</div>
-                        <div>NEW</div>
+                        <div class="mb-3">회원레벨</div>
+                        <div>lv. {{ auth()->user()->level }}</div>
                     </div>
                     <div class="px-6">
                         <div class="mb-3">포인트</div>
-                        <div><span class="text-lg font-bold">1,000</span>P</div>
+                        <div><span class="text-lg font-bold">{{ number_format(auth()->user()->point) }}</span>P</div>
                     </div>
                     <div class="px-6">
                         <a href="{{ route('mypage.media') }}">
                             <div class="mb-3">미디어연결</div>
                             <div class="flex gap-x-4">
-                                @if(in_array(\App\Enums\Campaign\MediaEnum::NAVER_BLOG->name, auth()->user()->medias->pluck('media')->toArray()))
+                                @if(in_array(\App\Enums\Campaign\MediaEnum::NAVER_BLOG->value, auth()->user()->medias->pluck('media')->toArray()))
                                     <img src="{{ Vite::asset('resources/images/media/ic-mypage-blog-on.svg') }}" alt="">
                                 @else
                                     <img src="{{ Vite::asset('resources/images/media/ic-mypage-blog-off.svg') }}" alt="">
                                 @endif
 
-                                @if(in_array(\App\Enums\Campaign\MediaEnum::INSTAGRAM->name, auth()->user()->medias->pluck('media')->toArray()))
+                                @if(in_array(\App\Enums\Campaign\MediaEnum::INSTAGRAM->value, auth()->user()->medias->pluck('media')->toArray()))
                                     <img src="{{ Vite::asset('resources/images/media/ic-mypage-insta-on.svg') }}" alt="">
                                 @else
                                     <img src="{{ Vite::asset('resources/images/media/ic-mypage-insta-off.svg') }}" alt="">
                                 @endif
 
-                                @if(in_array(\App\Enums\Campaign\MediaEnum::YOUTUBE->name, auth()->user()->medias->pluck('media')->toArray()))
+                                @if(in_array(\App\Enums\Campaign\MediaEnum::YOUTUBE->value, auth()->user()->medias->pluck('media')->toArray()))
                                     <img src="{{ Vite::asset('resources/images/media/ic-mypage-youtube-on.svg') }}" alt="" class="w-[20px]">
                                 @else
                                     <img src="{{ Vite::asset('resources/images/media/ic-mypage-youtube-off.svg') }}" alt="" class="w-[20px]">

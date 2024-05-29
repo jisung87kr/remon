@@ -50,22 +50,27 @@
                     <colgroup>
                         <col width="30px">
                         <col width="30px">
+                        <col width="60px">
                         <col width="*">
                         <col width="120px">
                         <col width="150px">
                         <col width="150px">
                         <col width="70px">
                         <col width="150px">
+                        <col width="250px">
                     </colgroup>
                     <thead class="!bg-white border-y">
                     <tr>
                         <th>#</th>
                         <th>id</th>
+                        <th>유형</th>
                         <th>캠페인</th>
                         <th>신청자</th>
                         <th>상태</th>
                         <th>신청일</th>
                         <th>행동</th>
+                        <th>변경</th>
+                        <th>송장</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -76,8 +81,10 @@
                                         @disabled(in_array($application->status, [\App\Enums\Campaign\ApplicationStatus::COMPLETED->value]))>
                             </td>
                             <td>{{ $application->id }}</td>
+                            <td>{{ $application->campaign->campaign_type_name }}</td>
                             <td>
-                                <a href="{{ route('campaign.show', $application->campaign) }}" target="_blank">{{ $application->campaign->title }}</a>
+{{--                                <a href="{{ route('campaign.show', $application->campaign) }}" target="_blank">{{ $application->campaign->title }}</a>--}}
+                                <x-campaign.card-horizontal :campaign="$application->campaign"></x-campaign.card-horizontal>
                             </td>
                             <td>
                                 <a href="{{ route('admin.user.general.show', ['user' => $application->user_id]) }}" target="_blank">{{ $application->name }}</a>
@@ -104,6 +111,19 @@
                                         <option value="{{ $case->value }}" @selected($application->status == $case->value)>{{ $case->label() }}</option>
                                     @endforeach
                                 </select>
+                            </td>
+                            <td>
+                                @if($application->campaign->campaign_type_id == 2)
+                                <div class="">
+                                    <select name="" id="" class="form-select">
+                                        <option value="">CJ</option>
+                                        <option value="">우체국</option>
+                                    </select>
+                                    <input type="text" class="form-control mt-2" placeholder="송장번호">
+                                </div>
+                                @else
+                                    -
+                                @endif
                             </td>
                         </tr>
                     @endforeach

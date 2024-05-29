@@ -21,7 +21,7 @@
         <x-banner />
 
         <div class="flex flex-col min-h-screen min-h-screen">
-            <header class="p-6 flex flex-col md:flex-row md:flex-row-reverse container mx-auto md:justify-between md:items-center">
+            <header class="container mx-auto p-6 flex flex-col md:flex-row md:flex-row-reverse mx-auto md:justify-between md:items-center">
                 @if(!Auth::check())
                     <div class="mb-3 text-right md:flex md:gap-1 md:items-baseline md:mb-0 md:text-left">
                         <a href="{{ route('login') }}" class="text-gray-600 text-sm">로그인</a>
@@ -29,7 +29,7 @@
                         <a href="{{ route('register') }}" class="text-gray-600 text-sm">회원가입</a>
                     </div>
                 @endif
-                <div class="flex justify-between items-center">
+                <div class="flex justify-between items-center w-full">
                     <div class="flex items-center">
                         <a href="/" class="mr-5 font-bold">REMON</a>
                         <form action="{{ route('campaign.index') }}">
@@ -98,6 +98,9 @@
                                         <x-dropdown-link href="{{ route('admin.index') }}">
                                             {{ __('관리자 사이트') }}
                                         </x-dropdown-link>
+                                        <x-dropdown-link href="{{ route('mypage.profile') }}">
+                                            {{ __('내 정보') }}
+                                        </x-dropdown-link>
                                     @endif
                                     @if(auth()->user()->hasRole(\App\Enums\RoleEnum::BUSINESS_USER->value))
                                         <x-dropdown-link href="{{ route('business.dashboard') }}">
@@ -105,6 +108,9 @@
                                         </x-dropdown-link>
                                         <x-dropdown-link href="{{ route('business.dashboard.campaign.index') }}">
                                             {{ __('캠페인') }}
+                                        </x-dropdown-link>
+                                        <x-dropdown-link href="{{ route('mypage.profile') }}">
+                                            {{ __('내 정보') }}
                                         </x-dropdown-link>
                                     @endif
 

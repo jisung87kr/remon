@@ -1,7 +1,9 @@
 <?php
 
+use App\Exports\CampaignApplicationExport;
 use App\Http\Controllers\CampaignApplicationController;
 use App\Models\Campaign;
+use App\Models\CampaignApplication;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -90,8 +92,20 @@ Route::middleware([
 
         Route::get('/favorites', [CampaignMypageController::class, 'favorites'])->name('favorite');
 
-        Route::get('/reviews', function(){
-            return view('mypage.reviews');
+        Route::get('/reviews', function(Request $request){
+            $size = $request->input('size', 10);
+            $filter = [
+                'status' => $request->input('status'),
+                'keyword' => $request->input('keyword'),
+            ];
+
+            if($request->input('export')){
+                $filename = "campaign_application_export_".time().".xlsx";
+                return (new CampaignApplicationExport($filter))->download($filename);
+            }
+
+            $applications = auth()->user()->applications()->filter($filter)->with('user')->orderBy('id', 'desc')->paginate($size);
+            return view('mypage.reviews', compact('applications'));
         })->name('review');
 
         Route::get('/messages', function(){

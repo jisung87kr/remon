@@ -32,9 +32,11 @@
         <div class="mt-3 py-3 border-t flex flex-col divide-y">
             @foreach($posts as $post)
             <div class="px-3 py-6">
+                @if($post->is_notice)
                 <div class="mb-2">
                     <span class="badge badge-green">공지</span>
                 </div>
+                @endif
                 <div>
                     <a href="{{ route('board.post.show', [$board, $post]) }}" class="block">
                         <div class="text-lg font-bold mb-1">{{ $post->title }}</div>
