@@ -14,7 +14,13 @@ use App\Http\Controllers\Business\CampaignBusinessController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/dashboard', [CampaignBusinessController::class, 'dashboard'])->name('dashboard');
-Route::get('/campaigns', [CampaignBusinessController::class, 'index'])->name('dashboard.campaign.index');
-Route::get('/campaigns/{campaign}', [CampaignBusinessController::class, 'show'])->name('dashboard.campaign.show');
-Route::get('/campaigns/{campaign}/report', [CampaignBusinessController::class, 'report'])->name('dashboard.campaign.report');
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function(){
+    Route::get('/dashboard', [CampaignBusinessController::class, 'dashboard'])->name('dashboard');
+    Route::get('/campaigns', [CampaignBusinessController::class, 'index'])->name('dashboard.campaign.index');
+    Route::get('/campaigns/{campaign}', [CampaignBusinessController::class, 'show'])->name('dashboard.campaign.show');
+    Route::get('/campaigns/{campaign}/report', [CampaignBusinessController::class, 'report'])->name('dashboard.campaign.report');
+});

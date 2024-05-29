@@ -20,4 +20,9 @@ class CampaignMediaContent extends Model
     {
         return $this->belongsTo(CampaignMedia::class, 'campaign_media_id', 'id');
     }
+
+    public function bannerLogs()
+    {
+        return $this->hasMany(BannerLog::class);
+    }
 }

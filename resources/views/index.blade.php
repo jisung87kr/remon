@@ -44,7 +44,7 @@
     </section>
     <section id="category" class="container mx-auto p-6 my-12">
         <div class="grid grid-cols-5 gap-6 lg:grid-cols-10 xl:gap-12">
-            <a href="{{ route('help.guide') }}" class="text-center">
+            <a href="{{ route('board.show', 'guide') }}" class="text-center">
                 <img src="{{ Vite::asset('resources/images/category/category-guide.png') }}" alt="">
                 <div class="mt-2">이용가이드</div>
             </a>
@@ -76,11 +76,11 @@
                 <img src="{{ Vite::asset('resources/images/category/category-digital.png') }}" alt="">
                 <div class="mt-2">디지털</div>
             </a>
-            <a href="{{ route('community.free') }}" class="text-center">
+            <a href="{{ route('board.show', 'free') }}" class="text-center">
                 <img src="{{ Vite::asset('resources/images/category/category-community.png') }}" alt="">
                 <div class="mt-2">커뮤니티</div>
             </a>
-            <a href="{{ route('help.contact') }}" class="text-center">
+            <a href="{{ route('board.show', 'ad') }}" class="text-center">
                 <img src="{{ Vite::asset('resources/images/category/category-ad.png') }}" alt="">
                 <div class="mt-2">광고문의</div>
             </a>
@@ -170,7 +170,7 @@
     <section id="best_campaign" class="container mx-auto my-12 p-6">
         <h1 class="text-2xl font-bold mb-3">베스트 콘텐츠</h1>
         <div class="grid grid-cols-3 xl:grid-cols-5 gap-6">
-            @foreach(range(1, 5) as $key)
+            @foreach($bestContents as $content)
                 <a href="">
                     <div class="rounded overflow-hidden">
                         <img src="https://placehold.co/400x300" alt="">

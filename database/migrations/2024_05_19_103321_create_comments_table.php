@@ -11,11 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('type')->nullable();
-            $table->string('name');
+            $table->foreignId('user_id')->nullable();
+            $table->string('guest_name')->nullable();
+            $table->string('guest_email')->nullable();
+            $table->string('guest_password')->nullable();
+            $table->unsignedBigInteger('commentable_id');
+            $table->string('commentable_type');
             $table->unsignedBigInteger('parent_id')->nullable();
+            $table->text('content');
             $table->timestamps();
         });
     }
@@ -25,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('comments');
     }
 };

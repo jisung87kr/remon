@@ -21,7 +21,7 @@
         <x-banner />
 
         <div class="flex flex-col min-h-screen min-h-screen">
-            <header class="p-6 flex flex-col md:flex-row md:flex-row-reverse container mx-auto md:justify-between md:items-center">
+            <header class="container mx-auto p-6 flex flex-col md:flex-row md:flex-row-reverse mx-auto md:justify-between md:items-center">
                 @if(!Auth::check())
                     <div class="mb-3 text-right md:flex md:gap-1 md:items-baseline md:mb-0 md:text-left">
                         <a href="{{ route('login') }}" class="text-gray-600 text-sm">로그인</a>
@@ -29,7 +29,7 @@
                         <a href="{{ route('register') }}" class="text-gray-600 text-sm">회원가입</a>
                     </div>
                 @endif
-                <div class="flex justify-between items-center">
+                <div class="flex justify-between items-center w-full">
                     <div class="flex items-center">
                         <a href="/" class="mr-5 font-bold">REMON</a>
                         <form action="{{ route('campaign.index') }}">
@@ -98,6 +98,9 @@
                                         <x-dropdown-link href="{{ route('admin.index') }}">
                                             {{ __('관리자 사이트') }}
                                         </x-dropdown-link>
+                                        <x-dropdown-link href="{{ route('mypage.profile') }}">
+                                            {{ __('내 정보') }}
+                                        </x-dropdown-link>
                                     @endif
                                     @if(auth()->user()->hasRole(\App\Enums\RoleEnum::BUSINESS_USER->value))
                                         <x-dropdown-link href="{{ route('business.dashboard') }}">
@@ -105,6 +108,9 @@
                                         </x-dropdown-link>
                                         <x-dropdown-link href="{{ route('business.dashboard.campaign.index') }}">
                                             {{ __('캠페인') }}
+                                        </x-dropdown-link>
+                                        <x-dropdown-link href="{{ route('mypage.profile') }}">
+                                            {{ __('내 정보') }}
                                         </x-dropdown-link>
                                     @endif
 
@@ -140,10 +146,10 @@
                                 <a href="{{ route('campaign.index', ['campaign_type' => ['배송형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('배송형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">배송형 캠페인</a>
                             </li>
 
-                            <li class="font-bold shrink-0"><a href="{{ route('event') }}" class="{{ request()->routeIs('event') ? 'text-indigo-500' : '' }}">이벤트</a></li>
-                            <li class="font-bold shrink-0"><a href="{{ route('community.free') }}" class="{{ request()->routeIs('community.free') ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
-                            <li class="font-bold shrink-0"><a href="{{ route('help.inquiry') }}" class="{{ request()->routeIs('help.inquiry') ? 'text-indigo-500' : '' }}">고객센터</a></li>
-                            <li class="font-bold shrink-0"><a href="{{ route('help.contact') }}" class="{{ request()->routeIs('help.contact') ? 'text-indigo-500' : '' }}">광고문의</a></li>
+                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'event') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'event' ? 'active font-bold' : '' }}">이벤트</a></li>
+                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'news') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'news' ? 'active font-bold' : '' }}">커뮤니티</a></li>
+                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'inquiry') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'inquiry' ? 'active font-bold' : '' }}">고객센터</a></li>
+                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'ad') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'ad' ? 'active font-bold' : '' }}">광고문의</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -237,10 +243,10 @@
                         <li class="my-3">
                             <a href="{{ route('campaign.index', ['campaign_type' => ['배송형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('배송형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">배송형 캠페인</a>
                         </li>
-                        <li class="my-3"><a href="{{ route('event') }}" class="{{ request()->routeIs('event') ? 'text-indigo-500' : '' }}">이벤트</a></li>
-                        <li class="my-3"><a href="{{ route('community.free') }}" class="{{ request()->routeIs('community.free') ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
-                        <li class="my-3"><a href="{{ route('help.inquiry') }}" class="{{ request()->routeIs('help.inquiry') ? 'text-indigo-500' : '' }}">고객센터</a></li>
-                        <li class="my-3"><a href="{{ route('help.contact') }}" class="{{ request()->routeIs('help.contact') ? 'text-indigo-500' : '' }}">광고문의</a></li>
+                        <li class="my-3"><a href="{{ route('board.show', 'event') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'event' ? 'text-indigo-500' : '' }}">이벤트</a></li>
+                        <li class="my-3"><a href="{{ route('board.show', 'news') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'news' ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
+                        <li class="my-3"><a href="{{ route('board.show', 'inquiry') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'inquiry' ? 'text-indigo-500' : '' }}">고객센터</a></li>
+                        <li class="my-3"><a href="{{ route('board.show', 'ad') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'ad' ? 'text-indigo-500' : '' }}">광고문의</a></li>
                     </ul>
                 </div>
             </div>
@@ -268,7 +274,7 @@
                     </svg>
                     <span class="text-xs mt-1">메뉴</span>
                 </button>
-                <a href="{{ route('community.free') }}" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
+                <a href="{{ route('board.show', 'free') }}" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-chatbot" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
@@ -278,7 +284,7 @@
                     </svg>
                     <span class="text-xs mt-1">커뮤니티</span>
                 </a>
-                <a href="{{ route('help.inquiry') }}" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
+                <a href="{{ route('board.show', 'inquiry') }}" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-desktop-bolt" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M14.5 16h-10.5a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v7.5" />

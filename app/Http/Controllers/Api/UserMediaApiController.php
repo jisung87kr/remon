@@ -61,6 +61,14 @@ class UserMediaApiController extends Controller
                 case MediaEnum::NAVER_BLOG->value:
                     $result = $this->naverBlogService->connect($request->user(), $validated['url']);
                     break;
+                case MediaEnum::INSTAGRAM->value:
+                    $validated['connected_status'] = 'connected';
+                    $result = $request->user()->medias()->create($validated);
+                    break;
+                case MediaEnum::YOUTUBE->value:
+                    $validated['connected_status'] = 'connected';
+                    $result = $request->user()->medias()->create($validated);
+                    break;
             }
 
             if($result){
@@ -85,10 +93,22 @@ class UserMediaApiController extends Controller
             }
 
             $validated = $request->validate([
+                'media' => ['required', Rule::enum(MediaEnum::class)],
                 'url' => ['required', 'url'],
             ]);
 
-            $userMedia->update($validated);
+            switch ($validated['media']){
+                case MediaEnum::NAVER_BLOG->value:
+                    $result = $this->naverBlogService->connect($request->user(), $validated['url']);
+                    break;
+                case MediaEnum::INSTAGRAM->value:
+                    $userMedia->update($validated);
+                    break;
+                case MediaEnum::YOUTUBE->value:
+                    $userMedia->update($validated);
+                    break;
+            }
+
             return response()->json(new Response(Response::SUCCESS, '미디어 목록 수정 성공', $userMedia));
         } catch (\Exception $e){
             return response()->json(new Response(Response::ERROR, '미디어 목록 수정 실패', $e->getMessage()), 500);

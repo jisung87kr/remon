@@ -43,9 +43,9 @@ class Campaign extends Model
 
             $query = "
                 SELECT *, 
-                       (SELECT COUNT(*) FROM banner_logs WHERE banner_id IN (SELECT banner_id FROM campaign_applications WHERE campaign_id = C.id )) AS banner_log_count,
-                       (SELECT COUNT(*) FROM banner_logs WHERE banner_id IN (SELECT banner_id FROM campaign_applications WHERE campaign_id = C.id  AND is_mobile = 1)) AS banner_log_mobile_count,
-                       (SELECT COUNT(*) FROM banner_logs WHERE banner_id IN (SELECT banner_id FROM campaign_applications WHERE campaign_id = C.id  AND is_mobile != 1)) AS banner_log_pc_count,
+                       (SELECT COUNT(*) FROM banner_logs WHERE campaign_media_content_id IN (SELECT id FROM campaign_media_contents WHERE campaign_id = C.id )) AS banner_log_count,
+                       (SELECT COUNT(*) FROM banner_logs WHERE campaign_media_content_id IN (SELECT id FROM campaign_media_contents WHERE campaign_id = C.id  AND is_mobile = 1)) AS banner_log_mobile_count,
+                       (SELECT COUNT(*) FROM banner_logs WHERE campaign_media_content_id IN (SELECT id FROM campaign_media_contents WHERE campaign_id = C.id  AND is_mobile != 1)) AS banner_log_pc_count,
                        CASE
                            WHEN NOW() < application_start_at THEN '{$ready}'
                            WHEN NOW() BETWEEN application_start_at AND application_end_at THEN '{$applying}'

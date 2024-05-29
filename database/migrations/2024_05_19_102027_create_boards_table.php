@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('banner_logs', function (Blueprint $table) {
+        Schema::create('boards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('campaign_media_content_id');
-            $table->string('referer')->nullable();
-            $table->string('user_agent')->nullable();
-            $table->boolean('is_mobile')->nullable();
-            $table->string('ip_address');
+            $table->string('name', 20)->comment('게시판 이름');
+            $table->string('description')->nullable()->comment('게시판 설명');
+            $table->string('slug')->comment('게시판 슬러그');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('banner_logs');
+        Schema::dropIfExists('boards');
     }
 };

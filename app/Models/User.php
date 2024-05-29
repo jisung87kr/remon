@@ -121,6 +121,11 @@ class User extends Authenticatable
         return $this->hasMany(CampaignMediaContent::class, 'user_id', 'id');
     }
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class)->latest();
+    }
+
     public function getMedia($mediaName)
     {
         foreach ($this->medias as $index => $media) {

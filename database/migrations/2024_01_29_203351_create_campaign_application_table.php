@@ -29,7 +29,6 @@ return new class extends Migration
             $table->string('address')->nullable()->comment('주소');
             $table->string('address_detail')->nullable()->comment('주소 상세');
             $table->string('address_extra')->nullable()->comment('참고항목');
-            $table->string('banner_id')->comment('스폰서 배너 아이디');
             $table->timestamps();
         });
     }

@@ -30,6 +30,7 @@ class CampaignApplicationService{
             'address_detail' => ['nullable'],
             'address_extra' => ['nullable'],
             'address_postcode' => ['nullable'],
+            'url.*' => ['required'],
         ];
 
         if($this->request->input('portrait_right_consent')){
@@ -40,7 +41,6 @@ class CampaignApplicationService{
 
         $validated['status'] = ApplicationStatus::APPLIED->value;
         $validated['campaign_id'] = $campaign->id;
-        $validated['banner_id'] = md5(uniqid(mt_rand(), true));
 
         DB::beginTransaction();
         try {
@@ -62,6 +62,8 @@ class CampaignApplicationService{
             if($updateUserData){
                 $this->request->user()->update($updateUserData);
             }
+
+            unset($validated['url']);
 
             $application = $this->request->user()->applications()->updateOrCreate([
                 'id' => $campaignApplication->id ?? null,

@@ -40,6 +40,7 @@ class CategorySeeder extends Seeder
             foreach ($item as $key => $value) {
                 if(gettype($key) === 'integer'){
                     $dpeth1->categories()->create([
+                        'type' => 'campaign',
                         'name' => $value,
                         'parent_id' => $dpeth1->id
                     ]);

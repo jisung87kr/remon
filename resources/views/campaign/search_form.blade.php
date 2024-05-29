@@ -8,7 +8,7 @@
         </div>
     @else
         <div class="border px-6 rounded-lg my-6">
-            <div class="flex flex-col divide-y overflow-hidden h-[160px]"
+            <div class="flex flex-col divide-y overflow-hidden h-[200px]"
                  :class="{'open' : open, '!h-auto' : open}">
                 <div class="md:flex py-3 items-center">
                     <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">검색어</div>

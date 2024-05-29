@@ -1,7 +1,9 @@
 <?php
 
+use App\Exports\CampaignApplicationExport;
 use App\Http\Controllers\CampaignApplicationController;
 use App\Models\Campaign;
+use App\Models\CampaignApplication;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,6 +18,8 @@ use App\Enums\AdminRoleEnum;
 use App\Http\Controllers\CampaignMediaContentController;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\BoardController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,8 +42,9 @@ Route::get('campaign_banner', function(Request $request){
     $response->headers->set('Content-Type', Storage::disk('public')->mimeType($filepath));
 
     $bannerLog = new \App\Models\BannerLog;
+    $mediaContent = \App\Models\CampaignMediaContent::where('banner_id', $request->input('id'))->first();
     $bannerLog->create([
-        'banner_id' => $request->input('id'),
+        'campaign_media_content_id' => $mediaContent->id,
         'referer' => $request->header('referer'),
         'ip_address' => $request->ip(),
     ]);
@@ -52,10 +57,6 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaign.index');
 Route::get('/campaigns/{campaign}', [CampaignController::class, 'show'])->name('campaign.show');
 
-Route::get('/brandzone/{brandzone}', function($brandzone){
-    return view('campaign.brandzone');
-})->name('brandzone.show');
-
 Route::get('/category', function($category){
     return view('campaign.index');
 })->name('category.index');
@@ -67,38 +68,6 @@ Route::get('/category/오늘오픈', function(){
     $locationCategory = Category::filter(['name' => '지역'])->first();
     return view('campaign.index', compact('campaigns', 'category', 'locationCategory'));
 })->name('category.show');
-
-Route::get('/community/free', function(){
-    return view('community.free');
-})->name('community.free');
-
-Route::get('/community/guide', function(){
-    return view('community.guide');
-})->name('community.guide');
-
-Route::get('/community/neighbor', function(){
-    return view('community.neighbor');
-})->name('community.neighbor');
-
-Route::get('/event', function(){
-    return view('community.event');
-})->name('event');
-
-Route::get('/help/notice', function(){
-    return view('help.notice');
-})->name('help.notice');
-
-Route::get('/help/inquiry', function(){
-    return view('help.inquiry');
-})->name('help.inquiry');
-
-Route::get('/help/guide', function(){
-    return view('help.guide');
-})->name('help.guide');
-
-Route::get('/help/contact', function(){
-    return view('help.contact');
-})->name('help.contact');
 
 Route::middleware([
     'auth:sanctum',
@@ -116,17 +85,27 @@ Route::middleware([
     Route::get('/campaigns/{campaign}/applications/{campaignApplication}/edit', [CampaignApplicationController::class, 'edit'])->name('campaign.application.edit');
     Route::put('/campaigns/{campaign}/applications/{campaignApplication}', [CampaignApplicationController::class, 'update'])->name('campaign.application.update');
     Route::post('/campaigns/{campaign}/applications/{campaignApplication}/cancel', [CampaignApplicationController::class, 'cancel'])->name('campaign.application.cancel');
-
     Route::resource('/campaigns/{campaign}/media/{media}/content', CampaignMediaContentController::class)->names('campaign.media.content');
-
 
     Route::prefix('/mypage')->name('mypage.')->group(function(){
         Route::get('/campaigns', [CampaignMypageController::class, 'campaigns'])->name('campaign');
 
         Route::get('/favorites', [CampaignMypageController::class, 'favorites'])->name('favorite');
 
-        Route::get('/reviews', function(){
-            return view('mypage.reviews');
+        Route::get('/reviews', function(Request $request){
+            $size = $request->input('size', 10);
+            $filter = [
+                'status' => $request->input('status'),
+                'keyword' => $request->input('keyword'),
+            ];
+
+            if($request->input('export')){
+                $filename = "campaign_application_export_".time().".xlsx";
+                return (new CampaignApplicationExport($filter))->download($filename);
+            }
+
+            $applications = auth()->user()->applications()->filter($filter)->with('user')->orderBy('id', 'desc')->paginate($size);
+            return view('mypage.reviews', compact('applications'));
         })->name('review');
 
         Route::get('/messages', function(){
