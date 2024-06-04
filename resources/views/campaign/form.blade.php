@@ -51,7 +51,7 @@
                         <select name="user_id" id="user_id" class="form-select">
                             <option value="" disabled selected>선택</option>
                             @foreach($businessUsers as $businessUser)
-                                <option value="{{ $businessUser->id }}" @selected($businessUser->id === $campaign->user_id)>{{ $businessUser->name }}</option>
+                                <option value="{{ $businessUser->id }}" @selected(old('user_id', $campaign->user_id) === $businessUser->id)>{{ $businessUser->name }}</option>
                             @endforeach
                         </select>
                         <x-input-error for="user_id" class="mt-1"></x-input-error>
