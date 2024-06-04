@@ -8,11 +8,17 @@ use App\Events\ApplicationProcessed;
 use App\Exports\CampaignApplicationExport;
 use App\Http\Controllers\Controller;
 use App\Models\CampaignApplication;
-use App\Models\CampaignMedia;
 use App\Models\CampaignMediaContent;
+use App\Notifications\Campaign\Application\Applied;
+use App\Notifications\Campaign\Application\Canceled;
+use App\Notifications\Campaign\Application\Approved;
+use App\Notifications\Campaign\Application\Rejected;
+use App\Notifications\Campaign\Application\Pending;
+use App\Notifications\Campaign\Application\Posted;
+use App\Notifications\Campaign\Application\Completed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
 class CampaignApplicationAdminController extends Controller

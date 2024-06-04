@@ -7,6 +7,7 @@ use App\Models\CampaignApplication;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\CampaignController;
@@ -139,4 +140,32 @@ Route::middleware([
             return view('mypage.point');
         })->name('point');
     });
+});
+
+Route::get('/mail/application/{status}', function($status){
+    $application = CampaignApplication::find(1);
+    switch ($status){
+        case 'applied';
+            //Mail::to('jisung87kr@gmail.com')->send(new \App\Mail\Campaign\Application\Applied($application));
+            return (new \App\Mail\Campaign\Application\Applied($application))->render();
+            break;
+        case 'canceled';
+            return (new \App\Mail\Campaign\Application\Canceled($application))->render();
+            break;
+        case 'approved';
+            return (new \App\Mail\Campaign\Application\Approved($application))->render();
+            break;
+        case 'rejected';
+            return (new \App\Mail\Campaign\Application\Rejected($application))->render();
+            break;
+        case 'pending';
+            return (new \App\Mail\Campaign\Application\Pending($application))->render();
+            break;
+        case 'posted';
+            return (new \App\Mail\Campaign\Application\Posted($application))->render();
+            break;
+        case 'completed';
+            return (new \App\Mail\Campaign\Application\Completed($application))->render();
+            break;
+    }
 });
