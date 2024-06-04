@@ -23,7 +23,7 @@
         <div class="flex flex-col min-h-screen min-h-screen">
             <header class="container mx-auto p-6 flex flex-col md:flex-row md:flex-row-reverse mx-auto md:justify-between md:items-center">
                 @if(!Auth::check())
-                    <div class="mb-3 text-right md:flex md:gap-1 md:items-baseline md:mb-0 md:text-left">
+                    <div class="mb-3 text-right md:flex md:gap-1 md:items-baseline md:mb-0 md:text-left shrink-0">
                         <a href="{{ route('login') }}" class="text-gray-600 text-sm">로그인</a>
                         <span>∙</span>
                         <a href="{{ route('register') }}" class="text-gray-600 text-sm">회원가입</a>
