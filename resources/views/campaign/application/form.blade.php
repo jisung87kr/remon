@@ -147,7 +147,7 @@
                                     </x-slot>
                                     <x-slot name="header"></x-slot>
                                     <div class="text-left">
-                                        <label for="{{ $media->media }}" class="label">{{ $media->media }} 주소</label>
+                                        <label for="{{ $media->media }}" class="label">{{ \App\Enums\Campaign\MediaEnum::tryFrom($media->media)->label() }} 주소</label>
                                         <div class="flex gap-3 mt-3 mb-1">
                                             <input type="text" name='url[{{ $media->media }}]' x-model="item.url" class="form-control" id="{{ $media->media }}" placeholder="http://example.com">
                                         </div>
