@@ -44,15 +44,6 @@ class CampaignMediaContentController extends Controller
 
         $validated['user_id'] = $request->user()->id;
         $validated['campaign_id'] = $campaign->id;
-
-//        $userMedia = $request->user()->media()->where('media', $media->media)->first();
-//        switch ($media->media){
-//            case MediaEnum::NAVER_BLOG->value:
-//                $feeds = $this->naverBLogCrawler->getFeeds($userMedia['mediaid']);
-//                dd($feeds);
-//                break;
-//        }
-
         $result = $media->contents()->create($validated);
         return $result;
     }

@@ -1,18 +1,25 @@
 <?php
 namespace App\Services;
 
+use App\Dto\Dto;
+use App\Dto\MediaContentDto;
 use App\Enums\Campaign\ApplicationStatus;
+use App\Enums\Campaign\MediaEnum;
 use App\Models\Campaign;
 use App\Models\CampaignApplication;
+use App\Models\UserMedia;
+use App\Services\Crawler\NaverBLogCrawler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CampaignApplicationService{
     protected $request;
+    private  $naverBLogCrawler;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, NaverBLogCrawler $naverBLogCrawler)
     {
         $this->request = $request;
+        $this->naverBLogCrawler = $naverBLogCrawler;
     }
 
     public function upsert(Campaign $campaign, CampaignApplication $campaignApplication)
@@ -90,5 +97,31 @@ class CampaignApplicationService{
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public function getMediaContent(MediaEnum $media, UserMedia $userMedia, string $mediaContentUrl): ?MediaContentDto
+    {
+        switch ($media){
+            case MediaEnum::NAVER_BLOG:
+                $feeds = $this->naverBLogCrawler->getFeeds($userMedia['mediaid']);
+                $urlArray = explode('/', $mediaContentUrl);
+                $contentId = array_pop($urlArray);
+
+                if($feeds['data']['feeds']['feeds']){
+                    foreach ($feeds['data']['feeds']['feeds'] as $index => $feed) {
+                        if($feed['feedId'] == $contentId){
+                            $dto = new \App\Dto\MediaContentDto();
+                            $dto->setContentUrl($mediaContentUrl);
+                            $dto->setTitle($feed['title']);
+                            $dto->setContent($feed['desc']);
+                            $dto->setThumbnail($feed['thumbnail']['url']);
+                            $dto->setContentCreatedAt(date('Y-m-d H:i:s', strtotime($feed['createdString'])));
+                            return $dto;
+                        }
+                    }
+                }
+                break;
+        }
+        return null;
     }
 }

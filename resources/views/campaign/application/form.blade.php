@@ -510,20 +510,22 @@
                                 </div>
                                 <input type="hidden" name="media_content[{{ $loop->index }}][media]" value="{{ $content->media->media }}">
                                 <input type="hidden" name="media_content[{{ $loop->index }}][id]" value="{{ $content->campaign_media_id }}">
+                                <input type="hidden" name="media_content[{{ $loop->index }}][content_url]" x-model="contentUrl">
                                 <select name="media_content[{{ $loop->index }}][url]"
                                         id="media_content"
                                         class="form-select w-full"
                                         x-model="contentUrl"
                                         x-ref="media_content">
+                                    <option value="" disabled selected>선택하세요</option>
                                     <template x-for="item in items" :key="item.url">
                                         <option :value="item.url"
                                                 x-text="item.title"
                                                 :selected="item.url === contentUrl"></option>
                                     </template>
-                                    <template x-if="!items || items.length == 0">
-                                        <option value="" disabled selected>목록을 불러올 수 없습니다.</option>
-                                    </template>
                                 </select>
+                                <template x-if="!items || items.length == 0">
+                                    <div class="mt-1 mb-3 text-sm">목록을 불러올 수 없습니다.</div>
+                                </template>
                                 <input type="text" name="media_content[{{ $loop->index }}][url_text]"
                                        class="form-control mt-3"
                                        x-model="contentUrl"

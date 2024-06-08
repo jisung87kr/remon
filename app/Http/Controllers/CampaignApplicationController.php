@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Campaign\ApplicationStatus;
+use App\Enums\Campaign\MediaEnum;
 use App\Http\Resources\Response;
 use App\Models\Campaign;
 use App\Models\CampaignApplication;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class CampaignApplicationController extends Controller
 {
-    public $service;
+    private $service;
     public function __construct(CampaignApplicationService $service)
     {
         $this->service = $service;
@@ -89,12 +90,14 @@ class CampaignApplicationController extends Controller
                 try {
                     DB::beginTransaction();
                     foreach ($request->input('media_content', []) as $index => $item) {
+
+                        $userMedia = $request->user()->media()->where('media', $item['media'])->first();
+                        $dto = $this->service->getMediaContent(MediaEnum::tryFrom($item['media']), $userMedia, $item['content_url']);
+
                         $request->user()->campaignMediaContents()->updateOrCreate([
                             'campaign_id' => $campaign->id,
                             'campaign_media_id' => $item['id'],
-                        ], [
-                            'content_url' => $item['url'] ?? $item['url_text'],
-                        ]);
+                        ], $dto->toArray());
                     }
                     $campaignApplication->update(['status' => ApplicationStatus::POSTED->value]);
                     DB::commit();

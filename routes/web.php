@@ -33,7 +33,9 @@ use App\Http\Controllers\PostController;
 |
 */
 Route::get('/foo', function(){
-
+    $dto = new \App\Dto\MediaContentDto();
+    $dto->setAuthor('123');
+    dd($dto->toArray());
 });
 
 Route::get('campaign_banner', function(Request $request){
@@ -126,9 +128,9 @@ Route::middleware([
         })->name('profile.information');
 
         Route::get('/media', function(){
-            $blog = auth()->user()->medias()->where('media', MediaEnum::NAVER_BLOG)->first();
-            $instagram = auth()->user()->medias()->where('media', MediaEnum::INSTAGRAM)->first();
-            $youtube = auth()->user()->medias()->where('media', MediaEnum::YOUTUBE)->first();
+            $blog = auth()->user()->media()->where('media', MediaEnum::NAVER_BLOG)->first();
+            $instagram = auth()->user()->media()->where('media', MediaEnum::INSTAGRAM)->first();
+            $youtube = auth()->user()->media()->where('media', MediaEnum::YOUTUBE)->first();
             return view('mypage.media', compact('blog', 'instagram', 'youtube'));
         })->name('media');
 
@@ -169,3 +171,5 @@ Route::get('/mail/application/{status}', function($status){
             break;
     }
 });
+
+
