@@ -7,6 +7,7 @@ use App\Models\CampaignApplication;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\CampaignController;
@@ -32,7 +33,9 @@ use App\Http\Controllers\PostController;
 |
 */
 Route::get('/foo', function(){
-
+    $dto = new \App\Dto\MediaContentDto();
+    $dto->setAuthor('123');
+    dd($dto->toArray());
 });
 
 Route::get('campaign_banner', function(Request $request){
@@ -125,9 +128,9 @@ Route::middleware([
         })->name('profile.information');
 
         Route::get('/media', function(){
-            $blog = auth()->user()->medias()->where('media', MediaEnum::NAVER_BLOG)->first();
-            $instagram = auth()->user()->medias()->where('media', MediaEnum::INSTAGRAM)->first();
-            $youtube = auth()->user()->medias()->where('media', MediaEnum::YOUTUBE)->first();
+            $blog = auth()->user()->media()->where('media', MediaEnum::NAVER_BLOG)->first();
+            $instagram = auth()->user()->media()->where('media', MediaEnum::INSTAGRAM)->first();
+            $youtube = auth()->user()->media()->where('media', MediaEnum::YOUTUBE)->first();
             return view('mypage.media', compact('blog', 'instagram', 'youtube'));
         })->name('media');
 
@@ -140,3 +143,44 @@ Route::middleware([
         })->name('point');
     });
 });
+
+Route::get('/mail/application/{status}', function($status){
+    $application = CampaignApplication::find(1);
+    switch ($status){
+        case 'applied';
+            //Mail::to('jisung87kr@gmail.com')->send(new \App\Mail\Campaign\Application\Applied($application));
+            return (new \App\Mail\Campaign\Application\Applied($application))->render();
+            break;
+        case 'canceled';
+            return (new \App\Mail\Campaign\Application\Canceled($application))->render();
+            break;
+        case 'approved';
+            return (new \App\Mail\Campaign\Application\Approved($application))->render();
+            break;
+        case 'rejected';
+            return (new \App\Mail\Campaign\Application\Rejected($application))->render();
+            break;
+        case 'pending';
+            return (new \App\Mail\Campaign\Application\Pending($application))->render();
+            break;
+        case 'posted';
+            return (new \App\Mail\Campaign\Application\Posted($application))->render();
+            break;
+        case 'completed';
+            return (new \App\Mail\Campaign\Application\Completed($application))->render();
+            break;
+    }
+});
+
+
+Route::get('/page/terms', function(){
+    return view('page.terms');
+})->name('page.terms');
+
+Route::get('/page/terms-location', function(){
+    return view('page.terms-location');
+})->name('page.terms_location');
+
+Route::get('/page/policy', function(){
+    return view('page.policy');
+})->name('page.policy');

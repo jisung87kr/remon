@@ -28,19 +28,19 @@
                         <a href="{{ route('mypage.media') }}">
                             <div class="mb-3">미디어연결</div>
                             <div class="flex gap-x-4">
-                                @if(in_array(\App\Enums\Campaign\MediaEnum::NAVER_BLOG->value, auth()->user()->medias->pluck('media')->toArray()))
+                                @if(in_array(\App\Enums\Campaign\MediaEnum::NAVER_BLOG->value, auth()->user()->media->pluck('media')->toArray()))
                                     <img src="{{ Vite::asset('resources/images/media/ic-mypage-blog-on.svg') }}" alt="">
                                 @else
                                     <img src="{{ Vite::asset('resources/images/media/ic-mypage-blog-off.svg') }}" alt="">
                                 @endif
 
-                                @if(in_array(\App\Enums\Campaign\MediaEnum::INSTAGRAM->value, auth()->user()->medias->pluck('media')->toArray()))
+                                @if(in_array(\App\Enums\Campaign\MediaEnum::INSTAGRAM->value, auth()->user()->media->pluck('media')->toArray()))
                                     <img src="{{ Vite::asset('resources/images/media/ic-mypage-insta-on.svg') }}" alt="">
                                 @else
                                     <img src="{{ Vite::asset('resources/images/media/ic-mypage-insta-off.svg') }}" alt="">
                                 @endif
 
-                                @if(in_array(\App\Enums\Campaign\MediaEnum::YOUTUBE->value, auth()->user()->medias->pluck('media')->toArray()))
+                                @if(in_array(\App\Enums\Campaign\MediaEnum::YOUTUBE->value, auth()->user()->media->pluck('media')->toArray()))
                                     <img src="{{ Vite::asset('resources/images/media/ic-mypage-youtube-on.svg') }}" alt="" class="w-[20px]">
                                 @else
                                     <img src="{{ Vite::asset('resources/images/media/ic-mypage-youtube-off.svg') }}" alt="" class="w-[20px]">

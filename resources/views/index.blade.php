@@ -98,8 +98,8 @@
             @endforelse
         </div>
     </section>
-{{--    <section id="remon_pick" class="container mx-auto p-6">--}}
-{{--        <h1 class="text-2xl font-bold mb-3">레몬's PICK</h1>--}}
+{{--    <section id="fleet_pick" class="container mx-auto p-6">--}}
+{{--        <h1 class="text-2xl font-bold mb-3">플릿's PICK</h1>--}}
 {{--        <div class="grid grid-cols-2 xl:grid-cols-4 gap-6">--}}
 {{--            @foreach(range(1, 4) as $key)--}}
 {{--                <div>--}}
@@ -121,8 +121,8 @@
         <a href="">
             <div class="bg-gray-50 flex items-center justify-center p-10">
                 <div>
-                    <div class="text-2xl font-bold mb-3">레몬 카카오 채널톡</div>
-                    <div>카카오톡으로 찾아오는 레몬 캠페인을 만나보실래요?</div>
+                    <div class="text-2xl font-bold mb-3">플릿 카카오 채널톡</div>
+                    <div>카카오톡으로 찾아오는 플릿 캠페인을 만나보실래요?</div>
                 </div>
             </div>
         </a>
@@ -173,19 +173,25 @@
             @foreach($bestContents as $content)
                 <a href="">
                     <div class="rounded overflow-hidden">
-                        <img src="https://placehold.co/400x300" alt="">
+                        @if($content->thumbnail)
+                            <img src="{{ $content->thumbnail }}" alt="">
+                        @else
+                            <img src="https://placehold.co/400x400" alt="">
+                        @endif
                     </div>
                     <div class="my-3">
-                        <div class="mb-2">기분 좋은 사색으로의 여행</div>
-                        <div class="text-xs text-gray-500">[경주] 사색공간 풀빌라</div>
+                        <div class="mb-2">{{ $content->title }}</div>
+                        <div class="text-xs text-gray-500">{{ $content->campaign->title }}</div>
                     </div>
                     <div class="flex items-center border-t mt-6 py-3">
-                        <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="" class="w-[20px]">
+                        @if($content->campaignMedia)
+                        <x-media-icon :media="$content->campaignMedia->media"></x-media-icon>
+                        @endif
                         <div class="flex items-center">
                             <div class="mx-3 border-l pl-3">
-                                <img src="https://placeholder.co/20x20" alt="" class="rounded-full">
+                                <img src="{{ $content->user->profile_photo_url }}" alt="" class="rounded-full w-[20px]">
                             </div>
-                            <div class="text-xs">부르르르르</div>
+                            <div class="text-xs">{{ $content->user->name }}</div>
                         </div>
                     </div>
                 </a>
@@ -197,7 +203,7 @@
             <div class="bg-gray-50 flex items-center justify-center p-10">
                 <div>
                     <div class="text-2xl font-bold mb-3">광고주 이신가요?</div>
-                    <div>레몬 캠페인문의? 비용문의? 지금 광고주 센터에 문의를 해보세요!</div>
+                    <div>플릿 캠페인문의? 비용문의? 지금 광고주 센터에 문의를 해보세요!</div>
                 </div>
             </div>
         </a>

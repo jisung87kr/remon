@@ -18,7 +18,8 @@ class CampaignMediaContentFactory extends Factory
     {
         return [
             'content_url' => $this->faker->url,
-            'description' => $this->faker->sentence,
+            'title' => $this->faker->sentence,
+            'content' => $this->faker->paragraph,
         ];
     }
 }

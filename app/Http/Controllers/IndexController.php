@@ -13,7 +13,7 @@ class IndexController extends Controller
     public function index(Request $request)
     {
         $bestCampaigns = Campaign::where('status', StatusEnum::PUBLISHED)->limit(7)->get();
-        $remonPicksCampaigns = [];
+        $fleetPicksCampaigns = [];
         $pendingCampaigns = [];
         $brands = [];
         $bestContents = CampaignMediaContent::withCount('bannerLogs')->orderBy('banner_logs_count', 'desc')->take(10)->get();

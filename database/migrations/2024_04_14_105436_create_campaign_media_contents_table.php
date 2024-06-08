@@ -19,7 +19,12 @@ return new class extends Migration
             $table->uuid('banner_id')->nullable();
             $table->foreignId('campaign_application_id');
             $table->string('content_url')->nullable()->comment('컨텐츠 url');
-            $table->text('description')->nullable()->comment('컨텐츠 설명');
+            $table->text('thumbnail')->nullable()->comment('컨텐츠 썸네일');
+            $table->text('title')->nullable()->comment('컨텐츠 설명');
+            $table->text('content')->nullable()->comment('컨텐츠 본문');
+            $table->text('author')->nullable()->comment('컨텐츠 작성자');
+            $table->text('profile_img')->nullable()->comment('컨텐츠 작성자 프로필');
+            $table->dateTime('content_created_at')->nullable()->comment('원본 컨텐츠 등록일자');
             $table->timestamps();
         });
     }
