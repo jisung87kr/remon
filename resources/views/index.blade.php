@@ -173,19 +173,25 @@
             @foreach($bestContents as $content)
                 <a href="">
                     <div class="rounded overflow-hidden">
-                        <img src="https://placehold.co/400x300" alt="">
+                        @if($content->thumbnail)
+                            <img src="{{ $content->thumbnail }}" alt="">
+                        @else
+                            <img src="https://placehold.co/400x400" alt="">
+                        @endif
                     </div>
                     <div class="my-3">
-                        <div class="mb-2">기분 좋은 사색으로의 여행</div>
-                        <div class="text-xs text-gray-500">[경주] 사색공간 풀빌라</div>
+                        <div class="mb-2">{{ $content->title }}</div>
+                        <div class="text-xs text-gray-500">{{ $content->campaign->title }}</div>
                     </div>
                     <div class="flex items-center border-t mt-6 py-3">
-                        <img src="{{ Vite::asset('resources/images/media/blog.svg') }}" alt="" class="w-[20px]">
+                        @if($content->campaignMedia)
+                        <x-media-icon :media="$content->campaignMedia->media"></x-media-icon>
+                        @endif
                         <div class="flex items-center">
                             <div class="mx-3 border-l pl-3">
-                                <img src="https://placeholder.co/20x20" alt="" class="rounded-full">
+                                <img src="{{ $content->user->profile_photo_url }}" alt="" class="rounded-full w-[20px]">
                             </div>
-                            <div class="text-xs">부르르르르</div>
+                            <div class="text-xs">{{ $content->user->name }}</div>
                         </div>
                     </div>
                 </a>
