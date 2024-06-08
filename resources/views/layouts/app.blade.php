@@ -31,7 +31,7 @@
                 @endif
                 <div class="flex justify-between items-center w-full">
                     <div class="flex items-center">
-                        <a href="/" class="mr-5 font-bold">REMON</a>
+                        <a href="/" class="mr-5 font-bold">FLEET</a>
                         <form action="{{ route('campaign.index') }}">
                             <div class="relative">
                                 <input type="text"
@@ -164,10 +164,10 @@
                 <div class="container mx-auto py-6">
                     <div class="md:flex md:justify-between md:items-center">
                         <div class="mr-6">
-                            <a href="" class="text-[20px] text-gray-500">REMON</a>
+                            <a href="" class="text-[20px] text-gray-500">FLEET</a>
                             <div class="text-gray-500 text-sm">
                                 <div>
-                                    <span>레몬</span><span class="mx-2">|</span><span>대표이사 : 홍길동</span><span class="mx-2">|</span><span>개인정보 보호 최고책임자 : 홍길동</span>
+                                    <span>플릿</span><span class="mx-2">|</span><span>대표이사 : 홍길동</span><span class="mx-2">|</span><span>개인정보 보호 최고책임자 : 홍길동</span>
                                 </div>
                                 <div>
                                     <span>사업자등록번호: 000-00-00000</span><span class="mx-2">|</span><span>통신판매신고업번호 제0000-서울강남-00000호</span>
@@ -176,11 +176,11 @@
                                     <span>주소: 강원도 춘천시 0000000</span>
                                 </div>
                                 <div>
-                                    <span>메일: help@remon.com</span><span class="mx-2">|</span><span>전화: 0000-0000</span><span class="mx-2">|</span><span>팩스: 00-000-0000</span>
+                                    <span>메일: help@fleet.com</span><span class="mx-2">|</span><span>전화: 0000-0000</span><span class="mx-2">|</span><span>팩스: 00-000-0000</span>
                                 </div>
                             </div>
                             <div class="mt-6 font-bold">
-                                @REMON. All Rights Reserved.
+                                @FLEET. All Rights Reserved.
                             </div>
                         </div>
                         <div class="text-right mt-3 md:mt-0">
@@ -195,7 +195,7 @@
                     <div class="container mx-auto py-6">
                         <div class="lg:flex gap-6">
                             <div class="break-keep">
-                                <a href="" class="pr-2 text-gray-500">레몬소개</a>
+                                <a href="" class="pr-2 text-gray-500">플릿소개</a>
                                 <a href="" class="pr-2 text-gray-500">이용약관</a>
                                 <a href="" class="pr-2 text-gray-500 font-bold">개인정보처리방침</a>
                                 <a href="" class="pr-2 text-gray-500">위치기반서비스이용약관</a>

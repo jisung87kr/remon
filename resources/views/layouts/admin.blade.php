@@ -26,7 +26,7 @@
         <!-- Page Content -->
         <aside id="aside" class="!lg-block" x-show="asideOpen" @click.away="closeAside">
             <div class="mb-6">
-                <a href="" class="text-2xl font-bold">REMON</a>
+                <a href="" class="text-2xl font-bold">FLEET</a>
             </div>
             <ul class="nav">
                 <li class="nav-title text-gray-500">캠페인</li>
