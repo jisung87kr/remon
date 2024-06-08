@@ -79,7 +79,7 @@ class User extends Authenticatable
         return $this->hasMany(UserShippingAddress::class);
     }
 
-    public function medias()
+    public function media()
     {
         return $this->hasMany(UserMedia::class)->where('connected_status', MediaConnectedStatusEnum::CONNECTED);
     }

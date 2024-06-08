@@ -27,7 +27,7 @@ class UserMediaApiController extends Controller
     public function index(Request $request)
     {
         try {
-            return response()->json(new Response(Response::SUCCESS, '미디어 목록 조회 성공', $request->user()->medias));
+            return response()->json(new Response(Response::SUCCESS, '미디어 목록 조회 성공', $request->user()->media));
         } catch (\Exception $e){
             return response()->json(new Response(Response::ERROR, '미디어 목록 조회 실패', $e->getMessage()), 500);
         }
@@ -63,11 +63,11 @@ class UserMediaApiController extends Controller
                     break;
                 case MediaEnum::INSTAGRAM->value:
                     $validated['connected_status'] = 'connected';
-                    $result = $request->user()->medias()->create($validated);
+                    $result = $request->user()->media()->create($validated);
                     break;
                 case MediaEnum::YOUTUBE->value:
                     $validated['connected_status'] = 'connected';
-                    $result = $request->user()->medias()->create($validated);
+                    $result = $request->user()->media()->create($validated);
                     break;
             }
 
@@ -140,7 +140,7 @@ class UserMediaApiController extends Controller
             $result = [];
             switch ($media){
                 case MediaEnum::NAVER_BLOG->value:
-                    $mediaData = auth()->user()->medias()->where('media', MediaEnum::NAVER_BLOG->value)->first();
+                    $mediaData = auth()->user()->media()->where('media', MediaEnum::NAVER_BLOG->value)->first();
                     $content = $naverBLogCrawler->getRss($mediaData['mediaid']);
                     foreach ($content['channel']['item'] as $index => $item) {
                         $result[] = [

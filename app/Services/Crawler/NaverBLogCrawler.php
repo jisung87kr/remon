@@ -59,10 +59,10 @@ class NaverBLogCrawler{
         });
     }
 
-    public function getFeed($blogId)
+    public function getFeeds($blogId)
     {
         // 캐시 키 생성
-        $cacheKey = "feed_{$blogId}";
+        $cacheKey = "feeds_{$blogId}";
 
         // 캐시가 있으면 캐시된 데이터 반환, 없으면 데이터를 캐시하고 반환
         return Cache::remember($cacheKey, now()->addHour(), function () use ($blogId) {

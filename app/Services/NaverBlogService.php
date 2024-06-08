@@ -48,7 +48,7 @@ class NaverBlogService{
             'raw_data'            => json_encode($initState),
         ];
 
-        return $user->medias()->updateOrCreate(['user_id' => $user->id, 'media' => MediaEnum::NAVER_BLOG->value], $blogInfo);
+        return $user->media()->updateOrCreate(['user_id' => $user->id, 'media' => MediaEnum::NAVER_BLOG->value], $blogInfo);
     }
 
     public function getBLogIdFromUrl($url)

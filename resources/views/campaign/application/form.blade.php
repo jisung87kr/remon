@@ -125,7 +125,7 @@
                     </div>
                     @foreach($campaign->media as $media)
                     @php
-                        $item = auth()->user()->medias->filter(function($item) use ($media){
+                        $item = auth()->user()->media->filter(function($item) use ($media){
                             return $item['media'] == $media->media;
                         })->first();
                     @endphp

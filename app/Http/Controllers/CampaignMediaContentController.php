@@ -2,13 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Campaign\MediaEnum;
 use App\Models\Campaign;
 use App\Models\CampaignMedia;
 use App\Models\CampaignMediaContent;
 use Illuminate\Http\Request;
+use App\Services\Crawler\NaverBLogCrawler;
 
 class CampaignMediaContentController extends Controller
 {
+    public $naverBLogCrawler;
+
+    public function __construct(NaverBLogCrawler $naverBLogCrawler)
+    {
+        $this->naverBLogCrawler = $naverBLogCrawler;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -36,6 +44,14 @@ class CampaignMediaContentController extends Controller
 
         $validated['user_id'] = $request->user()->id;
         $validated['campaign_id'] = $campaign->id;
+
+//        $userMedia = $request->user()->media()->where('media', $media->media)->first();
+//        switch ($media->media){
+//            case MediaEnum::NAVER_BLOG->value:
+//                $feeds = $this->naverBLogCrawler->getFeeds($userMedia['mediaid']);
+//                dd($feeds);
+//                break;
+//        }
 
         $result = $media->contents()->create($validated);
         return $result;
