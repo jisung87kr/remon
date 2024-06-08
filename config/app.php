@@ -189,4 +189,25 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'cooperation' => [
+        'name' => '플릿',
+        'email' => env('MAIL_USERNAME'),
+        'helpEmail' => env('MAIL_USERNAME'),
+        'callNumber' => '1588-0000',
+        'fax' => '0000-0000',
+        'address' => '강원특별시 춘천시 세실로261',
+        'ceo_name' => '홍길동',
+        'businessRegistrationNumber' => '000-00-00000',
+        'mailOrderLicenseNumber' => '제0000-서울강남-00000호',
+    ],
+    'policy' => [
+        'manager_name' => '홍길동',
+        'position' => '매니저',
+        'callNumber' => '1588-0000',
+    ],
+    'locationTerms' => [
+        'manager_name' => '홍길동',
+        'position' => '매니저',
+        'callNumber' => '1588-0000',
+    ]
 ];

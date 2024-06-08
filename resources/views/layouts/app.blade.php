@@ -164,19 +164,19 @@
                 <div class="container mx-auto py-6">
                     <div class="md:flex md:justify-between md:items-center">
                         <div class="mr-6">
-                            <a href="" class="text-[20px] text-gray-500">FLEET</a>
+                            <a href="" class="text-[20px] text-gray-500">{{ config('app.name') }}</a>
                             <div class="text-gray-500 text-sm">
                                 <div>
-                                    <span>플릿</span><span class="mx-2">|</span><span>대표이사 : 홍길동</span><span class="mx-2">|</span><span>개인정보 보호 최고책임자 : 홍길동</span>
+                                    <span>{{ config('app.cooperation.name') }}</span><span class="mx-2">|</span><span>대표이사 : {{ config('app.cooperation.ceo_name') }}</span><span class="mx-2">|</span><span>개인정보 보호 최고책임자 : {{ config('app.policy.manager_name') }}</span>
                                 </div>
                                 <div>
-                                    <span>사업자등록번호: 000-00-00000</span><span class="mx-2">|</span><span>통신판매신고업번호 제0000-서울강남-00000호</span>
+                                    <span>사업자등록번호: {{ config('app.cooperation.businessRegistrationNumber') }}</span><span class="mx-2">|</span><span>통신판매신고업번호 {{ config('app.cooperation.mailOrderLicenseNumber') }}</span>
                                 </div>
                                 <div>
-                                    <span>주소: 강원도 춘천시 0000000</span>
+                                    <span>주소: {{ config('app.cooperation.address') }}</span>
                                 </div>
                                 <div>
-                                    <span>메일: help@fleet.com</span><span class="mx-2">|</span><span>전화: 0000-0000</span><span class="mx-2">|</span><span>팩스: 00-000-0000</span>
+                                    <span>메일: {{ config('app.cooperation.helpEmail') }}</span><span class="mx-2">|</span><span>전화: {{ config('app.cooperation.callNumber') }}</span><span class="mx-2">|</span><span>팩스: {{ config('app.cooperation.fax') }}</span>
                                 </div>
                             </div>
                             <div class="mt-6 font-bold">
@@ -195,11 +195,9 @@
                     <div class="container mx-auto py-6">
                         <div class="lg:flex gap-6">
                             <div class="break-keep">
-                                <a href="" class="pr-2 text-gray-500">플릿소개</a>
-                                <a href="" class="pr-2 text-gray-500">이용약관</a>
-                                <a href="" class="pr-2 text-gray-500 font-bold">개인정보처리방침</a>
-                                <a href="" class="pr-2 text-gray-500">위치기반서비스이용약관</a>
-                                <a href="" class="pr-2 text-gray-500">운영정책</a>
+                                <a href="{{ route('page.terms') }}" class="pr-2 text-gray-500">이용약관</a>
+                                <a href="{{ route('page.policy') }}" class="pr-2 text-gray-500 font-bold">개인정보처리방침</a>
+                                <a href="{{ route('page.terms_location') }}" class="pr-2 text-gray-500">위치기반서비스이용약관</a>
                             </div>
                             <span class="hidden lg:block text-gray-300">|</span>
                             <div class="mt-6 lg:mt-0 lg:flex gap-6">

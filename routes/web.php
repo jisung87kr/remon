@@ -173,3 +173,14 @@ Route::get('/mail/application/{status}', function($status){
 });
 
 
+Route::get('/page/terms', function(){
+    return view('page.terms');
+})->name('page.terms');
+
+Route::get('/page/terms-location', function(){
+    return view('page.terms-location');
+})->name('page.terms_location');
+
+Route::get('/page/policy', function(){
+    return view('page.policy');
+})->name('page.policy');
