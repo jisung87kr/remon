@@ -180,8 +180,8 @@
                         @endif
                     </div>
                     <div class="my-3">
-                        <div class="mb-2">{{ $content->title }}</div>
-                        <div class="text-xs text-gray-500">{{ $content->campaign->title }}</div>
+                        <div class="mb-2 line-clamp-1">{{ $content->title }}</div>
+                        <div class="text-xs text-gray-500 line-clamp-1">{{ $content->campaign->title }}</div>
                     </div>
                     <div class="flex items-center border-t mt-6 py-3">
                         @if($content->campaignMedia)
