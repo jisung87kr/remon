@@ -1,11 +1,14 @@
 <?php
 
+use App\Enums\TrackDelivery\TrackEventStatusCodeEnum;
 use App\Exports\CampaignApplicationExport;
 use App\Http\Controllers\CampaignApplicationController;
 use App\Models\Campaign;
 use App\Models\CampaignApplication;
 use App\Models\Category;
+use App\Models\TrackerDeliverQueue;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +24,7 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CallbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,11 +36,30 @@ use App\Http\Controllers\PostController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/foo', function(){
-    $dto = new \App\Dto\MediaContentDto();
-    $dto->setAuthor('123');
-    dd($dto->toArray());
+Route::get('/foo', function(\App\Libraries\TrackerDelivery $trackerDelivery){
+    //dev.track.dummy
+    //2024-06-09T03:00:00Z
+
+//    $response = $trackerDelivery->carrierList(20);
+//    $body = (string)$response->response->getBody();
+//    dd(json_decode($body, true));
+
+//    $response = $trackerDelivery->lastTrack('dev.track.dummy', '2024-06-09T03:00:00Z');
+//    $body = (string)$response->response->getBody();
+//    $result = json_decode($body, true);
+
+//    $response = $trackerDelivery->registerTrackWebhook('dev.track.dummy', '2024-06-09T03:00:00Z', 'https://mangotree.co.kr/bbs/test', $trackerDelivery->makeExpireAt(0));
+//    $body = (string)$response->response->getBody();
+//    dd(json_decode($body, true));
+
+//    $model = new TrackerDeliverQueue();
+//    $result = $model->create([
+//        'carrier_id' => '123',
+//        'tracking_number' => '234',
+//    ]);
 });
+
+Route::get('callback/tracker_delivery/{parcel}', [CallbackController::class, 'trackerDelivery'])->name('callback.tracker_delivery');
 
 Route::get('campaign_banner', function(Request $request){
     $filepath = "campaigns/1/7GMCs3UeUw1P3rXq7WGvLV4gc6TqvXz8paKGT865.png";

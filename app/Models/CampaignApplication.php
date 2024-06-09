@@ -48,6 +48,11 @@ class CampaignApplication extends Model
         return $this->hasMany(CampaignMediaContent::class);
     }
 
+    public function parcel()
+    {
+        return $this->hasOne(CampaignApplicationParcel::class);
+    }
+
     public function scopeFilter(Builder $query, array $filter)
     {
         $query->when($filter['status'] ?? false, function($query, $status){

@@ -17,19 +17,19 @@ class AsyncHttpClient{
         $this->client = $client;
     }
 
-    public function request(Request $request, $retryCount = 0){
-        $promise = $this->client->sendAsync($request);
+    public function request(Request $request, $opt=[], $retryCount = 0){
+        $promise = $this->client->sendAsync($request, $opt);
         return $promise->then(
             function (Response $response) use ($request) {
                 return new SuccessfulResponse($request, $response);
             },
-            function (RequestException $e) use ($request, $retryCount) {
+            function (RequestException $e) use ($request, $opt, $retryCount) {
                 if ($retryCount < $this->retryCount) {
-                    return $this->request($request, $retryCount + 1);
+                    return $this->request($request, $opt, $retryCount + 1);
                 } else {
-                    throw new \Exception("Request failed after {$this->retryCount} retries: " . $e->getMessage());
+                    throw $e;
                 }
-            }
+            },
         );
     }
 

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Libraries\TrackerDelivery;
+use App\Util\AsyncHttpClient;
+use GuzzleHttp\Client;
 use Laravel\Fortify\Contracts\RegisterResponse;
 use App\Http\Responses\CustomRegisterResponse;
 use App\Models\CampaignApplication;
@@ -17,7 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        app()->bind(TrackerDelivery::class, function(){
+            return new TrackerDelivery(env('TRACKER_DELIVERY_CLIENT_ID'), env('TRACKER_DELIVERY_SECRET'), new AsyncHttpClient(new Client()));
+        });
+
+        app()->singleton(RegisterResponse::class, CustomRegisterResponse::class);
     }
 
     /**
@@ -26,6 +33,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(CampaignApplication::class, CampaignApplicationPolicy::class);
-        app()->singleton(RegisterResponse::class, CustomRegisterResponse::class);
     }
 }

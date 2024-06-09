@@ -115,11 +115,18 @@
                             <td>
                                 @if($application->campaign->campaign_type_id == 2)
                                 <div class="">
-                                    <select name="" id="" class="form-select">
-                                        <option value="">CJ</option>
-                                        <option value="">우체국</option>
+                                    <select name="application[{{ $loop->index }}][carrier_id]" id="carrier_id" class="form-select">
+                                        <option value="" selected disabled>선택하세요</option>
+                                        @foreach(\App\Enums\TrackDelivery\CourierCompanyEnum::cases() AS $case)
+                                        <option value="{{ $case->value }}" @selected($application->parcel && $case->value == $application->parcel['carrier_id'])>{{ $case->label() }}</option>
+                                        @endforeach
                                     </select>
-                                    <input type="text" class="form-control mt-2" placeholder="송장번호">
+                                    <input type="text" name="application[{{ $loop->index }}][tracking_number]" class="form-control mt-2" placeholder="송장번호" value="{{ $application->parcel['tracking_number'] ?? null }}">
+                                    <select name="application[{{ $loop->index }}][tracking_status]" id="tracking_status" class="form-select">
+                                        @foreach(\App\Enums\TrackDelivery\TrackEventStatusCodeEnum::cases() AS $case)
+                                            <option value="{{ $case->value }}" @selected($application->parcel && $case->value == $application->parcel['tracking_status'])>{{ $case->label() }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 @else
                                     -

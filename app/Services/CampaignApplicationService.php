@@ -5,12 +5,16 @@ use App\Dto\Dto;
 use App\Dto\MediaContentDto;
 use App\Enums\Campaign\ApplicationStatus;
 use App\Enums\Campaign\MediaEnum;
+use App\Enums\User\PointTypeEnum;
+use App\Events\ApplicationProcessed;
 use App\Models\Campaign;
 use App\Models\CampaignApplication;
+use App\Models\CampaignMediaContent;
 use App\Models\UserMedia;
 use App\Services\Crawler\NaverBLogCrawler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CampaignApplicationService{
     protected $request;
