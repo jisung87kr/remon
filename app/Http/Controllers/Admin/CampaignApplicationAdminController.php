@@ -92,7 +92,7 @@ class CampaignApplicationAdminController extends Controller
                             $callbackUrl = route('callback.tracker_delivery', $parcel);
                             $parcel->update([
                                 'callback_url' => $callbackUrl,
-                                'expired_at' => $expireAt,
+                                'expired_at' => date('Y-m-d H:i:s', strtotime($expireAt)),
                             ]);
 
                             // 콜백등록
@@ -105,7 +105,7 @@ class CampaignApplicationAdminController extends Controller
                                 'carrier_id' => $item['carrier_id'],
                                 'tracking_number' => $item['tracking_number'],
                                 'tracking_status' => $item['tracking_status'],
-                                'expired_at' => $expireAt,
+                                'expired_at' => date('Y-m-d H:i:s', strtotime($expireAt)),
                             ]);
 
                             $trackerDelivery->registerTrackWebhook($item['carrier_id'], $item['tracking_number'], $callbackUrl, $expireAt);
