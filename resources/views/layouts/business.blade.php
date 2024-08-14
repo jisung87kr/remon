@@ -57,7 +57,7 @@
         <!-- Page Content -->
         <aside id="aside" class="!lg-block" x-show="asideOpen" @click.away="closeAside">
             <div class="mb-6">
-                <a href="{{ route('business.dashboard') }}" class="text-2xl font-bold">BUSINESS FLEET</a>
+                <a href="{{ route('business.dashboard') }}" class="text-2xl font-bold">BUSINESS {{ config('app.name') }}</a>
             </div>
             <ul class="nav">
                 <x-nav.item href="{{ route('business.dashboard') }}" :active="request()->routeIs('business.dashboard')">대시보드</x-nav.item>

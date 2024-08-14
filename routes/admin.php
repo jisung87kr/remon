@@ -13,7 +13,7 @@ Route::middleware([
     'verified',
 ])->group(function(){
     Route::get('/', function(){
-        return view('admin.index');
+        return redirect()->route('admin.campaign.index');
     })->name('index');
 
     Route::resource('/campaigns', CampaignController::class)->names('campaign');

@@ -9,7 +9,7 @@
                     </div>
                 </div>
                 <div class="mt-6 font-bold">
-                    @FLEET. All Rights Reserved.
+                    @ {{ config('app.name') }}. All Rights Reserved.
                 </div>
             </div>
         </div>

@@ -31,7 +31,7 @@
                 @endif
                 <div class="flex justify-between items-center w-full">
                     <div class="flex items-center">
-                        <a href="/" class="mr-5 font-bold">FLEET</a>
+                        <a href="/" class="mr-5 font-bold">{{ config('app.name'), 'Laravel' }}</a>
                         <form action="{{ route('campaign.index') }}">
                             <div class="relative">
                                 <input type="text"

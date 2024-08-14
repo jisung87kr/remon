@@ -413,7 +413,7 @@
         <div class="mt-6">
             <div class="text-lg font-bold pb-2 mb-3 border-b border-gray-900">
                 <div>수신동의</div>
-                <small class="text-gray-500 my-3">플릿에서 진행하는 다양한 이벤트와 회원님 맞춤 캠페인 추천을 받을 수 있어요.</small>
+                <small class="text-gray-500 my-3">{{ config('app.name') }}에서 진행하는 다양한 이벤트와 회원님 맞춤 캠페인 추천을 받을 수 있어요.</small>
             </div>
             <div class="mt-6" x-data="agreeData">
                 <div class="flex items-center">
