@@ -1,4 +1,4 @@
-<x-help-layout>
+<x-board-layout>
     <x-slot name="header">{{ $board->name }}</x-slot>
     <div class="mt-6">
         <div class="flex justify-between">
@@ -60,4 +60,4 @@
         </div>
 
     </div>
-</x-help-layout>
+</x-board-layout>

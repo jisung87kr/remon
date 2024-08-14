@@ -1,4 +1,4 @@
-<x-help-layout>
+<x-board-layout>
     <x-slot name="header">{{ $board->name }}</x-slot>
     <div class="mt-6">
         <section>
@@ -309,4 +309,4 @@
 {{--            </div>--}}
         </div>
     </div>
-</x-help-layout>
+</x-board-layout>

@@ -36,29 +36,6 @@ use App\Http\Controllers\CallbackController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/foo', function(\App\Libraries\TrackerDelivery $trackerDelivery){
-    //dev.track.dummy
-    //2024-06-09T03:00:00Z
-
-//    $response = $trackerDelivery->carrierList(20);
-//    $body = (string)$response->response->getBody();
-//    dd(json_decode($body, true));
-
-//    $response = $trackerDelivery->lastTrack('dev.track.dummy', '2024-06-09T03:00:00Z');
-//    $body = (string)$response->response->getBody();
-//    $result = json_decode($body, true);
-
-//    $response = $trackerDelivery->registerTrackWebhook('dev.track.dummy', '2024-06-09T03:00:00Z', 'https://mangotree.co.kr/bbs/test', $trackerDelivery->makeExpireAt(0));
-//    $body = (string)$response->response->getBody();
-//    dd(json_decode($body, true));
-
-//    $model = new TrackerDeliverQueue();
-//    $result = $model->create([
-//        'carrier_id' => '123',
-//        'tracking_number' => '234',
-//    ]);
-});
-
 Route::get('callback/tracker_delivery/{parcel}', [CallbackController::class, 'trackerDelivery'])->name('callback.tracker_delivery');
 
 Route::get('campaign_banner', function(Request $request){

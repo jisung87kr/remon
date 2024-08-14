@@ -12,12 +12,12 @@ class IndexController extends Controller
 {
     public function index(Request $request)
     {
-        $bestCampaigns = Campaign::where('status', StatusEnum::PUBLISHED)->limit(7)->get();
-        $fleetPicksCampaigns = [];
-        $pendingCampaigns = [];
-        $brands = [];
-        $bestContents = CampaignMediaContent::withCount('bannerLogs')->orderBy('banner_logs_count', 'desc')->take(10)->get();
+        $campaigns = Campaign::where('status', StatusEnum::PUBLISHED)->latest()->paginate(50);
+//        $fleetPicksCampaigns = [];
+//        $pendingCampaigns = [];
+//        $brands = [];
+//        $bestContents = CampaignMediaContent::withCount('bannerLogs')->orderBy('banner_logs_count', 'desc')->take(10)->get();
 
-        return view('index', compact('bestCampaigns', 'bestContents'));
+        return view('index', compact('campaigns'));
     }
 }

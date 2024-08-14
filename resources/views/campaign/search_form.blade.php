@@ -32,6 +32,7 @@
                         </ul>
                     </div>
                 </div>
+                @isset($productCategory->categories)
                 <div class="md:flex py-3 items-center">
                     <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">제품별</div>
                     <div class="md:grow">
@@ -47,7 +48,9 @@
                         </ul>
                     </div>
                 </div>
+                @endisset
 
+                @isset($typeCategory->categories)
                 <div class="md:flex py-3 items-center">
                     <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">유형별</div>
                     <div class="md:grow">
@@ -63,7 +66,9 @@
                         </ul>
                     </div>
                 </div>
+                @endisset
 
+                @isset($locationCategory->categories)
                 <template x-if="hasShippingType">
                     <div class="md:flex py-3 items-center">
                         <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">지역별</div>
@@ -83,6 +88,7 @@
                         </div>
                     </div>
                 </template>
+                @endisset
 
                 <div class="md:flex py-3 items-center">
                     <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">진행 상태별</div>
