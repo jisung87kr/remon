@@ -197,7 +197,7 @@
                     </div>
                     <div class="col-span-2 py-6">
                         <label for="application_limit" class="label mb-2">모집인원</label>
-                        <input type="number" id="application_limit" class="form-control" name="application_limit" value="{{ old('application_limit', $campaign['application_limit']) }}">
+                        <input type="text" id="application_limit" class="form-control" name="application_limit" value="{{ old('application_limit', $campaign['application_limit']) }}">
                         <x-input-error for="product_name" class="mt-1"></x-input-error>
                     </div>
                     <div class="col-span-2 py-6 flex gap-3">

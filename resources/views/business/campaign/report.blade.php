@@ -19,7 +19,7 @@
     </div>
 
     <section class="mb-10">
-        <h1 class="mb-3 text-2xl font-bold">누적성과</h1>
+        <h1 class="mt-3 mb-6 text-2xl font-bold">누적성과</h1>
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
             <div class="card flex items-center">
                 <div class="bg-cyan-300 rounded-full mr-6 relative" style="width: 80px; height: 80px;">
@@ -153,7 +153,7 @@
                             <x-media-icon :media="$content->media->media"></x-media-icon>
                         </td>
                         <td>
-                            <a href="{{ $content->content_url }}" target="_blank">{{ $content->description }}</a>
+                            <a href="{{ $content->content_url }}" target="_blank">{{ $content->content_url }}</a>
                         </td>
                         <td>{{ $content->created_at->format('y.m.d') }}</td>
                     </tr>

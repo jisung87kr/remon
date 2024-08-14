@@ -92,7 +92,7 @@
     @endif
     <section id="popular_campaign" class="container mx-auto p-6">
         <h1 class="text-2xl font-bold mb-3">진행중인 캠페인</h1>
-        <div class="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
+        <div class="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             @forelse($campaigns as $key => $campaign)
                 <x-campaign.card :campaign="$campaign"></x-campaign.card>
             @empty

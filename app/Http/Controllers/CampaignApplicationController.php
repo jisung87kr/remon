@@ -89,15 +89,28 @@ class CampaignApplicationController extends Controller
             case ApplicationStatus::POSTED->value:
                 try {
                     DB::beginTransaction();
+
+                    $request->validate([
+                        'media_content.*.content_url' => 'required',
+                    ]);
+
                     foreach ($request->input('media_content', []) as $index => $item) {
 
                         $userMedia = $request->user()->media()->where('media', $item['media'])->first();
-                        $dto = $this->service->getMediaContent(MediaEnum::tryFrom($item['media']), $userMedia, $item['content_url']);
-
-                        $request->user()->campaignMediaContents()->updateOrCreate([
-                            'campaign_id' => $campaign->id,
-                            'campaign_media_id' => $item['id'],
-                        ], $dto->toArray());
+                        try {
+                            $dto = $this->service->getMediaContent(MediaEnum::tryFrom($item['media']), $userMedia, $item['content_url']);
+                            $request->user()->campaignMediaContents()->updateOrCreate([
+                                'campaign_id' => $campaign->id,
+                                'campaign_media_id' => $item['id'],
+                            ], $dto->toArray());
+                        } catch (\Exception $e){
+                            $request->user()->campaignMediaContents()->updateOrCreate([
+                                'campaign_id' => $campaign->id,
+                                'campaign_media_id' => $item['id'],
+                            ], [
+                                'content_url' => $item['content_url'],
+                            ]);
+                        }
                     }
                     $campaignApplication->update(['status' => ApplicationStatus::POSTED->value]);
                     DB::commit();

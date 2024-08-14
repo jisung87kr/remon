@@ -39,7 +39,7 @@ use App\Http\Controllers\CallbackController;
 Route::get('callback/tracker_delivery/{parcel}', [CallbackController::class, 'trackerDelivery'])->name('callback.tracker_delivery');
 
 Route::get('campaign_banner', function(Request $request){
-    $filepath = "campaigns/1/7GMCs3UeUw1P3rXq7WGvLV4gc6TqvXz8paKGT865.png";
+    $filepath = "campaigns/fleet_banner.jpeg";
     $fileContents = Storage::disk('public')->get($filepath);
     $response = new Response($fileContents);
     $response->headers->set('Content-Type', Storage::disk('public')->mimeType($filepath));

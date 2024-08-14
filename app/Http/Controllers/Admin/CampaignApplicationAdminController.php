@@ -80,7 +80,7 @@ class CampaignApplicationAdminController extends Controller
                     }
 
                     // 송장등록
-                    if($application->campaign->isShippingType){
+                    if($application->campaign->isShippingType && $item['status'] == ApplicationStatus::APPROVED->value){
                         if(!$application->parcel){
                             $parcel = $application->parcel()->create([
                                 'carrier_id' => $item['carrier_id'],
