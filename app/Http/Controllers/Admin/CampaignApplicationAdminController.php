@@ -7,6 +7,7 @@ use App\Enums\User\PointTypeEnum;
 use App\Events\ApplicationProcessed;
 use App\Exports\CampaignApplicationExport;
 use App\Http\Controllers\Controller;
+use App\Libraries\TrackerDelivery;
 use App\Models\CampaignApplication;
 use App\Models\CampaignMediaContent;
 use App\Notifications\Campaign\Application\Applied;
@@ -40,9 +41,9 @@ class CampaignApplicationAdminController extends Controller
         return view('admin.application.index', compact('applications'));
     }
 
-    public function updateStatus(Request $request)
+    public function updateStatus(Request $request, TrackerDelivery $trackerDelivery)
     {
-        $result = DB::transaction(function() use ($request){
+        $result = DB::transaction(function() use ($request, $trackerDelivery){
             foreach($request->input('application') as $index => $item) {
                 if(isset($item['checked'])){
                     $application = CampaignApplication::find($item['id']);
@@ -75,6 +76,44 @@ class CampaignApplicationAdminController extends Controller
                                     'banner_id' => (string)Str::uuid(),
                                 ]);
                             }
+                        }
+                    }
+
+                    // 송장등록
+                    if($application->campaign->isShippingType && $item['status'] == ApplicationStatus::APPROVED->value){
+                        if(!$application->parcel){
+                            $parcel = $application->parcel()->create([
+                                'carrier_id' => $item['carrier_id'],
+                                'tracking_number' => $item['tracking_number'],
+                                'tracking_status' => $item['tracking_status'],
+                            ]);
+
+                            $expireAt = $trackerDelivery->makeExpireAt();
+                            $callbackUrl = route('callback.tracker_delivery', $parcel);
+                            $parcel->update([
+                                'callback_url' => $callbackUrl,
+                                'expired_at' => date('Y-m-d H:i:s', strtotime($expireAt)),
+                            ]);
+
+                            // 콜백등록
+                            $trackerDelivery->registerTrackWebhook($item['carrier_id'], $item['tracking_number'], $callbackUrl, $expireAt);
+
+                        } elseif($application->parcel['carrier_id'] != $item['carrier_id'] || $application->parcel['tracking_number'] != $item['tracking_number']){
+                            $expireAt = $trackerDelivery->makeExpireAt();
+                            $callbackUrl = route('callback.tracker_delivery', $application->parcel);
+                            $application->parcel()->update([
+                                'carrier_id' => $item['carrier_id'],
+                                'tracking_number' => $item['tracking_number'],
+                                'tracking_status' => $item['tracking_status'],
+                                'expired_at' => date('Y-m-d H:i:s', strtotime($expireAt)),
+                            ]);
+
+                            $trackerDelivery->registerTrackWebhook($item['carrier_id'], $item['tracking_number'], $callbackUrl, $expireAt);
+
+                        } elseif ($application->parcel['tracking_status'] != $item['tracking_status']) {
+                            $application->parcel()->update([
+                                'tracking_status' => $item['tracking_status'],
+                            ]);
                         }
                     }
 

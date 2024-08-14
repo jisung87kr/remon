@@ -72,13 +72,13 @@
                 <li class="py-4 border-b"><a href="{{ route('mypage.point') }}" class="{{ request()->routeIs('mypage.point') ? 'active font-bold' : '' }}">나의 포인트</a></li>
             </ul>
         </div>
-        <div class="mb-6">
-            <div class="font-bold text-lg py-4 border-b">고객센터</div>
-            <ul>
-                <li class="py-4 border-b"><a href="{{ route('board.show', 'inquiry') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'inquiry' ? 'active font-bold' : '' }}">1:1 문의</a></li>
-                <li class="py-4 border-b"><a href="{{ route('board.show', 'guide') }}" class="{{ request()->routeIs('board.buil') && request()->route('board')['slug'] == 'guide' ? 'active font-bold' : '' }}">서비스 가이드</a></li>
-            </ul>
-        </div>
+{{--        <div class="mb-6">--}}
+{{--            <div class="font-bold text-lg py-4 border-b">고객센터</div>--}}
+{{--            <ul>--}}
+{{--                <li class="py-4 border-b"><a href="{{ route('board.show', 'inquiry') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'inquiry' ? 'active font-bold' : '' }}">1:1 문의</a></li>--}}
+{{--                <li class="py-4 border-b"><a href="{{ route('board.show', 'guide') }}" class="{{ request()->routeIs('board.buil') && request()->route('board')['slug'] == 'guide' ? 'active font-bold' : '' }}">서비스 가이드</a></li>--}}
+{{--            </ul>--}}
+{{--        </div>--}}
     </x-slot>
 
     <x-slot name="header">

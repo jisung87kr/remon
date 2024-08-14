@@ -197,7 +197,7 @@
                     </div>
                     <div class="col-span-2 py-6">
                         <label for="application_limit" class="label mb-2">모집인원</label>
-                        <input type="number" id="application_limit" class="form-control" name="application_limit" value="{{ old('application_limit', $campaign['application_limit']) }}">
+                        <input type="text" id="application_limit" class="form-control" name="application_limit" value="{{ old('application_limit', $campaign['application_limit']) }}">
                         <x-input-error for="product_name" class="mt-1"></x-input-error>
                     </div>
                     <div class="col-span-2 py-6 flex gap-3">
@@ -465,14 +465,20 @@
             </div>
         </section>
 
-        <div class="text-center">
-            <button class="button button-light" @click="window.location.href='/'">취소</button>
-            <button type="submit" class="button button-default">저장</button>
+        <div class="flex justify-between">
+            <div>
+                <button type="button" class="button button-red" @click="deleteCampaign()">삭제</button>
+            </div>
+            <div class="text-center">
+                <button class="button button-light" @click="window.location.href='/'">취소</button>
+                <button type="submit" class="button button-default">저장</button>
+            </div>
         </div>
     </form>
 </div>
 <script>
   const campaignData = {
+    id: '{{ $campaign['id'] }}',
     type: '{{old('type', $campaign['campaign_type_id'] ? $campaign['campaign_type_id'] : 1 )}}',
     useBenefitPoint: '{{ old('use_benefit_point', ($campaign['use_benefit_point'] ? 'y' : 'n') ?? 'n' ) }}',
     addressPostcode: '{{ old('address_postcode', $campaign['address_postcode']) }}',
@@ -627,6 +633,20 @@
         width : '100%',
         height : '100%'
       }).embed(this.$refs.search_address_element);
+    },
+    deleteCampaign(){
+      if(!confirm('삭제 하시겠습니까?')){
+        return false;
+      }
+
+      axios.delete(`/internal/campaigns/${this.id}`).then(res => {
+        if(res.data.status === 'SUCCESS'){
+          alert('삭제성공');
+          window.location.href = "/admin/campaigns";
+        }
+      }).catch(error => {
+        alert('삭제 실패');
+      });
     }
   }
 </script>

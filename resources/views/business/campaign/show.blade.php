@@ -46,7 +46,7 @@
                         <x-media-icon :media="$content->media->media"></x-media-icon>
                     </td>
                     <td>
-                        <a href="{{ $content->content_url }}" target="_blank">{{ $content->description }}</a>
+                        <a href="{{ $content->content_url }}" target="_blank">{{ $content->content_url }}</a>
                     </td>
                     <td>{{ $content->created_at->format('y.m.d') }}</td>
                 </tr>
@@ -79,7 +79,7 @@
                     </td>
                     <td>
                         <div class="flex gap-2">
-                            @foreach($applicant->user->medias as $media)
+                            @foreach($applicant->user->media as $media)
                                 <x-media-icon :media="$media->media"></x-media-icon>
                             @endforeach
                         </div>

@@ -1,11 +1,14 @@
 <?php
 
+use App\Enums\TrackDelivery\TrackEventStatusCodeEnum;
 use App\Exports\CampaignApplicationExport;
 use App\Http\Controllers\CampaignApplicationController;
 use App\Models\Campaign;
 use App\Models\CampaignApplication;
 use App\Models\Category;
+use App\Models\TrackerDeliverQueue;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +24,7 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CallbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,14 +36,10 @@ use App\Http\Controllers\PostController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/foo', function(){
-    $dto = new \App\Dto\MediaContentDto();
-    $dto->setAuthor('123');
-    dd($dto->toArray());
-});
+Route::get('callback/tracker_delivery/{parcel}', [CallbackController::class, 'trackerDelivery'])->name('callback.tracker_delivery');
 
 Route::get('campaign_banner', function(Request $request){
-    $filepath = "campaigns/1/7GMCs3UeUw1P3rXq7WGvLV4gc6TqvXz8paKGT865.png";
+    $filepath = "campaigns/fleet_banner.jpeg";
     $fileContents = Storage::disk('public')->get($filepath);
     $response = new Response($fileContents);
     $response->headers->set('Content-Type', Storage::disk('public')->mimeType($filepath));

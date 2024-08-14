@@ -529,6 +529,7 @@
                                 <input type="text" name="media_content[{{ $loop->index }}][url_text]"
                                        class="form-control mt-3"
                                        x-model="contentUrl"
+                                       required
                                        placeholder="http://글주소">
                                 @if($content->media->media === \App\Enums\Campaign\MediaEnum::NAVER_BLOG->value)
                                 <div class="mt-6 w-full" x-data="{{$content->media->media}}_bannerData">

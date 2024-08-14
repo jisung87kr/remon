@@ -2,6 +2,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
+    @if(false)
     <section id="main-banner" class="container-full py-6">
         <div class="swiper">
             <div class="swiper-wrapper">
@@ -42,6 +43,8 @@
           });
         </script>
     </section>
+    @endif
+    @if(false)
     <section id="category" class="container mx-auto p-6 my-12">
         <div class="grid grid-cols-5 gap-6 lg:grid-cols-10 xl:gap-12">
             <a href="{{ route('board.show', 'guide') }}" class="text-center">
@@ -86,10 +89,11 @@
             </a>
         </div>
     </section>
+    @endif
     <section id="popular_campaign" class="container mx-auto p-6">
-        <h1 class="text-2xl font-bold mb-3">지금 인기 캠페인</h1>
-        <div class="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
-            @forelse($bestCampaigns as $key => $campaign)
+        <h1 class="text-2xl font-bold mb-3">진행중인 캠페인</h1>
+        <div class="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            @forelse($campaigns as $key => $campaign)
                 <x-campaign.card :campaign="$campaign"></x-campaign.card>
             @empty
                 <div class="card col-span-3 xl:col-span-7">
@@ -97,7 +101,11 @@
                 </div>
             @endforelse
         </div>
+        @if($campaigns->links())
+        <div class="mt-3">{{ $campaigns->links() }}</div>
+        @endif
     </section>
+    @if(false)
 {{--    <section id="fleet_pick" class="container mx-auto p-6">--}}
 {{--        <h1 class="text-2xl font-bold mb-3">플릿's PICK</h1>--}}
 {{--        <div class="grid grid-cols-2 xl:grid-cols-4 gap-6">--}}
@@ -117,6 +125,8 @@
 {{--            @endforeach--}}
 {{--        </div>--}}
 {{--    </section>--}}
+    @endif
+    @if(false)
     <section id="kakaobanner" class="container mx-auto my-10 p-6">
         <a href="">
             <div class="bg-gray-50 flex items-center justify-center p-10">
@@ -127,6 +137,8 @@
             </div>
         </a>
     </section>
+    @endif
+    @if(false)
 {{--    <section id="pendding_campaign" class="bg-gray-50">--}}
 {{--        <div class="container mx-auto px-6 py-32">--}}
 {{--            <div class="grid grid-cols-3 md:grid-cols-4 xl:grid-cols-6">--}}
@@ -167,6 +179,8 @@
 {{--            @endforeach--}}
 {{--        </div>--}}
 {{--    </section>--}}
+    @endif
+    @if(false)
     <section id="best_campaign" class="container mx-auto my-12 p-6">
         <h1 class="text-2xl font-bold mb-3">베스트 콘텐츠</h1>
         <div class="grid grid-cols-3 xl:grid-cols-5 gap-6">
@@ -208,4 +222,5 @@
             </div>
         </a>
     </section>
+    @endif
 </x-app-layout>

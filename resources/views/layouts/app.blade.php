@@ -31,7 +31,7 @@
                 @endif
                 <div class="flex justify-between items-center w-full">
                     <div class="flex items-center">
-                        <a href="/" class="mr-5 font-bold">FLEET</a>
+                        <a href="/" class="mr-5 font-bold">{{ config('app.name'), 'Laravel' }}</a>
                         <form action="{{ route('campaign.index') }}">
                             <div class="relative">
                                 <input type="text"
@@ -139,17 +139,16 @@
                             <li class="font-bold shrink-0">
                                 <a href="{{ route('campaign.index') }}" class="{{ request()->routeIs('campaign.index') && (empty(request()->input('campaign_type')) || count(request()->input('campaign_type', [])) == 2) ? 'text-indigo-500' : '' }}">전체 캠페인</a>
                             </li>
-                            <li class="font-bold shrink-0">
-                                <a href="{{ route('campaign.index', ['campaign_type' => ['방문형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('방문형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">방문형 캠페인</a>
-                            </li>
-                            <li class="font-bold shrink-0">
-                                <a href="{{ route('campaign.index', ['campaign_type' => ['배송형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('배송형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">배송형 캠페인</a>
-                            </li>
+{{--                            <li class="font-bold shrink-0">--}}
+{{--                                <a href="{{ route('campaign.index', ['campaign_type' => ['방문형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('방문형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">방문형 캠페인</a>--}}
+{{--                            </li>--}}
+{{--                            <li class="font-bold shrink-0">--}}
+{{--                                <a href="{{ route('campaign.index', ['campaign_type' => ['배송형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('배송형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">배송형 캠페인</a>--}}
+{{--                            </li>--}}
 
+                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'notice') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'notice' ? 'active font-bold' : '' }}">공지사항</a></li>
+                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'free') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'free' ? 'active font-bold' : '' }}">커뮤니티</a></li>
                             <li class="font-bold shrink-0"><a href="{{ route('board.show', 'event') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'event' ? 'active font-bold' : '' }}">이벤트</a></li>
-                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'news') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'news' ? 'active font-bold' : '' }}">커뮤니티</a></li>
-                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'inquiry') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'inquiry' ? 'active font-bold' : '' }}">고객센터</a></li>
-                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'ad') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'ad' ? 'active font-bold' : '' }}">광고문의</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -160,64 +159,7 @@
                 {{ $slot }}
             </main>
 
-            <footer class="border-t px-6 mb-20">
-                <div class="container mx-auto py-6">
-                    <div class="md:flex md:justify-between md:items-center">
-                        <div class="mr-6">
-                            <a href="" class="text-[20px] text-gray-500">{{ config('app.name') }}</a>
-                            <div class="text-gray-500 text-sm">
-                                <div>
-                                    <span>{{ config('app.cooperation.name') }}</span><span class="mx-2">|</span><span>대표이사 : {{ config('app.cooperation.ceo_name') }}</span><span class="mx-2">|</span><span>개인정보 보호 최고책임자 : {{ config('app.policy.manager_name') }}</span>
-                                </div>
-                                <div>
-                                    <span>사업자등록번호: {{ config('app.cooperation.businessRegistrationNumber') }}</span><span class="mx-2">|</span><span>통신판매신고업번호 {{ config('app.cooperation.mailOrderLicenseNumber') }}</span>
-                                </div>
-                                <div>
-                                    <span>주소: {{ config('app.cooperation.address') }}</span>
-                                </div>
-                                <div>
-                                    <span>메일: {{ config('app.cooperation.helpEmail') }}</span><span class="mx-2">|</span><span>전화: {{ config('app.cooperation.callNumber') }}</span><span class="mx-2">|</span><span>팩스: {{ config('app.cooperation.fax') }}</span>
-                                </div>
-                            </div>
-                            <div class="mt-6 font-bold">
-                                @FLEET. All Rights Reserved.
-                            </div>
-                        </div>
-                        <div class="text-right mt-3 md:mt-0">
-                            <div>
-                                <a href="" class="text-gray-800 font-bold text-[28px]">0000-0000</a>
-                            </div>
-                            <small>월-금 09:00-18:00 / 주말,공휴일 제외</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-t py-6">
-                    <div class="container mx-auto py-6">
-                        <div class="lg:flex gap-6">
-                            <div class="break-keep">
-                                <a href="{{ route('page.terms') }}" class="pr-2 text-gray-500">이용약관</a>
-                                <a href="{{ route('page.policy') }}" class="pr-2 text-gray-500 font-bold">개인정보처리방침</a>
-                                <a href="{{ route('page.terms_location') }}" class="pr-2 text-gray-500">위치기반서비스이용약관</a>
-                            </div>
-                            <span class="hidden lg:block text-gray-300">|</span>
-                            <div class="mt-6 lg:mt-0 lg:flex gap-6">
-                                <div class="flex gap-3">
-                                    <div class="text-gray-500">Influencer</div>
-                                    <div class="font-bold">{{ number_format($influencerCount) }}</div>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="text-gray-500">Campaign</div>
-                                    <div class="font-bold">{{ number_format($campaignCount) }}</div>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="text-gray-500">Contents</div>
-                                    <div class="font-bold">{{ number_format($contentCount) }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            @include('include.footer-simple')
         </div>
 
         <div class="modal menu-modal z-[999]" x-show="$store.menuModal.show" style="display: none">
@@ -235,16 +177,15 @@
                         <li class="my-3">
                             <a href="{{ route('campaign.index') }}" class="{{ request()->routeIs('campaign.index') && (empty(request()->input('campaign_type')) || count(request()->input('campaign_type', [])) == 2) ? 'text-indigo-500' : '' }}">전체 캠페인</a>
                         </li>
-                        <li class="my-3">
-                            <a href="{{ route('campaign.index', ['campaign_type' => ['방문형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('방문형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">방문형 캠페인</a>
-                        </li>
-                        <li class="my-3">
-                            <a href="{{ route('campaign.index', ['campaign_type' => ['배송형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('배송형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">배송형 캠페인</a>
-                        </li>
+{{--                        <li class="my-3">--}}
+{{--                            <a href="{{ route('campaign.index', ['campaign_type' => ['방문형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('방문형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">방문형 캠페인</a>--}}
+{{--                        </li>--}}
+{{--                        <li class="my-3">--}}
+{{--                            <a href="{{ route('campaign.index', ['campaign_type' => ['배송형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('배송형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">배송형 캠페인</a>--}}
+{{--                        </li>--}}
+                        <li class="my-3"><a href="{{ route('board.show', 'notice') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'notice' ? 'text-indigo-500' : '' }}">공지사항</a></li>
+                        <li class="my-3"><a href="{{ route('board.show', 'free') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'free' ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
                         <li class="my-3"><a href="{{ route('board.show', 'event') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'event' ? 'text-indigo-500' : '' }}">이벤트</a></li>
-                        <li class="my-3"><a href="{{ route('board.show', 'news') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'news' ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
-                        <li class="my-3"><a href="{{ route('board.show', 'inquiry') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'inquiry' ? 'text-indigo-500' : '' }}">고객센터</a></li>
-                        <li class="my-3"><a href="{{ route('board.show', 'ad') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'ad' ? 'text-indigo-500' : '' }}">광고문의</a></li>
                     </ul>
                 </div>
             </div>
@@ -282,7 +223,7 @@
                     </svg>
                     <span class="text-xs mt-1">커뮤니티</span>
                 </a>
-                <a href="{{ route('board.show', 'inquiry') }}" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
+                <a href="{{ route('board.show', 'notice') }}" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-desktop-bolt" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M14.5 16h-10.5a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v7.5" />
@@ -290,7 +231,7 @@
                         <path d="M9 16v4" />
                         <path d="M19 16l-2 3h4l-2 3" />
                     </svg>
-                    <span class="text-xs mt-1">고객센터</span>
+                    <span class="text-xs mt-1">공지사항</span>
                 </a>
                 <a href="{{ route('mypage.campaign') }}" type="button" class="inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-gray-50 group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-hexagon" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">

@@ -42,6 +42,7 @@ return new class extends Migration
             $table->integer('application_limit')->default(0)->comment('모집인원');
             $table->text('application_information')->nullable()->comment('신청 안내 정보');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

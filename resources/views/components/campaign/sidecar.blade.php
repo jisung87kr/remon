@@ -15,7 +15,7 @@
                     @foreach($campaign->media as $media)
                         <x-media-icon :media="$media->media"></x-media-icon>
                     @endforeach
-                    <div class="p-1 text-xs border text-gray-600">예약없음</div>
+{{--                    <div class="p-1 text-xs border text-gray-600">예약없음</div>--}}
                 </div>
             </div>
         </div>
@@ -79,6 +79,7 @@
                             <x-input-error for="portrait_right_consent" class="mt-1"></x-input-error>
                         </div>
                     @endif
+                    @if(!isset($campaignApplication->status))
                     <div class="my-2 flex gap-3">
                         <input type="checkbox" name="base_right_consent" class="form-check mt-1" id="base_right_consent" value="1" required @checked(old('base_right_consent', $campaignApplication->base_right_consent ?? null) == 1)>
                         <div>
@@ -87,6 +88,7 @@
                         </div>
                         <x-input-error for="base_right_consent" class="mt-1"></x-input-error>
                     </div>
+                    @endif
                 </div>
                 @if(auth()->user()->can('update', $campaignApplication))
                     @if($campaignApplication->status == \App\Enums\Campaign\ApplicationStatus::APPLIED->value)

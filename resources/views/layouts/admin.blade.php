@@ -26,7 +26,7 @@
         <!-- Page Content -->
         <aside id="aside" class="!lg-block" x-show="asideOpen" @click.away="closeAside">
             <div class="mb-6">
-                <a href="" class="text-2xl font-bold">FLEET</a>
+                <a href="" class="text-2xl font-bold">{{ config('app.name', 'Laravel') }}</a>
             </div>
             <ul class="nav">
                 <li class="nav-title text-gray-500">캠페인</li>
@@ -48,7 +48,7 @@
                     </x-slot>
                     <x-slot name="group">
                         <x-nav.item href="{{ route('admin.user.general.index') }}" :active="request()->routeIs('admin.user.general.index')">목록</x-nav.item>
-                        <x-nav.item href="" :active="request()->routeIs('admin.user.general.index')">메세지</x-nav.item>
+{{--                        <x-nav.item href="" :active="request()->routeIs('admin.user.general.index')">메세지</x-nav.item>--}}
                     </x-slot>
                 </x-nav.index>
                 <x-nav.index :active="request()->routeIs('admin.user.*')">
@@ -57,7 +57,7 @@
                     </x-slot>
                     <x-slot name="group">
                         <x-nav.item href="{{ route('admin.user.business.index') }}" :active="request()->routeIs('admin.user.business.index')">목록</x-nav.item>
-                        <x-nav.item href="" :active="request()->routeIs('admin.user.general.index')">메세지</x-nav.item>
+{{--                        <x-nav.item href="" :active="request()->routeIs('admin.user.general.index')">메세지</x-nav.item>--}}
                     </x-slot>
                 </x-nav.index>
 
