@@ -28,6 +28,6 @@ Route::get('{board:slug}', [BoardController::class, 'show'])->name('show');
 
 Route::middleware('auth')->group(function () {
     Route::get('{board:slug}/posts/create', [PostController::class, 'create'])->name('post.create');
-    Route::get('{board:slug}/posts/edit', [PostController::class, 'create'])->name('post.edit');
+    Route::get('{board:slug}/posts/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
 });
 Route::resource('/{board:slug}/posts', PostController::class)->names('post')->except(['create', 'edit']);

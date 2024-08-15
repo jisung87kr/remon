@@ -41,7 +41,7 @@
                     <a href="{{ route('board.post.show', [$board, $post]) }}" class="block">
                         <div class="text-lg font-bold mb-1">{{ $post->title }}</div>
                         <div class="text-gray-600 line-clamp-2">
-                            {{ strip_tags($post->content) }}
+                            {{ str_replace('&nbsp;', ' ', strip_tags($post->content)) }}
                         </div>
                     </a>
                     <div class="avatar mt-3 flex items-center">

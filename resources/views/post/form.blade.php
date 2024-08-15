@@ -1,3 +1,8 @@
+<style>
+    .ck-editor__editable .ck-list-bogus-paragraph{
+        display: inline-block !important;
+    }
+</style>
 <form action="{{ $route }}" class="mt-6" method="POST">
     @csrf
     @method($method)

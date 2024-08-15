@@ -20,4 +20,9 @@ class IndexController extends Controller
 
         return view('index', compact('campaigns'));
     }
+
+    public function guide()
+    {
+        return view('guide');
+    }
 }

@@ -27,6 +27,9 @@
                     </script>
                 </div>
             @endcan
+            @can('update', $post)
+                <a href="{{ route('board.post.edit', [$board, $post]) }}" class="button button-default float-start ms-1">수정</a>
+            @endcan
             <a href="{{ route('board.show', $board) }}" class="button button-gray float-end">목록</a>
             <div class="clear-both"></div>
         </div>
@@ -39,32 +42,32 @@
                         <div class="text-gray-500 text-sm">{{ $post->created_at->format('Y.m.d') }}</div>
                     </div>
                 </div>
-                <div class="flex gap-3 items-center">
-                    <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-thumb-up" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a3 3 0 0 1 -3 -3" />
-                        </svg>
-                        <span>공감 11</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M8 9h8" />
-                            <path d="M8 13h6" />
-                            <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
-                        </svg>
-                        <span>댓글 {{ $post->comments_count }}</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                            <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-                        </svg>
-                        <span>조회 11</span>
-                    </div>
-                </div>
+{{--                <div class="flex gap-3 items-center">--}}
+{{--                    <div class="flex items-center gap-2">--}}
+{{--                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-thumb-up" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">--}}
+{{--                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>--}}
+{{--                            <path d="M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a3 3 0 0 1 -3 -3" />--}}
+{{--                        </svg>--}}
+{{--                        <span>공감 11</span>--}}
+{{--                    </div>--}}
+{{--                    <div class="flex items-center gap-2">--}}
+{{--                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">--}}
+{{--                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>--}}
+{{--                            <path d="M8 9h8" />--}}
+{{--                            <path d="M8 13h6" />--}}
+{{--                            <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />--}}
+{{--                        </svg>--}}
+{{--                        <span>댓글 {{ $post->comments_count }}</span>--}}
+{{--                    </div>--}}
+{{--                    <div class="flex items-center gap-2">--}}
+{{--                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">--}}
+{{--                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>--}}
+{{--                            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />--}}
+{{--                            <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />--}}
+{{--                        </svg>--}}
+{{--                        <span>조회 11</span>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
             </div>
             <div x-data="commentsComponent()" x-init="loadComments()">
                 @if(auth()->check())

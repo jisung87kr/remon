@@ -38,7 +38,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        if($user->hasRole(AdminRoleEnum::ADMIN->value)){
+        if($user->hasRole(AdminRoleEnum::ADMIN->value) || $user->hasRole(AdminRoleEnum::SUPER_ADMIN->value)){
             return true;
         }
 
@@ -50,7 +50,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        if($user->hasRole(AdminRoleEnum::ADMIN->value)){
+        if($user->hasRole(AdminRoleEnum::ADMIN->value) || $user->hasRole(AdminRoleEnum::SUPER_ADMIN->value)){
             return true;
         }
 
@@ -62,7 +62,7 @@ class PostPolicy
      */
     public function restore(User $user, Post $post): bool
     {
-        if($user->hasRole(AdminRoleEnum::ADMIN->value)){
+        if($user->hasRole(AdminRoleEnum::ADMIN->value) || $user->hasRole(AdminRoleEnum::SUPER_ADMIN->value)){
             return true;
         }
         return $user->id === $post->user->id;
@@ -73,7 +73,7 @@ class PostPolicy
      */
     public function forceDelete(User $user, Post $post): bool
     {
-        if($user->hasRole(AdminRoleEnum::ADMIN->value)){
+        if($user->hasRole(AdminRoleEnum::ADMIN->value) || $user->hasRole(AdminRoleEnum::SUPER_ADMIN->value)){
             return true;
         }
         return $user->id === $post->user->id;
