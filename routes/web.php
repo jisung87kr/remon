@@ -64,6 +64,8 @@ Route::get('/category', function($category){
     return view('campaign.index');
 })->name('category.index');
 
+Route::get('/guide', [IndexController::class, 'guide'])->name('guide');
+
 Route::get('/category/오늘오픈', function(){
     $campaigns = [];
     $category = new \App\Models\Category();

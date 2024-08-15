@@ -71,7 +71,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Board $board, Post $post)
     {
-        if(!auth()->user() || !auth()->user()->can('update', $post)){
+        if(!auth()->user() && !auth()->user()->can('update', $post)){
             abort(403);
         }
 
@@ -92,7 +92,7 @@ class PostController extends Controller
      */
     public function destroy(Request $request, Board $board, Post $post)
     {
-        if(!auth()->user() || !auth()->user()->can('delete', Post::class)){
+        if(!auth()->user() && !auth()->user()->can('delete', [Board::class, Post::class])){
             abort(403);
         }
         $post->delete();
