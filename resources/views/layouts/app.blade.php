@@ -149,6 +149,7 @@
                             <li class="font-bold shrink-0"><a href="{{ route('board.show', 'notice') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'notice' ? 'active font-bold' : '' }}">공지사항</a></li>
                             <li class="font-bold shrink-0"><a href="{{ route('board.show', 'free') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'free' ? 'active font-bold' : '' }}">커뮤니티</a></li>
                             <li class="font-bold shrink-0"><a href="{{ route('board.show', 'event') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'event' ? 'active font-bold' : '' }}">이벤트</a></li>
+                            <li class="font-bold shrink-0"><a href="{{ route('link.index') }}" class="{{ request()->routeIs('link.index') ? 'active font-bold' : '' }}">링크 만들기</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -186,6 +187,7 @@
                         <li class="my-3"><a href="{{ route('board.show', 'notice') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'notice' ? 'text-indigo-500' : '' }}">공지사항</a></li>
                         <li class="my-3"><a href="{{ route('board.show', 'free') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'free' ? 'text-indigo-500' : '' }}">커뮤니티</a></li>
                         <li class="my-3"><a href="{{ route('board.show', 'event') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'event' ? 'text-indigo-500' : '' }}">이벤트</a></li>
+                        <li class="my-3"><a href="{{ route('link.index') }}" class="{{ request()->routeIs('link.index') ? 'active font-bold' : '' }}">링크 만들기</a></li>
                     </ul>
                 </div>
             </div>

@@ -126,6 +126,11 @@ class User extends Authenticatable
         return $this->hasMany(Post::class)->latest();
     }
 
+    public function links()
+    {
+        return $this->hasMany(Link::class, 'user_id', 'id');
+    }
+
     public function getMedia($mediaName)
     {
         foreach ($this->medias as $index => $media) {
