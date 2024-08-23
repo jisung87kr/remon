@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Internal;
 
+use App\Helper\CommonHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Response;
 use App\Models\Link;
@@ -21,7 +22,13 @@ class LinkInternalController extends Controller
 
             DB::beginTransaction();
             $link = $request->user()->links()->create($validated);
-            $link->update(['redirect_url' => $link->redirectUrl]);
+
+            $result = CommonHelper::makeShortUrl($link->redirectUrl);
+            if($result && $result['code'] == 200){
+                $shortUrl = $result['result']['url'];
+            }
+
+            $link->update(['redirect_url' => $link->redirectUrl, 'shortened_url' => $shortUrl ?? null]);
             DB::commit();
             return response()->json(new Response(Response::SUCCESS, '', $link));
         } catch (QueryException $e) {
@@ -41,8 +48,22 @@ class LinkInternalController extends Controller
                 'original_url' => 'required|url:http,https'
             ]);
 
-            $link->update($validated);
+            if($validated['original_url']){
+                $link->update($validated);
+
+                $result = CommonHelper::makeShortUrl($link->redirectUrl);
+                if($result && $result['code'] == 200){
+                    $shortUrl = $result['result']['url'];
+                }
+
+                $link->update(['shortened_url' => $shortUrl ?? null]);
+            }
             return response()->json(new Response(Response::SUCCESS, '', $link));
+        } catch (QueryException $e) {
+            if($e->getCode() == 23000){
+                return response()->json(new Response(Response::ERROR, '이미 등록한 url 입니다.', $e->getMessage()));
+            }
+            return response()->json(new Response(Response::ERROR, '링크생성 오류', $e->getMessage()));
         } catch (\Exception $e) {
             return response()->json(new Response(Response::ERROR, '링크수정 오류', $e->getMessage()));
         }

@@ -19,11 +19,11 @@
                 @forelse($links as $link)
                     <tr>
                         <td>
-                            <a href="" target="_blank">{{ $link->original_url }}</a>
+                            <a href="{{ $link->original_url }}" target="_blank">{{ $link->original_url }}</a>
                         </td>
                         <td>
-                            <a href="" target="_blank" class="me-2">{{ $link->redirect_url }}</a>
-                            <button type="button" class="badge badge-green border border-green-400" @click="copyLink('{{ $link->redirect_url }}')">링크복사</button>
+                            {{ $link->shortened_url ? $link->shortened_url : $link->redirect_url }}
+                            <button type="button" class="badge badge-green border border-green-400" @click="copyLink('{{ $link->shortened_url ? $link->shortened_url : $link->redirect_url }}')">링크복사</button>
                         </td>
                         <td>
                             <div>{{ number_format($link->log_count) }}</div>
