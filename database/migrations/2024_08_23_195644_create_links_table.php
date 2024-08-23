@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('original_url');
-            $table->string('redirect_url');
+            $table->string('redirect_url')->nullable();
             $table->string('shortened_url')->nullable();
             $table->timestamps();
             $table->unique(['user_id', 'original_url']);

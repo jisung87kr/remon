@@ -3,6 +3,8 @@ namespace App\Helper;
 
 use App\Models\CampaignApplicationField;
 use App\Models\CampaignApplicationValue;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 
 class CommonHelper{
     static public function getRandomEnumCase($cases)
@@ -74,5 +76,20 @@ class CommonHelper{
             $data[] = 0;
         }
         return $data;
+    }
+
+    static public function makeShortUrl(string $url){
+        try {
+            $client = new Client();
+            $headers = [
+                'X-NCP-APIGW-API-KEY-ID' => env('NAVERCLOUD_CLIENT_ID'),
+                'X-NCP-APIGW-API-KEY' => env('NAVERCLOUD_SECRECT'),
+            ];
+            $request = new Request('GET', "https://naveropenapi.apigw.ntruss.com/util/v1/shorturl?url={$url}", $headers);
+            $res = $client->sendAsync($request)->wait();
+            return json_decode((string)$res->getBody(), true);
+        } catch (\Exception $e){
+            throw $e;
+        }
     }
 }
