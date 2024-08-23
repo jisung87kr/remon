@@ -3,6 +3,7 @@
 use App\Enums\TrackDelivery\TrackEventStatusCodeEnum;
 use App\Exports\CampaignApplicationExport;
 use App\Http\Controllers\CampaignApplicationController;
+use App\Http\Controllers\RedirectController;
 use App\Models\Campaign;
 use App\Models\CampaignApplication;
 use App\Models\Category;
@@ -25,6 +26,8 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CallbackController;
+use App\Http\Controllers\LinkController;
+use App\Http\Controllers\LinkLogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -144,6 +147,10 @@ Route::middleware([
             return view('mypage.point');
         })->name('point');
     });
+
+    Route::get('links', [LinkController::class, 'index'])->name('link.index');
+    Route::get('links/{link}', [LinkController::class, 'show'])->name('link.show');
+    Route::get('redirects/{link}', [RedirectController::class, 'redirect'])->name('redirect');
 });
 
 Route::get('/mail/application/{status}', function($status){

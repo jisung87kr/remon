@@ -61,6 +61,7 @@
                 <li class="py-4 border-b"><a href="{{ route('mypage.favorite') }}" class="{{ request()->routeIs('mypage.favorite') ? 'active font-bold' : '' }}">관심 캠페인</a></li>
                 <li class="py-4 border-b"><a href="{{ route('mypage.review') }}" class="{{ request()->routeIs('mypage.review') ? 'active font-bold' : '' }}">등록 콘텐츠</a></li>
                 <li class="py-4 border-b"><a href="{{ route('mypage.message') }}" class="{{ request()->routeIs('mypage.message') ? 'active font-bold' : '' }}">받은 메세지</a></li>
+                <li class="py-4 border-b"><a href="{{ route('link.index') }}" class="{{ request()->routeIs('link.index') ? 'active font-bold' : '' }}">링크 만들기</a></li>
             </ul>
         </div>
         <div class=" mb-6">
