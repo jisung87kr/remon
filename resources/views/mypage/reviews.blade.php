@@ -67,7 +67,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($applications as $application)
+                    @forelse($applications as $application)
                         <tr>
                             <td>{{ $application->id }}</td>
                             <td>{{ $application->campaign ? $application->campaign->campaign_type_name : '' }}</td>
@@ -100,7 +100,11 @@
                                 @endif
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="8" class="text-center">등록된 컨텐츠가 없습니다.</td>
+                        </tr>
+                    @endforelse
                     </tbody>
                 </table>
             </div>
