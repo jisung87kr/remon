@@ -151,6 +151,7 @@ Route::middleware([
     Route::get('links', [LinkController::class, 'index'])->name('link.index');
     Route::get('links/{link}', [LinkController::class, 'show'])->name('link.show');
     Route::get('redirects/{link}', [RedirectController::class, 'redirect'])->name('redirect');
+    Route::get('links/{link}/logs', [LinkLogController::class, 'index'])->name('link.log.index');
 });
 
 Route::get('/mail/application/{status}', function($status){

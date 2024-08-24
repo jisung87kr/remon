@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Link;
 use App\Models\LinkLog;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,10 @@ class LinkLogController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Link $link)
     {
-        //
+        $logs =$link->logs()->paginate(30);
+        return view('link.log.index', compact('logs'));
     }
 
     /**

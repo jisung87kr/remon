@@ -26,7 +26,7 @@
                             <button type="button" class="badge badge-green border border-green-400" @click="copyLink('{{ $link->shortened_url ? $link->shortened_url : $link->redirect_url }}')">링크복사</button>
                         </td>
                         <td>
-                            <div>{{ number_format($link->log_count) }}</div>
+                            <a href="{{ route('link.log.index', $link) }}">{{ number_format($link->log_count) }}</a>
                         </td>
                         <td>
                             <div>{{ $link->created_at }}</div>
