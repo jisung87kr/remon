@@ -70,7 +70,7 @@
                     @foreach($applications as $application)
                         <tr>
                             <td>{{ $application->id }}</td>
-                            <td>{{ $application->campaign->campaign_type_name }}</td>
+                            <td>{{ $application->campaign ? $application->campaign->campaign_type_name : '' }}</td>
                             <td>
                                 <x-campaign.card-horizontal :campaign="$application->campaign"></x-campaign.card-horizontal>
                             </td>

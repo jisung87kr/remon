@@ -1,14 +1,13 @@
 <x-mypage-layout>
     <x-slot name="header">미디어 연결</x-slot>
     <div class="mt-6">
-        <div>{{ auth()->user()->nick_name }}님, <strong>미디어를 연결</strong>해주세요.</div>
+        <div>{{ auth()->user()->name }}님, <strong>미디어를 연결</strong>해주세요.</div>
         <div class="text-gray-500 text-sm">미디어를 연결하면 다양한 체험을 신청할 수 있어요!</div>
     </div>
     <div class="grid grid-cols-3 gap-3 mt-8" x-data="mediaData">
         <div class="text-center p-12 border rounded-2xl">
             <img src="{{ Vite::asset('resources/images/media/ic-connect-blog.svg') }}" alt="" class="mx-auto">
             <div class="my-6 font-bold text-gray-700">블로그 연결하기</div>
-            <div class="text-gray-500 text-sm">블로그를 연결하고 더 많은 캠페인을 체험해보세요.</div>
             <x-rootmodal>
                 <x-slot name="trigger">
                     <button type="button"
@@ -35,7 +34,6 @@
         <div class="text-center p-12 border rounded-2xl">
             <img src="{{ Vite::asset('resources/images/media/ic-connect-instagram.svg') }}" alt="" class="mx-auto">
             <div class="my-6 font-bold text-gray-700">인스타그램 연결하기</div>
-            <div class="text-gray-500 text-sm">인스타그램을 연결하고 더 많은 캠페인을 체험해보세요.</div>
             <x-rootmodal>
                 <x-slot name="trigger">
                     <button type="button"
@@ -62,7 +60,6 @@
         <div class="text-center p-12 border rounded-2xl">
             <img src="{{ Vite::asset('resources/images/media/ic-connect-youtube.svg') }}" alt="" class="mx-auto">
             <div class="my-6 font-bold text-gray-700">유튜브 연결하기</div>
-            <div class="text-gray-500 text-sm">유튜브를 연결하고 더 많은 캠페인을 체험해보세요.</div>
             <x-rootmodal>
                 <x-slot name="trigger">
                     <button type="button"
