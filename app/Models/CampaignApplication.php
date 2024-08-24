@@ -36,7 +36,7 @@ class CampaignApplication extends Model
 
     public function campaign()
     {
-        return $this->belongsTo(Campaign::class);
+        return $this->belongsTo(Campaign::class)->withTrashed();
     }
 
     public function user()
