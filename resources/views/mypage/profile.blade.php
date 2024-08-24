@@ -65,6 +65,7 @@
                             <input type="text" name="phone" class="form-control" value="{{ auth()->user()->phone }}" id="phone" @keyup="event.target.value = event.target.value.replace(/\D/g, '').replace(/(\d{3})(\d{1,4})(\d{1,4})/, '$1-$2-$3')">
                             <x-input-error for="phone" errorBag="updateProfileInformation" class="mt-1"></x-input-error>
                         </div>
+                        @if(false)
                         <div class="text-sm mt-2">
                             <div>
                                 <div class="inline">
@@ -80,6 +81,7 @@
                                 <span class="text-gray-500">휴대폰 인증이 되지 않았습니다.</span>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -4,7 +4,7 @@
             <div class="lg:flex p-10 items-center shadow-lg rounded-lg my-3">
                 <div class="flex items-center lg:w-1/2">
                     <img src="{{ auth()->user()->profile_photo_url }}" alt="" class="rounded-full">
-                    <div class="mx-8 text-2xl font-bold">{{ auth()->user()->nick_name }}</div>
+                    <div class="mx-8 text-2xl font-bold">{{ auth()->user()->name }}</div>
                     @if(false)
                     <button class="px-5 py-2 text-sm text-white font-bold bg-sky-400 rounded">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check inline" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
