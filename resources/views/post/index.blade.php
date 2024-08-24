@@ -25,9 +25,11 @@
                     </div>
                 </div>
             </form>
+            @can('create', [App\Models\Post::class, $board])
             <div class="shrink-0">
                 <a href="{{ route('board.post.create', $board) }}" class="button button-gray">글 등록</a>
             </div>
+            @endif
         </div>
         <div class="mt-3 py-3 border-t flex flex-col divide-y">
             @foreach($posts as $post)

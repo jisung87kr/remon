@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Enums\AdminRoleEnum;
+use App\Models\Board;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -28,8 +29,16 @@ class PostPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Board $board): bool
     {
+        if($user->hasRole(AdminRoleEnum::ADMIN->value) || $user->hasRole(AdminRoleEnum::SUPER_ADMIN->value)){
+            return true;
+        }
+
+        if(!in_array($board->slug, ['free'])){
+            return false;
+        }
+
         return isset($user->id);
     }
 
