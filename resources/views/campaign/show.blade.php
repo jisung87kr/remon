@@ -47,7 +47,7 @@
                         <div class="flex py-6" id="benefit">
                             <div class="shrink-0 w-[160px] font-bold mr-3">제공 내역</div>
                             <div class="w-full border-b pb-6">
-                                {{ $campaign->benefit }}
+                                {!! nl2br($campaign->benefit) !!}
                                 <div class="text-sm text-red-500 mt-6">
                                     ※ 옵션 오기재로 인한 교환/취소 불가하며, 해당 사유 발생 시 관련 페널티 부과 및 배송비, 제품가 환불 요청 등이 이루어질 수 있습니다. 이 점
                                     유의하시어 반드시 정확하게 기재 바랍니다.
@@ -116,7 +116,7 @@
                                     @endforeach
                                 </ul>
                                 <hr class="my-6">
-                                <div>{{ $campaign->mission }}</div>
+                                <div>{!! nl2br($campaign->mission) !!}</div>
 
                                 <div class="text-sm text-gray-500 mt-6">
                                     <p>- 캠페인 미션이 지켜지지 않을 시 수정 요청이 있을 수 있습니다.</p>

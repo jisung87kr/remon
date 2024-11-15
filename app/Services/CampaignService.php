@@ -136,16 +136,16 @@ class CampaignService{
 
                 switch ($mission_option){
                     case MissionOptionEnum::TITLE_KEYWORD_ID_OF_MISSION_OPTION->value:
-                        $content = $validated['mission_option_title_keyword'];
+                        $content = $validated['mission_option_title_keyword'] ?? null;
                         break;
                     case MissionOptionEnum::CONTENT_KEYWORD_ID_OF_MISSION_OPTION->value:
-                        $content = $validated['mission_option_content_keyword'];
+                        $content = $validated['mission_option_content_keyword'] ?? null;
                         break;
                     case MissionOptionEnum::LINK_ID_OF_MISSION_OPTION->value:
-                        $content = $validated['mission_option_link'];
+                        $content = $validated['mission_option_link'] ?? null;
                         break;
                     case MissionOptionEnum::HASHTAG_ID_OF_MISSION_OPTION->value:
-                        $content = $validated['mission_option_hashtag'];
+                        $content = $validated['mission_option_hashtag'] ?? null;
                         break;
                 }
 
