@@ -6,6 +6,7 @@ use App\Enums\Campaign\ApplicationFieldEnum;
 use App\Enums\Campaign\ImageTypeEnum;
 use App\Enums\Campaign\MissionOptionEnum;
 use App\Enums\Campaign\ProgressStatusEnum;
+use App\Enums\Campaign\StatusEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,7 +31,7 @@ class Campaign extends Model
         'result_announcement_date_at' => 'datetime',
     ];
     protected $with = ['locationCategories', 'options'];
-    protected $appends = ['progressStatusLabel'];
+    protected $appends = ['progressStatusLabel', 'is_appliable', 'use_shipping'];
 
     protected static function booted(): void
     {
@@ -210,6 +211,11 @@ class Campaign extends Model
         return $this->belongsTo(CampaignType::class);
     }
 
+    public function scopePublished(Builder $query)
+    {
+        return $query->where('status', StatusEnum::PUBLISHED);
+    }
+
     public function scopeFilter(Builder $query, $filter)
     {
         $query->when($filter['campaign_id'] ?? false, function($query, $id){
@@ -345,4 +351,26 @@ class Campaign extends Model
         $results = DB::select("SELECT COUNT(*) AS cnt FROM banner_logs WHERE banner_id IN ('{$bannersStr}')");
         return $results[0]->cnt ?? null;
     }
+
+    public function isAppliable() : Attribute
+    {
+        return Attribute::make(
+            get: function(){
+                return $this->progress_status == ProgressStatusEnum::Applying->value
+                    && $this->application_limit != 0
+                    && $this->applications()->active()->count() < $this->application_limit;
+            },
+        );
+    }
+
+    public function useShipping() : Attribute
+    {
+        return Attribute::make(
+            get: function(){
+                return $this->campaign_type_id == 2;
+            },
+        );
+    }
+
+
 }

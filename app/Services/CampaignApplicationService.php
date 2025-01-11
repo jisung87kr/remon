@@ -5,6 +5,7 @@ use App\Dto\Dto;
 use App\Dto\MediaContentDto;
 use App\Enums\Campaign\ApplicationStatus;
 use App\Enums\Campaign\MediaEnum;
+use App\Enums\Campaign\ProgressStatusEnum;
 use App\Enums\User\PointTypeEnum;
 use App\Events\ApplicationProcessed;
 use App\Models\Campaign;
@@ -53,9 +54,14 @@ class CampaignApplicationService{
         $validated['status'] = ApplicationStatus::APPLIED->value;
         $validated['campaign_id'] = $campaign->id;
 
-        DB::beginTransaction();
-        try {
+        if(!$campaignApplication->id){
+            if($campaign->is_appliable == false){
+                throw new \Exception("캠페인을 신청할 수 없습니다.\n기간이 만료되었거나 신청인원이 초과되었습니다.");
+            }
+        }
 
+        try {
+            DB::beginTransaction();
             $updateUserData = [];
             if(!$this->request->user()->birthdate){
                 $updateUserData['birthdate'] = $validated['birthdate'];

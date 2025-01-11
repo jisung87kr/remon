@@ -1,4 +1,9 @@
 <x-app-layout>
+    @if(session('message'))
+        <script>
+            alert('{{ session('message') }}');
+        </script>
+    @endif
     <div class="container mx-auto px-6" x-data="campaignData">
         <div class="grid grid-cols-8 gap-6 relative">
             <div class="col-span-8 lg:col-span-6 lg:border-r lg:pr-6">
@@ -22,7 +27,7 @@
                        class="block px-5 py-3 border-b-2 border-indigo-400 font-bold">캠페인 정보</a>
                     <a href="{{ route('campaign.application.index', $campaign) }}" class="block px-5 py-3 text-gray-500">
                         <span>신청자 </span><span
-                                class="font-bold">{{ number_format($campaign->applications()->activeCount()->count()) }}</span><span>/</span><span>{{ number_format($campaign->application_limit) }}</span>
+                                class="font-bold">{{ number_format($campaign->applications()->active()->count()) }}</span><span>/</span><span>{{ number_format($campaign->application_limit) }}</span>
                     </a>
                 </div>
                 <div>
@@ -168,7 +173,7 @@
                                 </div>
                             </div>
                         @endif
-                        @if($campaign->hashtag)
+                        @if($campaign->hashtag->count() > 0)
                             <div class="flex py-6" id="extra_information">
                                 <div class="shrink-0 w-[160px] font-bold mr-3">해시태그</div>
                                 <div class="w-full pb-6">
@@ -181,10 +186,12 @@
                                 </div>
                             </div>
                         @endif
+                        @if($campaign->extra_information)
                         <div class="flex py-6" id="extra_information">
                             <div class="shrink-0 w-[160px] font-bold mr-3">추가 안내사항</div>
                             <div class="w-full pb-6">{{ $campaign->extra_information }}</div>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>

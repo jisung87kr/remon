@@ -215,36 +215,36 @@
                     <div class="col-span-2 py-6 flex gap-3">
                         <div class="w-1/2">
                             <label for="application_start_at" class="label mb-2">신청 시작일 <small class="!text-red-600">(필수)</small></label>
-                            <input type="date" id="application_start_at" class="form-control" name="application_start_at" value="{{ old('application_start_at', $campaign['application_start_at'] ? $campaign['application_start_at']->format('Y-m-d') : null) }}" required>
+                            <input type="datetime-local" id="application_start_at" class="form-control" name="application_start_at" value="{{ old('application_start_at', $campaign['application_start_at'] ?? null) }}" required>
                             <x-input-error for="application_start_at" class="mt-1"></x-input-error>
                         </div>
                         <div class="w-1/2">
                             <label for="application_end_at" class="label mb-2">신청 종료일 <small class="!text-red-600">(필수)</small></label>
-                            <input type="date" id="application_end_at" class="form-control" name="application_end_at" value="{{ old('application_end_at', $campaign['application_end_at'] ? $campaign['application_end_at']->format('Y-m-d') : null) }}" required>
+                            <input type="datetime-local" id="application_end_at" class="form-control" name="application_end_at" value="{{ old('application_end_at', $campaign['application_end_at'] ?? null) }}" required>
                             <x-input-error for="application_end_at" class="mt-1"></x-input-error>
                         </div>
                     </div>
                     <div class="col-span-2 py-6 flex gap-3">
                         <div class="w-1/2">
                             <label for="announcement_at" class="label mb-2">선정결과 발표일 <small class="!text-red-600">(필수)</small></label>
-                            <input type="date" id="announcement_at" class="form-control" name="announcement_at" value="{{ old('announcement_at', $campaign['announcement_at'] ? $campaign['announcement_at']->format('Y-m-d') : null) }}" required>
+                            <input type="datetime-local" id="announcement_at" class="form-control" name="announcement_at" value="{{ old('announcement_at', $campaign['announcement_at'] ?? null) }}" required>
                             <x-input-error for="announcement_at" class="mt-1"></x-input-error>
                         </div>
                         <div class="w-1/2">
                             <label for="result_announcement_date_at" class="label mb-2">캠페인 결과 발표일 <small class="!text-red-600">(필수)</small></label>
-                            <input type="date" id="result_announcement_date_at" class="form-control" name="result_announcement_date_at" value="{{ old('result_announcement_date_at', $campaign['result_announcement_date_at'] ? $campaign['result_announcement_date_at']->format('Y-m-d') : null) }}" required>
+                            <input type="datetime-local" id="result_announcement_date_at" class="form-control" name="result_announcement_date_at" value="{{ old('result_announcement_date_at', $campaign['result_announcement_date_at'] ?? null) }}" required>
                             <x-input-error for="result_announcement_date_at" class="mt-1"></x-input-error>
                         </div>
                     </div>
                     <div class="col-span-2 py-6 flex gap-3">
                         <div class="w-1/2">
                             <label for="registration_start_date_at" class="label mb-2">콘텐츠 등록 시작일 <small class="!text-red-600">(필수)</small></label>
-                            <input type="date" id="registration_start_date_at" class="form-control" name="registration_start_date_at" value="{{ old('registration_start_date_at', $campaign['registration_start_date_at'] ? $campaign['registration_start_date_at']->format('Y-m-d') : null) }}" required>
+                            <input type="datetime-local" id="registration_start_date_at" class="form-control" name="registration_start_date_at" value="{{ old('registration_start_date_at', $campaign['registration_start_date_at'] ?? null) }}" required>
                             <x-input-error for="registration_start_date_at" class="mt-1"></x-input-error>
                         </div>
                         <div class="w-1/2">
                             <label for="registration_end_date_at" class="label mb-2">콘텐츠 등록 마감일 <small class="!text-red-600">(필수)</small></label>
-                            <input type="date" id="registration_end_date_at" class="form-control" name="registration_end_date_at" value="{{ old('registration_end_date_at', $campaign['registration_end_date_at'] ? $campaign['registration_end_date_at']->format('Y-m-d') : null) }}" required>
+                            <input type="datetime-local" id="registration_end_date_at" class="form-control" name="registration_end_date_at" value="{{ old('registration_end_date_at', $campaign['registration_end_date_at'] ?? null) }}" required>
                             <x-input-error for="registration_end_date_at" class="mt-1"></x-input-error>
                         </div>
                     </div>
@@ -271,7 +271,8 @@
                             </div>
                         </template>
                     </div>
-                    <div class="col-span-2" x-show="type==1">
+                    <template x-if="type==1">
+                    <div class="col-span-2">
                         <div class="col-span-2 py-6">
                             <div class="grid grid-cols-12 gap-6">
                                 <div class="col-span-3">
@@ -315,11 +316,12 @@
                             </div>
                         </div>
                         <div class="col-span-2 py-6">
-                            <label for="visit_instruction" class="label mb-2">방문 및 예약안내</label>
-                            <textarea name="visit_instruction" id="visit_instruction" class="form-control" cols="30" rows="10">{{ old('visit_instruction', $campaign['visit_instruction']) }}</textarea>
+                            <label for="visit_instruction" class="label mb-2">방문 및 예약안내 <small class="!text-red-600">(필수)</small></label>
+                            <textarea name="visit_instruction" id="visit_instruction" class="form-control" cols="30" rows="10" required>{{ old('visit_instruction', $campaign['visit_instruction']) }}</textarea>
                             <x-input-error for="visit_instruction" class="mt-1"></x-input-error>
                         </div>
                     </div>
+                    </template>
                     <div class="col-span-2 py-6">
                         <label for="extra_information" class="label mb-2">추가안내사항</label>
                         <textarea name="extra_information" id="extra_information" class="form-control" cols="30" rows="10">{{ old('extra_information', $campaign->extra_information) }}</textarea>
@@ -373,44 +375,48 @@
                     </div>
                     <template x-if="showInput(missionOptionId.titleKeyword)">
                         <div class="col-span-2 py-6">
-                            <label for="mission_option_title_keyword" class="label mb-2">제목키워드</label>
+                            <label for="mission_option_title_keyword" class="label mb-2">제목키워드 <small class="!text-red-600">(필수)</small></label>
                             <input type="text"
                                    id="mission_option_title_keyword"
                                    class="form-control"
                                    name="mission_option_title_keyword"
+                                   required
                                    value="{{ old('mission_option_title_keyword', $campaign->titleKeyword->first() ? $campaign->titleKeyword->first()->content : null) }}">
                             <x-input-error for="mission_option_title_keyword" class="mt-1"></x-input-error>
                         </div>
                     </template>
                     <template x-if="showInput(missionOptionId.contentKeyword)">
                         <div class="col-span-2 py-6">
-                            <label for="mission_option_content_keyword" class="label mb-2">본문키워드</label>
+                            <label for="mission_option_content_keyword" class="label mb-2">본문키워드 <small class="!text-red-600">(필수)</small></label>
                             <input type="text"
                                    id="mission_option_content_keyword"
                                    class="form-control"
                                    name="mission_option_content_keyword"
+                                   required
                                    value="{{ old('mission_option_content_keyword', $campaign->contentKeyword->first() ? $campaign->contentKeyword->first()->content : null) }}">
                             <x-input-error for="mission_option_content_keyword" class="mt-1"></x-input-error>
                         </div>
                     </template>
                     <template x-if="showInput(missionOptionId.link)">
                         <div class="col-span-2 py-6">
-                            <label for="mission_option_link" class="label mb-2">링크삽입</label>
+                            <label for="mission_option_link" class="label mb-2">링크삽입 <small class="!text-red-600">(필수)</small></label>
                             <input type="text"
                                    id="mission_option_link"
                                    class="form-control"
                                    name="mission_option_link"
+                                   required
                                    value="{{ old('mission_option_link', $campaign->link->first() ? $campaign->link->first()->content : null) }}">
                             <x-input-error for="mission_option_link" class="mt-1"></x-input-error>
                         </div>
                     </template>
                     <template x-if="showInput(missionOptionId.hashtag)">
                         <div class="col-span-2 py-6">
-                            <label for="mission_option_hashtag" class="label mb-2">해시태그</label>
+                            <label for="mission_option_hashtag" class="label mb-2">해시태그 <small class="!text-red-600">(필수)</small></label>
                             <input type="text"
                                    id="mission_option_hashtag"
                                    class="form-control"
                                    name="mission_option_hashtag"
+                                   required
                                    value="{{ old('mission_option_hashtag', $campaign->hashtag->first() ? $campaign->hashtag->first()->content : null) }}">
                             <x-input-error for="mission_option_hashtag" class="mt-1"></x-input-error>
                         </div>
@@ -453,9 +459,9 @@
                                 <template x-for="(item, index) in customOptions">
                                     <div class="grid grid-cols-2 gap-3 py-1">
                                         <input type="hidden" :name="`custom_option[${index}][id]`" id="" class="form-control" x-model="item.id">
-                                        <input type="text" :name="`custom_option[${index}][name]`" id="" class="form-control" placeholder="옵션명" x-model="item.name">
+                                        <input type="text" :name="`custom_option[${index}][name]`" id="" class="form-control" placeholder="옵션명" x-model="item.name" required>
                                         <div class="flex gap-3">
-                                            <input type="text" :name="`custom_option[${index}][value]`" id="" class="form-control" placeholder="예)빨강, 노랑" x-model="item.value">
+                                            <input type="text" :name="`custom_option[${index}][value]`" id="" class="form-control" placeholder="예)빨강, 노랑" x-model="item.value" required>
                                             <template x-if="customOptions.length > 1">
                                                 <button type="button" class="button button-gray-outline shrink-0" @click="removeCustomOption(index)">삭제</button>
                                             </template>

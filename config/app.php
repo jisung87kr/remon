@@ -190,7 +190,7 @@ return [
     ])->toArray(),
 
     'cooperation' => [
-        'name' => '플릿',
+        'name' => '레몬',
         'email' => env('MAIL_USERNAME'),
         'helpEmail' => env('MAIL_USERNAME'),
         'callNumber' => '1588-0000',

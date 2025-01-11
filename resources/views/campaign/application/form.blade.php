@@ -1,3 +1,8 @@
+@if(session('message'))
+    <script>
+        alert('{{ session('message') }}');
+    </script>
+@endif
 <div class="container mx-auto px-6" x-data="campaignData">
     <form action="{{ $route }}" method="POST">
         @csrf
@@ -28,7 +33,7 @@
                             </div>
                         </div>
                     </div>
-                    @if($campaign->useShipping)
+                    @if(!$campaign->useShipping)
                         <div class="flex mt-6">
                             <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">방문 및 예약안내</div>
                             <div class="w-full border-t pt-6">
@@ -94,7 +99,7 @@
                             <div class="my-4">
                                 <label for="birthdate" class="label mb-2">출생연도</label>
                                 <select name="birthdate" id="birthdate" class="form-select" @readonly(auth()->user()->birthdate)>
-                                    <option value="">선택해주세요</option>
+                                    <option value="" disabled selected>선택해주세요</option>
                                     @foreach(array_reverse(range(1923, date('Y'))) as $year)
                                         <option value="{{ $year }}" @selected($year == old('birthdate', $campaignApplication->birthdate ?? auth()->user()->birthdate))>{{ $year }}</option>
                                     @endforeach
@@ -104,12 +109,14 @@
                             <div class="my-4">
                                 <label for="sex" class="label mb-2">성별</label>
                                 <div class="flex gap-3">
-                                    <x-radio-button id="man" name="sex" value="man"
-                                                    :checked="old('sex', $campaignApplication->sex ?? auth()->user()->sex) == 'man'">남자
-                                    </x-radio-button>
-                                    <x-radio-button id="woman" name="sex" value="woman"
-                                                    :checked="old('sex', $campaignApplication->sex ?? auth()->user()->sex) == 'woman'">여자
-                                    </x-radio-button>
+                                    <div class="flex items-center gap-2">
+                                        <input type="radio" name="sex" value="man" @checked(old('sex', $campaignApplication->sex ?? auth()->user()->sex) == 'man')>
+                                        <label for="man" class="text-sm">남자</label>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <input type="radio" name="sex" value="woman" @checked(old('sex', $campaignApplication->sex ?? auth()->user()->sex) == 'woman')>
+                                        <label for="woman" class="text-sm">여자</label>
+                                    </div>
                                 </div>
                                 <x-input-error for="sex" class="mt-1"></x-input-error>
                             </div>
@@ -224,6 +231,7 @@
                       }
                     </script>
                     @endforeach
+
                     <div class="flex mt-6">
                         <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">신청 정보 입력</div>
                         <div class="w-full pb-6">
@@ -236,12 +244,12 @@
                             @endif
 
                             {{-- 선택한 옵션이 있으면 노출 --}}
-                            <div class="application-category mt-10">
-                                <div class="application-category-title">신청 옵션을 입력해주세요.</div>
+                            @if($campaign->applicationFields->count() > 0)
+                            <div class="application-category">
                                 @foreach($campaign->applicationFields as $field)
                                     @php
                                         $applicantionValue = App\Helper\CommonHelper::findApplicationFieldValue($campaignApplication->applicationValues ?? [], $field);
-                                        $value = old("application_field[{{ $field->id }}][value]", $applicantionValue->value ?? '' );
+                                        $value = old("application_field.{$field->id}.value", $applicantionValue->value ?? '');
                                     @endphp
                                     <input type="hidden" name="application_field[{{ $field->id }}][id]" value="{{ $field->id }}">
                                     <div class="application_field">
@@ -249,6 +257,7 @@
                                             <div class="application_field-title">{{ $field->label }}</div>
                                             @if($field->name === 'custom_option')
                                                 <select name="application_field[{{ $field->id }}][value]" id="application_field_{{$field->id}}" class="form-select" required>
+                                                    <option value="" disabled selected>옵선선택</option>
                                                     @foreach(explode(',', $field->option) as $option)
                                                         <option value="{{ $option }}" @selected($value === $option)>{{ $option }}</option>
                                                     @endforeach
@@ -262,19 +271,23 @@
                                                        required>
                                             @elseif($field->type === 'selectbox')
                                                 <select name="application_field[{{ $field->id }}][value]" id="application_field_{{$field->id}}" class="application_field-input form-select" required>
-                                                    <option value="">선택</option>
+                                                    <option value="" disabled selected>옵선선택</option>
                                                     @foreach(unserialize($field->option) as $option)
                                                         <option value="{{$option['value']}}" @selected($value === $option['value'])>{{ $option['label'] }}</option>
                                                     @endforeach
                                                 </select>
                                             @elseif($field->type === 'radio')
-                                                <div class="flex gap-3">
+                                                <div class="flex gap-5 items-center">
                                                     @foreach(unserialize($field->option) as $key => $option)
-                                                        <x-radio-button id="application_field_{{$field->id}}_{{ $option['name'].$key }}"
-                                                                        name="application_field[{{ $field->id }}][value]"
-                                                                        required
-                                                                        :checked="$value == $option['value']"
-                                                                        value="{{$option['value']}}">{{ $option['label'] }}</x-radio-button>
+                                                        <div class="flex items-center gap-2">
+                                                            <input type="radio" id="application_field_{{$field->id}}_{{ $option['name'].$key }}"
+                                                                   name="application_field[{{ $field->id }}][value]"
+                                                                   required
+                                                                   @if($value)checked="{{ $value == $option['value'] }}"@endif
+                                                                   value="{{$option['value']}}"
+                                                                   >
+                                                            <label for="application_field_{{$field->id}}_{{ $option['name'].$key }}" class="text-sm">{{ $option['label'] }}</label>
+                                                        </div>
                                                     @endforeach
                                                 </div>
                                             @endif
@@ -283,6 +296,11 @@
                                     </div>
                                 @endforeach
                             </div>
+                            @else
+                            <div class="application-category">
+                                <div class="text-sm pt-6">입력정보 받지 않음</div>
+                            </div>
+                            @endif
 
                             @if($campaign->useShipping)
                                 {{-- 배송형 캠페인만 노출 --}}
@@ -305,10 +323,8 @@
                                                                class="text-sm inline-flex items-center justify-between px-3 py-2 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100"></label>
                                                     </div>
                                                 </template>
-                                                @if($editable)
                                                 <x-radio-button id="shipping_id_new" name="shipping_id" value="new" x-model="selectedId"
                                                                 @click="setAddress('new')">새로입력하기</x-radio-button>
-                                                @endif
                                             </div>
                                             <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
                                                 <div class="">

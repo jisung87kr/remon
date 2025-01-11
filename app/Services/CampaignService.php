@@ -198,6 +198,8 @@ class CampaignService{
 
                 $campaign->applicationFields()->whereIn('id', $recordsToDelete)->delete();
                 $campaign->applicationFields()->upsert($applicationFields, ['campaign_id', 'field_category', 'name', 'type', 'label']);
+            } else {
+                $campaign->applicationFields()->delete();
             }
 
             // 이미지 업로드

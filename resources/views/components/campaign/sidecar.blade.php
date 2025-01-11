@@ -62,10 +62,13 @@
         <div class="py-6">
             @if(in_array(request()->route()->getName(), ['campaign.show', 'campaign.application.index']))
                 @if(auth()->user() && auth()->user()->getApplication($campaign))
-                    <button type="button" class="bg-gray-500 text-white px-5 py-4 block text-center font-bold w-full" disabled>신청한 캠페인 입니다</button>
                     <a href="{{ route('campaign.application.edit', [$campaign, $campaignApplication]) }}" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold mt-3">신청 내용 보기</a>
                 @else
-                    <a href="{{ route('campaign.application.create', $campaign) }}" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">캠페인 신청하기</a>
+                    @if($campaign->is_appliable)
+                        <a href="{{ route('campaign.application.create', $campaign) }}" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">캠페인 신청하기</a>
+                    @else
+                        <button type="button" class="bg-gray-500 text-white px-5 py-4 block text-center font-bold w-full" disabled>마감된 캠페인 입니다</button>
+                    @endif
                 @endif
             @else
                 <div class="mb-6">
@@ -74,7 +77,7 @@
                             <input type="checkbox" name="portrait_right_consent" class="form-check mt-1" id="portrait_right_consent" value="1" required @checked(old('portrait_right_consent', $campaignApplication->portrait_right_consent ?? null) == 1)>
                             <div>
                                 <label for="portrait_right_consent" class="text-sm text-gray-700">초상권 활용에 동의 합니다.</label>
-                                <a href="" class="block underline text-sm text-gray-500 mt-2" target="_blank">자세히보기</a>
+                                <a href="/page/policy" class="block underline text-sm text-gray-500 mt-2" target="_blank">자세히보기</a>
                             </div>
                             <x-input-error for="portrait_right_consent" class="mt-1"></x-input-error>
                         </div>
@@ -84,7 +87,7 @@
                         <input type="checkbox" name="base_right_consent" class="form-check mt-1" id="base_right_consent" value="1" required @checked(old('base_right_consent', $campaignApplication->base_right_consent ?? null) == 1)>
                         <div>
                             <label for="base_right_consent" class="text-sm text-gray-700">캠페인 유의사항, 개인정보 및 콘텐츠 제3자 제공, 저작물 이용에 동의합니다.</label>
-                            <a href="" class="block underline text-sm text-gray-500 mt-2" target="_blank">자세히보기</a>
+                            <a href="/page/policy" class="block underline text-sm text-gray-500 mt-2" target="_blank">자세히보기</a>
                         </div>
                         <x-input-error for="base_right_consent" class="mt-1"></x-input-error>
                     </div>
@@ -102,23 +105,12 @@
                             campaignApplicationId: '{{ $campaignApplication->id }}',
                             cancelApplication(){
                               axios.post(`/campaigns/${this.campaignId}/applications/${this.campaignApplicationId}/cancel`).then(res => {
+                                alert(res.data.message);
                                 if(res.data.status == 'SUCCESS'){
-                                  Swal.fire({
-                                    icon: 'success',
-                                    title: res.data.message,
-                                    didClose: () => {
-                                      window.location.href = `/campaigns/${this.campaignId}`;
-                                    }
-                                  });
-                                } else {
-                                  Swal.fire({
-                                    icon: 'error',
-                                    title: res.data.message,
-                                    didClose: () => {
-
-                                    }
-                                  });
+                                    window.location.href = `/campaigns/${this.campaignId}`;
                                 }
+                              }).catch(err => {
+                                alert(err.response.data.message);
                               });
                             }
                           }

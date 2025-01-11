@@ -107,7 +107,7 @@
     </section>
     @if(false)
 {{--    <section id="fleet_pick" class="container mx-auto p-6">--}}
-{{--        <h1 class="text-2xl font-bold mb-3">플릿's PICK</h1>--}}
+{{--        <h1 class="text-2xl font-bold mb-3">레몬's PICK</h1>--}}
 {{--        <div class="grid grid-cols-2 xl:grid-cols-4 gap-6">--}}
 {{--            @foreach(range(1, 4) as $key)--}}
 {{--                <div>--}}
@@ -131,8 +131,8 @@
         <a href="">
             <div class="bg-gray-50 flex items-center justify-center p-10">
                 <div>
-                    <div class="text-2xl font-bold mb-3">플릿 카카오 채널톡</div>
-                    <div>카카오톡으로 찾아오는 플릿 캠페인을 만나보실래요?</div>
+                    <div class="text-2xl font-bold mb-3">레몬 카카오 채널톡</div>
+                    <div>카카오톡으로 찾아오는 레몬 캠페인을 만나보실래요?</div>
                 </div>
             </div>
         </a>
@@ -217,7 +217,7 @@
             <div class="bg-gray-50 flex items-center justify-center p-10">
                 <div>
                     <div class="text-2xl font-bold mb-3">광고주 이신가요?</div>
-                    <div>플릿 캠페인문의? 비용문의? 지금 광고주 센터에 문의를 해보세요!</div>
+                    <div>레몬 캠페인문의? 비용문의? 지금 광고주 센터에 문의를 해보세요!</div>
                 </div>
             </div>
         </a>

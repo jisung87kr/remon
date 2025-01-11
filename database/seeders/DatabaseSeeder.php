@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
 
         $notice = Board::factory()->create(['slug' => 'notice', 'name' => '공지사항']);
         $event = Board::factory()->create(['slug' => 'event', 'name' => '이벤트']);
-        $news = Board::factory()->create(['slug' => 'news', 'name' => '플릿소식']);
+        $news = Board::factory()->create(['slug' => 'news', 'name' => '레몬소식']);
         $free = Board::factory()->create(['slug' => 'free', 'name' => '자유게시판']);
         $neighbor = Board::factory()->create(['slug' => 'neighbor', 'name' => '우리친구할까요?']);
         $inquiry = Board::factory()->create(['slug' => 'inquiry', 'name' => '1:1문의']);

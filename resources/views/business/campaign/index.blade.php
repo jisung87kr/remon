@@ -60,7 +60,7 @@
                         {{ $campaign->application_start_at->format('m.d') }} ~ {{ $campaign->result_announcement_date_at->format('m.d') }}
                     </td>
                     <td class="text-center">
-                        {{ number_format($campaign->applications()->activeCount()->count()) }} / {{ number_format($campaign->application_limit) }}
+                        {{ number_format($campaign->applications()->active()->count()) }} / {{ number_format($campaign->application_limit) }}
                     </td>
                     <td class="text-center">
                         {{ number_format($campaign->banner_log_count) }}

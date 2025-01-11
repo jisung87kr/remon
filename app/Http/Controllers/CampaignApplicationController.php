@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Campaign\ApplicationStatus;
 use App\Enums\Campaign\MediaEnum;
+use App\Enums\Campaign\ProgressStatusEnum;
 use App\Http\Resources\Response;
 use App\Models\Campaign;
 use App\Models\CampaignApplication;
@@ -11,6 +12,7 @@ use App\Models\CampaignMediaContent;
 use App\Services\CampaignApplicationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class CampaignApplicationController extends Controller
 {
@@ -33,11 +35,18 @@ class CampaignApplicationController extends Controller
      */
     public function create(Campaign $campaign)
     {
+        //dd($campaign->applicationFields);
+        if(!$campaign->is_appliable){
+            session()->flash('message', '신청기간이 아닙니다.');
+            return redirect()->route('campaign.show', [$campaign]);
+        }
         $campaignApplication = auth()->user() ? auth()->user()->getApplication($campaign) : new CampaignApplication();
         if(isset($campaignApplication->id)){
             return redirect()->route('campaign.application.edit', [$campaign, $campaignApplication]);
         }
         $editable = false;
+
+
         return view('campaign.application.create', compact('campaign', 'campaignApplication', 'editable'));
     }
 
@@ -46,9 +55,17 @@ class CampaignApplicationController extends Controller
      */
     public function store(Request $request, Campaign $campaign)
     {
-        $campaignApplication = auth()->user()->getApplication($campaign) ?? new CampaignApplication();
-        $application = $this->service->upsert($campaign, $campaignApplication);
-        return redirect()->route('campaign.show', [$campaign]);
+        try {
+            $campaignApplication = auth()->user()->getApplication($campaign) ?? new CampaignApplication();
+            $application = $this->service->upsert($campaign, $campaignApplication);
+            session()->flash('message', '신청이 완료되었습니다.');
+            return redirect()->route('campaign.show', [$campaign]);
+        } catch (ValidationException $e){
+            return redirect()->route('campaign.application.create', [$campaign])->withErrors($e->validator->errors())->withInput();
+        } catch (\Exception $e){
+            session()->flash('message', $e->getMessage());
+            return redirect()->route('campaign.application.create', [$campaign])->withErrors($e->validator->errors())->withInput();;
+        }
     }
 
     /**

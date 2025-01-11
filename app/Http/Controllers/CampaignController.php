@@ -33,7 +33,7 @@ class CampaignController extends Controller
             'location'      => $request->input('location'),
             'progress_status'      => $request->input('progress_status'),
         ];
-        $campaigns = Campaign::filter($filter)->sort($request->input('sort'))->paginate(60);
+        $campaigns = Campaign::filter($filter)->published()->sort($request->input('sort'))->paginate(60);
         $category = new Category;
         $campaignTypes = CampaignType::all();
         $typeCategory = Category::filter(['name' => '유형'])->first();
@@ -95,7 +95,6 @@ class CampaignController extends Controller
         $customOptions = $this->campaignService->getApplicationFields();
         $viewName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaign.edit' : 'campaign.edit';
         $businessUsers = User::role(RoleEnum::BUSINESS_USER->value)->get();
-        session()->flash('message', '캠페인이 수정되었습니다.');
         return view($viewName, compact('campaign', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions', 'customOptions', 'businessUsers'));
     }
 
@@ -106,6 +105,7 @@ class CampaignController extends Controller
     {
         $this->campaignService->upsert();
         $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaign.edit' : 'campaign.show';
+        session()->flash('message', '캠페인이 수정되었습니다.');
         return redirect()->route($routeName, $campaign);
     }
 
