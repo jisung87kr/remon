@@ -68,6 +68,7 @@ class CampaignController extends Controller
     {
         $campaign = $this->campaignService->upsert();
         $routeName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaign.edit' : 'campaign.show';
+        session()->flash('message', '캠페인이 생성되었습니다.');
         return redirect()->route($routeName, $campaign);
     }
 
@@ -94,6 +95,7 @@ class CampaignController extends Controller
         $customOptions = $this->campaignService->getApplicationFields();
         $viewName = request()->route()->getPrefix() === 'admin/' ? 'admin.campaign.edit' : 'campaign.edit';
         $businessUsers = User::role(RoleEnum::BUSINESS_USER->value)->get();
+        session()->flash('message', '캠페인이 수정되었습니다.');
         return view($viewName, compact('campaign', 'campaignTypes', 'typeCategory', 'productCategory', 'locationCategory', 'missions', 'customOptions', 'businessUsers'));
     }
 

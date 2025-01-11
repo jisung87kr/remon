@@ -46,15 +46,15 @@
                 <input type="submit" class="button button-purple" value="저장">
             </div>
             <div class="relative overflow-auto" x-data="userData">
-                <table class="table">
+                <table class="table w-full min-w-[1400px]">
                     <colgroup>
                         <col width="30px">
                         <col width="30px">
-                        <col width="60px">
+                        <col width="150px">
                         <col width="*">
                         <col width="120px">
-                        <col width="150px">
-                        <col width="150px">
+                        <col width="100px">
+                        <col width="100px">
                         <col width="70px">
                         <col width="150px">
                         <col width="250px">

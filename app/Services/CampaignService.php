@@ -24,7 +24,7 @@ class CampaignService{
     {
         $validated = $this->request->validate([
             'id'                             => 'nullable',
-            'user_id'                        => ['required'],
+            'user_id'                        => 'required',
             'status'                         => [Rule::enum(StatusEnum::class)],
             'type'                           => 'required',
             'product_category'               => 'required|array',
@@ -41,7 +41,7 @@ class CampaignService{
             'address'                        => 'nullable',
             'address_detail'                 => 'nullable',
             'address_extra'                  => 'nullable',
-            'application_limit'              => 'nullable',
+            'application_limit'              => 'integer',
             'lat'                            => 'nullable',
             'long'                           => 'nullable',
             'visit_instruction'              => 'nullable',
@@ -68,9 +68,9 @@ class CampaignService{
             'detail_images_sort.*'           => 'nullable',
         ]);
 
-        DB::beginTransaction();
         try {
             // 캠페인 등록
+            DB::beginTransaction();
             $campaignType = CampaignType::find($validated['type']);
             $campaign = Campaign::updateOrCreate([
                 'id' => $validated['id'] ?? null,
@@ -90,13 +90,13 @@ class CampaignService{
                 'address'                     => $validated['address'] ?? null,
                 'address_detail'              => $validated['address_detail'] ?? null,
                 'address_extra'               => $validated['address_extra'] ?? null,
-                'application_limit'           => $validated['application_limit'] ?? null,
+                'application_limit'           => $validated['application_limit'],
                 'lat'                         => $validated['lat'] ?? null,
                 'long'                        => $validated['long'] ?? null,
                 'visit_instruction'           => $validated['visit_instruction'] ?? null,
                 'extra_information'           => $validated['extra_information'],
-                'application_start_at'          => $validated['application_start_at'],
-                'application_end_at'            => $validated['application_end_at'],
+                'application_start_at'        => $validated['application_start_at'],
+                'application_end_at'          => $validated['application_end_at'],
                 'announcement_at'             => $validated['announcement_at'],
                 'registration_start_date_at'  => $validated['registration_start_date_at'],
                 'registration_end_date_at'    => $validated['registration_end_date_at'],
@@ -136,16 +136,16 @@ class CampaignService{
 
                 switch ($mission_option){
                     case MissionOptionEnum::TITLE_KEYWORD_ID_OF_MISSION_OPTION->value:
-                        $content = $validated['mission_option_title_keyword'] ?? null;
+                        $content = isset($validated['mission_option_title_keyword']) ? $validated['mission_option_title_keyword'] : null;
                         break;
                     case MissionOptionEnum::CONTENT_KEYWORD_ID_OF_MISSION_OPTION->value:
-                        $content = $validated['mission_option_content_keyword'] ?? null;
+                        $content = isset($validated['mission_option_content_keyword']) ? $validated['mission_option_content_keyword'] : null;
                         break;
                     case MissionOptionEnum::LINK_ID_OF_MISSION_OPTION->value:
-                        $content = $validated['mission_option_link'] ?? null;
+                        $content = isset($validated['mission_option_link']) ? $validated['mission_option_link'] : null;
                         break;
                     case MissionOptionEnum::HASHTAG_ID_OF_MISSION_OPTION->value:
-                        $content = $validated['mission_option_hashtag'] ?? null;
+                        $content = isset($validated['mission_option_hashtag']) ? $validated['mission_option_hashtag'] : null;
                         break;
                 }
 

@@ -1,5 +1,17 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=509c2656c00fa9af4782197a888763f6&libraries=services,clusterer,drawing?autoload=false"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+@if(session('message'))
+<script>
+    alert("{{ session('message') }}");
+</script>
+@endif
+@if($errors->any())
+<script>
+    alert("{{ $errors->first() }}");
+    //에러 대상으로 포커스 이동
+    document.getElementById("{{ $errors->keys()[0] }}").focus();
+</script>
+@endif
 <div class="container mx-auto p-6" x-data="campaignData">
     <form action="{{ $action }}" method="POST" enctype="multipart/form-data">
         @method($method)
@@ -19,7 +31,7 @@
                         <x-input-error for="status" class="mt-1"></x-input-error>
                     </div>
                     <div class="col-span-2 py-6">
-                        <label class="label mb-2 text-base">유형</label>
+                        <label class="label mb-2 text-base">유형 <small class="!text-red-600">(필수)</small></label>
                         <ul class="flex gap-3">
                             @foreach($campaignTypes as $campaignType)
                                 <li>
@@ -33,7 +45,7 @@
                         <x-input-error for="type" class="mt-1"></x-input-error>
                     </div>
                     <div class="col-span-2 py-6">
-                        <label class="label mb-2 text-base">제품 카테고리</label>
+                        <label class="label mb-2 text-base">제품 카테고리 <small class="!text-red-600">(필수)</small></label>
                         <ul class="flex flex-wrap gap-3">
                             @foreach($productCategory->categories as $category)
                                 <li>
@@ -47,17 +59,17 @@
                         <x-input-error for="product_category" class="mt-1"></x-input-error>
                     </div>
                     <div class="col-span-2 py-6">
-                        <label class="label mb-2 text-base">비즈니스</label>
-                        <select name="user_id" id="user_id" class="form-select">
+                        <label class="label mb-2 text-base">비즈니스 <small class="!text-red-600">(필수)</small></label>
+                        <select name="user_id" id="user_id" class="form-select" required>
                             <option value="" disabled selected>선택</option>
                             @foreach($businessUsers as $businessUser)
-                                <option value="{{ $businessUser->id }}" @selected(old('user_id', $campaign->user_id) === $businessUser->id)>{{ $businessUser->name }}</option>
+                                <option value="{{ $businessUser->id }}" @selected(old('user_id', $campaign->user_id) == $businessUser->id)>{{ $businessUser->name }}</option>
                             @endforeach
                         </select>
                         <x-input-error for="user_id" class="mt-1"></x-input-error>
                     </div>
                     <div class="col-span-2 py-6">
-                        <label class="label mb-2 text-base">제퓸 유형</label>
+                        <label class="label mb-2 text-base">제퓸 유형 <small class="!text-red-600">(필수)</small></label>
                         <ul class="flex flex-wrap gap-3">
                             @foreach($typeCategory->categories as $category)
                                 <li>
@@ -161,7 +173,7 @@
             <div class="border-t border-stone-900 py-3">
                 <div class="grid md:grid-cols-2 divide-y gap-x-3">
                     <div class="col-span-2 py-6">
-                        <label for="media" class="label mb-2">미디어</label>
+                        <label for="media" class="label mb-2">미디어 <small class="!text-red-600">(필수)</small></label>
                         <ul class="flex flex-wrap gap-3">
                         @foreach(\App\Enums\Campaign\MediaEnum::cases() as $index => $media)
                             <li>
@@ -176,63 +188,63 @@
                     </div>
 
                     <div class="col-span-2 py-6">
-                        <label for="title" class="label mb-2">캠페인 제목</label>
-                        <input type="text" id="title" class="form-control" name="title" value="{{old('title', $campaign['title'])}}">
+                        <label for="title" class="label mb-2">캠페인 제목 <small class="!text-red-600">(필수)</small></label>
+                        <input type="text" id="title" class="form-control" name="title" value="{{old('title', $campaign['title'])}}" required>
                         <x-input-error for="title" class="mt-1"></x-input-error>
                     </div>
                     <div class="col-span-2 py-6">
-                        <label for="product_name" class="label mb-2">상품명</label>
-                        <input type="text" id="product_name" class="form-control" name="product_name" value="{{ old('product_name', $campaign['product_name']) }}">
+                        <label for="product_name" class="label mb-2">상품명 <small class="!text-red-600">(필수)</small></label>
+                        <input type="text" id="product_name" class="form-control" name="product_name" value="{{ old('product_name', $campaign['product_name']) }}" required>
                         <x-input-error for="product_name" class="mt-1"></x-input-error>
                     </div>
                     <div class="col-span-2 py-6">
                         <label for="product_url" class="label mb-2">상품주소</label>
                         <input type="text" id="product_url" class="form-control" name="product_url" value="{{ old('product_url', $campaign['product_url']) }}">
-                        <x-input-error for="product_name" class="mt-1"></x-input-error>
+                        <x-input-error for="product_url" class="mt-1"></x-input-error>
                     </div>
                     <div class="col-span-2 py-6">
-                        <label for="benefit" class="label mb-2">제공내역</label>
+                        <label for="benefit" class="label mb-2">제공내역 <small class="!text-red-600">(필수)</small></label>
                         <textarea id="benefit" name="benefit" class="form-control" cols="30" rows="10">{{ old('benefit', $campaign['benefit']) }}</textarea>
                         <x-input-error for="benefit" class="mt-1"></x-input-error>
                     </div>
                     <div class="col-span-2 py-6">
-                        <label for="application_limit" class="label mb-2">모집인원</label>
-                        <input type="text" id="application_limit" class="form-control" name="application_limit" value="{{ old('application_limit', $campaign['application_limit']) }}">
-                        <x-input-error for="product_name" class="mt-1"></x-input-error>
+                        <label for="application_limit" class="label mb-2">모집인원 <small class="!text-red-600">(필수)</small></label>
+                        <input type="text" id="application_limit" class="form-control" name="application_limit" value="{{ old('application_limit', $campaign['application_limit']) ?? 0 }}" required>
+                        <x-input-error for="application_limit" class="mt-1"></x-input-error>
                     </div>
                     <div class="col-span-2 py-6 flex gap-3">
                         <div class="w-1/2">
-                            <label for="application_start_at" class="label mb-2">신청 시작일</label>
-                            <input type="date" id="application_start_at" class="form-control" name="application_start_at" value="{{ old('application_start_at', $campaign['application_start_at'] ? $campaign['application_start_at']->format('Y-m-d') : null) }}">
+                            <label for="application_start_at" class="label mb-2">신청 시작일 <small class="!text-red-600">(필수)</small></label>
+                            <input type="date" id="application_start_at" class="form-control" name="application_start_at" value="{{ old('application_start_at', $campaign['application_start_at'] ? $campaign['application_start_at']->format('Y-m-d') : null) }}" required>
                             <x-input-error for="application_start_at" class="mt-1"></x-input-error>
                         </div>
                         <div class="w-1/2">
-                            <label for="application_end_at" class="label mb-2">신청 종료일</label>
-                            <input type="date" id="application_end_at" class="form-control" name="application_end_at" value="{{ old('application_end_at', $campaign['application_end_at'] ? $campaign['application_end_at']->format('Y-m-d') : null) }}">
+                            <label for="application_end_at" class="label mb-2">신청 종료일 <small class="!text-red-600">(필수)</small></label>
+                            <input type="date" id="application_end_at" class="form-control" name="application_end_at" value="{{ old('application_end_at', $campaign['application_end_at'] ? $campaign['application_end_at']->format('Y-m-d') : null) }}" required>
                             <x-input-error for="application_end_at" class="mt-1"></x-input-error>
                         </div>
                     </div>
                     <div class="col-span-2 py-6 flex gap-3">
                         <div class="w-1/2">
-                            <label for="announcement_at" class="label mb-2">선정결과 발표일</label>
-                            <input type="date" id="announcement_at" class="form-control" name="announcement_at" value="{{ old('announcement_at', $campaign['announcement_at'] ? $campaign['announcement_at']->format('Y-m-d') : null) }}">
+                            <label for="announcement_at" class="label mb-2">선정결과 발표일 <small class="!text-red-600">(필수)</small></label>
+                            <input type="date" id="announcement_at" class="form-control" name="announcement_at" value="{{ old('announcement_at', $campaign['announcement_at'] ? $campaign['announcement_at']->format('Y-m-d') : null) }}" required>
                             <x-input-error for="announcement_at" class="mt-1"></x-input-error>
                         </div>
                         <div class="w-1/2">
-                            <label for="result_announcement_date_at" class="label mb-2">캠페인 결과 발표일</label>
-                            <input type="date" id="result_announcement_date_at" class="form-control" name="result_announcement_date_at" value="{{ old('result_announcement_date_at', $campaign['result_announcement_date_at'] ? $campaign['result_announcement_date_at']->format('Y-m-d') : null) }}">
+                            <label for="result_announcement_date_at" class="label mb-2">캠페인 결과 발표일 <small class="!text-red-600">(필수)</small></label>
+                            <input type="date" id="result_announcement_date_at" class="form-control" name="result_announcement_date_at" value="{{ old('result_announcement_date_at', $campaign['result_announcement_date_at'] ? $campaign['result_announcement_date_at']->format('Y-m-d') : null) }}" required>
                             <x-input-error for="result_announcement_date_at" class="mt-1"></x-input-error>
                         </div>
                     </div>
                     <div class="col-span-2 py-6 flex gap-3">
                         <div class="w-1/2">
-                            <label for="registration_start_date_at" class="label mb-2">콘텐츠 등록 시작일</label>
-                            <input type="date" id="registration_start_date_at" class="form-control" name="registration_start_date_at" value="{{ old('registration_start_date_at', $campaign['registration_start_date_at'] ? $campaign['registration_start_date_at']->format('Y-m-d') : null) }}">
+                            <label for="registration_start_date_at" class="label mb-2">콘텐츠 등록 시작일 <small class="!text-red-600">(필수)</small></label>
+                            <input type="date" id="registration_start_date_at" class="form-control" name="registration_start_date_at" value="{{ old('registration_start_date_at', $campaign['registration_start_date_at'] ? $campaign['registration_start_date_at']->format('Y-m-d') : null) }}" required>
                             <x-input-error for="registration_start_date_at" class="mt-1"></x-input-error>
                         </div>
                         <div class="w-1/2">
-                            <label for="registration_end_date_at" class="label mb-2">콘텐츠 등록 마감일</label>
-                            <input type="date" id="registration_end_date_at" class="form-control" name="registration_end_date_at" value="{{ old('registration_end_date_at', $campaign['registration_end_date_at'] ? $campaign['registration_end_date_at']->format('Y-m-d') : null) }}">
+                            <label for="registration_end_date_at" class="label mb-2">콘텐츠 등록 마감일 <small class="!text-red-600">(필수)</small></label>
+                            <input type="date" id="registration_end_date_at" class="form-control" name="registration_end_date_at" value="{{ old('registration_end_date_at', $campaign['registration_end_date_at'] ? $campaign['registration_end_date_at']->format('Y-m-d') : null) }}" required>
                             <x-input-error for="registration_end_date_at" class="mt-1"></x-input-error>
                         </div>
                     </div>
@@ -251,7 +263,10 @@
                         </div>
                         <template x-if="useBenefitPoint === 'y'">
                             <div>
-                                <input type="number" name="benefit_point" id="benefit_point" class="form-control mt-3" value="{{ old('benefit_point', $campaign['benefit_point']) }}">
+                                <div>
+                                    <small class="!text-red-600">(필수)</small>
+                                </div>
+                                <input type="number" name="benefit_point" id="benefit_point" class="form-control mt-3" value="{{ old('benefit_point', $campaign['benefit_point']) }}" required>
                                 <x-input-error for="benefit_point" class="mt-1"></x-input-error>
                             </div>
                         </template>
@@ -315,7 +330,7 @@
         </section>
 
         <section class="mb-16">
-            <h1 class="h3 mb-6">미션</h1>
+            <h1 class="h3 mb-6">미션 <small class="!text-red-600">(필수)</small></h1>
             <div class="border-t border-stone-900 py-3">
                 <div class="grid md:grid-cols-2 divide-y">
                     <div class="col-span-2 py-6">
@@ -401,7 +416,7 @@
                         </div>
                     </template>
                     <div class="col-span-2 py-6">
-                        <label for="mission" class="label mb-2">미션설명</label>
+                        <label for="mission" class="label mb-2">미션설명 <small class="!text-red-600">(필수)</small></label>
                         <textarea id="mission" name="mission" class="form-control" cols="30" rows="10">{{old('mission', $campaign->mission)}}</textarea>
                         <x-input-error for="mission" class="mt-1"></x-input-error>
                     </div>

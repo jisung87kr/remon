@@ -31,13 +31,14 @@ class CampaignApplicationExport implements FromQuery, WithHeadings, WithMapping
     {
         // TODO: Implement headings() method.
         return [
-            '아이디',
+            '#',
+            '신청일',
+            '신청상태',
             '캠페인',
             '신청자 이름',
             '신청자 생년월일',
             '신청자 성별',
             '신청자 연락처',
-            '신청상태',
             '초상권 활용 동의',
             '캠페인 유의사항, 개인정보 및 콘텐츠 제3자 제공, 저작물이용 동의',
             '받는 사람',
@@ -45,7 +46,7 @@ class CampaignApplicationExport implements FromQuery, WithHeadings, WithMapping
             '우편번호',
             '주소',
             '주소 상세',
-            '참고항목',
+            '미디어',
         ];
     }
 
@@ -53,23 +54,21 @@ class CampaignApplicationExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
             $application->id,
-            $application->campaign->title,
+            $application->created_at,
             $application->status,
+            $application->campaign->title,
             $application->name,
             $application->birthdate,
             $application->sex,
             $application->phone,
-            $application->status,
             $application->portrait_right_consent,
             $application->base_right_consent,
             $application->shipping_name,
             $application->shipping_phone,
             $application->address_postcode,
             $application->address,
-            $application->address_detail,
-            $application->address_extra,
-            $application->created_at,
-            $application->updated_at,
+            $application->address_detail.' '.$application->address_extra,
+            $application->user->media->pluck('url')->implode(', '),
         ];
     }
 }
