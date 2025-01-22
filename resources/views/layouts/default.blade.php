@@ -8,7 +8,6 @@
                  class="shrink-0 w-[200px] mr-20 bg-white"
                  :class="{'open fixed left-0 top-0 bottom-0 z-[990] px-6 overflow-auto border-r' : $store.lnbModal.open}"
                  x-show="$store.lnbModal.show"
-                 style="display: none"
                  @click.away="if(window.innerWidth < 1024){$store.lnbModal.show = false; $store.lnbModal.open = false}">
                 {{ $lnb }}
             </div>

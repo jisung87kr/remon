@@ -43,12 +43,11 @@
             </x-slot>
             <hr class="">
             <div class="relative overflow-auto" x-data="userData">
-                <table class="table">
+                <table class="table min-w-[1000px]">
                     <colgroup>
                         <col width="30px">
-                        <col width="30px">
+                        <col width="70px">
                         <col width="*">
-                        <col width="120px">
                         <col width="150px">
                         <col width="150px">
                         <col width="70px">
@@ -59,7 +58,6 @@
                         <th>id</th>
                         <th>유형</th>
                         <th>캠페인</th>
-                        <th>신청자</th>
                         <th>상태</th>
                         <th>신청일</th>
                         <th>행동</th>
@@ -73,9 +71,6 @@
                             <td>{{ $application->campaign ? $application->campaign->campaign_type_name : '' }}</td>
                             <td>
                                 <x-campaign.card-horizontal :campaign="$application->campaign"></x-campaign.card-horizontal>
-                            </td>
-                            <td>
-                                <a href="{{ route('admin.user.general.show', ['user' => $application->user_id]) }}" target="_blank">{{ $application->name }}</a>
                             </td>
                             <td>
                                 <x-badge.application :status="$application->status">{{ \App\Enums\Campaign\ApplicationStatus::tryFrom($application->status)->label() }}</x-badge.application>
