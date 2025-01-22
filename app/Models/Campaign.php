@@ -357,8 +357,7 @@ class Campaign extends Model
         return Attribute::make(
             get: function(){
                 return $this->progress_status == ProgressStatusEnum::Applying->value
-                    && $this->application_limit != 0
-                    && $this->applications()->active()->count() < $this->application_limit;
+                    && (($this->application_limit != 0 && $this->applications()->active()->count() < $this->application_limit) || $this->application_limit == 0);
             },
         );
     }
