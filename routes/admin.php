@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CampaignAdminController;
 use App\Http\Controllers\Admin\GeneralUserAdminController;
 use App\Http\Controllers\Admin\BusinessUserAdminController;
 use App\Http\Controllers\CampaignController;
@@ -16,7 +17,8 @@ Route::middleware([
         return redirect()->route('admin.campaign.index');
     })->name('index');
 
-    Route::resource('/campaigns', CampaignController::class)->names('campaign');
+    Route::resource('/campaigns', CampaignController::class)->names('campaign')->except('index');
+    Route::get('/campaigns', [CampaignAdminController::class, 'index'])->name('campaign.index');
     Route::resource('/users/general', GeneralUserAdminController::class)->names("user.general")->parameters(['general' => 'user']);
     Route::resource('/users/business', BusinessUserAdminController::class)->names("user.business")->parameters(['business' => 'user']);
     Route::get('/applications', [CampaignApplicationAdminController::class, 'index'])->name('application.index');
