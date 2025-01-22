@@ -15,7 +15,7 @@ class CampaignInternalController extends Controller
             $campaign->delete();
             return response()->json(new Response(Response::SUCCESS, '캠페인 삭제 성공'));
         } catch (\Exception $e) {
-            return response()->json(new Response(Response::ERROR, '컴페인 삭제 시랲', $e->getMessage()), 500);
+            return response()->json(new Response(Response::ERROR, '캠페인 삭제 시랲', $e->getMessage()), 500);
         }
     }
 }

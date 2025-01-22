@@ -118,7 +118,9 @@
                         <button type="submit" class="mt-3 bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">수정완료</button>
                     @endif
                     @if($campaignApplication->status == \App\Enums\Campaign\ApplicationStatus::APPROVED->value)
-                        <button type="submit" class="mt-3 bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">콘텐츠 등록하기</button>
+                        <button type="submit" class="mt-3 bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">제출완료</button>
+                    @elseif($campaignApplication->status == \App\Enums\Campaign\ApplicationStatus::POSTED->value)
+                        <button type="submit" class="mt-3 bg-gray-900 text-white px-5 py-4 block text-center font-bold w-full">수정완료</button>
                     @endif
                 @endif
 

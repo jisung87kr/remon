@@ -41,7 +41,7 @@ use App\Http\Controllers\LinkLogController;
 */
 Route::get('callback/tracker_delivery/{parcel}', [CallbackController::class, 'trackerDelivery'])->name('callback.tracker_delivery');
 
-Route::get('campaign_banner', function(Request $request){
+Route::get('campaign-banner', function(Request $request){
     $filepath = "campaigns/campaign_banner.jpeg";
     $fileContents = Storage::disk('public')->get($filepath);
     $response = new Response($fileContents);
@@ -49,10 +49,15 @@ Route::get('campaign_banner', function(Request $request){
 
     $bannerLog = new \App\Models\BannerLog;
     $mediaContent = \App\Models\CampaignMediaContent::where('banner_id', $request->input('id'))->first();
+    $userAgent = $request->header('user-agent');
+    $isMobile = preg_match('/(iPhone|Android|BlackBerry|Opera Mini|Windows Phone)/i', $userAgent);
     $bannerLog->create([
         'campaign_media_content_id' => $mediaContent->id,
+        'campaign_id' => $mediaContent->campaign_id,
         'referer' => $request->header('referer'),
         'ip_address' => $request->ip(),
+        'user_agent' => $userAgent,
+        'is_mobile' => $isMobile
     ]);
 
     return $response;

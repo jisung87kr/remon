@@ -305,7 +305,10 @@
                             @if($campaign->useShipping)
                                 {{-- 배송형 캠페인만 노출 --}}
                                 <div class="application-category mt-10" x-data="shippingData">
-                                    <div class="application-category-title">상품을 배송받을 주소를 입력해 주세요.</div>
+                                    <div class="application-category-title">
+                                        <span>상품을 배송받을 주소를 입력해 주세요.</span>
+                                        <a href="{{ route('mypage.profile') }}" class="ms-1 underline text-sm">(배송지관리)</a>
+                                    </div>
                                     <div class="application_field">
                                         <div class="application_field-item mt-5">
                                             <div class="flex gap-3">
@@ -334,6 +337,7 @@
                                                            class="form-control"
                                                            id="shipping_name"
                                                            :readonly="readonly"
+                                                           required
                                                            x-model="address.shippingName">
                                                 </div>
                                                 <div class="">
@@ -343,6 +347,8 @@
                                                            class="form-control"
                                                            id="shipping_phone"
                                                            :readonly="readonly"
+                                                           required
+                                                           @keyup="typePhoneNumber()"
                                                            x-model="address.shippingPhone">
                                                 </div>
                                             </div>
@@ -354,6 +360,7 @@
                                                                class="form-control"
                                                                placeholder="우편번호"
                                                                :readonly="readonly"
+                                                               required
                                                                x-model="address.addressPostcode">
                                                         @if($editable)
                                                         <button type="button" class="button button-light shrink-0" @click="openDaumPostcode">우편번호 찾기</button>
@@ -364,7 +371,7 @@
                                                          x-show="searchOpen"
                                                          :style="{height: height}"
                                                          class="mt-3 relative pt-[25px] border">
-                                                        <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" @onclick="foldDaumPostcode" alt="접기 버튼">
+                                                        <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" @click="foldDaumPostcode" alt="접기 버튼">
                                                     </div>
                                                 </div>
                                                 <div class="mt-1">
@@ -373,6 +380,7 @@
                                                            class="form-control"
                                                            placeholder="주소"
                                                            :readonly="readonly"
+                                                           required
                                                            x-model="address.address">
                                                 </div>
                                                 <div class="mt-1">
@@ -382,6 +390,7 @@
                                                            placeholder="주소상세"
                                                            :readonly="readonly"
                                                            x-model="address.addressDetail"
+                                                           required
                                                            x-ref="address_detail">
                                                 </div>
                                                 <div class="mt-1">
@@ -504,6 +513,9 @@
                                     foldDaumPostcode(){
                                       this.searchOpen = false;
                                     },
+                                    typePhoneNumber(){
+                                        this.address.shippingPhone = event.target.value.replace(/\D/g, '').replace(/(\d{3})(\d{1,4})(\d{1,4})/, '$1-$2-$3');
+                                    }
                                   }
                                 </script>
                             @endif
@@ -551,7 +563,7 @@
                                 <div class="mt-6 w-full" x-data="{{$content->media->media}}_bannerData">
                                     <div class="mb-3">콘텐츠 본문 하단에 스폰서 배너를 삽입해주세요.</div>
                                     <div class="flex gap-3">
-                                        <input type="text" class="form-control" value="<img src='{{ config('app.url') }}/campaign_banner?id={{ $content->banner_id }}' />" x-ref="banner">
+                                        <input type="text" class="form-control" value="<img src='{{ config('app.url') }}/campaign-banner?id={{ $content->banner_id }}' />" x-ref="banner">
                                         <button type="button" class="button button-light" @click="copyBanner">코드복사</button>
                                     </div>
                                 </div>
@@ -559,14 +571,13 @@
                                   const {{$content->media->media}}_bannerData = {
                                     copyBanner(){
                                       const text = this.$refs.banner.value;
-                                      navigator.clipboard.writeText(text)
-                                        .then(() => {
-                                          alert('코드가 복사되었습니다.');
-                                        })
-                                        .catch(err => {
-                                          console.error('복사 실패:', err);
-                                          alert('코드 복사에 실패했습니다.');
-                                        });
+                                        const elem = document.createElement('textarea');
+                                        document.body.appendChild(elem);
+                                        elem.value = text;
+                                        elem.select();
+                                        document.execCommand('copy');
+                                        document.body.removeChild(elem);
+                                        alert('복사 되었습니다.');
                                     }
                                   };
                                 </script>
@@ -592,7 +603,7 @@
                         <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">스폰서배너 삽입</div>
                         <div class="w-full border-t pt-6">
                             <ul class="list-disc">
-                                <li>컴페인에 등록한 콘텐츠는 홍보나 필요에 의해 사용될 수 있습니다.</li>
+                                <li>캠페인에 등록한 콘텐츠는 홍보나 필요에 의해 사용될 수 있습니다.</li>
                                 <li>콘텐츠 본문에 반드시 스폰서배너가 삽입되야 캠페인 참여로 인정됩니다.</li>
                                 <li>캠페인과 관련 없는 콘텐츠는 통보없이 삭제될 수 있습니다.</li>
                             </ul>
