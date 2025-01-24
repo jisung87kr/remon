@@ -27,7 +27,7 @@
                     <div class="flex mt-6">
                         <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">제공내역</div>
                         <div class="w-full border-t pt-6">
-                            {{ $campaign->benefit }}
+                            {!! nl2br($campaign->benefit) !!}
                             <div class="text-sm text-red-500 mt-6">
                                 ※ 옵션 오기재로 인한 교환/취소 불가하며, 해당 사유 발생 시 관련 페널티 부과 및 배송비, 제품가 환불 요청 등이 이루어질 수 있습니다. 이 점유의하시어 반드시 정확하게 기재 바랍니다.
                             </div>
@@ -238,7 +238,7 @@
                             @if($campaign->application_information)
                                 <div class="application-category">
                                     <div class="application-category-content !mt-0">
-                                        {{ $campaign->application_information }}
+                                        {!! nl2br($campaign->application_information) !!}
                                     </div>
                                 </div>
                             @endif
@@ -263,12 +263,17 @@
                                                     @endforeach
                                                 </select>
                                             @elseif($field->type === 'text')
-                                                <input type="text"
-                                                       name="application_field[{{ $field->id }}][value]"
-                                                       class="form-control"
-                                                       id="application_field_{{$field->id}}"
-                                                       value="{{ $value }}"
-                                                       required>
+{{--                                                <input type="text"--}}
+{{--                                                       name="application_field[{{ $field->id }}][value]"--}}
+{{--                                                       class="form-control"--}}
+{{--                                                       id="application_field_{{$field->id}}"--}}
+{{--                                                       value="{{ $value }}"--}}
+{{--                                                       required>--}}
+                                                <textarea name="application_field[{{ $field->id }}][value]"
+                                                          class="form-control"
+                                                          id="application_field_{{$field->id}}"
+                                                          required
+                                                          >{{$value}}</textarea>
                                             @elseif($field->type === 'selectbox')
                                                 <select name="application_field[{{ $field->id }}][value]" id="application_field_{{$field->id}}" class="application_field-input form-select" required>
                                                     <option value="" disabled selected>옵선선택</option>
