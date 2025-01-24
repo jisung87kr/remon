@@ -27,18 +27,18 @@
                     ~ {{ $campaign->application_end_at->format('m.d') }}</div>
             </div>
             <div class="flex text-gray-500 my-2">
-                <div class="shrink-0 w-[110px] mr-1">인플루언서 발표</div>
+                <div class="shrink-0 w-[110px] mr-1">선정결과 발표</div>
                 <div>{{ $campaign->announcement_at->format('m.d') }}</div>
             </div>
-            <div class="flex text-gray-500 my-2">
-                <div class="shrink-0 w-[110px] mr-1">콘텐츠 등록기간</div>
-                <div>{{ $campaign->registration_start_date_at->format('m.d') }}
-                    ~ {{ $campaign->registration_end_date_at->format('m.d') }}</div>
-            </div>
-            <div class="flex text-gray-500 my-2">
-                <div class="shrink-0 w-[110px] mr-1">콘텐츠 결과발표</div>
-                <div>{{ $campaign->result_announcement_date_at->format('m.d') }}</div>
-            </div>
+{{--            <div class="flex text-gray-500 my-2">--}}
+{{--                <div class="shrink-0 w-[110px] mr-1">콘텐츠 등록기간</div>--}}
+{{--                <div>{{ $campaign->registration_start_date_at->format('m.d') }}--}}
+{{--                    ~ {{ $campaign->registration_end_date_at->format('m.d') }}</div>--}}
+{{--            </div>--}}
+{{--            <div class="flex text-gray-500 my-2">--}}
+{{--                <div class="shrink-0 w-[110px] mr-1">콘텐츠 결과발표</div>--}}
+{{--                <div>{{ $campaign->result_announcement_date_at->format('m.d') }}</div>--}}
+{{--            </div>--}}
         </div>
         @if($useLink)
         <div>

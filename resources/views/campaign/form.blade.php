@@ -230,24 +230,29 @@
                             <input type="datetime-local" id="announcement_at" class="form-control" name="announcement_at" value="{{ old('announcement_at', $campaign['announcement_at'] ?? null) }}" required>
                             <x-input-error for="announcement_at" class="mt-1"></x-input-error>
                         </div>
-                        <div class="w-1/2">
-                            <label for="result_announcement_date_at" class="label mb-2">캠페인 결과 발표일 <small class="!text-red-600">(필수)</small></label>
-                            <input type="datetime-local" id="result_announcement_date_at" class="form-control" name="result_announcement_date_at" value="{{ old('result_announcement_date_at', $campaign['result_announcement_date_at'] ?? null) }}" required>
-                            <x-input-error for="result_announcement_date_at" class="mt-1"></x-input-error>
-                        </div>
-                    </div>
-                    <div class="col-span-2 py-6 flex gap-3">
-                        <div class="w-1/2">
-                            <label for="registration_start_date_at" class="label mb-2">콘텐츠 등록 시작일 <small class="!text-red-600">(필수)</small></label>
-                            <input type="datetime-local" id="registration_start_date_at" class="form-control" name="registration_start_date_at" value="{{ old('registration_start_date_at', $campaign['registration_start_date_at'] ?? null) }}" required>
-                            <x-input-error for="registration_start_date_at" class="mt-1"></x-input-error>
-                        </div>
+{{--                        <div class="w-1/2">--}}
+{{--                            <label for="result_announcement_date_at" class="label mb-2">캠페인 결과 발표일 <small class="!text-red-600">(필수)</small></label>--}}
+{{--                            <input type="datetime-local" id="result_announcement_date_at" class="form-control" name="result_announcement_date_at" value="{{ old('result_announcement_date_at', $campaign['result_announcement_date_at'] ?? null) }}" required>--}}
+{{--                            <x-input-error for="result_announcement_date_at" class="mt-1"></x-input-error>--}}
+{{--                        </div>--}}
                         <div class="w-1/2">
                             <label for="registration_end_date_at" class="label mb-2">콘텐츠 등록 마감일 <small class="!text-red-600">(필수)</small></label>
                             <input type="datetime-local" id="registration_end_date_at" class="form-control" name="registration_end_date_at" value="{{ old('registration_end_date_at', $campaign['registration_end_date_at'] ?? null) }}" required>
                             <x-input-error for="registration_end_date_at" class="mt-1"></x-input-error>
                         </div>
                     </div>
+{{--                    <div class="col-span-2 py-6 flex gap-3">--}}
+{{--                        <div class="w-1/2">--}}
+{{--                            <label for="registration_start_date_at" class="label mb-2">콘텐츠 등록 시작일 <small class="!text-red-600">(필수)</small></label>--}}
+{{--                            <input type="datetime-local" id="registration_start_date_at" class="form-control" name="registration_start_date_at" value="{{ old('registration_start_date_at', $campaign['registration_start_date_at'] ?? null) }}" required>--}}
+{{--                            <x-input-error for="registration_start_date_at" class="mt-1"></x-input-error>--}}
+{{--                        </div>--}}
+{{--                        <div class="w-1/2">--}}
+{{--                            <label for="registration_end_date_at" class="label mb-2">콘텐츠 등록 마감일 <small class="!text-red-600">(필수)</small></label>--}}
+{{--                            <input type="datetime-local" id="registration_end_date_at" class="form-control" name="registration_end_date_at" value="{{ old('registration_end_date_at', $campaign['registration_end_date_at'] ?? null) }}" required>--}}
+{{--                            <x-input-error for="registration_end_date_at" class="mt-1"></x-input-error>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                     <div class="col-span-2 py-6">
                         <label for="benefit_point" class="label mb-2">제공포인트</label>
                         <div class="flex gap-x-3">
@@ -487,13 +492,11 @@
         </section>
 
         <div class="flex justify-between">
-            <div>
-                <button type="button" class="button button-red" @click="deleteCampaign()">삭제</button>
-            </div>
-            <div class="text-center">
-                <button class="button button-light" @click="window.location.href='/'">취소</button>
-                <button type="submit" class="button button-default">저장</button>
-            </div>
+            <button type="button" class="button button-red" @click="deleteCampaign()">삭제</button>
+        </div>
+        <div class="fixed right-5 bottom-5">
+            <button class="button button-light" @click="window.location.href='/'">취소</button>
+            <button type="submit" class="button button-default">저장</button>
         </div>
     </form>
 </div>
