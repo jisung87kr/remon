@@ -1,6 +1,6 @@
 @props(['campaigns' => $campaigns, 'category' => $category, 'mode' => null])
 <section id="popular_campaign" class="container mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-3">{{ $category->name }} 캠페인</h1>
+    <h1 class="text-lg md:text-2xl font-bold mb:1 md:mb-3">{{ $category->name }} 캠페인</h1>
     @if(false)
     <div class="flex items-center relative" x-data="{open: false}">
         <div class="flex text-2xl items-center">
@@ -42,9 +42,9 @@
     @endif
     @include('campaign.search_form')
     <div class="flex gap-3 mb-6 justify-end">
-        <x-campaign.snsfilter :category="$category"></x-campaign.snsfilter>
+        <x-campaign.snsfilter :category="$category" class="gap-1"></x-campaign.snsfilter>
     </div>
-    <div class="grid grid-cols-3 gap-6 xl:grid-cols-5">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-6 xl:grid-cols-5">
         @forelse($campaigns as $key => $campaign)
             <x-campaign.card :campaign="$campaign" :mode="$mode"></x-campaign.card>
         @empty

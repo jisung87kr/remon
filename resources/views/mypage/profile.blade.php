@@ -88,8 +88,8 @@
         </div>
         <div class="mt-6" x-data="shippingData">
             <div class="text-lg font-bold pb-2 mb-3 border-b border-gray-900">주소록</div>
-            <div>
-                <table class="table">
+            <div class="overflow-x-auto">
+                <table class="table min-w-[600px]">
                     <colgroup>
                         <col width="150px">
                         <col width="100px">

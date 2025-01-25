@@ -21,7 +21,7 @@
         <x-banner />
 
         <div class="flex flex-col min-h-screen min-h-screen">
-            <header class="container mx-auto p-6 flex flex-col md:flex-row md:flex-row-reverse mx-auto md:justify-between md:items-center">
+            <header class="container mx-auto px-6 py-3 md:py-6 flex flex-col md:flex-row md:flex-row-reverse mx-auto md:justify-between md:items-center">
                 @if(!Auth::check())
                     <div class="mb-3 text-right md:flex md:gap-1 md:items-baseline md:mb-0 md:text-left shrink-0">
                         <a href="{{ route('login') }}" class="text-gray-600 text-sm">로그인</a>
@@ -36,7 +36,7 @@
                             <div class="relative">
                                 <input type="text"
                                        name="search"
-                                       class="block w-[260px] p-4 pe-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                                       class="block w-[200px] p-3 md:p-4 pe-10 text-sm text-gray-900 border border-gray-300 rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                                        placeholder="원하는 캠페인을 검색해보세요" value="{{ request()->input('search') }}">
                                 <div class="absolute inset-y-0 end-0 flex items-center pe-3">
                                     <button type="submit">
@@ -135,7 +135,7 @@
             <div class="border-b">
                 <div class="container mx-auto">
                     <nav>
-                        <ul class="flex flex-nowrap gap-y-5 gap-x-8 overflow-x-auto p-6">
+                        <ul class="flex flex-nowrap gap-y-5 gap-x-5 md:gap-x-8 overflow-x-auto px-6 py-3 md:p-6 text-sm md:text-base">
                             <li class="font-bold shrink-0">
                                 <a href="{{ route('campaign.index') }}" class="{{ request()->routeIs('campaign.index') && (empty(request()->input('campaign_type')) || count(request()->input('campaign_type', [])) == 2) ? 'text-indigo-500' : '' }}">전체 캠페인</a>
                             </li>
@@ -193,9 +193,9 @@
             </div>
         </div>
 
-        <div class="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-white border border-gray-200 rounded-full bottom-4 left-1/2" x-data>
+        <div class="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-white border-t sm:border border-gray-200 sm:rounded-full bottom-0 sm:bottom-4 left-1/2" x-data>
             <div class="grid h-full max-w-lg grid-cols-5 mx-auto">
-                <a href="{{ route('index') }}" class="inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-gray-50 group">
+                <a href="{{ route('index') }}" class="inline-flex flex-col items-center justify-center px-2 md:px-5 rounded-s-full hover:bg-gray-50 group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
@@ -205,7 +205,7 @@
                     <span class="text-xs mt-1">홈</span>
                 </a>
                 <button type="button"
-                        class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group"
+                        class="inline-flex flex-col items-center justify-center px-2 md:px-5 hover:bg-gray-50 group"
                         @click="$store.menuModal.show = true;">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -215,7 +215,7 @@
                     </svg>
                     <span class="text-xs mt-1">메뉴</span>
                 </button>
-                <a href="{{ route('board.show', 'free') }}" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
+                <a href="{{ route('board.show', 'free') }}" class="inline-flex flex-col items-center justify-center px-2 md:px-5 hover:bg-gray-50 group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-chatbot" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
@@ -225,7 +225,7 @@
                     </svg>
                     <span class="text-xs mt-1">커뮤니티</span>
                 </a>
-                <a href="{{ route('board.show', 'notice') }}" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
+                <a href="{{ route('board.show', 'notice') }}" class="inline-flex flex-col items-center justify-center px-2 md:px-5 hover:bg-gray-50 group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-desktop-bolt" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M14.5 16h-10.5a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v7.5" />
@@ -235,7 +235,7 @@
                     </svg>
                     <span class="text-xs mt-1">공지사항</span>
                 </a>
-                <a href="{{ route('mypage.campaign') }}" type="button" class="inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-gray-50 group">
+                <a href="{{ route('mypage.campaign') }}" type="button" class="inline-flex flex-col items-center justify-center px-2 md:px-5 rounded-e-full hover:bg-gray-50 group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-hexagon" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M12 13a3 3 0 1 0 0 -6a3 3 0 0 0 0 6z" />

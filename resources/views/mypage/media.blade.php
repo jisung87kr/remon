@@ -4,7 +4,7 @@
         <div>{{ auth()->user()->name }}님, <strong>미디어를 연결</strong>해주세요.</div>
         <div class="text-gray-500 text-sm">미디어를 연결하면 다양한 체험을 신청할 수 있어요!</div>
     </div>
-    <div class="grid grid-cols-3 gap-3 mt-8" x-data="mediaData">
+    <div class="grid md:grid-cols-3 gap-3 mt-8" x-data="mediaData">
         <div class="text-center p-12 border rounded-2xl">
             <img src="{{ Vite::asset('resources/images/media/ic-connect-blog.svg') }}" alt="" class="mx-auto">
             <div class="my-6 font-bold text-gray-700">블로그 연결하기</div>

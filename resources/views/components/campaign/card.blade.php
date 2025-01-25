@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-body">
         <x-campaign.card-image :campaign="$campaign" :href="route($routeName, $campaign)"></x-campaign.card-image>
-        <div class="my-3 flex gap-x-2">
+        <div class="my-2 md:my-3 flex gap-x-1">
             @foreach($campaign->media as $media)
                 <x-media-icon :media="$media->media"></x-media-icon>
             @endforeach

@@ -8,16 +8,16 @@
         </div>
     @else
         <div class="border px-6 rounded-lg my-6">
-            <div class="flex flex-col divide-y overflow-hidden h-[200px]"
+            <div class="flex flex-col overflow-hidden h-[200px]"
                  :class="{'open' : open, '!h-auto' : open}">
-                <div class="md:flex py-3 items-center">
-                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">검색어</div>
+                <div class="md:flex py-2 md:py-3 items-center">
+                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6 text-sm md:text-base">검색어</div>
                     <div class="md:grow">
                         <x-input name="keyword" :value="request()->input('keyword')" class="w-full"></x-input>
                     </div>
                 </div>
-                <div class="md:flex py-3 items-center">
-                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">캠페인 타입</div>
+                <div class="md:flex py-2 md:py-3 items-center">
+                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6 text-sm md:text-base">캠페인 타입</div>
                     <div class="md:grow">
                         <ul class="flex flex-wrap gap-3">
                             @foreach($campaignTypes as $type)
@@ -33,8 +33,8 @@
                     </div>
                 </div>
                 @isset($productCategory->categories)
-                <div class="md:flex py-3 items-center">
-                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">제품별</div>
+                <div class="md:flex py-2 md:py-3 items-center">
+                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6 text-sm md:text-base">제품별</div>
                     <div class="md:grow">
                         <ul class="flex flex-wrap gap-3">
                             @foreach($productCategory->categories as $category2)
@@ -51,8 +51,8 @@
                 @endisset
 
                 @isset($typeCategory->categories)
-                <div class="md:flex py-3 items-center">
-                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">유형별</div>
+                <div class="md:flex py-2 md:py-3 items-center">
+                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6 text-sm md:text-base">유형별</div>
                     <div class="md:grow">
                         <ul class="flex flex-wrap gap-3">
                             @foreach($typeCategory->categories as $category2)
@@ -70,8 +70,8 @@
 
                 @isset($locationCategory->categories)
                 <template x-if="hasShippingType">
-                    <div class="md:flex py-3 items-center">
-                        <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">지역별</div>
+                    <div class="md:flex py-2 md:py-3 items-center">
+                        <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6 text-sm md:text-base">지역별</div>
                         <div class="md:grow">
                             <ul class="flex flex-wrap gap-3">
                                 @foreach($locationCategory->categories as $location)
@@ -90,21 +90,21 @@
                 </template>
                 @endisset
 
-                <div class="md:flex py-3 items-center">
-                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">진행 상태별</div>
-                    <div class="md:grow">
-                        <ul class="flex flex-wrap gap-3">
-                            @foreach(\App\Enums\Campaign\ProgressStatusEnum::cases() as $case)
-                                <li class="">
-                                    <x-checkbox-button id="progress_status_{{$case->value}}"
-                                                       name="progress_status[]"
-                                                       value="{{$case->value}}"
-                                                       :checked="in_array($case->value, request()->input('progress_status', []))">{{ $case->label() }}</x-checkbox-button>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
+{{--                <div class="md:flex py-2 md:py-3 items-center">--}}
+{{--                    <div class="mb-2 md:mb-0 md:w-[100px] md:shrink-0 md:mr-6">진행 상태별</div>--}}
+{{--                    <div class="md:grow">--}}
+{{--                        <ul class="flex flex-wrap gap-3">--}}
+{{--                            @foreach(\App\Enums\Campaign\ProgressStatusEnum::cases() as $case)--}}
+{{--                                <li class="">--}}
+{{--                                    <x-checkbox-button id="progress_status_{{$case->value}}"--}}
+{{--                                                       name="progress_status[]"--}}
+{{--                                                       value="{{$case->value}}"--}}
+{{--                                                       :checked="in_array($case->value, request()->input('progress_status', []))">{{ $case->label() }}</x-checkbox-button>--}}
+{{--                                </li>--}}
+{{--                            @endforeach--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
             </div>
             <div class="py-3 text-center relative">
                 <div class="bg-gradient-to-t from-[#fff] h-[20px] absolute left-0 top-o right-0 top-[-20px]"></div>

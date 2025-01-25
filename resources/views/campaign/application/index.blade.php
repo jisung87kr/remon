@@ -14,12 +14,16 @@
                 </div>
                 <div>
                     <div class="grid grid-cols-4 gap-6 pb-6">
-                        @foreach($campaign->applications()->active()->get() as $application)
+                        @forelse($campaign->applications()->active()->get() as $application)
                             <div class="flex items-center">
                                 <img src="{{ $application->user->profile_photo_url }}" alt="" class="rounded-full">
                                 <div class="text-sm ml-3 text-gray-600">{{ $application->user->name }}</div>
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="col-span-4">
+                                <div class="text-center">신청자가 없습니다.</div>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </div>

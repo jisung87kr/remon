@@ -2,7 +2,7 @@
     <x-slot name="header">관심 캠페인</x-slot>
     <div>
         <x-campaign.snsfilter class="mt-6 justify-end mb-6" :category="null"></x-campaign.snsfilter>
-        <div class="grid grid-cols-3 gap-6 xl:grid-cols-5">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 xl:grid-cols-5">
             @forelse($campaigns as $key => $campaign)
                 <x-campaign.card :campaign="$campaign"></x-campaign.card>
             @empty

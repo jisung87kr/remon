@@ -18,14 +18,14 @@
                     @endif
                 </div>
                 <div>
-                    <div class="flex mt-6">
-                        <div class="shrink-0 w-[160px] font-bold mr-3">상품링크</div>
+                    <div class="md:flex mt-6">
+                        <div class="pb-2 md:pb-0 shrink-0 w-[160px] font-bold mr-3">상품링크</div>
                         <div class="w-full">
                             <a href="{{ $campaign->product_url }}" target="_blank" class="text-blue-600">{{ $campaign->product_url }}</a>
                         </div>
                     </div>
-                    <div class="flex mt-6">
-                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">제공내역</div>
+                    <div class="md:flex mt-6">
+                        <div class="pb-2 md:pb-0 shrink-0 w-[160px] font-bold mr-3 pt-6">제공내역</div>
                         <div class="w-full border-t pt-6">
                             {!! nl2br($campaign->benefit) !!}
                             <div class="text-sm text-red-500 mt-6">
@@ -34,8 +34,8 @@
                         </div>
                     </div>
                     @if(!$campaign->useShipping)
-                        <div class="flex mt-6">
-                            <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">방문 및 예약안내</div>
+                        <div class="md:flex mt-6">
+                            <div class="pb-2 md:pb-0 shrink-0 w-[160px] font-bold mr-3 pt-6">방문 및 예약안내</div>
                             <div class="w-full border-t pt-6">
                                 <div>
                                     {{ $campaign->visit_instruction }}
@@ -86,8 +86,8 @@
                             </div>
                         </div>
                     @endif
-                    <div class="flex mt-6">
-                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">회원 기본 정보</div>
+                    <div class="md:flex mt-6">
+                        <div class="pb-2 md:pb-0 shrink-0 w-[160px] font-bold mr-3 pt-6">회원 기본 정보</div>
                         <div class="w-full border-t pt-6">
                             <div>
                                 <label for="name" class="label mb-2">이름</label>
@@ -137,8 +137,8 @@
                         })->first();
                     @endphp
                     <div x-data="{{$media->media}}_mediaData">
-                        <div class="flex mt-6">
-                            <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">{{ \App\Enums\Campaign\MediaEnum::tryFrom($media->media)->label() }}</div>
+                        <div class="md:flex mt-6">
+                            <div class="pb-2 md:pb-0 shrink-0 w-[160px] font-bold mr-3 pt-6">{{ \App\Enums\Campaign\MediaEnum::tryFrom($media->media)->label() }}</div>
                             <div class="w-full border-t pt-6">
                                 <div class="text-sm" >콘텐츠를 작성할 {{ \App\Enums\Campaign\MediaEnum::tryFrom($media->media)->label() }} 주소를 등록해주세요. 등록한 정보는 선정 후 변경할 수 없습니다.</div>
                                 <x-rootmodal class="z-[999]">
@@ -232,8 +232,8 @@
                     </script>
                     @endforeach
 
-                    <div class="flex mt-6">
-                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">신청 정보 입력</div>
+                    <div class="md:flex mt-6">
+                        <div class="pb-2 md:pb-0 shrink-0 w-[160px] font-bold mr-3 pt-6">신청 정보 입력</div>
                         <div class="w-full pb-6">
                             @if($campaign->application_information)
                                 <div class="application-category">
@@ -528,8 +528,8 @@
                     </div>
 
                     @if(isset($campaignApplication->id) && in_array($campaignApplication->status, [\App\Enums\Campaign\ApplicationStatus::APPROVED->value, \App\Enums\Campaign\ApplicationStatus::POSTED->value]))
-                    <div class="flex mt-6">
-                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">콘텐츠 선택</div>
+                    <div class="md:flex mt-6">
+                        <div class="pb-2 md:pb-0 shrink-0 w-[160px] font-bold mr-3 pt-6">콘텐츠 선택</div>
                         <div class="w-full border-t pt-6">
                             <div class="mb-3">
                                 캠페인에 등록할 콘텐츠를 선택해주세요.
@@ -604,8 +604,8 @@
                         </div>
                     </div>
 
-                    <div class="flex my-6">
-                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6">스폰서배너 삽입</div>
+                    <div class="md:flex my-6">
+                        <div class="shrink-0 w-[160px] font-bold mr-3 pt-6 mb-2 md:mb-0">스폰서배너 삽입</div>
                         <div class="w-full border-t pt-6">
                             <ul class="list-disc">
                                 <li>캠페인에 등록한 콘텐츠는 홍보나 필요에 의해 사용될 수 있습니다.</li>

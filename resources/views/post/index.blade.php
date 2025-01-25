@@ -1,7 +1,7 @@
 <x-board-layout>
     <x-slot name="header">{{ $board->name }}</x-slot>
     <div class="mt-6">
-        <div class="flex justify-between">
+        <div class="flex justify-between items-center">
             <form action="" class="mr-3 flex gap-1">
                 <div class="flex gap-1 flex-wrap">
                     @if(false)

@@ -49,8 +49,8 @@
                     </button>
                     @endif
                     <div>
-                        <div class="flex py-6" id="benefit">
-                            <div class="shrink-0 w-[160px] font-bold mr-3">제공 내역</div>
+                        <div class="md:flex py-6" id="benefit">
+                            <div class="mb-2 md:mb-0 shrink-0 w-[160px] font-bold mr-3">제공 내역</div>
                             <div class="w-full border-b pb-6">
                                 {!! nl2br($campaign->benefit) !!}
                                 <div class="text-sm text-red-500 mt-6">
@@ -60,8 +60,8 @@
                             </div>
                         </div>
                         @if(!$campaign->isShippingType)
-                        <div class="flex py-6" id="visit_instruction">
-                            <div class="shrink-0 w-[160px] font-bold mr-3">방문 및 예약안내</div>
+                        <div class="md:flex py-6" id="visit_instruction">
+                            <div class="mb-2 md:mb-0 shrink-0 w-[160px] font-bold mr-3">방문 및 예약안내</div>
                             <div class="w-full border-b pb-6">
                                 <div>{{ $campaign->visit_instruction }}</div>
                                 @if($campaign->lat && $campaign->long)
@@ -112,8 +112,8 @@
                             </div>
                         </div>
                         @endif
-                        <div class="flex py-6" id="mission">
-                            <div class="shrink-0 w-[160px] font-bold mr-3">캠페인 미션</div>
+                        <div class="md:flex py-6" id="mission">
+                            <div class="mb-2 md:mb-0 shrink-0 w-[160px] font-bold mr-3">캠페인 미션</div>
                             <div class="w-full border-b pb-6">
                                 <ul class="flex flex-wrap gap-3 mb-3">
                                     @foreach($campaign->missionOptions as $missionOption)
@@ -129,8 +129,8 @@
                             </div>
                         </div>
                         @if(count($campaign->keywords) > 0)
-                            <div class="flex py-6" id="keyword">
-                                <div class="shrink-0 w-[160px] font-bold mr-3">키워드</div>
+                            <div class="md:flex py-6" id="keyword">
+                                <div class="mb-2 md:mb-0 shrink-0 w-[160px] font-bold mr-3">키워드</div>
                                 <div class="w-full border-b pb-6">
                                     @foreach($campaign->keywords as $keyword)
                                         @if($loop->index > 0)
@@ -154,8 +154,8 @@
                             </div>
                         @endif
                         @if(count($campaign->link) > 0)
-                            <div class="flex py-6" id="extra_information">
-                                <div class="shrink-0 w-[160px] font-bold mr-3">링크</div>
+                            <div class="md:flex py-6" id="extra_information">
+                                <div class="mb-2 md:mb-0 shrink-0 w-[160px] font-bold mr-3">링크</div>
                                 <div class="w-full pb-6">
                                     <div>
                                         <ul>
@@ -174,8 +174,8 @@
                             </div>
                         @endif
                         @if($campaign->hashtag->count() > 0)
-                            <div class="flex py-6" id="extra_information">
-                                <div class="shrink-0 w-[160px] font-bold mr-3">해시태그</div>
+                            <div class="md:flex py-6" id="extra_information">
+                                <div class="mb-2 md:mb-0 shrink-0 w-[160px] font-bold mr-3">해시태그</div>
                                 <div class="w-full pb-6">
                                     @foreach($campaign->hashtag as $hashtag)
                                     <div>{{ $hashtag['content'] }}</div>
@@ -187,8 +187,8 @@
                             </div>
                         @endif
                         @if($campaign->extra_information)
-                        <div class="flex py-6" id="extra_information">
-                            <div class="shrink-0 w-[160px] font-bold mr-3">추가 안내사항</div>
+                        <div class="md:flex py-6" id="extra_information">
+                            <div class="mb-2 md:mb-0 shrink-0 w-[160px] font-bold mr-3">추가 안내사항</div>
                             <div class="w-full pb-6">{{ $campaign->extra_information }}</div>
                         </div>
                         @endif

@@ -67,7 +67,7 @@
                     @if($campaign->is_appliable)
                         <a href="{{ route('campaign.application.create', $campaign) }}" class="bg-gray-900 text-white px-5 py-4 block text-center font-bold">캠페인 신청하기</a>
                     @else
-                        <button type="button" class="bg-gray-500 text-white px-5 py-4 block text-center font-bold w-full" disabled>마감된 캠페인 입니다</button>
+                        <button type="button" class="bg-gray-500 text-white px-5 py-4 block text-center font-bold w-full" disabled>신청 기간이 아닙니다</button>
                     @endif
                 @endif
             @else
