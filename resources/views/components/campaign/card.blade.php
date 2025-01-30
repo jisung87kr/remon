@@ -21,11 +21,9 @@
         <div>
             <div>
                 @if($campaign->locationCategories->count() > 0)[{{ $campaign->locationCategories[0]->name }}]@endif
-                <a href="{{ route($routeName, $campaign) }}">{{ $campaign->title }}</a>
+                <a href="{{ route($routeName, $campaign) }}">{{ $campaign->product_name }}</a>
             </div>
-            @if($campaign->benefit)
-                <small class="text-gray-500 line-clamp-2">{{ $campaign->benefit }}</small>
-            @endif
+            <small class="text-gray-500 line-clamp-2">{{ $campaign->title }}</small>
         </div>
         <div class="my-2">
             <small>신청 {{ number_format($campaign->applications()->active()->count()) }}</small><small class="text-gray-500"> / </small><small
