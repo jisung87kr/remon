@@ -22,33 +22,9 @@
 
         <div class="flex flex-col min-h-screen min-h-screen">
             <header class="container mx-auto px-6 py-3 md:py-6 flex flex-col md:flex-row md:flex-row-reverse mx-auto md:justify-between md:items-center">
-                @if(!Auth::check())
-                    <div class="mb-3 text-right md:flex md:gap-1 md:items-baseline md:mb-0 md:text-left shrink-0">
-                        <a href="{{ route('login') }}" class="text-gray-600 text-sm">로그인</a>
-                        <span>∙</span>
-                        <a href="{{ route('register') }}" class="text-gray-600 text-sm">회원가입</a>
-                    </div>
-                @endif
                 <div class="flex justify-between items-center w-full">
                     <div class="flex items-center">
                         <a href="/" class="mr-5 font-bold">{{ config('app.name'), 'Laravel' }}</a>
-                        <form action="{{ route('campaign.index') }}">
-                            <div class="relative">
-                                <input type="text"
-                                       name="search"
-                                       class="block w-[200px] p-3 md:p-4 pe-10 text-sm text-gray-900 border border-gray-300 rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                                       placeholder="원하는 캠페인을 검색해보세요" value="{{ request()->input('search') }}">
-                                <div class="absolute inset-y-0 end-0 flex items-center pe-3">
-                                    <button type="submit">
-                                        <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                             fill="none" viewBox="0 0 20 20">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                     @if(Auth::check())
                         <div class="ms-3 relative flex gap-3 items-center">
@@ -129,6 +105,12 @@
                                 </x-slot>
                             </x-dropdown>
                         </div>
+                    @else
+                        <div class="text-right md:flex md:gap-1 md:items-baseline md:mb-0 md:text-left shrink-0">
+                            <a href="{{ route('login') }}" class="text-gray-600 text-sm">로그인</a>
+                            <span>∙</span>
+                            <a href="{{ route('register') }}" class="text-gray-600 text-sm">회원가입</a>
+                        </div>
                     @endif
                 </div>
             </header>
@@ -146,10 +128,11 @@
 {{--                                <a href="{{ route('campaign.index', ['campaign_type' => ['배송형']]) }}" class="{{ request()->routeIs('campaign.index') && count(request()->input('campaign_type', [])) == 1 && in_array('배송형', request()->input('campaign_type')) ? 'text-indigo-500' : '' }}">배송형 캠페인</a>--}}
 {{--                            </li>--}}
 
-                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'notice') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'notice' ? 'active font-bold' : '' }}">공지사항</a></li>
-                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'free') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'free' ? 'active font-bold' : '' }}">커뮤니티</a></li>
-                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'event') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'event' ? 'active font-bold' : '' }}">이벤트</a></li>
-                            <li class="font-bold shrink-0"><a href="{{ route('link.index') }}" class="{{ request()->routeIs('link.index') ? 'active font-bold' : '' }}">링크 만들기</a></li>
+                            <li class="font-bold shrink-0"><a href="{{ route('mypage.campaign') }}" class="{{ request()->routeIs('mypage.campaign') ? 'text-indigo-500' : '' }}">나의 캠페인</a></li>
+                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'notice') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'notice' ? 'text-indigo-500' : '' }}">공지사항</a></li>
+{{--                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'free') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'free' ? 'text-indigo-500' : '' }}">커뮤니티</a></li>--}}
+{{--                            <li class="font-bold shrink-0"><a href="{{ route('board.show', 'event') }}" class="{{ request()->routeIs('board.show') && request()->route('board')['slug'] == 'event' ? 'text-indigo-500' : '' }}">이벤트</a></li>--}}
+                            <li class="font-bold shrink-0"><a href="{{ route('link.index') }}" class="{{ request()->routeIs('link.index') ? 'text-indigo-500' : '' }}">링크 만들기</a></li>
                         </ul>
                     </nav>
                 </div>

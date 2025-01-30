@@ -9,7 +9,7 @@
             <div class="col-span-8 lg:col-span-6 lg:border-r lg:pr-6">
                 @if($campaign->locationCategories)
                 <div>
-                    <h1 class="font-bold text-[32px] my-3">@if($campaign->locationCategories->count() > 0)[{{ $campaign->locationCategories[0]->name }}]@endif {{ $campaign->product_name }}</h1>
+                    <h1 class="font-bold text-xl md:text-[32px] my-3">@if($campaign->locationCategories->count() > 0)[{{ $campaign->locationCategories[0]->name }}]@endif {{ $campaign->product_name }}</h1>
                     <div class="font-bold text-gray-500">{{ $campaign->title }}</div>
                     <div class="flex items-center gap-2 mt-3">
                         @foreach($campaign->media as $media)

@@ -29,7 +29,7 @@
         </div>
         <div class="my-2">
             <small>신청 {{ number_format($campaign->applications()->active()->count()) }}</small><small class="text-gray-500"> / </small><small
-                    class="text-gray-500">{{ number_format($campaign->applicant_limit) }}명</small>
+                    class="text-gray-500">{{ number_format($campaign->application_limit) }}명</small>
         </div>
         <div class="flex gap-1">
             @foreach($campaign->options as $option)

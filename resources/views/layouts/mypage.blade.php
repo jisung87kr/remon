@@ -1,6 +1,6 @@
 <x-default-layout>
     <x-slot name="mainTop">
-        <div class="container mx-auto px-6 py-3 md:p-6">
+        <div class="container mx-auto px-6 py-3 md:p-6 hidden md:block">
             <div class="lg:flex p-6 md:p-10 items-center shadow-lg rounded-lg my-3">
                 <div class="flex items-center lg:w-1/2">
                     <img src="{{ auth()->user()->profile_photo_url }}" alt="" class="rounded-full">

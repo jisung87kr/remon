@@ -40,8 +40,8 @@
         </div>
     </div>
     @endif
-    @include('campaign.search_form')
-    <div class="flex gap-3 mb-6 justify-end">
+{{--    @include('campaign.search_form')--}}
+    <div class="flex gap-3 my-6 justify-start md:justify-end">
         <x-campaign.snsfilter :category="$category" class="gap-1"></x-campaign.snsfilter>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-6 xl:grid-cols-5">
