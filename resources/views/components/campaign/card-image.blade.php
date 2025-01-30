@@ -1,11 +1,11 @@
 @props(['campaign' => $campaign, 'href' => $href])
 <div {{ $attributes->merge(['class' => 'relative']) }}>
     {{ $slot }}
-    <a href="{{ $href }}" class="overflow-hidden rounded-lg block">
+    <a href="{{ $href }}" class="mb-3 overflow-hidden rounded-xl block border border-gray-100 aspect-square">
         @isset($campaign->thumbnails[0])
-            <img src="{{Storage::url($campaign->thumbnails[0]['file_path'])}}" alt="" class="w-full">
+            <img src="{{Storage::url($campaign->thumbnails[0]['file_path'])}}" alt="" class="w-full w-full h-full object-cover">
         @else
-            <img src="https://placehold.co/400x400?text=no+image" alt="" class="rounded-lg">
+            <img src="https://placehold.co/400x400?text=no+image" alt="" class="rounded-lg w-full h-full object-cover">
         @endisset
     </a>
     @if(auth()->user())

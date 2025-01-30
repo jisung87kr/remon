@@ -7,7 +7,6 @@
     <div class="container mx-auto px-6" x-data="campaignData">
         <div class="grid grid-cols-8 gap-6 relative">
             <div class="col-span-8 lg:col-span-6 lg:border-r lg:pr-6">
-                @if($campaign->locationCategories)
                 <div>
                     <h1 class="font-bold text-xl md:text-[32px] my-3">@if($campaign->locationCategories->count() > 0)[{{ $campaign->locationCategories[0]->name }}]@endif {{ $campaign->product_name }}</h1>
                     <div class="font-bold text-gray-500">{{ $campaign->title }}</div>
@@ -21,7 +20,6 @@
                         @endforeach
                     </div>
                 </div>
-                @endif
                 <div class="mt-6 border-b mb-6 flex">
                     <a href="{{ route('campaign.show', $campaign) }}"
                        class="block px-5 py-3 border-b-2 border-indigo-400 font-bold">캠페인 정보</a>
@@ -156,7 +154,7 @@
                         @if(count($campaign->link) > 0)
                             <div class="md:flex py-6" id="extra_information">
                                 <div class="mb-2 md:mb-0 shrink-0 w-[160px] font-bold mr-3">링크</div>
-                                <div class="w-full pb-6">
+                                <div class="w-full border-b pb-6">
                                     <div>
                                         <ul>
                                             @foreach($campaign->links as $link)
@@ -176,7 +174,7 @@
                         @if($campaign->hashtag->count() > 0)
                             <div class="md:flex py-6" id="extra_information">
                                 <div class="mb-2 md:mb-0 shrink-0 w-[160px] font-bold mr-3">해시태그</div>
-                                <div class="w-full pb-6">
+                                <div class="w-full border-b pb-6">
                                     @foreach($campaign->hashtag as $hashtag)
                                     <div>{{ $hashtag['content'] }}</div>
                                     @endforeach
@@ -189,7 +187,7 @@
                         @if($campaign->extra_information)
                         <div class="md:flex py-6" id="extra_information">
                             <div class="mb-2 md:mb-0 shrink-0 w-[160px] font-bold mr-3">추가 안내사항</div>
-                            <div class="w-full pb-6">{{ $campaign->extra_information }}</div>
+                            <div class="w-full border-b pb-6">{{ $campaign->extra_information }}</div>
                         </div>
                         @endif
                     </div>

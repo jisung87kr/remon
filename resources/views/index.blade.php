@@ -92,7 +92,7 @@
     @endif
     <section id="popular_campaign" class="container mx-auto p-6">
         <h1 class="text-lg md:text-2xl font-bold mb-3">진행중인 캠페인</h1>
-        <div class="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div class="grid gap-3 md:gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             @forelse($campaigns as $key => $campaign)
                 <x-campaign.card :campaign="$campaign"></x-campaign.card>
             @empty
@@ -183,7 +183,7 @@
     @if(false)
     <section id="best_campaign" class="container mx-auto my-12 p-6">
         <h1 class="text-2xl font-bold mb-3">베스트 콘텐츠</h1>
-        <div class="grid grid-cols-3 xl:grid-cols-5 gap-6">
+        <div class="grid grid-cols-3 xl:grid-cols-5 gap-2 md:gap-6">
             @foreach($bestContents as $content)
                 <a href="">
                     <div class="rounded overflow-hidden">
