@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Enums\TrackDelivery\TrackEventStatusCodeEnum;
+use App\Helper\CommonHelper;
 use App\Libraries\TrackerDelivery;
 use App\Models\TrackerDeliverQueue;
 use Illuminate\Http\Request;
 use App\Models\CampaignApplicationParcel;
+use Illuminate\Support\Facades\Http;
 
 class CallbackController extends Controller
 {
@@ -41,5 +43,11 @@ class CallbackController extends Controller
 
             }
         }
+    }
+
+    public function bitly()
+    {
+        $result = CommonHelper::makeBitlyShortUrl('https://mangotree.co.kr');
+        return $result['link'];
     }
 }

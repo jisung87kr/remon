@@ -23,10 +23,16 @@ class LinkInternalController extends Controller
             DB::beginTransaction();
             $link = $request->user()->links()->create($validated);
 
-            $result = CommonHelper::makeShortUrl($link->redirectUrl);
-            if($result && $result['code'] == 200){
-                $shortUrl = $result['result']['url'];
+//            $result = CommonHelper::makeShortUrl($link->redirectUrl);
+//            if($result && $result['code'] == 200){
+//                $shortUrl = $result['result']['url'];
+//            }
+
+            $result = CommonHelper::makeBitlyShortUrl($link->redirectUrl);
+            if(!isset($result['link'])){
+                return response()->json(new Response(Response::ERROR, '링크생성 오류', $result['message']));
             }
+            $shortUrl = $result['link'];
 
             $link->update(['redirect_url' => $link->redirectUrl, 'shortened_url' => $shortUrl ?? null]);
             DB::commit();
@@ -51,10 +57,16 @@ class LinkInternalController extends Controller
             if($validated['original_url']){
                 $link->update($validated);
 
-                $result = CommonHelper::makeShortUrl($link->redirectUrl);
-                if($result && $result['code'] == 200){
-                    $shortUrl = $result['result']['url'];
+//                $result = CommonHelper::makeShortUrl($link->redirectUrl);
+//                if($result && $result['code'] == 200){
+//                    $shortUrl = $result['result']['url'];
+//                }
+
+                $result = CommonHelper::makeBitlyShortUrl($link->redirectUrl);
+                if(!isset($result['link'])){
+                    return response()->json(new Response(Response::ERROR, '링크생성 오류', $result['message']));
                 }
+                $shortUrl = $result['link'];
 
                 $link->update(['shortened_url' => $shortUrl ?? null]);
             }

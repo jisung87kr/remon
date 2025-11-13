@@ -5,6 +5,7 @@ use App\Models\CampaignApplicationField;
 use App\Models\CampaignApplicationValue;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\Http;
 
 class CommonHelper{
     static public function getRandomEnumCase($cases)
@@ -88,6 +89,19 @@ class CommonHelper{
             $request = new Request('GET', "https://naveropenapi.apigw.ntruss.com/util/v1/shorturl?url={$url}", $headers);
             $res = $client->sendAsync($request)->wait();
             return json_decode((string)$res->getBody(), true);
+        } catch (\Exception $e){
+            throw $e;
+        }
+    }
+
+    static public function makeBitlyShortUrl(string $url){
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer '.env('BITLY_ACCESS_TOKEN'),
+            ])->post('https://api-ssl.bitly.com/v4/shorten', [
+                'long_url' => $url,
+            ]);
+            return $response->json();
         } catch (\Exception $e){
             throw $e;
         }

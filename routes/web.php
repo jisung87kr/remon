@@ -40,6 +40,7 @@ use App\Http\Controllers\LinkLogController;
 |
 */
 Route::get('callback/tracker_delivery/{parcel}', [CallbackController::class, 'trackerDelivery'])->name('callback.tracker_delivery');
+Route::get('callback/bitly', [CallbackController::class, 'bitly'])->name('callback.bitly');
 
 Route::get('campaign-banner', function(Request $request){
     $filepath = "campaigns/campaign_banner.jpeg";
