@@ -154,6 +154,9 @@ Route::middleware([
         Route::get('/withdrawal-request', [\App\Http\Controllers\Mymapge\WithdrawalRequestMypageController::class, 'index'])->name('withdrawal-request');
         Route::post('/withdrawal-request', [\App\Http\Controllers\Mymapge\WithdrawalRequestMypageController::class, 'store'])->name('withdrawal-request.store');
         Route::post('/withdrawal-request/{withdrawalRequest}/cancel', [\App\Http\Controllers\Mymapge\WithdrawalRequestMypageController::class, 'cancel'])->name('withdrawal-request.cancel');
+
+        Route::get('/account', [\App\Http\Controllers\Mymapge\AccountMypageController::class, 'edit'])->name('account.edit');
+        Route::put('/account', [\App\Http\Controllers\Mymapge\AccountMypageController::class, 'update'])->name('account.update');
     });
 
     Route::get('links', [LinkController::class, 'index'])->name('link.index');
