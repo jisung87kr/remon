@@ -6,6 +6,7 @@ use App\Enums\User\PointTypeEnum;
 use App\Enums\User\WithdrawalStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\PointWithdrawalRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class WithdrawalRequestAdminController extends Controller
@@ -126,5 +127,78 @@ class WithdrawalRequestAdminController extends Controller
 
         return redirect()->route('admin.withdrawal-request.index')
             ->with('success', '출금이 완료되었습니다.');
+    }
+
+    /**
+     * 관리자가 사용자 대신 출금 요청 생성 폼
+     */
+    public function create(Request $request)
+    {
+        $userId = $request->input('user_id');
+        $user = null;
+
+        if ($userId) {
+            $user = User::find($userId);
+        }
+
+        // 사용자 검색용
+        $users = User::query()
+            ->when($request->input('search'), function($query, $search) {
+                $query->where(function($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('email', 'like', "%{$search}%")
+                      ->orWhere('nick_name', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('name')
+            ->limit(50)
+            ->get();
+
+        return view('admin.withdrawal-request.create', compact('user', 'users'));
+    }
+
+    /**
+     * 관리자가 사용자 대신 출금 요청 생성
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'point' => 'required|integer|min:10000',
+            'bank_name' => 'required|string|max:50',
+            'account_number' => 'required|string|max:50',
+            'account_holder' => 'required|string|max:50',
+            'admin_note' => 'nullable|string|max:500',
+        ], [
+            'user_id.required' => '사용자를 선택해주세요.',
+            'user_id.exists' => '존재하지 않는 사용자입니다.',
+            'point.required' => '출금 포인트를 입력해주세요.',
+            'point.min' => '최소 출금 포인트는 10,000P입니다.',
+            'bank_name.required' => '은행명을 입력해주세요.',
+            'account_number.required' => '계좌번호를 입력해주세요.',
+            'account_holder.required' => '예금주를 입력해주세요.',
+        ]);
+
+        $user = User::findOrFail($validated['user_id']);
+
+        // 사용 가능한 포인트 확인
+        if ($user->available_point < $validated['point']) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', '사용 가능한 포인트가 부족합니다. (현재: ' . number_format($user->available_point) . 'P)');
+        }
+
+        // 출금 요청 생성
+        PointWithdrawalRequest::create([
+            'user_id' => $validated['user_id'],
+            'point' => $validated['point'],
+            'bank_name' => $validated['bank_name'],
+            'account_number' => $validated['account_number'],
+            'account_holder' => $validated['account_holder'],
+            'status' => WithdrawalStatusEnum::PENDING,
+        ]);
+
+        return redirect()->route('admin.withdrawal-request.index')
+            ->with('success', '출금 요청이 생성되었습니다.');
     }
 }

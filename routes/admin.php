@@ -27,6 +27,8 @@ Route::middleware([
     Route::post('/applications', [CampaignApplicationAdminController::class, 'updateStatus'])->name('application.updateStatus');
 
     Route::get('/withdrawal-requests', [WithdrawalRequestAdminController::class, 'index'])->name('withdrawal-request.index');
+    Route::get('/withdrawal-requests/create', [WithdrawalRequestAdminController::class, 'create'])->name('withdrawal-request.create');
+    Route::post('/withdrawal-requests', [WithdrawalRequestAdminController::class, 'store'])->name('withdrawal-request.store');
     Route::post('/withdrawal-requests/{withdrawalRequest}/approve', [WithdrawalRequestAdminController::class, 'approve'])->name('withdrawal-request.approve');
     Route::post('/withdrawal-requests/{withdrawalRequest}/reject', [WithdrawalRequestAdminController::class, 'reject'])->name('withdrawal-request.reject');
     Route::post('/withdrawal-requests/{withdrawalRequest}/complete', [WithdrawalRequestAdminController::class, 'complete'])->name('withdrawal-request.complete');
