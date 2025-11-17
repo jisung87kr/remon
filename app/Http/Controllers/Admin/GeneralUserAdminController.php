@@ -57,7 +57,22 @@ class GeneralUserAdminController extends Controller
      */
     public function show(Request $request, User $user)
     {
-        return view('admin.user.general.show', compact('user'));
+        // 최근 포인트 내역 20개 로드 (캠페인 관계 포함)
+        $recentPoints = $user->points()
+            ->with('campaign')
+            ->orderBy('created_at', 'desc')
+            ->limit(20)
+            ->get();
+
+        // 포인트 요약 정보
+        $pointSummary = [
+            'total_point' => $user->total_point,
+            'used_point' => $user->used_point,
+            'available_point' => $user->available_point,
+            'expiring_soon_point' => $user->expiring_soon_point ?? 0,
+        ];
+
+        return view('admin.user.general.show', compact('user', 'recentPoints', 'pointSummary'));
     }
 
     /**
@@ -84,5 +99,35 @@ class GeneralUserAdminController extends Controller
     {
         $user->delete();
         return redirect()->route('admin.general.user.index');
+    }
+
+    /**
+     * 관리자 수동 포인트 차감
+     */
+    public function deductPoint(Request $request, User $user)
+    {
+        $validated = $request->validate([
+            'point' => 'required|integer|min:1|max:' . $user->available_point,
+            'description' => 'required|string|max:255',
+        ], [
+            'point.required' => '차감할 포인트를 입력해주세요.',
+            'point.integer' => '포인트는 숫자만 입력 가능합니다.',
+            'point.min' => '최소 1포인트 이상 입력해주세요.',
+            'point.max' => '잔여 포인트를 초과할 수 없습니다.',
+            'description.required' => '차감 사유를 입력해주세요.',
+            'description.max' => '차감 사유는 255자 이내로 입력해주세요.',
+        ]);
+
+        // 포인트 차감 기록 생성
+        $user->points()->create([
+            'type' => \App\Enums\User\PointTypeEnum::DECREMENT,
+            'point' => $validated['point'],
+            'description' => '[관리자 차감] ' . $validated['description'],
+            'campaign_id' => null,
+            'expired_at' => null,
+        ]);
+
+        return redirect()->route('admin.user.general.show', $user)
+            ->with('success', number_format($validated['point']) . '포인트가 차감되었습니다.');
     }
 }

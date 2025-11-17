@@ -149,9 +149,11 @@ Route::middleware([
             return view('mypage.panalty');
         })->name('penalty');
 
-        Route::get('/point', function(){
-            return view('mypage.point');
-        })->name('point');
+        Route::get('/point', [\App\Http\Controllers\Mymapge\PointMypageController::class, 'index'])->name('point');
+
+        Route::get('/withdrawal-request', [\App\Http\Controllers\Mymapge\WithdrawalRequestMypageController::class, 'index'])->name('withdrawal-request');
+        Route::post('/withdrawal-request', [\App\Http\Controllers\Mymapge\WithdrawalRequestMypageController::class, 'store'])->name('withdrawal-request.store');
+        Route::post('/withdrawal-request/{withdrawalRequest}/cancel', [\App\Http\Controllers\Mymapge\WithdrawalRequestMypageController::class, 'cancel'])->name('withdrawal-request.cancel');
     });
 
     Route::get('links', [LinkController::class, 'index'])->name('link.index');

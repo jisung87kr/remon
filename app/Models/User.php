@@ -67,11 +67,19 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
         'favorite_campaign_ids',
+        'total_point',
+        'used_point',
+        'available_point',
     ];
 
     public function points()
     {
         return $this->hasMany(UserPoint::class);
+    }
+
+    public function withdrawalRequests()
+    {
+        return $this->hasMany(PointWithdrawalRequest::class);
     }
 
     public function shippingAddresses()
@@ -159,6 +167,65 @@ class User extends Authenticatable
     public function isFavoriteCampaign(Campaign $campaign)
     {
         return in_array($campaign->id, $this->favoriteCampaignIds);
+    }
+
+    /**
+     * 총 적립 포인트 (INCREMENT 타입 합계)
+     */
+    public function totalPoint(): Attribute
+    {
+        return Attribute::make(
+            get: function() {
+                return $this->points()
+                    ->where('type', \App\Enums\User\PointTypeEnum::INCREMENT->value)
+                    ->where(function($query) {
+                        $query->whereNull('expired_at')
+                            ->orWhere('expired_at', '>', now());
+                    })
+                    ->sum('point');
+            }
+        );
+    }
+
+    /**
+     * 총 사용 포인트 (DECREMENT 타입 합계)
+     */
+    public function usedPoint(): Attribute
+    {
+        return Attribute::make(
+            get: function() {
+                return $this->points()
+                    ->where('type', \App\Enums\User\PointTypeEnum::DECREMENT->value)
+                    ->sum('point');
+            }
+        );
+    }
+
+    /**
+     * 잔여 포인트 (적립 - 사용)
+     */
+    public function availablePoint(): Attribute
+    {
+        return Attribute::make(
+            get: function() {
+                return $this->total_point - $this->used_point;
+            }
+        );
+    }
+
+    /**
+     * 만료 예정 포인트 (30일 이내)
+     */
+    public function expiringSoonPoint(): Attribute
+    {
+        return Attribute::make(
+            get: function() {
+                return $this->points()
+                    ->where('type', \App\Enums\User\PointTypeEnum::INCREMENT->value)
+                    ->whereBetween('expired_at', [now(), now()->addDays(30)])
+                    ->sum('point');
+            }
+        );
     }
 
     public function scopeFilter(Builder $query, array $filter)

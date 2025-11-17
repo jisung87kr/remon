@@ -61,6 +61,16 @@
                     </x-slot>
                 </x-nav.index>
 
+                <li class="nav-title text-gray-500">정산</li>
+                <x-nav.index :active="request()->routeIs('admin.withdrawal-request.*')">
+                    <x-slot name="label">
+                        <x-nav.label>포인트 출금</x-nav.label>
+                    </x-slot>
+                    <x-slot name="group">
+                        <x-nav.item href="{{ route('admin.withdrawal-request.index') }}" :active="request()->routeIs('admin.withdrawal-request.index')">출금 요청 목록</x-nav.item>
+                    </x-slot>
+                </x-nav.index>
+
                 <li class="nav-title text-gray-500">설정</li>
                 <li class="nav-item nav-link">
                     <a href="">카테고리 관리</a>

@@ -71,6 +71,7 @@
                 <li class="py-4 border-b"><a href="{{ route('mypage.media') }}" class="{{ request()->routeIs('mypage.media') ? 'active font-bold' : '' }}">미디어 연결</a></li>
                 <li class="py-4 border-b"><a href="{{ route('mypage.penalty') }}" class="{{ request()->routeIs('mypage.penalty') ? 'active font-bold' : '' }}">패널티 현황</a></li>
                 <li class="py-4 border-b"><a href="{{ route('mypage.point') }}" class="{{ request()->routeIs('mypage.point') ? 'active font-bold' : '' }}">나의 포인트</a></li>
+                <li class="py-4 border-b"><a href="{{ route('mypage.withdrawal-request') }}" class="{{ request()->routeIs('mypage.withdrawal-request') ? 'active font-bold' : '' }}">포인트 출금 신청</a></li>
             </ul>
         </div>
 {{--        <div class="mb-6">--}}
